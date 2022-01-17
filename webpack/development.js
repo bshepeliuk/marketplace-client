@@ -13,6 +13,6 @@ module.exports = merge(baseWebpackConfig, {
     historyApiFallback: true,
     open: true,
     hot: true,
-    port: 3000,
+    port: 8080,
   },
 });

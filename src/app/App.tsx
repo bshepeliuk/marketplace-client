@@ -1,16 +1,15 @@
 import React from 'react';
 import useAppInit from '@common/hooks/app/useAppInit';
+import Router from './Router';
 
 function App() {
-  const { init, isLoading } = useAppInit();
+  const { init } = useAppInit();
 
   React.useEffect(() => {
     init();
   }, []);
 
-  return (
-    <div className="test">{isLoading ? 'Loading...' : 'Hello World!!!'}</div>
-  );
+  return <Router />;
 }
 
 export default App;
