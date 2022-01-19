@@ -1,7 +1,9 @@
 import axios from 'axios';
 
+// axios.defaults.withCredentials = true;
+
 const getApiInstance = () => {
-  const baseURL = 'http://localhost:3000/api';
+  const baseURL = 'https://marketplace-check-api.herokuapp.com/api'; // https://marketplace-check-api.herokuapp.com/
 
   return axios.create({
     baseURL,

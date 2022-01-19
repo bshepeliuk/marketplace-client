@@ -5,7 +5,7 @@ function LoginView() {
   const { onLogin } = useLogin();
 
   const handleLogin = () => {
-    onLogin({ email: 'tony@stark.io', password: '12345' });
+    onLogin({ email: 'tony@stark.io', password: '1234' });
   };
 
   return (

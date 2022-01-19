@@ -10,7 +10,7 @@ function RegisterView() {
   const handleRegister = () => {
     onRegister({
       fullName: 'Tony Stark',
-      password: '12345',
+      password: '1234',
       email: 'tony@stark.io',
       role: ROLE.BUYER,
     });
