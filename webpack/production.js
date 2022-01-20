@@ -8,7 +8,7 @@ module.exports = merge(baseWebpackConfig, {
   devtool: false,
   output: {
     filename: 'js/[name].[contenthash].bundle.js',
-    publicPath: './',
+    publicPath: '/',
   },
   module: {
     rules: [

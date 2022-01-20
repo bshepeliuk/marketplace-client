@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "webpack serve --config webpack/development.js",
     "build": "webpack -c webpack/production.js",
-    "start": "node server"
+    "start": "node static-server"
   },
   "keywords": [],
   "author": "",
