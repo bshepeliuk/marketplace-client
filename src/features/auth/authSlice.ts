@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ILogin, IRegister } from '@src/common/types/api';
+import { ILogin, IRegister } from '@src/common/types/apiTypes';
 import * as Api from '@src/api/Api';
-import { IUser, IUserData } from '@src/common/types/user';
-import { IThunkAPI, Nullable } from '@src/common/types/base';
+import { IUser, IUserData } from '@src/common/types/userTypes';
+import { IThunkAPI, Nullable } from '@src/common/types/baseTypes';
 
 const initialState = {
   login: {

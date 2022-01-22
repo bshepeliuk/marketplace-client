@@ -1,4 +1,4 @@
-import { ILogin, IRegister } from '@src/common/types/api';
+import { ILogin, IRegister } from '@src/common/types/apiTypes';
 import getApiInstance from '@src/common/utils/getApiInstance';
 
 const api = getApiInstance();

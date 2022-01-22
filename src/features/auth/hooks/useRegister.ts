@@ -1,6 +1,6 @@
-import { IRegister } from '@src/common/types/api';
+import { IRegister } from '@src/common/types/apiTypes';
 import { register } from '@src/features/auth/authSlice';
-import { useAppDispatch } from '../main/useAppDispatch';
+import { useAppDispatch } from '@common/hooks/main/useAppDispatch';
 
 const useRegister = () => {
   const dispatch = useAppDispatch();
