@@ -3,6 +3,7 @@ import { ILogin, IRegister } from '@src/common/types/apiTypes';
 import * as Api from '@src/api/Api';
 import { IUser, IUserData } from '@src/common/types/userTypes';
 import { IThunkAPI, Nullable } from '@src/common/types/baseTypes';
+import getErrorMessage from '@src/common/utils/getErrorMessage';
 
 const initialState = {
   login: {
@@ -36,8 +37,10 @@ export const login = createAsyncThunk<IUserData, ILogin, IThunkAPI>(
 
       return { user: data.user };
     } catch (error) {
+      const message = getErrorMessage(error);
+
       return rejectWithValue({
-        message: 'Something went wrong!',
+        message,
       });
     }
   },
