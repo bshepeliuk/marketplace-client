@@ -2,35 +2,14 @@ import configureMockStore from 'redux-mock-store';
 import { setupServer } from 'msw/node';
 import { rest } from 'msw';
 
-import { login, authActions } from '../../../src/features/auth/authSlice';
-import { thunk } from '../../helpers';
+import { login, authActions } from '@src/features/auth/authSlice';
+import { API_URL, getActionTypesAndPayload, thunk } from '../../helpers';
 
+const server = setupServer();
 const mockStore = configureMockStore([thunk]);
 
-const loginResponse = {
-  user: {
-    fullName: 'Tony Stark',
-    email: 'tony@stark.io',
-    role: 'BUYER',
-  },
-};
-
-const getActionTypesAndPayload = (actions) => {
-  return actions.map(({ meta, error, ...actionProps }) => ({ ...actionProps }));
-};
-
-const API_URL = 'http://localhost:3000/api';
-
-export const handlers = [
-  rest.post('/api/auth/login', (req, res, ctx) => {
-    return res(ctx.status(200), ctx.json(loginResponse), ctx.delay(150));
-  }),
-];
-
-const server = setupServer(...handlers);
-
 describe('auth thunks', () => {
-  let store;
+  let store: any;
 
   beforeAll(() => server.listen());
   afterEach(() => server.resetHandlers());
@@ -41,6 +20,14 @@ describe('auth thunks', () => {
 
   describe('LOGIN', () => {
     test('+ user logged in successfully.', async () => {
+      const loginResponse = {
+        user: {
+          fullName: 'Tony Stark',
+          email: 'tony@stark.io',
+          role: 'BUYER',
+        },
+      };
+
       server.use(
         rest.post(`${API_URL}/auth/login`, (req, res, ctx) => {
           return res(ctx.status(200), ctx.json(loginResponse));
