@@ -23,7 +23,7 @@ function CustomInput({ label, fieldName, type, id, ...props }: IInputProps) {
 
   return (
     <Wrapper>
-      {label && <Label htmlFor={label}>{label}</Label>}
+      {label && <Label htmlFor={id}>{label}</Label>}
 
       <InnerWrapper>
         <input

@@ -5,7 +5,7 @@ import { IUser, IUserData } from '@src/common/types/userTypes';
 import { IThunkAPI, Nullable } from '@src/common/types/baseTypes';
 import getErrorMessage from '@src/common/utils/getErrorMessage';
 
-const initialState = {
+export const initialState = {
   login: {
     isLoading: false,
     isError: false,
@@ -59,8 +59,10 @@ export const register = createAsyncThunk<IUserData, IRegister, IThunkAPI>(
 
       return { user: data.user };
     } catch (error) {
+      const message = getErrorMessage(error);
+
       return rejectWithValue({
-        message: 'Something went wrong!',
+        message,
       });
     }
   },
@@ -74,8 +76,10 @@ export const logout = createAsyncThunk<undefined, undefined, IThunkAPI>(
 
       dispatch(authActions.setLoggedIn({ isLoggedIn: false }));
     } catch (error) {
+      const message = getErrorMessage(error);
+
       return rejectWithValue({
-        message: 'Something went wrong!',
+        message,
       });
     }
   },
