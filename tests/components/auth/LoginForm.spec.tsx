@@ -4,10 +4,14 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import LoginFormView from '@src/features/auth/components/LoginFormView';
 import useLogin from '@src/features/auth/hooks/useLogin';
 
-jest.mock('@src/features/auth/hooks/useLogin', () => jest.fn());
+jest.mock('@src/features/auth/hooks/useLogin');
 
-const useLoginMock = useLogin as jest.Mock;
 const useFormikMock = jest.spyOn(formik, 'useFormik');
+
+const formInitialState = {
+  email: '',
+  password: '',
+};
 
 const renderLoginForm = () => {
   return render(<LoginFormView />);
@@ -18,19 +22,12 @@ describe('LoginForm', () => {
   const handleSubmit = jest.fn();
 
   beforeEach(() => {
-    useLoginMock.mockImplementation(() => {
-      const onLogin = jest.fn();
-
-      return {
-        onLogin,
-      };
-    });
+    (useLogin as jest.Mock).mockImplementation(() => ({ onLogin: jest.fn() }));
 
     useFormikMock.mockReturnValue({
-      values: {
-        email: '',
-        password: '',
-      },
+      handleChange,
+      handleSubmit,
+      values: formInitialState,
       touched: {
         email: false,
         password: false,
@@ -39,22 +36,40 @@ describe('LoginForm', () => {
         email: '',
         password: '',
       },
-      handleChange,
-      handleSubmit,
     } as any);
   });
 
-  test('check form', async () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  test('email input', async () => {
     renderLoginForm();
 
     const emailInput = screen.getByLabelText('Email');
 
     fireEvent.change(emailInput, { target: { value: 'john@wick.io' } });
 
-    expect(handleChange).toHaveBeenCalledTimes(1);
     expect(emailInput).toBeInTheDocument();
+    expect(handleChange).toHaveBeenCalledTimes(1);
+  });
+
+  test('password input', async () => {
+    renderLoginForm();
+
+    const input = screen.getByLabelText('Email');
+
+    fireEvent.change(input, { target: { value: '1234' } });
+
+    expect(input).toBeInTheDocument();
+    expect(handleChange).toHaveBeenCalledTimes(1);
+  });
+
+  test('submit login form', async () => {
+    renderLoginForm();
 
     const loginBtn = screen.getByText('Login');
+
     fireEvent.submit(loginBtn);
 
     expect(loginBtn).toBeInTheDocument();

@@ -21,6 +21,6 @@ export function rootReducer(
   state: AppState | undefined,
   action: AnyAction,
 ): AppState {
-  if (logout.fulfilled.match(action)) return baseReducer(undefined, action);
+  if (logout.fulfilled?.match(action)) return baseReducer(undefined, action);
   return baseReducer(state, action);
 }

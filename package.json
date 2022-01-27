@@ -7,8 +7,9 @@
     "dev": "webpack serve --config webpack/development.js",
     "build": "webpack -c webpack/production.js",
     "start": "node static-server",
-    "test": "jest --coverage",
-    "test:watch": "npm run test -- --watch"
+    "test": "jest",
+    "test:watch": "npm run test -- --watch",
+    "test:coverage": "npm run test -- --coverage"
   },
   "keywords": [],
   "author": "",
