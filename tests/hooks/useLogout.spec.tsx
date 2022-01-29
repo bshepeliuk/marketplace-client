@@ -4,7 +4,7 @@ import { renderHook } from '@testing-library/react-hooks';
 import { logout } from '@src/features/auth/authSlice';
 import { waitFor } from '@testing-library/dom';
 import useLogout from '@src/features/auth/hooks/useLogout';
-import store from '@src/app/store';
+import store, { persistor } from '@src/app/store';
 import { MemoryRouter } from 'react-router-dom';
 
 const mockedNavigate = jest.fn();
@@ -12,23 +12,34 @@ const mockedNavigate = jest.fn();
 jest.mock('react-router-dom', () => {
   return {
     ...jest.requireActual('react-router-dom'),
-    useNavigate: () => mockedNavigate,
+    useNavigate: () => jest.fn(),
   };
 });
 
-jest.mock('@src/features/auth/authSlice', () => {
-  const originalModule = jest.requireActual('@src/features/auth/authSlice');
+jest.mock('@src/features/auth/authSlice', () => ({
+  ...jest.requireActual('@src/features/auth/authSlice'),
+  __esModule: true,
+  logout: jest.fn(),
+}));
 
-  return {
-    ...originalModule,
-    __esModule: true,
-    logout: jest.fn(),
-  };
-});
+jest.mock('@src/app/store', () => ({
+  ...jest.requireActual('@src/app/store'),
+  __esModule: true,
+  persistor: {
+    pause: jest.fn(),
+  },
+}));
 
 const useDispatchMock = jest.spyOn(ReactRedux, 'useDispatch');
+const localStorageRemoveItemMock = jest.spyOn(Storage.prototype, 'removeItem');
 
 describe('useLogout hook', () => {
+  const wrapper = ({ children }: { children: HTMLElement }) => (
+    <ReactRedux.Provider store={store}>
+      <MemoryRouter>{children}</MemoryRouter>
+    </ReactRedux.Provider>
+  );
+
   const dispatch = jest.fn();
 
   beforeEach(() => {
@@ -37,11 +48,7 @@ describe('useLogout hook', () => {
 
   test('call onLogout function', async () => {
     const { result } = renderHook(() => useLogout(), {
-      wrapper: ({ children }) => (
-        <ReactRedux.Provider store={store}>
-          <MemoryRouter>{children}</MemoryRouter>
-        </ReactRedux.Provider>
-      ),
+      wrapper,
     });
 
     waitFor(() => {
@@ -49,6 +56,8 @@ describe('useLogout hook', () => {
       expect(mockedNavigate).toHaveBeenCalledWith('/auth/login');
     });
 
+    expect(localStorageRemoveItemMock).toHaveBeenCalledWith('persist:auth');
+    expect(persistor.pause).toHaveBeenCalledTimes(1);
     expect(logout).toHaveBeenCalledTimes(1);
   });
 });

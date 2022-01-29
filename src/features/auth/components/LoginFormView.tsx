@@ -16,7 +16,9 @@ function LoginFormView() {
   const formik = useFormik<ILogin>({
     initialValues,
     validationSchema: LoginSchema,
-    onSubmit: onLogin,
+    onSubmit: ({ email, password }) => {
+      return onLogin({ email, password });
+    },
   });
 
   return (

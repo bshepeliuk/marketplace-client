@@ -1,42 +1,23 @@
 import React from 'react';
 import * as formik from 'formik';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import LoginFormView from '@src/features/auth/components/LoginFormView';
 import useLogin from '@src/features/auth/hooks/useLogin';
 
 jest.mock('@src/features/auth/hooks/useLogin');
-
-const useFormikMock = jest.spyOn(formik, 'useFormik');
-
-const formInitialState = {
-  email: '',
-  password: '',
-};
+jest.spyOn(formik, 'useFormik');
 
 const renderLoginForm = () => {
   return render(<LoginFormView />);
 };
 
 describe('LoginForm', () => {
-  const handleChange = jest.fn();
-  const handleSubmit = jest.fn();
+  const onLoginMock = jest.fn();
 
   beforeEach(() => {
-    (useLogin as jest.Mock).mockImplementation(() => ({ onLogin: jest.fn() }));
-
-    useFormikMock.mockReturnValue({
-      handleChange,
-      handleSubmit,
-      values: formInitialState,
-      touched: {
-        email: false,
-        password: false,
-      },
-      errors: {
-        email: '',
-        password: '',
-      },
-    } as any);
+    (useLogin as jest.Mock).mockImplementation(() => ({
+      onLogin: onLoginMock,
+    }));
   });
 
   afterEach(() => {
@@ -44,35 +25,59 @@ describe('LoginForm', () => {
   });
 
   test('email input', async () => {
-    renderLoginForm();
+    const { getByTestId } = renderLoginForm();
 
-    const emailInput = screen.getByLabelText('Email');
+    const input = getByTestId('email') as HTMLInputElement;
 
-    fireEvent.change(emailInput, { target: { value: 'john@wick.io' } });
+    fireEvent.change(input, {
+      target: { value: 'john@wick.io' },
+    });
 
-    expect(emailInput).toBeInTheDocument();
-    expect(handleChange).toHaveBeenCalledTimes(1);
+    await waitFor(() => {
+      expect(input).toBeInTheDocument();
+      expect(input.value).toBe('john@wick.io');
+    });
   });
 
   test('password input', async () => {
-    renderLoginForm();
+    const { getByTestId } = renderLoginForm();
 
-    const input = screen.getByLabelText('Email');
+    const input = getByTestId('password') as HTMLInputElement;
 
-    fireEvent.change(input, { target: { value: '1234' } });
+    fireEvent.change(input, {
+      target: { value: 'test-password-1234' },
+    });
 
-    expect(input).toBeInTheDocument();
-    expect(handleChange).toHaveBeenCalledTimes(1);
+    await waitFor(() => {
+      expect(input).toBeInTheDocument();
+      expect(input.value).toBe('test-password-1234');
+    });
   });
 
   test('submit login form', async () => {
-    renderLoginForm();
+    const { getByTestId, getByText } = renderLoginForm();
 
-    const loginBtn = screen.getByText('Login');
+    const loginBtn = getByText('Login');
 
+    const emailInput = getByTestId('email') as HTMLInputElement;
+    const passwordInput = getByTestId('password') as HTMLInputElement;
+
+    fireEvent.change(emailInput, {
+      target: { value: 'tony@stark.star' },
+    });
+    fireEvent.change(passwordInput, {
+      target: { value: 'secret-password' },
+    });
     fireEvent.submit(loginBtn);
 
-    expect(loginBtn).toBeInTheDocument();
-    expect(handleSubmit).toHaveBeenCalledTimes(1);
+    await waitFor(() => {
+      expect(emailInput.value).toBe('tony@stark.star');
+      expect(passwordInput.value).toBe('secret-password');
+      expect(onLoginMock).toBeCalledTimes(1);
+      expect(onLoginMock).toBeCalledWith({
+        email: 'tony@stark.star',
+        password: 'secret-password',
+      });
+    });
   });
 });

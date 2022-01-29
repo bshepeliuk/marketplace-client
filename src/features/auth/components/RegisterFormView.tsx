@@ -23,7 +23,9 @@ function RegisterFormView() {
   const formik = useFormik<IRegisterFormValues>({
     initialValues,
     validationSchema: RegistrationSchema,
-    onSubmit: onRegister,
+    onSubmit: ({ email, password, role, fullName }) => {
+      return onRegister({ email, password, role, fullName });
+    },
   });
 
   return (

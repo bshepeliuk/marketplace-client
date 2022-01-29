@@ -1,61 +1,24 @@
 import React from 'react';
 import * as formik from 'formik';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import RegisterFormView from '@src/features/auth/components/RegisterFormView';
-import { ROLE } from '@src/common/types/apiTypes';
 import useRegister from '@src/features/auth/hooks/useRegister';
+import { ROLE } from '@src/common/types/apiTypes';
 
 jest.mock('@src/features/auth/hooks/useRegister');
-
-const useFormikMock = jest.spyOn(formik, 'useFormik');
-
-const formInitialState = {
-  email: '',
-  password: '',
-  role: ROLE.BUYER,
-  fullName: '',
-  passwordConfirmation: '',
-};
+jest.spyOn(formik, 'useFormik');
 
 const renderRegistrationForm = () => {
   return render(<RegisterFormView />);
 };
 
-const setupUseFormikMock = ({
-  errors = {},
-  touched = {},
-  values = {},
-}: any) => {
-  const handleChange = jest.fn();
-  const handleSubmit = jest.fn();
-  const handleBlur = jest.fn();
-
-  useFormikMock.mockReturnValue({
-    handleChange,
-    handleSubmit,
-    handleBlur,
-    values,
-    touched,
-    errors,
-  } as any);
-};
-
 describe('RegistrationForm', () => {
-  const handleChange = jest.fn();
-  const handleSubmit = jest.fn();
+  const onRegisterMock = jest.fn();
 
   beforeEach(() => {
     (useRegister as jest.Mock).mockImplementation(() => ({
-      onRegister: jest.fn(),
+      onRegister: onRegisterMock,
     }));
-
-    useFormikMock.mockReturnValue({
-      handleChange,
-      handleSubmit,
-      values: formInitialState,
-      touched: {},
-      errors: {},
-    } as any);
   });
 
   afterEach(() => {
@@ -63,159 +26,120 @@ describe('RegistrationForm', () => {
   });
 
   test('email input', async () => {
-    renderRegistrationForm();
+    const { getByTestId } = renderRegistrationForm();
 
-    const input = screen.getByLabelText('Email');
+    const input = getByTestId('email') as HTMLInputElement;
 
-    fireEvent.change(input, { target: { value: 'john@wick.io' } });
+    fireEvent.change(input, {
+      target: { value: 'leam@neeson.star' },
+    });
 
-    expect(input).toBeInTheDocument();
-    expect(handleChange).toHaveBeenCalledTimes(1);
+    await waitFor(() => {
+      expect(input).toBeInTheDocument();
+      expect(input.value).toBe('leam@neeson.star');
+    });
   });
 
   test('password input', async () => {
-    renderRegistrationForm();
+    const { getByTestId } = renderRegistrationForm();
 
-    const input = screen.getByLabelText('Password');
+    const input = getByTestId('password') as HTMLInputElement;
 
-    fireEvent.change(input, { target: { value: '1234' } });
+    fireEvent.change(input, {
+      target: { value: 'super-password' },
+    });
 
-    expect(input).toBeInTheDocument();
-    expect(handleChange).toHaveBeenCalledTimes(1);
+    await waitFor(() => {
+      expect(input).toBeInTheDocument();
+      expect(input.value).toBe('super-password');
+    });
   });
 
   test('password confirmation input', async () => {
-    renderRegistrationForm();
+    const { getByTestId } = renderRegistrationForm();
 
-    const input = screen.getByLabelText('Password confirmation');
+    const input = getByTestId('passwordConfirmation') as HTMLInputElement;
 
-    fireEvent.change(input, { target: { value: '1234' } });
+    fireEvent.change(input, {
+      target: { value: 'super-password-confirmation' },
+    });
 
-    expect(input).toBeInTheDocument();
-    expect(handleChange).toHaveBeenCalledTimes(1);
+    await waitFor(() => {
+      expect(input).toBeInTheDocument();
+      expect(input.value).toBe('super-password-confirmation');
+    });
   });
 
   test('fullName input', async () => {
-    renderRegistrationForm();
+    const { getByTestId } = renderRegistrationForm();
 
-    const input = screen.getByLabelText('Full Name');
+    const input = getByTestId('fullName') as HTMLInputElement;
 
-    fireEvent.change(input, { target: { value: 'John Wick' } });
+    fireEvent.change(input, {
+      target: { value: 'Leam Neeson' },
+    });
 
-    expect(input).toBeInTheDocument();
-    expect(handleChange).toHaveBeenCalledTimes(1);
+    await waitFor(() => {
+      expect(input).toBeInTheDocument();
+      expect(input.value).toBe('Leam Neeson');
+    });
   });
 
   test('role input', async () => {
-    renderRegistrationForm();
-    const input = screen.getByLabelText('Role');
+    const { getByTestId } = renderRegistrationForm();
 
-    fireEvent.change(input, { target: { value: ROLE.SELLER } });
+    const input = getByTestId('role') as HTMLInputElement;
 
-    expect(input).toBeInTheDocument();
-    expect(handleChange).toHaveBeenCalledTimes(1);
+    fireEvent.change(input, {
+      target: { value: ROLE.SELLER },
+    });
+
+    await waitFor(() => {
+      expect(input).toBeInTheDocument();
+      expect(input.value).toBe(ROLE.SELLER);
+    });
   });
 
-  describe('CHECK REGISTRATION FORM STATE', () => {
-    test('should return error when email is incorrect', async () => {
-      setupUseFormikMock({
-        values: {
-          email: 'incorrect_email',
-        },
-        touched: {
-          email: true,
-        },
-        errors: {
-          email: 'Email is incorrect!',
-        },
-      });
+  test('submit registration form', async () => {
+    const { getByTestId, getByText } = renderRegistrationForm();
 
-      renderRegistrationForm();
+    const emailInput = getByTestId('email') as HTMLInputElement;
+    const passwordInput = getByTestId('password') as HTMLInputElement;
+    const passwordConfirmationInput = getByTestId(
+      'passwordConfirmation',
+    ) as HTMLInputElement;
+    const fullNameInput = getByTestId('fullName') as HTMLInputElement;
+    const roleInput = getByTestId('role') as HTMLInputElement;
 
-      const errorMessage = screen.getByText('Email is incorrect!');
+    const registrationBtn = getByText('Register');
 
-      expect(errorMessage).toBeInTheDocument();
+    fireEvent.change(emailInput, {
+      target: { value: 'leam@neeson.star' },
     });
-    // eslint-disable-next-line max-len
-    test('should return error when password field touched but is not filled out', async () => {
-      setupUseFormikMock({
-        values: {
-          password: '',
-        },
-        touched: {
-          password: true,
-        },
-        errors: {
-          password: 'Password is required!',
-        },
-      });
-
-      renderRegistrationForm();
-
-      const errorMessage = screen.getByText('Password is required!');
-
-      expect(errorMessage).toBeInTheDocument();
+    fireEvent.change(passwordInput, {
+      target: { value: 'password-must-match' },
     });
-    // eslint-disable-next-line max-len
-    test('should return error when fullName field touched but is not filled out', async () => {
-      setupUseFormikMock({
-        values: {
-          fullName: '',
-        },
-        touched: {
-          fullName: true,
-        },
-        errors: {
-          fullName: 'fullName is required!',
-        },
-      });
-
-      renderRegistrationForm();
-
-      const errorMessage = screen.getByText('fullName is required!');
-
-      expect(errorMessage).toBeInTheDocument();
+    fireEvent.change(passwordConfirmationInput, {
+      target: { value: 'password-must-match' },
     });
-    // eslint-disable-next-line max-len
-    test('should return error when fullName field touched but is not filled out', async () => {
-      setupUseFormikMock({
-        values: {
-          role: '',
-        },
-        touched: {
-          role: true,
-        },
-        errors: {
-          role: 'Role is required!',
-        },
-      });
-
-      renderRegistrationForm();
-
-      const errorMessage = screen.getByText('Role is required!');
-
-      expect(errorMessage).toBeInTheDocument();
+    fireEvent.change(roleInput, {
+      target: { value: ROLE.SELLER },
     });
-    // eslint-disable-next-line max-len
-    test('should return error when fullName field touched but is not filled out', async () => {
-      setupUseFormikMock({
-        values: {
-          password: '1234',
-          passwordConfirmation: '',
-        },
-        touched: {
-          passwordConfirmation: true,
-        },
-        errors: {
-          passwordConfirmation: 'Passwords must match!',
-        },
+    fireEvent.change(fullNameInput, {
+      target: { value: 'Leam Neeson' },
+    });
+
+    fireEvent.submit(registrationBtn);
+
+    await waitFor(() => {
+      expect(onRegisterMock).toBeCalledTimes(1);
+      expect(passwordInput.value).toBe(passwordConfirmationInput.value);
+      expect(onRegisterMock).toBeCalledWith({
+        email: emailInput.value,
+        fullName: fullNameInput.value,
+        role: roleInput.value,
+        password: passwordInput.value,
       });
-
-      renderRegistrationForm();
-
-      const errorMessage = screen.getByText('Passwords must match!');
-
-      expect(errorMessage).toBeInTheDocument();
     });
   });
 });
