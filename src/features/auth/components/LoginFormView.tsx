@@ -3,7 +3,7 @@ import { useFormik } from 'formik';
 import useLogin from '@src/features/auth/hooks/useLogin';
 import { ILogin } from '@src/common/types/apiTypes';
 import CustomInput from '@common/components/CustomInput/CustomInput';
-import { LoginForm } from '../styles/login.styled';
+import { LoginForm, LoginButton } from '../styles/login.styled';
 import { LoginSchema } from '../validation/authSchema';
 
 const initialValues: ILogin = {
@@ -20,6 +20,8 @@ function LoginFormView() {
       return onLogin({ email, password });
     },
   });
+
+  const isDisabled = !(formik.isValid && formik.dirty);
 
   return (
     <LoginForm onSubmit={formik.handleSubmit}>
@@ -39,7 +41,9 @@ function LoginFormView() {
         {...formik}
       />
 
-      <button type="submit">Login</button>
+      <LoginButton type="submit" disabled={isDisabled}>
+        Login
+      </LoginButton>
     </LoginForm>
   );
 }

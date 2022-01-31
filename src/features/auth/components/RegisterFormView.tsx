@@ -3,7 +3,8 @@ import { useFormik } from 'formik';
 import useRegister from '@src/features/auth/hooks/useRegister';
 import { IRegister, ROLE } from '@src/common/types/apiTypes';
 import CustomInput from '@common/components/CustomInput/CustomInput';
-import { RegistrationForm } from '../styles/register.styled';
+import CustomSelect from '@common/components/CustomSelect/CustomSelect';
+import { RegisterButton, RegistrationForm } from '../styles/register.styled';
 import { RegistrationSchema } from '../validation/authSchema';
 
 interface IRegisterFormValues extends IRegister {
@@ -17,6 +18,11 @@ const initialValues = {
   email: '',
   role: ROLE.BUYER,
 };
+
+const ROLE_OPTIONS = [
+  { value: ROLE.BUYER, label: 'buyer' },
+  { value: ROLE.SELLER, label: 'seller' },
+];
 // TODO: add selector for role field
 function RegisterFormView() {
   const { onRegister } = useRegister();
@@ -27,6 +33,8 @@ function RegisterFormView() {
       return onRegister({ email, password, role, fullName });
     },
   });
+
+  const isDisabled = !(formik.isValid && formik.dirty);
 
   return (
     <RegistrationForm onSubmit={formik.handleSubmit}>
@@ -46,12 +54,11 @@ function RegisterFormView() {
         {...formik}
       />
 
-      <CustomInput
-        id="role"
-        label="Role"
+      <CustomSelect
+        formikProps={formik}
+        options={ROLE_OPTIONS}
         fieldName="role"
-        type="text"
-        {...formik}
+        label="Role"
       />
 
       <CustomInput
@@ -70,7 +77,9 @@ function RegisterFormView() {
         {...formik}
       />
 
-      <button type="submit">Register</button>
+      <RegisterButton type="submit" disabled={isDisabled}>
+        Register
+      </RegisterButton>
     </RegistrationForm>
   );
 }

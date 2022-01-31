@@ -6,6 +6,7 @@ import {
   InnerWrapper,
   Wrapper,
   Label,
+  Input,
 } from './customInput.styled';
 
 interface IInputProps {
@@ -23,10 +24,9 @@ function CustomInput({ label, fieldName, type, id, ...props }: IInputProps) {
 
   return (
     <Wrapper>
-      {label && <Label htmlFor={id}>{label}</Label>}
-
       <InnerWrapper>
-        <input
+        {label && <Label htmlFor={id}>{label}</Label>}
+        <Input
           id={id}
           type={type}
           onChange={handleChange}

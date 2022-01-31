@@ -1,12 +1,11 @@
 import React from 'react';
-import * as formik from 'formik';
-import { render, fireEvent, waitFor } from '@testing-library/react';
+import { render, fireEvent, screen, waitFor } from '@testing-library/react';
 import RegisterFormView from '@src/features/auth/components/RegisterFormView';
 import useRegister from '@src/features/auth/hooks/useRegister';
+import selectEvent from 'react-select-event';
 import { ROLE } from '@src/common/types/apiTypes';
 
 jest.mock('@src/features/auth/hooks/useRegister');
-jest.spyOn(formik, 'useFormik');
 
 const renderRegistrationForm = () => {
   return render(<RegisterFormView />);
@@ -88,15 +87,15 @@ describe('RegistrationForm', () => {
   test('role input', async () => {
     const { getByTestId } = renderRegistrationForm();
 
-    const input = getByTestId('role') as HTMLInputElement;
+    const roleInput = getByTestId('role') as HTMLInputElement;
 
-    fireEvent.change(input, {
+    fireEvent.change(roleInput, {
       target: { value: ROLE.SELLER },
     });
 
     await waitFor(() => {
-      expect(input).toBeInTheDocument();
-      expect(input.value).toBe(ROLE.SELLER);
+      expect(roleInput).toBeInTheDocument();
+      expect(roleInput.value).toBe(ROLE.SELLER);
     });
   });
 
@@ -109,9 +108,8 @@ describe('RegistrationForm', () => {
       'passwordConfirmation',
     ) as HTMLInputElement;
     const fullNameInput = getByTestId('fullName') as HTMLInputElement;
-    const roleInput = getByTestId('role') as HTMLInputElement;
 
-    const registrationBtn = getByText('Register');
+    const registrationBtn = getByText(/Register/i);
 
     fireEvent.change(emailInput, {
       target: { value: 'leam@neeson.star' },
@@ -122,12 +120,18 @@ describe('RegistrationForm', () => {
     fireEvent.change(passwordConfirmationInput, {
       target: { value: 'password-must-match' },
     });
-    fireEvent.change(roleInput, {
-      target: { value: ROLE.SELLER },
-    });
     fireEvent.change(fullNameInput, {
       target: { value: 'Leam Neeson' },
     });
+
+    const select = screen.getByTestId('role');
+
+    const options = {
+      value: ROLE.SELLER,
+      label: 'seller',
+    };
+
+    await selectEvent.select(select, options.label);
 
     fireEvent.submit(registrationBtn);
 
@@ -137,7 +141,7 @@ describe('RegistrationForm', () => {
       expect(onRegisterMock).toBeCalledWith({
         email: emailInput.value,
         fullName: fullNameInput.value,
-        role: roleInput.value,
+        role: options.value,
         password: passwordInput.value,
       });
     });

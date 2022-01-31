@@ -1,11 +1,9 @@
 import React from 'react';
-import * as formik from 'formik';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import LoginFormView from '@src/features/auth/components/LoginFormView';
 import useLogin from '@src/features/auth/hooks/useLogin';
 
 jest.mock('@src/features/auth/hooks/useLogin');
-jest.spyOn(formik, 'useFormik');
 
 const renderLoginForm = () => {
   return render(<LoginFormView />);
