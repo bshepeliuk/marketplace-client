@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ILogin, IRegister } from '@src/common/types/apiTypes';
-import * as Api from '@src/api/Api';
+import * as Api from '@src/common/api/Api';
 import { IUser, IUserData } from '@src/common/types/userTypes';
 import { IThunkAPI, Nullable } from '@src/common/types/baseTypes';
 import getErrorMessage from '@src/common/utils/getErrorMessage';
