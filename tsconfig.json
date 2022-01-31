@@ -23,6 +23,6 @@
       "@common/*": ["./src/common/*"]
     }
   },
-  "include": ["src"],
+  "include": ["src", "tests", "./jest-setup.ts"],
   "exclude": ["node_modules"]
 }

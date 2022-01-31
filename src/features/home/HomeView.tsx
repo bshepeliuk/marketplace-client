@@ -1,28 +1,19 @@
 import React from 'react';
-import useLogout from '@common/hooks/auth/useLogout';
-import { User } from '@src/api/Api';
-import { Link } from 'react-router-dom';
-import { routes } from '@src/app/Router';
+import useLogout from '@src/features/auth/hooks/useLogout';
+import { useTypedSelector } from '@common/hooks/main/useTypedSelector';
 
 function HomeView() {
-  const [user, setUser] = React.useState<any>(null);
   const { onLogout } = useLogout();
-
-  const getUserInfo = async () => {
-    const res = await User.get();
-    setUser(res.data.user);
-  };
+  const { isLoggedIn, user } = useTypedSelector((state) => state.auth);
 
   return (
     <div>
-      Hello {user && <b>{user.fullName}</b>}
-      <button type="button" onClick={getUserInfo}>
-        get my info
-      </button>
-      <button type="button" onClick={onLogout}>
-        logout
-      </button>
-      <Link to={routes.login}>go to login</Link>
+      Home View <h1>{user?.fullName}</h1>
+      {isLoggedIn && (
+        <button type="button" onClick={onLogout}>
+          logout
+        </button>
+      )}
     </div>
   );
 }

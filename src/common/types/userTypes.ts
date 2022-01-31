@@ -1,4 +1,4 @@
-import { ROLE } from './api';
+import { ROLE } from './apiTypes';
 
 export interface IUser {
   fullName: string;
