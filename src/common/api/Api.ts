@@ -20,3 +20,9 @@ export const User = {
     return api.get('/user');
   },
 };
+
+export const Devices = {
+  get() {
+    return api.get('/devices');
+  },
+};

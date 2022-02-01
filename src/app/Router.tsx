@@ -9,6 +9,7 @@ export const routes = {
   auth: '/auth/*',
   login: '/auth/login',
   register: '/auth/register',
+  devices: '/devices',
 };
 
 function Router() {
