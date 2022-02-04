@@ -1,14 +1,24 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { RootState } from '@src/app/store';
 
-const getDevicesState = (state: RootState) => state.devices;
-const getDeviceId = (_: any, deviceId: string | undefined) => deviceId;
+const getDeviceIdsState = (state: RootState) => state.devices.items;
+const getDevicesEntity = (state: RootState) => state.entities.devices;
+const getDeviceIdProp = (_: any, deviceId: string) => deviceId;
 
 export const deviceSelector = createSelector(
-  [getDevicesState, getDeviceId],
-  (state, deviceId) => {
-    const device = state.items.find((item) => item.id === Number(deviceId));
+  [getDevicesEntity, getDeviceIdProp],
+  (devices, deviceId) => {
+    return devices[deviceId];
+  },
+);
 
-    return device;
+export const devicesSelector = createSelector(
+  [getDeviceIdsState, getDevicesEntity],
+  (ids, devices) => {
+    const items = ids.map((id) => devices[id]);
+
+    return {
+      items,
+    };
   },
 );

@@ -4,6 +4,7 @@ import storage from 'redux-persist/lib/storage';
 import appReducer from '@features/app/appSlice';
 import authReducer, { logout } from '@features/auth/authSlice';
 import devicesReducer from '@src/features/devices/devicesSlice';
+import entitiesReducer from '@src/features/entities/entitiesReducer';
 
 const authPersistConfig = {
   storage,
@@ -14,6 +15,7 @@ const authPersistConfig = {
 const baseReducer = combineReducers({
   app: appReducer,
   devices: devicesReducer,
+  entities: entitiesReducer,
   auth: persistReducer(authPersistConfig, authReducer),
 });
 

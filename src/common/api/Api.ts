@@ -25,4 +25,7 @@ export const Devices = {
   get() {
     return api.get('/devices');
   },
+  getOneById(deviceId: number) {
+    return api.get(`/devices/${deviceId}`);
+  },
 };

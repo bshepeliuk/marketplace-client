@@ -18,8 +18,13 @@ export interface IDevice {
   updatedAt: string;
 }
 
+export interface IDeviceData {
+  device: IDevice;
+}
+
 export interface IDevicesData {
   devices: IDevice[];
+  result: number[];
 }
 
 export interface IListItemProps {
