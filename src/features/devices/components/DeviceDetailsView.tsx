@@ -1,7 +1,8 @@
 import React from 'react';
 import HeaderView from '@common/components/Header/HeaderView';
 import { Container } from '@common/styles/base.styled';
-import { useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { routes } from '@src/app/Router';
 import useGetDeviceById from '../hooks/useGetDeviceById';
 import {
   Image,
@@ -12,8 +13,23 @@ import {
 import LoadingDeviceView from './LoadingDeviceView';
 import NotFoundDeviceView from './NotFoundDeviceView';
 
+interface ILocationStateProps {
+  rowIndex: number;
+}
+
 function DeviceDetailsView() {
   const { deviceId } = useParams();
+  const navigate = useNavigate();
+
+  const location = useLocation();
+  const locationState = location.state as ILocationStateProps;
+
+  const goHome = () => {
+    navigate(routes.home, {
+      state: { rowIndex: locationState.rowIndex },
+    });
+  };
+
   // prettier-ignore
   const {
     device,
@@ -43,6 +59,9 @@ function DeviceDetailsView() {
             <PurchaseButton type="button">purchase</PurchaseButton>
             <p>price: {device.price}</p>
           </div>
+          <button type="button" onClick={goHome}>
+            go back
+          </button>
         </InnerWrap>
       </Container>
     </>

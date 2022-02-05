@@ -40,4 +40,7 @@ export interface IOnItemsRenderedParams {
   overscanRowStopIndex: number;
   overscanRowStartIndex: number;
   overscanColumnStopIndex: number;
+  overscanColumnStartIndex: number;
+  visibleColumnStartIndex: number;
+  visibleColumnStopIndex: number;
 }

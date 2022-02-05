@@ -13,51 +13,47 @@ import {
 import { Wrap } from '../styles/deviceList.styled';
 import useGetMoreDevices from '../hooks/useGetMoreDevices';
 import { IOnItemsRenderedParams } from '../types';
+import useSaveDeviceListPosition from '../hooks/useSaveDeviceListPosition';
 
 function DeviceListView() {
   const { items, isLoading } = useGetDevices();
   const { fetchMore, isLoadingMore } = useGetMoreDevices();
+  const { rowIndexState } = useSaveDeviceListPosition();
 
   const ROW_COUNT = Math.ceil(items.length / COLUMN_COUNT);
 
   if (isLoading) return <div>Loading...</div>;
 
   const rowCount = isLoadingMore ? ROW_COUNT + 1 : ROW_COUNT;
+  const isItemLoaded = (index: number) => index !== items.length - 1;
 
   return (
     <Wrap>
       <AutoSizer>
         {({ height, width }) => (
           <InfiniteLoader
-            threshold={0}
-            isItemLoaded={() => false}
+            isItemLoaded={isItemLoaded}
             itemCount={items.length}
             loadMoreItems={(startIndex: number, stopIndex: number) => {
-              if (startIndex + stopIndex === items.length) {
-                fetchMore();
-              }
+              if (stopIndex === items.length - 1) fetchMore();
             }}
+            threshold={0}
           >
             {({ ref, onItemsRendered }) => {
               const newOnItemsRendered = (props: IOnItemsRenderedParams) => {
-                const {
-                  overscanRowStartIndex,
-                  overscanRowStopIndex,
-                  overscanColumnStopIndex,
-                } = props;
-
-                const endCol = overscanColumnStopIndex + 1;
-                const startRow = overscanRowStartIndex;
-                const endRow = overscanRowStopIndex;
-
-                const visibleStartIndex = startRow * endCol;
-                const visibleStopIndex = endRow * endCol;
-
                 onItemsRendered({
-                  visibleStartIndex,
-                  visibleStopIndex,
-                  overscanStartIndex: overscanRowStartIndex,
-                  overscanStopIndex: overscanRowStopIndex,
+                  overscanStartIndex:
+                    props.overscanRowStartIndex * COLUMN_COUNT +
+                    props.overscanColumnStartIndex,
+                  overscanStopIndex:
+                    props.overscanRowStopIndex * COLUMN_COUNT +
+                    props.overscanColumnStopIndex,
+                  visibleStartIndex:
+                    props.visibleRowStartIndex * COLUMN_COUNT +
+                    props.visibleColumnStartIndex,
+                  visibleStopIndex:
+                    props.visibleRowStopIndex * COLUMN_COUNT +
+                    props.visibleColumnStopIndex,
                 });
               };
 
@@ -72,6 +68,7 @@ function DeviceListView() {
                   itemData={items}
                   height={height}
                   width={width}
+                  initialScrollTop={ROW_HEIGHT * rowIndexState}
                   onItemsRendered={newOnItemsRendered}
                 >
                   {DeviceItemView}

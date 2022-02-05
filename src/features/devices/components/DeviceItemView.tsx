@@ -43,7 +43,10 @@ function DeviceItemView({
         )}
       </ImageWrapper>
 
-      <Link to={generatePath(routes.device, { deviceId: `${device.id}` })}>
+      <Link
+        to={generatePath(routes.device, { deviceId: `${device.id}` })}
+        state={{ rowIndex }}
+      >
         <Title>{device.name}</Title>
       </Link>
 
