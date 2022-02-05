@@ -4,6 +4,7 @@ import { generatePath, Link } from 'react-router-dom';
 import { COLUMN_COUNT, GUTTER_SIZE } from '../constants';
 import {
   Image,
+  ImagePlaceholder,
   ImageWrapper,
   ListItem,
   Title,
@@ -19,6 +20,7 @@ function DeviceItemView({
   const itemIndex = rowIndex * COLUMN_COUNT + columnIndex;
 
   const device = data[itemIndex];
+
   const hasImages = device?.images?.length > 0;
 
   const styles = {
@@ -28,23 +30,30 @@ function DeviceItemView({
     width: Number(style!.width) - GUTTER_SIZE,
     height: Number(style!.height) - GUTTER_SIZE,
   };
-
-  if (!device) return null;
-
-  return (
+  // TODO: refactoring
+  return itemIndex >= data.length && device === undefined ? (
+    <ListItem style={styles}>Loading...</ListItem>
+  ) : (
     <ListItem key={device.id} style={styles}>
       <ImageWrapper>
-        {hasImages && <Image src={device.images[0].url} alt={device.name} />}
+        {hasImages ? (
+          <Image src={device.images[0].url} alt={device.name} />
+        ) : (
+          <ImagePlaceholderView />
+        )}
       </ImageWrapper>
 
-      <Link
-        to={generatePath(routes.device, { deviceId: device.id.toString() })}
-      >
+      <Link to={generatePath(routes.device, { deviceId: `${device.id}` })}>
         <Title>{device.name}</Title>
       </Link>
-      <p>price: {device.price}</p>
+
+      <div>$ {device.price}</div>
     </ListItem>
   );
+}
+
+function ImagePlaceholderView() {
+  return <ImagePlaceholder>No Images yet.</ImagePlaceholder>;
 }
 
 export default DeviceItemView;

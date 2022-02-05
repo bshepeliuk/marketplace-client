@@ -6,9 +6,9 @@ import { devicesSelector } from '../selectors/deviceSelector';
 
 const useGetDevices = () => {
   const dispatch = useAppDispatch();
-  const { items } = useTypedSelector(devicesSelector);
+  const { items, isLoading } = useTypedSelector(devicesSelector);
 
-  const getAll = () => dispatch(getDevices());
+  const getAll = () => dispatch(getDevices({ offset: 0, limit: 20 }));
 
   useEffect(() => {
     if (items.length === 0) {
@@ -18,7 +18,7 @@ const useGetDevices = () => {
 
   return {
     items,
-    isLoading: false,
+    isLoading,
   };
 };
 

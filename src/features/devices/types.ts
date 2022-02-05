@@ -33,3 +33,11 @@ export interface IListItemProps {
   data: IDevice[];
   style: CSSProperties;
 }
+
+export interface IOnItemsRenderedParams {
+  visibleRowStartIndex: number;
+  visibleRowStopIndex: number;
+  overscanRowStopIndex: number;
+  overscanRowStartIndex: number;
+  overscanColumnStopIndex: number;
+}

@@ -1,4 +1,8 @@
-import { ILogin, IRegister } from '@src/common/types/apiTypes';
+import {
+  IGetDevicesParams,
+  ILogin,
+  IRegister,
+} from '@src/common/types/apiTypes';
 import getApiInstance from '@src/common/utils/getApiInstance';
 
 const api = getApiInstance();
@@ -22,8 +26,13 @@ export const User = {
 };
 
 export const Devices = {
-  get() {
-    return api.get('/devices');
+  get({ offset, limit }: IGetDevicesParams) {
+    return api.get(`/devices`, {
+      params: {
+        offset,
+        limit,
+      },
+    });
   },
   getOneById(deviceId: number) {
     return api.get(`/devices/${deviceId}`);

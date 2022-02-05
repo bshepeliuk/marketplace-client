@@ -13,6 +13,22 @@ export const Image = styled.img`
   max-width: 100%;
   max-height: 100%;
 `;
+
 export const ImageWrapper = styled.div`
-  height: 100px;
+  height: 270px;
+  padding: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const ImagePlaceholder = styled.div`
+  width: 100%;
+  height: 100%;
+  background-color: rgba(236, 240, 241, 0.5);
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #34495e;
 `;

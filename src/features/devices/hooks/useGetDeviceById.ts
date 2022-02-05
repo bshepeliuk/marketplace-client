@@ -6,20 +6,28 @@ import { deviceSelector } from '../selectors/deviceSelector';
 
 const useGetDeviceById = (deviceId: any) => {
   const dispatch = useAppDispatch();
-  const device = useTypedSelector((state) => deviceSelector(state, deviceId));
+  const { device, isLoading } = useTypedSelector((state) => {
+    return deviceSelector(state, deviceId);
+  });
 
   const getDevice = () => {
     dispatch(getDeviceById({ deviceId }));
   };
 
   useEffect(() => {
-    if (!device) {
+    if (device === undefined) {
       getDevice();
     }
   }, []);
 
+  const hasNoDeviceFound = device === undefined && !isLoading;
+  const hasDeviceImages = device?.images.length > 0;
+
   return {
     device,
+    isLoading,
+    hasNoDeviceFound,
+    hasDeviceImages,
   };
 };
 
