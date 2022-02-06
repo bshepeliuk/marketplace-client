@@ -9,7 +9,8 @@ import {
   register,
 } from '@src/features/auth/authSlice';
 import { ROLE } from '@common/types/apiTypes';
-import { API_URL, getActionTypesAndPayload, thunk } from '../../helpers';
+import { BASE_API_URL } from '@src/common/constants';
+import { getActionTypesAndPayload, thunk } from '../../helpers';
 
 const server = setupServer();
 const mockStore = configureMockStore([thunk]);
@@ -35,7 +36,7 @@ describe('AUTH THUNKS', () => {
       };
 
       server.use(
-        rest.post(`${API_URL}/auth/login`, (req, res, ctx) => {
+        rest.post(`${BASE_API_URL}/auth/login`, (req, res, ctx) => {
           return res(ctx.status(200), ctx.json(loginResponse));
         }),
       );
@@ -66,7 +67,7 @@ describe('AUTH THUNKS', () => {
       };
 
       server.use(
-        rest.post(`${API_URL}/auth/login`, (req, res, ctx) => {
+        rest.post(`${BASE_API_URL}/auth/login`, (req, res, ctx) => {
           return res(ctx.status(400), ctx.json({ message: error.message }));
         }),
       );
@@ -94,7 +95,7 @@ describe('AUTH THUNKS', () => {
   describe('LOGOUT', () => {
     test('- when user successfully logged out.', async () => {
       server.use(
-        rest.post(`${API_URL}/auth/logout`, (req, res, ctx) => {
+        rest.post(`${BASE_API_URL}/auth/logout`, (req, res, ctx) => {
           return res(ctx.status(200));
         }),
       );
@@ -128,7 +129,7 @@ describe('AUTH THUNKS', () => {
       };
 
       server.use(
-        rest.post(`${API_URL}/auth/logout`, (req, res, ctx) => {
+        rest.post(`${BASE_API_URL}/auth/logout`, (req, res, ctx) => {
           return res(ctx.status(500), ctx.json(logoutResponseError));
         }),
       );
@@ -160,7 +161,7 @@ describe('AUTH THUNKS', () => {
 
     test('- when registration completed successfully', async () => {
       server.use(
-        rest.post(`${API_URL}/auth/register`, (req, res, ctx) => {
+        rest.post(`${BASE_API_URL}/auth/register`, (req, res, ctx) => {
           return res(ctx.status(200), ctx.json({ user }));
         }),
       );
@@ -188,7 +189,7 @@ describe('AUTH THUNKS', () => {
       };
 
       server.use(
-        rest.post(`${API_URL}/auth/register`, (req, res, ctx) => {
+        rest.post(`${BASE_API_URL}/auth/register`, (req, res, ctx) => {
           return res(ctx.status(400), ctx.json(registrationResponseError));
         }),
       );

@@ -1,11 +1,10 @@
 import * as ReactRedux from 'react-redux';
-import React from 'react';
 import { renderHook } from '@testing-library/react-hooks';
 import { logout } from '@src/features/auth/authSlice';
 import { waitFor } from '@testing-library/dom';
 import useLogout from '@src/features/auth/hooks/useLogout';
-import store, { persistor } from '@src/app/store';
-import { MemoryRouter } from 'react-router-dom';
+import { persistor } from '@src/app/store';
+import wrapper from '../../../wrapper';
 
 const mockedNavigate = jest.fn();
 
@@ -34,12 +33,6 @@ const useDispatchMock = jest.spyOn(ReactRedux, 'useDispatch');
 const localStorageRemoveItemMock = jest.spyOn(Storage.prototype, 'removeItem');
 
 describe('useLogout hook', () => {
-  const wrapper = ({ children }: { children: HTMLElement }) => (
-    <ReactRedux.Provider store={store}>
-      <MemoryRouter>{children}</MemoryRouter>
-    </ReactRedux.Provider>
-  );
-
   const dispatch = jest.fn();
 
   beforeEach(() => {

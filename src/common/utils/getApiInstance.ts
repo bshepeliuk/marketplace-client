@@ -1,10 +1,9 @@
 import axios from 'axios';
+import { BASE_API_URL } from '../constants';
 
 const getApiInstance = () => {
-  const baseURL = 'http://localhost:3000/api'; // https://marketplace-check-api.herokuapp.com/
-
   return axios.create({
-    baseURL,
+    baseURL: BASE_API_URL,
     withCredentials: true,
   });
 };
