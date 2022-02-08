@@ -7,7 +7,7 @@ function NotFoundDeviceView() {
     <>
       <HeaderView />
       <Container>
-        <div>Empty!</div>
+        <div>This device was not found.</div>
       </Container>
     </>
   );

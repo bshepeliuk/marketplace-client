@@ -20,16 +20,7 @@ interface ILocationStateProps {
 function DeviceDetailsView() {
   const { deviceId } = useParams();
   const navigate = useNavigate();
-
   const location = useLocation();
-  const locationState = location.state as ILocationStateProps;
-
-  const goHome = () => {
-    navigate(routes.home, {
-      state: { rowIndex: locationState.rowIndex },
-    });
-  };
-
   // prettier-ignore
   const {
     device,
@@ -37,6 +28,14 @@ function DeviceDetailsView() {
     hasNoDeviceFound,
     hasDeviceImages
   } = useGetDeviceById(deviceId);
+
+  const locationState = location.state as ILocationStateProps;
+
+  const goHome = () => {
+    navigate(routes.home, {
+      state: { rowIndex: locationState.rowIndex },
+    });
+  };
 
   if (isLoading) return <LoadingDeviceView />;
   if (hasNoDeviceFound) return <NotFoundDeviceView />;

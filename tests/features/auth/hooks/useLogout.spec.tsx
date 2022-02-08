@@ -11,7 +11,7 @@ const mockedNavigate = jest.fn();
 jest.mock('react-router-dom', () => {
   return {
     ...jest.requireActual('react-router-dom'),
-    useNavigate: () => jest.fn(),
+    useNavigate: () => mockedNavigate,
   };
 });
 
