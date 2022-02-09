@@ -40,14 +40,13 @@ describe('DEVICES REDUCER', () => {
 
   test('isError should be true when client receives error', () => {
     const action = {
-      type: getDevices.fulfilled.type,
-      payload: { result: [1, 2] },
+      type: getDevices.rejected.type,
     };
 
     expect(devicesReducer(initialState, action)).toEqual({
       ...initialState,
       isLoading: false,
-      items: [1, 2],
+      isError: true,
     });
   });
   // eslint-disable-next-line max-len

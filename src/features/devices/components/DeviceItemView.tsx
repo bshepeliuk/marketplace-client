@@ -20,7 +20,6 @@ function DeviceItemView({
   const itemIndex = rowIndex * COLUMN_COUNT + columnIndex;
 
   const device = data[itemIndex];
-
   const hasImages = device?.images?.length > 0;
 
   const styles = {

@@ -4,7 +4,7 @@ import { render, screen } from '@testing-library/react';
 import LoginFormView from '@src/features/auth/components/LoginFormView';
 
 import useLogin from '@src/features/auth/hooks/useLogin';
-import { setupUseFormikMock } from '../../../helpers';
+import setupUseFormikMock from '../../../helpers/setupUseFormikMock';
 
 jest.mock('@src/features/auth/hooks/useLogin');
 

@@ -10,7 +10,8 @@ import {
 } from '@src/features/auth/authSlice';
 import { ROLE } from '@common/types/apiTypes';
 import { BASE_API_URL } from '@src/common/constants';
-import { getActionTypesAndPayload, thunk } from '../../helpers';
+import thunk from 'redux-thunk';
+import getActionTypesAndPayload from '../../helpers/getActionTypesAndPayload';
 
 const server = setupServer();
 const mockStore = configureMockStore([thunk]);

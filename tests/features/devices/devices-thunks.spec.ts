@@ -11,11 +11,9 @@ import {
 import { BASE_API_URL } from '@src/common/constants';
 import { DeviceSchema, DevicesSchema } from '@src/common/normalizeSchemas';
 import { normalize } from 'normalizr';
-import {
-  generateDevicesByCount,
-  getActionTypesAndPayload,
-  thunk,
-} from '../../helpers';
+import thunk from 'redux-thunk';
+import getActionTypesAndPayload from '../../helpers/getActionTypesAndPayload';
+import generateDevicesByCount from '../../helpers/generateDevicesByCount';
 
 const server = setupServer();
 const mockStore = configureMockStore([thunk]);

@@ -22,10 +22,10 @@ function DeviceListView() {
 
   const ROW_COUNT = Math.ceil(items.length / COLUMN_COUNT);
 
-  if (isLoading) return <div>Loading...</div>;
-
   const rowCount = isLoadingMore ? ROW_COUNT + 1 : ROW_COUNT;
   const isItemLoaded = (index: number) => index !== items.length - 1;
+
+  if (isLoading) return <div>Loading...</div>;
 
   return (
     <Wrap>

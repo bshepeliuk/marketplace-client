@@ -3,10 +3,12 @@ import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import store from '@src/app/store';
 
-const wrapper = ({ children }: { children: HTMLElement }) => (
-  <Provider store={store}>
-    <MemoryRouter>{children}</MemoryRouter>
-  </Provider>
-);
+const wrapper = ({ children }: { children: HTMLElement }) => {
+  return (
+    <Provider store={store}>
+      <MemoryRouter>{children}</MemoryRouter>
+    </Provider>
+  );
+};
 
 export default wrapper;

@@ -1,10 +1,7 @@
-import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { fireEvent } from '@testing-library/react';
 import DeviceDetailsView from '@features/devices/components/DeviceDetailsView';
 import Router from 'react-router-dom';
-import { Provider } from 'react-redux';
-import configureMockStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
+import setupAndRenderComponent from '../../../helpers/setupAndRenderComponent';
 
 const device = {
   id: 1,
@@ -31,8 +28,6 @@ const rootState = {
   },
 };
 
-const mockStore = configureMockStore([thunk]);
-
 const mockedNavigate = jest.fn();
 
 jest.mock('react-router-dom', () => ({
@@ -43,18 +38,6 @@ jest.mock('react-router-dom', () => ({
     state: { rowIndex: 1 },
   }),
 }));
-
-const setupAndRenderDeviceView = ({ state }: any) => {
-  const store = mockStore(state);
-
-  return render(
-    <Provider store={store}>
-      <Router.MemoryRouter>
-        <DeviceDetailsView />
-      </Router.MemoryRouter>
-    </Provider>,
-  );
-};
 
 describe('DeviceDetailsView', () => {
   beforeEach(() => {});
@@ -68,8 +51,9 @@ describe('DeviceDetailsView', () => {
       .spyOn(Router, 'useParams')
       .mockReturnValue({ deviceId: device.id.toString() });
 
-    const { getByText, getByAltText } = setupAndRenderDeviceView({
+    const { getByText, getByAltText } = setupAndRenderComponent({
       state: rootState,
+      component: DeviceDetailsView,
     });
 
     const deviceTitle = getByText(device.name);
@@ -92,7 +76,10 @@ describe('DeviceDetailsView', () => {
   test('when device ID is not correct, should render message that such device not found', () => {
     jest.spyOn(Router, 'useParams').mockReturnValue({ deviceId: '999' });
 
-    const { getByText } = setupAndRenderDeviceView({ state: rootState });
+    const { getByText } = setupAndRenderComponent({
+      state: rootState,
+      component: DeviceDetailsView,
+    });
 
     const notFoundDeviceInfo = getByText(/this device was not found./i);
 
@@ -110,7 +97,10 @@ describe('DeviceDetailsView', () => {
       },
     };
 
-    const { getByText } = setupAndRenderDeviceView({ state });
+    const { getByText } = setupAndRenderComponent({
+      state,
+      component: DeviceDetailsView,
+    });
     const loader = getByText(/Loading.../i);
 
     expect(loader).toBeInTheDocument();
