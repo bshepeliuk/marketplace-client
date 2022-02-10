@@ -1,10 +1,9 @@
 import * as ReactRedux from 'react-redux';
 import React from 'react';
-import { MemoryRouter } from 'react-router-dom';
-import configureMockStore from 'redux-mock-store';
 import { renderHook } from '@testing-library/react-hooks';
 import { getDevices } from '@src/features/devices/devicesSlice';
 import useGetDevices from '@src/features/devices/hooks/useGetDevices';
+import { Wrapper } from '../../../wrapper';
 
 jest.mock('@src/features/devices/devicesSlice', () => ({
   ...jest.requireActual('@src/features/devices/devicesSlice'),
@@ -14,9 +13,7 @@ jest.mock('@src/features/devices/devicesSlice', () => ({
 
 const useDispatchMock = jest.spyOn(ReactRedux, 'useDispatch');
 
-const mockStore = configureMockStore();
-// TODO: create setup function
-const store = mockStore({
+const rootState = {
   entities: {
     devices: { 1: { id: 1, images: ['https://image.jpeg'] } },
   },
@@ -27,13 +24,7 @@ const store = mockStore({
     isLoading: false,
     items: [1],
   },
-});
-// TODO: create setup function
-const wrapper = ({ children }: { children: HTMLElement }) => (
-  <ReactRedux.Provider store={store}>
-    <MemoryRouter>{children}</MemoryRouter>
-  </ReactRedux.Provider>
-);
+};
 
 describe('useGetDevices hook', () => {
   const dispatch = jest.fn();
@@ -44,7 +35,7 @@ describe('useGetDevices hook', () => {
 
   test('should return devices from state', () => {
     const { result } = renderHook(() => useGetDevices(), {
-      wrapper,
+      wrapper: (props) => <Wrapper {...props} state={rootState} />,
     });
 
     expect(result.current.items).toHaveLength(1);
@@ -53,8 +44,7 @@ describe('useGetDevices hook', () => {
   });
 
   test('should fetch devices when state is empty', () => {
-    // TODO: create setup function
-    const newStore = mockStore({
+    const newState = {
       entities: {
         devices: {},
       },
@@ -65,16 +55,10 @@ describe('useGetDevices hook', () => {
         isLoading: false,
         items: [],
       },
-    });
-
-    const newWrapper = ({ children }: { children: HTMLElement }) => (
-      <ReactRedux.Provider store={newStore}>
-        <MemoryRouter>{children}</MemoryRouter>
-      </ReactRedux.Provider>
-    );
+    };
 
     const { result } = renderHook(() => useGetDevices(), {
-      wrapper: newWrapper,
+      wrapper: (props) => <Wrapper {...props} state={newState} />,
     });
 
     expect(result.current.items).toHaveLength(0);

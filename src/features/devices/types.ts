@@ -27,10 +27,15 @@ export interface IDevicesData {
   result: number[];
 }
 
+interface IListData {
+  items: IDevice[];
+  isLoading: boolean;
+}
+
 export interface IListItemProps {
   rowIndex: number;
   columnIndex: number;
-  data: IDevice[];
+  data: IListData;
   style: CSSProperties;
 }
 

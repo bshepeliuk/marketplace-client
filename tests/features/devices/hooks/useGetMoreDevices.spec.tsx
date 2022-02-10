@@ -3,7 +3,7 @@ import { renderHook } from '@testing-library/react-hooks';
 import { waitFor } from '@testing-library/dom';
 import useGetMoreDevices from '@src/features/devices/hooks/useGetMoreDevices';
 import { getMoreDevices } from '@src/features/devices/devicesSlice';
-import wrapper from '../../../wrapper';
+import { Wrapper } from '../../../wrapper';
 
 jest.mock('@src/features/devices/devicesSlice', () => ({
   ...jest.requireActual('@src/features/devices/devicesSlice'),
@@ -21,7 +21,9 @@ describe('useGetMoreDevices hook', () => {
   });
 
   test('call fetchMore function', async () => {
-    const { result } = renderHook(() => useGetMoreDevices(), { wrapper });
+    const { result } = renderHook(() => useGetMoreDevices(), {
+      wrapper: Wrapper,
+    });
 
     waitFor(() => {
       result.current.fetchMore();

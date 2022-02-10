@@ -4,7 +4,7 @@ import { logout } from '@src/features/auth/authSlice';
 import { waitFor } from '@testing-library/dom';
 import useLogout from '@src/features/auth/hooks/useLogout';
 import { persistor } from '@src/app/store';
-import wrapper from '../../../wrapper';
+import { Wrapper } from '../../../wrapper';
 
 const mockedNavigate = jest.fn();
 
@@ -41,7 +41,7 @@ describe('useLogout hook', () => {
 
   test('call onLogout function', async () => {
     const { result } = renderHook(() => useLogout(), {
-      wrapper,
+      wrapper: Wrapper,
     });
 
     waitFor(() => {

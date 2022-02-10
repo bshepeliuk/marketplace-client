@@ -57,7 +57,7 @@ describe('DeviceListView', () => {
   });
 
   test('should render loader.', async () => {
-    const { getByText } = setupAndRenderComponent({
+    const { getAllByText } = setupAndRenderComponent({
       component: DeviceListView,
       state: {
         ...rootState,
@@ -68,25 +68,8 @@ describe('DeviceListView', () => {
       },
     });
 
-    const loader = getByText(/Loading.../i);
+    const loaderItems = getAllByText(/Loading.../i);
 
-    expect(loader).toBeInTheDocument();
-  });
-
-  test('should render loader.', async () => {
-    const { getByText } = setupAndRenderComponent({
-      component: DeviceListView,
-      state: {
-        ...rootState,
-        devices: {
-          ...rootState.devices,
-          isLoading: true,
-        },
-      },
-    });
-
-    const loader = getByText(/Loading.../i);
-
-    expect(loader).toBeInTheDocument();
+    expect(loaderItems).toHaveLength(20);
   });
 });

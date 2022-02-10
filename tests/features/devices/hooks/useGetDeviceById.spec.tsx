@@ -1,12 +1,9 @@
 import * as ReactRedux from 'react-redux';
 import React from 'react';
-import configureMockStore from 'redux-mock-store';
 import { renderHook } from '@testing-library/react-hooks';
 import useGetDeviceById from '@src/features/devices/hooks/useGetDeviceById';
-import { MemoryRouter } from 'react-router-dom';
 import { getDeviceById } from '@src/features/devices/devicesSlice';
-
-const mockStore = configureMockStore();
+import { Wrapper } from '../../../wrapper';
 
 jest.mock('@src/features/devices/devicesSlice', () => ({
   ...jest.requireActual('@src/features/devices/devicesSlice'),
@@ -16,7 +13,7 @@ jest.mock('@src/features/devices/devicesSlice', () => ({
 
 const useDispatchMock = jest.spyOn(ReactRedux, 'useDispatch');
 
-const store = mockStore({
+const rootState = {
   entities: {
     devices: { 1: { id: 1, images: ['https://image.jpeg'] } },
   },
@@ -26,13 +23,7 @@ const store = mockStore({
     },
     items: [1],
   },
-});
-
-const wrapper = ({ children }: { children: HTMLElement }) => (
-  <ReactRedux.Provider store={store}>
-    <MemoryRouter>{children}</MemoryRouter>
-  </ReactRedux.Provider>
-);
+};
 
 describe('useGetDeviceById hook', () => {
   const dispatch = jest.fn();
@@ -45,7 +36,7 @@ describe('useGetDeviceById hook', () => {
     const deviceId = 1;
 
     const { result } = renderHook(() => useGetDeviceById(deviceId), {
-      wrapper,
+      wrapper: (props) => <Wrapper {...props} state={rootState} />,
     });
 
     expect(result.current.device).toEqual({
@@ -61,7 +52,7 @@ describe('useGetDeviceById hook', () => {
     const deviceId = 2;
 
     const { result } = renderHook(() => useGetDeviceById(deviceId), {
-      wrapper,
+      wrapper: (props) => <Wrapper {...props} state={rootState} />,
     });
 
     expect(result.current.device).toBeUndefined();

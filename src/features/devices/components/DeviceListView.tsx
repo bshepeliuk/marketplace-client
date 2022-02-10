@@ -8,6 +8,7 @@ import {
   COLUMN_COUNT,
   COLUMN_WIDTH,
   GUTTER_SIZE,
+  LOADER_ITEMS_COUNT,
   ROW_HEIGHT,
 } from '../constants';
 import { Wrap } from '../styles/deviceList.styled';
@@ -20,12 +21,18 @@ function DeviceListView() {
   const { fetchMore, isLoadingMore } = useGetMoreDevices();
   const { rowIndexState } = useSaveDeviceListPosition();
 
-  const ROW_COUNT = Math.ceil(items.length / COLUMN_COUNT);
+  const ROW_COUNT = isLoading
+    ? Math.ceil(LOADER_ITEMS_COUNT / COLUMN_COUNT)
+    : Math.ceil(items.length / COLUMN_COUNT);
 
   const rowCount = isLoadingMore ? ROW_COUNT + 1 : ROW_COUNT;
+  const ITEMS_COUNT = isLoading ? LOADER_ITEMS_COUNT : items.length;
+
   const isItemLoaded = (index: number) => index !== items.length - 1;
 
-  if (isLoading) return <div>Loading...</div>;
+  const loadMoreDevices = (startIndex: number, stopIndex: number) => {
+    if (stopIndex === items.length - 1 && !isLoading) fetchMore();
+  };
 
   return (
     <Wrap>
@@ -33,10 +40,8 @@ function DeviceListView() {
         {({ height, width }) => (
           <InfiniteLoader
             isItemLoaded={isItemLoaded}
-            itemCount={items.length}
-            loadMoreItems={(startIndex: number, stopIndex: number) => {
-              if (stopIndex === items.length - 1) fetchMore();
-            }}
+            itemCount={ITEMS_COUNT}
+            loadMoreItems={loadMoreDevices}
             threshold={0}
           >
             {({ ref, onItemsRendered }) => {
@@ -65,7 +70,7 @@ function DeviceListView() {
                   columnWidth={COLUMN_WIDTH + GUTTER_SIZE}
                   rowHeight={ROW_HEIGHT + GUTTER_SIZE}
                   rowCount={rowCount}
-                  itemData={items}
+                  itemData={{ items, isLoading }}
                   height={height}
                   width={width}
                   initialScrollTop={ROW_HEIGHT * rowIndexState}

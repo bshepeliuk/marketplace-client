@@ -9,7 +9,8 @@ import {
   ListItem,
   Title,
 } from '../styles/deviceItem.styled';
-import { IListItemProps } from '../types';
+import { IDevice, IListItemProps } from '../types';
+import DeviceLoaderView from './DeviceLoaderView';
 
 function DeviceItemView({
   style,
@@ -19,8 +20,10 @@ function DeviceItemView({
 }: IListItemProps) {
   const itemIndex = rowIndex * COLUMN_COUNT + columnIndex;
 
-  const device = data[itemIndex];
-  const hasImages = device?.images?.length > 0;
+  const device = data.items[itemIndex];
+
+  const hasDevice = device === undefined;
+  const isItLoadingMore = itemIndex >= data.items.length && hasDevice;
 
   const styles = {
     ...style,
@@ -29,18 +32,18 @@ function DeviceItemView({
     width: Number(style!.width) - GUTTER_SIZE,
     height: Number(style!.height) - GUTTER_SIZE,
   };
-  // TODO: refactoring
-  return itemIndex >= data.length && device === undefined ? (
-    <ListItem style={styles}>Loading...</ListItem>
-  ) : (
+
+  if (data.isLoading || isItLoadingMore) {
+    return (
+      <ListItem style={styles}>
+        <DeviceLoaderView />
+      </ListItem>
+    );
+  }
+
+  return (
     <ListItem key={device.id} style={styles}>
-      <ImageWrapper>
-        {hasImages ? (
-          <Image src={device.images[0].url} alt={device.name} />
-        ) : (
-          <ImagePlaceholderView />
-        )}
-      </ImageWrapper>
+      <ImageView device={device} />
 
       <Link
         to={generatePath(routes.device, { deviceId: `${device.id}` })}
@@ -51,6 +54,20 @@ function DeviceItemView({
 
       <div>$ {device.price}</div>
     </ListItem>
+  );
+}
+
+function ImageView({ device }: { device: IDevice }) {
+  const hasImages = device?.images?.length > 0;
+
+  return (
+    <ImageWrapper>
+      {hasImages ? (
+        <Image src={device.images[0].url} alt={device.name} />
+      ) : (
+        <ImagePlaceholderView />
+      )}
+    </ImageWrapper>
   );
 }
 
