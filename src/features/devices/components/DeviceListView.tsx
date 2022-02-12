@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { FixedSizeGrid as Grid } from 'react-window';
 import InfiniteLoader from 'react-window-infinite-loader';
 import AutoSizer from 'react-virtualized-auto-sizer';
@@ -11,7 +11,7 @@ import {
   LOADER_ITEMS_COUNT,
   ROW_HEIGHT,
 } from '../constants';
-import { Wrap } from '../styles/deviceList.styled';
+import { GoToTopButton, Wrap } from '../styles/deviceList.styled';
 import useGetMoreDevices from '../hooks/useGetMoreDevices';
 import { IOnItemsRenderedParams } from '../types';
 import useSaveDeviceListPosition from '../hooks/useSaveDeviceListPosition';
@@ -19,26 +19,42 @@ import getCountOfColumns from '../helpers/getCountOfColumns';
 import calcAndGetCountOfRows from '../helpers/calcAndGetCountOfRows';
 
 function DeviceListView() {
+  const gridRef = useRef<Grid | null>();
+  const [isVisible, setIsVisible] = useState<boolean>(false);
+
   const { items, isLoading } = useGetDevices();
   const { fetchMore, isLoadingMore } = useGetMoreDevices();
-  const { rowIndexState } = useSaveDeviceListPosition();
+  const { rowIndexState, resetPosition } = useSaveDeviceListPosition();
   const { size } = useWindowWidthResize();
 
   const COLUMN_COUNT = getCountOfColumns(size.width);
-
   const ITEMS_COUNT = isLoading ? LOADER_ITEMS_COUNT : items.length;
-
   const DEFAULT_ROW_COUNT = calcAndGetCountOfRows({
     itemsCount: ITEMS_COUNT,
     columns: COLUMN_COUNT,
   });
-
-  const ROW_COUNT = isLoadingMore ? DEFAULT_ROW_COUNT + 1 : DEFAULT_ROW_COUNT;
+  const ROW_COUNT = isLoadingMore ? DEFAULT_ROW_COUNT + 1 : DEFAULT_ROW_COUNT; // plus one row for loader in the bottom
 
   const isItemLoaded = (index: number) => index !== items.length - 1;
 
   const loadMoreDevices = (startIndex: number, stopIndex: number) => {
     if (stopIndex === items.length - 1 && !isLoading) fetchMore();
+  };
+
+  const handleScroll = ({ scrollTop }: { scrollTop: number }) => {
+    const isNotVisible = !isVisible;
+
+    if (scrollTop > ROW_HEIGHT * 2 && isNotVisible) setIsVisible(true);
+  };
+
+  const goToTop = () => {
+    gridRef.current?.scrollToItem({
+      columnIndex: 0,
+      rowIndex: 0,
+    });
+
+    setIsVisible(false);
+    resetPosition();
   };
 
   return (
@@ -69,9 +85,14 @@ function DeviceListView() {
                 });
               };
 
+              const setRefs = (node: Grid) => {
+                if (typeof ref === 'function') ref(node);
+                gridRef.current = node;
+              };
+
               return (
                 <Grid
-                  ref={ref}
+                  ref={setRefs}
                   className="device-list-grid"
                   columnCount={COLUMN_COUNT}
                   columnWidth={COLUMN_WIDTH + GUTTER_SIZE}
@@ -82,6 +103,7 @@ function DeviceListView() {
                   width={width}
                   initialScrollTop={ROW_HEIGHT * rowIndexState}
                   onItemsRendered={newOnItemsRendered}
+                  onScroll={handleScroll}
                 >
                   {DeviceItemView}
                 </Grid>
@@ -90,6 +112,12 @@ function DeviceListView() {
           </InfiniteLoader>
         )}
       </AutoSizer>
+
+      {isVisible && (
+        <GoToTopButton type="button" onClick={goToTop}>
+          to top
+        </GoToTopButton>
+      )}
     </Wrap>
   );
 }

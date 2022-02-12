@@ -1,4 +1,5 @@
 import DeviceListView from '@src/features/devices/components/DeviceListView';
+import { AutoSizerProps } from 'react-virtualized-auto-sizer';
 import generateDevicesByCount from '../../../helpers/generateDevicesByCount';
 import setupAndRenderComponent from '../../../helpers/setupAndRenderComponent';
 
@@ -27,7 +28,7 @@ const rootState = {
 };
 
 jest.mock('react-virtualized-auto-sizer', () => {
-  return ({ children }: any) => {
+  return ({ children }: AutoSizerProps) => {
     const height = 400 * 20; // 400px - DeviceItem height, 20 - count of devices
     return children({ height, width: 1440 });
   };

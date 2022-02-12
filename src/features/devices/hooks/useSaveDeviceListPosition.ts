@@ -1,13 +1,16 @@
 import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 interface ILocationStateProps {
   rowIndex: number;
 }
 
 const useSaveDeviceListPosition = () => {
-  const location = useLocation();
   const [rowIndexState, setRowIndexState] = useState<number>(0);
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const resetPosition = () => navigate(location.pathname, { replace: true });
 
   const locationState = location.state as ILocationStateProps;
 
@@ -19,6 +22,7 @@ const useSaveDeviceListPosition = () => {
 
   return {
     rowIndexState,
+    resetPosition,
   };
 };
 

@@ -37,6 +37,8 @@ function DeviceItemView(props: IListItemProps) {
     );
   }
 
+  if (hasNoDevice) return null;
+
   return (
     <ListItem key={device.id} style={styles}>
       <ImageView device={device} />
