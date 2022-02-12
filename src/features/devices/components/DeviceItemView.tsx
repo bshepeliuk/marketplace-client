@@ -1,7 +1,7 @@
 import { routes } from '@src/app/Router';
 import React from 'react';
 import { generatePath, Link } from 'react-router-dom';
-import { COLUMN_COUNT, GUTTER_SIZE } from '../constants';
+import { GUTTER_SIZE } from '../constants';
 import {
   Image,
   ImagePlaceholder,
@@ -12,28 +12,24 @@ import {
 import { IDevice, IListItemProps } from '../types';
 import DeviceLoaderView from './DeviceLoaderView';
 
-function DeviceItemView({
-  style,
-  data,
-  rowIndex,
-  columnIndex,
-}: IListItemProps) {
-  const itemIndex = rowIndex * COLUMN_COUNT + columnIndex;
+function DeviceItemView(props: IListItemProps) {
+  const { style, data, rowIndex, columnIndex } = props;
+
+  const itemIndex = rowIndex * data.COLUMN_COUNT + columnIndex;
 
   const device = data.items[itemIndex];
 
-  const hasDevice = device === undefined;
-  const isItLoadingMore = itemIndex >= data.items.length && hasDevice;
+  const hasNoDevice = device === undefined;
 
   const styles = {
     ...style,
-    left: Number(style!.left) + GUTTER_SIZE,
-    top: Number(style!.top) + GUTTER_SIZE,
-    width: Number(style!.width) - GUTTER_SIZE,
-    height: Number(style!.height) - GUTTER_SIZE,
+    left: Number(style.left) + GUTTER_SIZE,
+    top: Number(style.top) + GUTTER_SIZE,
+    width: Number(style.width) - GUTTER_SIZE,
+    height: Number(style.height) - GUTTER_SIZE,
   };
 
-  if (data.isLoading || isItLoadingMore) {
+  if (data.isLoading || (data.isLoadingMore && hasNoDevice)) {
     return (
       <ListItem style={styles}>
         <DeviceLoaderView />

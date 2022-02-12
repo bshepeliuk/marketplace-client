@@ -1,32 +1,16 @@
 import { fireEvent } from '@testing-library/react';
 import DeviceDetailsView from '@features/devices/components/DeviceDetailsView';
 import Router from 'react-router-dom';
+import { setupServer } from 'msw/node';
+import { BASE_API_URL } from '@src/common/constants';
+import { rest } from 'msw';
 import setupAndRenderComponent from '../../../helpers/setupAndRenderComponent';
 
-const device = {
-  id: 1,
-  images: ['https://image.jpeg'],
-  name: 'HP Pavillion - test',
-  price: 1234,
-};
-
-const rootState = {
-  entities: {
-    devices: {
-      1: device,
-    },
-  },
-  auth: {
-    isLoggedIn: true,
-  },
-  devices: {
-    isLoading: false,
-    items: [1],
-    device: {
-      isLoading: false,
-    },
-  },
-};
+const server = setupServer(
+  rest.get(`${BASE_API_URL}/devices/:deviceId`, (req, res, ctx) => {
+    return res(ctx.json({}));
+  }),
+);
 
 const mockedNavigate = jest.fn();
 
@@ -40,9 +24,36 @@ jest.mock('react-router-dom', () => ({
 }));
 
 describe('DeviceDetailsView', () => {
-  beforeEach(() => {});
+  const device = {
+    id: 1,
+    images: ['https://image.jpeg'],
+    name: 'HP Pavillion - test',
+    price: 1234,
+  };
+
+  const rootState = {
+    entities: {
+      devices: {
+        1: device,
+      },
+    },
+    auth: {
+      isLoggedIn: true,
+    },
+    devices: {
+      isLoading: false,
+      items: [1],
+      device: {
+        isLoading: false,
+      },
+    },
+  };
+
+  beforeAll(() => server.listen());
+  afterAll(() => server.close());
 
   afterEach(() => {
+    server.resetHandlers();
     jest.clearAllMocks();
   });
 

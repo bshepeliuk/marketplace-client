@@ -27,7 +27,10 @@ const rootState = {
 };
 
 jest.mock('react-virtualized-auto-sizer', () => {
-  return ({ children }: any) => children({ height: 1600, width: 1200 });
+  return ({ children }: any) => {
+    const height = 400 * 20; // 400px - DeviceItem height, 20 - count of devices
+    return children({ height, width: 1440 });
+  };
 });
 
 jest.mock('react-router-dom', () => ({
@@ -39,8 +42,6 @@ jest.mock('react-router-dom', () => ({
 }));
 
 describe('DeviceListView', () => {
-  beforeEach(() => {});
-
   afterEach(() => {
     jest.clearAllMocks();
   });
@@ -53,7 +54,7 @@ describe('DeviceListView', () => {
 
     const deviceList = await findAllByAltText(/Test Device - [0-9]/i);
 
-    expect(deviceList).toHaveLength(20);
+    expect(deviceList).toHaveLength(devices.length);
   });
 
   test('should render loader.', async () => {
@@ -70,6 +71,6 @@ describe('DeviceListView', () => {
 
     const loaderItems = getAllByText(/Loading.../i);
 
-    expect(loaderItems).toHaveLength(20);
+    expect(loaderItems).toHaveLength(devices.length);
   });
 });

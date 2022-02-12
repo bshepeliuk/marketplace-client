@@ -30,6 +30,8 @@ export interface IDevicesData {
 interface IListData {
   items: IDevice[];
   isLoading: boolean;
+  isLoadingMore: boolean;
+  COLUMN_COUNT: number;
 }
 
 export interface IListItemProps {

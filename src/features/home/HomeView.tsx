@@ -1,15 +1,15 @@
 import React from 'react';
 import HeaderView from '@common/components/Header/HeaderView';
-import { Container } from '@common/styles/base.styled';
 import DeviceListView from '../devices/components/DeviceListView';
+import { DeviceListContainer } from './home.styled';
 
 function HomeView() {
   return (
     <>
       <HeaderView />
-      <Container>
+      <DeviceListContainer>
         <DeviceListView />
-      </Container>
+      </DeviceListContainer>
     </>
   );
 }

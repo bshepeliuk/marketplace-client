@@ -2,10 +2,10 @@ import React from 'react';
 import { FixedSizeGrid as Grid } from 'react-window';
 import InfiniteLoader from 'react-window-infinite-loader';
 import AutoSizer from 'react-virtualized-auto-sizer';
+import useWindowWidthResize from '@common/hooks/main/useWindowWidthResize';
 import DeviceItemView from './DeviceItemView';
 import useGetDevices from '../hooks/useGetDevices';
 import {
-  COLUMN_COUNT,
   COLUMN_WIDTH,
   GUTTER_SIZE,
   LOADER_ITEMS_COUNT,
@@ -15,18 +15,25 @@ import { Wrap } from '../styles/deviceList.styled';
 import useGetMoreDevices from '../hooks/useGetMoreDevices';
 import { IOnItemsRenderedParams } from '../types';
 import useSaveDeviceListPosition from '../hooks/useSaveDeviceListPosition';
+import getCountOfColumns from '../helpers/getCountOfColumns';
+import calcAndGetCountOfRows from '../helpers/calcAndGetCountOfRows';
 
 function DeviceListView() {
   const { items, isLoading } = useGetDevices();
   const { fetchMore, isLoadingMore } = useGetMoreDevices();
   const { rowIndexState } = useSaveDeviceListPosition();
+  const { size } = useWindowWidthResize();
 
-  const ROW_COUNT = isLoading
-    ? Math.ceil(LOADER_ITEMS_COUNT / COLUMN_COUNT)
-    : Math.ceil(items.length / COLUMN_COUNT);
+  const COLUMN_COUNT = getCountOfColumns(size.width);
 
-  const rowCount = isLoadingMore ? ROW_COUNT + 1 : ROW_COUNT;
   const ITEMS_COUNT = isLoading ? LOADER_ITEMS_COUNT : items.length;
+
+  const DEFAULT_ROW_COUNT = calcAndGetCountOfRows({
+    itemsCount: ITEMS_COUNT,
+    columns: COLUMN_COUNT,
+  });
+
+  const ROW_COUNT = isLoadingMore ? DEFAULT_ROW_COUNT + 1 : DEFAULT_ROW_COUNT;
 
   const isItemLoaded = (index: number) => index !== items.length - 1;
 
@@ -69,8 +76,8 @@ function DeviceListView() {
                   columnCount={COLUMN_COUNT}
                   columnWidth={COLUMN_WIDTH + GUTTER_SIZE}
                   rowHeight={ROW_HEIGHT + GUTTER_SIZE}
-                  rowCount={rowCount}
-                  itemData={{ items, isLoading }}
+                  rowCount={ROW_COUNT}
+                  itemData={{ items, isLoading, isLoadingMore, COLUMN_COUNT }}
                   height={height}
                   width={width}
                   initialScrollTop={ROW_HEIGHT * rowIndexState}
