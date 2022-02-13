@@ -1,8 +1,7 @@
 import React from 'react';
 import HeaderView from '@common/components/Header/HeaderView';
 import { Container } from '@common/styles/base.styled';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { routes } from '@src/app/Router';
+import { useParams } from 'react-router-dom';
 import useGetDeviceById from '../hooks/useGetDeviceById';
 import {
   Image,
@@ -12,30 +11,14 @@ import {
 } from '../styles/deviceDetails.styled';
 import LoadingDeviceView from './LoadingDeviceView';
 import NotFoundDeviceView from './NotFoundDeviceView';
-
-interface ILocationStateProps {
-  rowIndex: number;
-}
+import useGoHome from '../hooks/useGoHome';
 
 function DeviceDetailsView() {
   const { deviceId } = useParams();
-  const navigate = useNavigate();
-  const location = useLocation();
+  const { goHome } = useGoHome();
   // prettier-ignore
-  const {
-    device,
-    isLoading,
-    hasNoDeviceFound,
-    hasDeviceImages
-  } = useGetDeviceById(deviceId);
-
-  const locationState = location.state as ILocationStateProps;
-
-  const goHome = () => {
-    navigate(routes.home, {
-      state: { rowIndex: locationState.rowIndex },
-    });
-  };
+  // eslint-disable-next-line max-len
+  const { device, isLoading, hasNoDeviceFound, hasDeviceImages } = useGetDeviceById(deviceId);
 
   if (isLoading) return <LoadingDeviceView />;
   if (hasNoDeviceFound) return <NotFoundDeviceView />;
@@ -58,6 +41,7 @@ function DeviceDetailsView() {
             <PurchaseButton type="button">purchase</PurchaseButton>
             <p>price: {device.price}</p>
           </div>
+
           <button type="button" onClick={goHome}>
             go back
           </button>

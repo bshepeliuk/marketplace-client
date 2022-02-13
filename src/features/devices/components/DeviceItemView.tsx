@@ -1,16 +1,17 @@
-import { routes } from '@src/app/Router';
 import React from 'react';
-import { generatePath, Link } from 'react-router-dom';
+import { generatePath } from 'react-router-dom';
+import { routes } from '@src/app/Router';
+import ImageView from '../atoms/ImageView';
 import { GUTTER_SIZE } from '../constants';
 import {
-  Image,
-  ImagePlaceholder,
-  ImageWrapper,
+  CartBtnWrapper,
+  DeviceTitleLink,
   ListItem,
-  Title,
+  Price,
 } from '../styles/deviceItem.styled';
-import { IDevice, IListItemProps } from '../types';
+import { IListItemProps } from '../types';
 import DeviceLoaderView from './DeviceLoaderView';
+import AddToCartButton from '../atoms/AddToCartButton';
 
 function DeviceItemView(props: IListItemProps) {
   const { style, data, rowIndex, columnIndex } = props;
@@ -43,34 +44,20 @@ function DeviceItemView(props: IListItemProps) {
     <ListItem key={device.id} style={styles}>
       <ImageView device={device} />
 
-      <Link
+      <DeviceTitleLink
         to={generatePath(routes.device, { deviceId: `${device.id}` })}
         state={{ rowIndex }}
       >
-        <Title>{device.name}</Title>
-      </Link>
+        {device.name}
+      </DeviceTitleLink>
 
-      <div>$ {device.price}</div>
+      <Price>$ {device.price}</Price>
+
+      <CartBtnWrapper>
+        <AddToCartButton />
+      </CartBtnWrapper>
     </ListItem>
   );
-}
-
-function ImageView({ device }: { device: IDevice }) {
-  const hasImages = device?.images?.length > 0;
-
-  return (
-    <ImageWrapper>
-      {hasImages ? (
-        <Image src={device.images[0].url} alt={device.name} />
-      ) : (
-        <ImagePlaceholderView />
-      )}
-    </ImageWrapper>
-  );
-}
-
-function ImagePlaceholderView() {
-  return <ImagePlaceholder>No Images yet.</ImagePlaceholder>;
 }
 
 export default DeviceItemView;
