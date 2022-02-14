@@ -14,3 +14,8 @@ export interface IRegister extends ILogin {
   fullName: string;
   role: ROLE.SELLER | ROLE.BUYER;
 }
+
+export interface IGetDevicesParams {
+  limit: number;
+  offset: number;
+}

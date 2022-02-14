@@ -3,15 +3,11 @@ import { renderHook, act } from '@testing-library/react-hooks';
 import useLogin from '@src/features/auth/hooks/useLogin';
 import { login } from '@src/features/auth/authSlice';
 
-jest.mock('@src/features/auth/authSlice', () => {
-  const originalModule = jest.requireActual('@src/features/auth/authSlice');
-
-  return {
-    __esModule: true,
-    ...originalModule,
-    login: jest.fn(),
-  };
-});
+jest.mock('@src/features/auth/authSlice', () => ({
+  ...jest.requireActual('@src/features/auth/authSlice'),
+  __esModule: true,
+  login: jest.fn(),
+}));
 
 const useDispatchMock = jest.spyOn(reactRedux, 'useDispatch');
 

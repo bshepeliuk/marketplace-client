@@ -2,7 +2,7 @@ import React from 'react';
 import * as formik from 'formik';
 import { render, screen } from '@testing-library/react';
 import RegisterFormView from '@src/features/auth/components/RegisterFormView';
-import { setupUseFormikMock } from '../../../helpers';
+import setupUseFormikMock from '../../../helpers/setupUseFormikMock';
 
 jest.mock('react-redux', () => ({
   useSelector: jest.fn(),

@@ -1,20 +1,16 @@
 import React from 'react';
-import useLogout from '@src/features/auth/hooks/useLogout';
-import { useTypedSelector } from '@common/hooks/main/useTypedSelector';
+import HeaderView from '@common/components/Header/HeaderView';
+import DeviceListView from '../devices/pages/DeviceListView';
+import { DeviceListContainer } from './home.styled';
 
 function HomeView() {
-  const { onLogout } = useLogout();
-  const { isLoggedIn, user } = useTypedSelector((state) => state.auth);
-
   return (
-    <div>
-      Home View <h1>{user?.fullName}</h1>
-      {isLoggedIn && (
-        <button type="button" onClick={onLogout}>
-          logout
-        </button>
-      )}
-    </div>
+    <>
+      <HeaderView />
+      <DeviceListContainer>
+        <DeviceListView />
+      </DeviceListContainer>
+    </>
   );
 }
 
