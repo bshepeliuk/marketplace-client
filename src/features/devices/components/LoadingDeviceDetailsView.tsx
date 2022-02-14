@@ -2,10 +2,11 @@ import React from 'react';
 import HeaderView from '@src/common/components/Header/HeaderView';
 import { Container } from '@src/common/styles/base.styled';
 
-function LoadingDeviceView() {
+function LoadingDeviceDetailsView() {
   return (
     <>
       <HeaderView />
+
       <Container>
         <div>Loading...</div>
       </Container>
@@ -13,4 +14,4 @@ function LoadingDeviceView() {
   );
 }
 
-export default LoadingDeviceView;
+export default LoadingDeviceDetailsView;

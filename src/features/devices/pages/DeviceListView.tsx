@@ -3,7 +3,7 @@ import { FixedSizeGrid as Grid } from 'react-window';
 import InfiniteLoader from 'react-window-infinite-loader';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import useWindowWidthResize from '@common/hooks/main/useWindowWidthResize';
-import DeviceItemView from './DeviceItemView';
+import DeviceItemView from '../components/DeviceItemView';
 import useGetDevices from '../hooks/useGetDevices';
 import {
   COLUMN_WIDTH,
@@ -11,10 +11,10 @@ import {
   LOADER_ITEMS_COUNT,
   ROW_HEIGHT,
 } from '../constants';
-import { GoToTopButton, Wrap } from '../styles/deviceList.styled';
+import { GoToTopButton, Wrap, GoToTopIcon } from '../styles/deviceList.styled';
 import useGetMoreDevices from '../hooks/useGetMoreDevices';
 import { IOnItemsRenderedParams } from '../types';
-import useSaveDeviceListPosition from '../hooks/useSaveDeviceListPosition';
+import useSaveListScrollPosition from '../hooks/useSaveListScrollPosition';
 import getCountOfColumns from '../helpers/getCountOfColumns';
 import calcAndGetCountOfRows from '../helpers/calcAndGetCountOfRows';
 
@@ -24,15 +24,18 @@ function DeviceListView() {
 
   const { items, isLoading } = useGetDevices();
   const { fetchMore, isLoadingMore } = useGetMoreDevices();
-  const { rowIndexState, resetPosition } = useSaveDeviceListPosition();
+  const { rowIndexState, resetScrollPosition } = useSaveListScrollPosition();
   const { size } = useWindowWidthResize();
 
   const COLUMN_COUNT = getCountOfColumns(size.width);
+
   const ITEMS_COUNT = isLoading ? LOADER_ITEMS_COUNT : items.length;
+
   const DEFAULT_ROW_COUNT = calcAndGetCountOfRows({
     itemsCount: ITEMS_COUNT,
     columns: COLUMN_COUNT,
   });
+
   const ROW_COUNT = isLoadingMore ? DEFAULT_ROW_COUNT + 1 : DEFAULT_ROW_COUNT; // plus one row for loader in the bottom
 
   const isItemLoaded = (index: number) => index !== items.length - 1;
@@ -45,6 +48,7 @@ function DeviceListView() {
     const isNotVisible = !isVisible;
 
     if (scrollTop > ROW_HEIGHT * 2 && isNotVisible) setIsVisible(true);
+    if (scrollTop < ROW_HEIGHT && isVisible) setIsVisible(false);
   };
 
   const goToTop = () => {
@@ -54,7 +58,7 @@ function DeviceListView() {
     });
 
     setIsVisible(false);
-    resetPosition();
+    resetScrollPosition();
   };
 
   return (
@@ -115,7 +119,7 @@ function DeviceListView() {
 
       {isVisible && (
         <GoToTopButton type="button" onClick={goToTop}>
-          to top
+          <GoToTopIcon />
         </GoToTopButton>
       )}
     </Wrap>

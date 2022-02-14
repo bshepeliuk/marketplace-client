@@ -16,12 +16,6 @@ import AddToCartButton from '../atoms/AddToCartButton';
 function DeviceItemView(props: IListItemProps) {
   const { style, data, rowIndex, columnIndex } = props;
 
-  const itemIndex = rowIndex * data.COLUMN_COUNT + columnIndex;
-
-  const device = data.items[itemIndex];
-
-  const hasNoDevice = device === undefined;
-
   const styles = {
     ...style,
     left: Number(style.left) + GUTTER_SIZE,
@@ -29,6 +23,12 @@ function DeviceItemView(props: IListItemProps) {
     width: Number(style.width) - GUTTER_SIZE,
     height: Number(style.height) - GUTTER_SIZE,
   };
+
+  const itemIndex = rowIndex * data.COLUMN_COUNT + columnIndex;
+
+  const device = data.items[itemIndex];
+
+  const hasNoDevice = device === undefined;
 
   if (data.isLoading || (data.isLoadingMore && hasNoDevice)) {
     return (
@@ -51,7 +51,7 @@ function DeviceItemView(props: IListItemProps) {
         {device.name}
       </DeviceTitleLink>
 
-      <Price>$ {device.price}</Price>
+      <Price>{device.price} $</Price>
 
       <CartBtnWrapper>
         <AddToCartButton />

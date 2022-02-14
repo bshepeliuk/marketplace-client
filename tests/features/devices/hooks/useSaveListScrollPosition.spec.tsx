@@ -1,7 +1,7 @@
 import { renderHook } from '@testing-library/react-hooks';
 import { useLocation } from 'react-router-dom';
 // eslint-disable-next-line max-len
-import useSaveDeviceListPosition from '@features/devices/hooks/useSaveDeviceListPosition';
+import useSaveListScrollPosition from '@features/devices/hooks/useSaveListScrollPosition';
 import { Wrapper } from '../../../wrapper';
 
 jest.mock('react-router-dom', () => {
@@ -13,13 +13,13 @@ jest.mock('react-router-dom', () => {
   };
 });
 
-describe('useSaveDeviceListPosition hook', () => {
+describe('useSaveListScrollPosition hook', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
   test('state should have saved rowIndex', async () => {
-    const { result } = renderHook(() => useSaveDeviceListPosition(), {
+    const { result } = renderHook(() => useSaveListScrollPosition(), {
       wrapper: Wrapper,
     });
 
@@ -32,7 +32,7 @@ describe('useSaveDeviceListPosition hook', () => {
       state: { rowIndex: 20 },
     });
 
-    const { result } = renderHook(() => useSaveDeviceListPosition(), {
+    const { result } = renderHook(() => useSaveListScrollPosition(), {
       wrapper: Wrapper,
     });
 

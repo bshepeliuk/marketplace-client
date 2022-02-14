@@ -2,8 +2,8 @@ import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import NotFoundView from '@features/notFound/NotFoundView';
 import HomeView from '@features/home/HomeView';
-import AuthView from '@features/auth/AuthView';
-import DeviceDetailsView from '@features/devices/components/DeviceDetailsView';
+import AuthView from '@features/auth/pages/AuthView';
+import DeviceDetailsView from '@src/features/devices/pages/DeviceDetailsView';
 
 export const routes = {
   home: '/',

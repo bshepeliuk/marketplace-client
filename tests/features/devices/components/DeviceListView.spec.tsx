@@ -1,4 +1,4 @@
-import DeviceListView from '@src/features/devices/components/DeviceListView';
+import DeviceListView from '@src/features/devices/pages/DeviceListView';
 import { AutoSizerProps } from 'react-virtualized-auto-sizer';
 import generateDevicesByCount from '../../../helpers/generateDevicesByCount';
 import setupAndRenderComponent from '../../../helpers/setupAndRenderComponent';

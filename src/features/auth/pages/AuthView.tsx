@@ -3,9 +3,9 @@ import { useTypedSelector } from '@common/hooks/main/useTypedSelector';
 import { routes } from '@src/app/Router';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import styled from 'styled-components';
-import LoginView from './components/LoginView';
-import RegisterView from './components/RegisterView';
-import AuthHeaderView from './components/AuthHeaderView';
+import LoginView from '../components/LoginView';
+import RegisterView from '../components/RegisterView';
+import AuthHeaderView from '../components/AuthHeaderView';
 
 function AuthView() {
   const { isLoggedIn } = useTypedSelector((state) => state.auth);

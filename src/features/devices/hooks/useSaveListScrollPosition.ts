@@ -5,12 +5,14 @@ interface ILocationStateProps {
   rowIndex: number;
 }
 
-const useSaveDeviceListPosition = () => {
+const useSaveListScrollPosition = () => {
   const [rowIndexState, setRowIndexState] = useState<number>(0);
   const location = useLocation();
   const navigate = useNavigate();
 
-  const resetPosition = () => navigate(location.pathname, { replace: true });
+  const resetScrollPosition = () => {
+    navigate(location.pathname, { replace: true });
+  };
 
   const locationState = location.state as ILocationStateProps;
 
@@ -22,8 +24,8 @@ const useSaveDeviceListPosition = () => {
 
   return {
     rowIndexState,
-    resetPosition,
+    resetScrollPosition,
   };
 };
 
-export default useSaveDeviceListPosition;
+export default useSaveListScrollPosition;

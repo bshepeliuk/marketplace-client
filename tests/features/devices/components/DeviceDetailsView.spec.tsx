@@ -1,9 +1,9 @@
 import { fireEvent } from '@testing-library/react';
-import DeviceDetailsView from '@features/devices/components/DeviceDetailsView';
 import Router from 'react-router-dom';
 import { setupServer } from 'msw/node';
-import { BASE_API_URL } from '@src/common/constants';
 import { rest } from 'msw';
+import DeviceDetailsView from '@features/devices/pages/DeviceDetailsView';
+import { BASE_API_URL } from '@src/common/constants';
 import setupAndRenderComponent from '../../../helpers/setupAndRenderComponent';
 
 const server = setupServer(

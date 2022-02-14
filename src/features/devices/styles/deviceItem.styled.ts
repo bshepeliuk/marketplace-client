@@ -1,7 +1,11 @@
 import { Link } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import { CartBtnState, CART_BTN_STATE } from '../hooks/useHandleCartButton';
-import { hideCartBtnTitle, showCartBtnTitle } from './animation.styled';
+import {
+  hideCartBtnTitle,
+  showCartBtnTitle,
+  showDeviceAnimation,
+} from './animation.styled';
 
 export const ListItem = styled.li`
   list-style-type: none;
@@ -9,6 +13,7 @@ export const ListItem = styled.li`
   padding: 15px;
   border-radius: 4px;
   box-shadow: 0px 5px 10px 2px rgba(115, 124, 131, 0.08) inset;
+  animation: 0.5s ${showDeviceAnimation} ease-in-out forwards;
 
   display: grid;
   grid-template-areas:
@@ -85,6 +90,7 @@ export const CartButton = styled.button<{ currentButtonState: CartBtnState }>`
     opacity: 0;
     width: 0;
     white-space: nowrap;
+    overflow: hidden;
 
     animation: ${({ currentButtonState }) => {
       if (currentButtonState === CART_BTN_STATE.None) return '';

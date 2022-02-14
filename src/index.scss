@@ -16,7 +16,7 @@ h1 {
 }
 /* width */
 .device-list-grid::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 /* Track */
 .device-list-grid::-webkit-scrollbar-track {
@@ -24,7 +24,7 @@ h1 {
 }
 /* Handle */
 .device-list-grid::-webkit-scrollbar-thumb {
-  background-color: rgba(52, 73, 94, 0.3);
+  background-color: rgba(52, 73, 94, 0.1);
 }
 /* Handle on hover */
 .device-list-grid::-webkit-scrollbar-thumb:hover {

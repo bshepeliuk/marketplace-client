@@ -1,6 +1,6 @@
 import React from 'react';
 import HeaderView from '@common/components/Header/HeaderView';
-import DeviceListView from '../devices/components/DeviceListView';
+import DeviceListView from '../devices/pages/DeviceListView';
 import { DeviceListContainer } from './home.styled';
 
 function HomeView() {

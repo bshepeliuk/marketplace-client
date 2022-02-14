@@ -9,8 +9,8 @@ import {
   InnerWrap,
   PurchaseButton,
 } from '../styles/deviceDetails.styled';
-import LoadingDeviceView from './LoadingDeviceView';
-import NotFoundDeviceView from './NotFoundDeviceView';
+import LoadingDeviceDetailsView from '../components/LoadingDeviceDetailsView';
+import NotFoundDeviceView from '../components/NotFoundDeviceView';
 import useGoHome from '../hooks/useGoHome';
 
 function DeviceDetailsView() {
@@ -20,7 +20,7 @@ function DeviceDetailsView() {
   // eslint-disable-next-line max-len
   const { device, isLoading, hasNoDeviceFound, hasDeviceImages } = useGetDeviceById(deviceId);
 
-  if (isLoading) return <LoadingDeviceView />;
+  if (isLoading) return <LoadingDeviceDetailsView />;
   if (hasNoDeviceFound) return <NotFoundDeviceView />;
 
   return (
