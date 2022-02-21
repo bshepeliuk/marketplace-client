@@ -26,15 +26,28 @@ export const User = {
 };
 
 export const Devices = {
-  get({ offset, limit }: IGetDevicesParams) {
+  get({ offset, limit, categoryId }: IGetDevicesParams) {
     return api.get(`/devices`, {
       params: {
         offset,
         limit,
+        categoryId,
       },
     });
   },
   getOneById(deviceId: number) {
     return api.get(`/devices/${deviceId}`);
+  },
+};
+
+export const Categories = {
+  get() {
+    return api.get('/types');
+  },
+};
+
+export const Brands = {
+  get() {
+    return api.get('/brands');
   },
 };

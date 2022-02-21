@@ -5,7 +5,7 @@ import { IThunkAPI } from '@src/common/types/baseTypes';
 import { DeviceSchema, DevicesSchema } from '@common/normalizeSchemas';
 import { IGetDevicesParams } from '@src/common/types/apiTypes';
 import getErrorMessage from '@src/common/utils/getErrorMessage';
-import { IDeviceData, IDevicesData } from './types';
+import { IDeviceData, IDevicesData, IGetMoreDevicesParams } from './types';
 import { DEVICES_OFFSET } from './constants';
 
 export const initialState = {
@@ -31,9 +31,9 @@ export const getDevices = createAsyncThunk<
   IThunkAPI
 >(
   'devices/get-all',
-  async ({ offset = 0, limit = 20 }, { rejectWithValue }) => {
+  async ({ offset = 0, limit = 20, categoryId }, { rejectWithValue }) => {
     try {
-      const { data } = await Api.Devices.get({ offset, limit });
+      const { data } = await Api.Devices.get({ offset, limit, categoryId });
 
       const { result, entities } = normalize(data.devices, DevicesSchema);
 
@@ -54,15 +54,16 @@ export const getDevices = createAsyncThunk<
 
 export const getMoreDevices = createAsyncThunk<
   IDevicesData,
-  undefined,
+  IGetMoreDevicesParams,
   IThunkAPI
 >(
   'devices/get-more-devices',
-  async (_, { rejectWithValue, dispatch, getState }) => {
+  async ({ categoryId }, { rejectWithValue, dispatch, getState }) => {
     const { items } = getState().devices;
 
     try {
       const { data } = await Api.Devices.get({
+        categoryId,
         offset: items.length,
         limit: 20,
       });

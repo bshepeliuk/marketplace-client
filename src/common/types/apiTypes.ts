@@ -18,4 +18,5 @@ export interface IRegister extends ILogin {
 export interface IGetDevicesParams {
   limit: number;
   offset: number;
+  categoryId?: number;
 }

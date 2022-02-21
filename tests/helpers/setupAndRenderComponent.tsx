@@ -7,18 +7,24 @@ import thunk from 'redux-thunk';
 // TODO: types for state
 interface Props {
   state: any;
-  component: () => ReactElement;
+  // eslint-disable-next-line no-unused-vars
+  component: (props: any) => ReactElement;
+  props?: any;
 }
 
 const mockStore = configureMockStore([thunk]);
 
-const setupAndRenderComponent = ({ state, component: Component }: Props) => {
+const setupAndRenderComponent = ({
+  state,
+  props,
+  component: Component,
+}: Props) => {
   const storeMock = mockStore(state);
 
   return render(
     <Provider store={storeMock}>
       <MemoryRouter>
-        <Component />
+        <Component {...props} />
       </MemoryRouter>
     </Provider>,
   );

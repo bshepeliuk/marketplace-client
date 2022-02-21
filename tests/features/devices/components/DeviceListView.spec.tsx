@@ -1,4 +1,4 @@
-import DeviceListView from '@src/features/devices/pages/DeviceListView';
+import DeviceListView from '@src/features/devices/components/DeviceListView';
 import { AutoSizerProps } from 'react-virtualized-auto-sizer';
 import generateDevicesByCount from '../../../helpers/generateDevicesByCount';
 import setupAndRenderComponent from '../../../helpers/setupAndRenderComponent';
@@ -50,6 +50,7 @@ describe('DeviceListView', () => {
   test('should render device list.', async () => {
     const { findAllByAltText } = setupAndRenderComponent({
       component: DeviceListView,
+      props: { containerRef: { current: {} } },
       state: rootState,
     });
 
@@ -61,6 +62,7 @@ describe('DeviceListView', () => {
   test('should render loader.', async () => {
     const { getAllByText } = setupAndRenderComponent({
       component: DeviceListView,
+      props: { containerRef: { current: {} } },
       state: {
         ...rootState,
         devices: {
@@ -72,6 +74,6 @@ describe('DeviceListView', () => {
 
     const loaderItems = getAllByText(/Loading.../i);
 
-    expect(loaderItems).toHaveLength(devices.length);
+    expect(loaderItems).toHaveLength(devices.length - 1);
   });
 });

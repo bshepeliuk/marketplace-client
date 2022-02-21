@@ -5,6 +5,9 @@ import appReducer from '@features/app/appSlice';
 import authReducer, { logout } from '@features/auth/authSlice';
 import devicesReducer from '@src/features/devices/devicesSlice';
 import entitiesReducer from '@src/features/entities/entitiesReducer';
+import filtersReducer from '@src/features/filters/filtersSlice';
+import categoriesReducer from '@src/features/categories/categoriesSlice';
+import brandsReducer from '@src/features/brands/brandsSlice';
 
 const authPersistConfig = {
   storage,
@@ -16,6 +19,9 @@ const baseReducer = combineReducers({
   app: appReducer,
   devices: devicesReducer,
   entities: entitiesReducer,
+  filters: filtersReducer,
+  categories: categoriesReducer,
+  brands: brandsReducer,
   auth: persistReducer(authPersistConfig, authReducer),
 });
 

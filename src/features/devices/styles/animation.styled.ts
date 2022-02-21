@@ -31,7 +31,7 @@ export const hideCartBtnTitle = keyframes`
 export const showDeviceAnimation = keyframes`
   0% {
     opacity: 0;
-    transform: scale(0.8);
+    transform: scale(0.6);
   }
 
   100% {

@@ -34,6 +34,10 @@ interface IListData {
   COLUMN_COUNT: number;
 }
 
+export interface IGetMoreDevicesParams {
+  categoryId: number | undefined;
+}
+
 export interface IListItemProps {
   rowIndex: number;
   columnIndex: number;

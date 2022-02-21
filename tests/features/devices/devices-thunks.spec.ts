@@ -203,7 +203,7 @@ describe('DEVICES THUNKS', () => {
         }),
       );
 
-      await store.dispatch(getMoreDevices());
+      await store.dispatch(getMoreDevices({ categoryId: undefined }));
 
       const actualActions = store.getActions();
       const expectedActions = [
@@ -245,7 +245,7 @@ describe('DEVICES THUNKS', () => {
         }),
       );
 
-      await store.dispatch(getMoreDevices());
+      await store.dispatch(getMoreDevices({ categoryId: undefined }));
 
       const actualActions = store.getActions();
       const expectedActions = [
@@ -278,7 +278,7 @@ describe('DEVICES THUNKS', () => {
         }),
       );
 
-      await store.dispatch(getMoreDevices());
+      await store.dispatch(getMoreDevices({ categoryId: undefined }));
 
       const actualActions = store.getActions();
       const expectedActions = [

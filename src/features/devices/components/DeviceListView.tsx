@@ -1,9 +1,9 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, RefObject } from 'react';
 import { FixedSizeGrid as Grid } from 'react-window';
 import InfiniteLoader from 'react-window-infinite-loader';
 import AutoSizer from 'react-virtualized-auto-sizer';
-import useWindowWidthResize from '@common/hooks/main/useWindowWidthResize';
-import DeviceItemView from '../components/DeviceItemView';
+import useContainerDimensions from '@common/hooks/main/useContainerDimensions';
+import DeviceItemView from './DeviceItemView';
 import useGetDevices from '../hooks/useGetDevices';
 import {
   COLUMN_WIDTH,
@@ -11,21 +11,25 @@ import {
   LOADER_ITEMS_COUNT,
   ROW_HEIGHT,
 } from '../constants';
-import { GoToTopButton, Wrap, GoToTopIcon } from '../styles/deviceList.styled';
+import { GoToTopButton, GoToTopIcon } from '../styles/deviceList.styled';
 import useGetMoreDevices from '../hooks/useGetMoreDevices';
 import { IOnItemsRenderedParams } from '../types';
 import useSaveListScrollPosition from '../hooks/useSaveListScrollPosition';
 import getCountOfColumns from '../helpers/getCountOfColumns';
 import calcAndGetCountOfRows from '../helpers/calcAndGetCountOfRows';
 
-function DeviceListView() {
+interface Props {
+  containerRef: RefObject<HTMLElement>;
+}
+
+function DeviceListView({ containerRef }: Props) {
   const gridRef = useRef<Grid | null>();
   const [isVisible, setIsVisible] = useState<boolean>(false);
 
   const { items, isLoading } = useGetDevices();
   const { fetchMore, isLoadingMore } = useGetMoreDevices();
   const { rowIndexState, resetScrollPosition } = useSaveListScrollPosition();
-  const { size } = useWindowWidthResize();
+  const { size } = useContainerDimensions(containerRef);
 
   const COLUMN_COUNT = getCountOfColumns(size.width);
 
@@ -62,7 +66,7 @@ function DeviceListView() {
   };
 
   return (
-    <Wrap>
+    <>
       <AutoSizer>
         {({ height, width }) => (
           <InfiniteLoader
@@ -122,7 +126,7 @@ function DeviceListView() {
           <GoToTopIcon />
         </GoToTopButton>
       )}
-    </Wrap>
+    </>
   );
 }
 

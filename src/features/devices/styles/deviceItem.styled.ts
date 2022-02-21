@@ -100,7 +100,7 @@ export const CartButton = styled.button<{ currentButtonState: CartBtnState }>`
       }
 
       if (currentButtonState === CART_BTN_STATE.Hide) {
-        return css`0.5s ${hideCartBtnTitle} ease-out forwards`;
+        return css`0.1s ${hideCartBtnTitle} ease-out forwards`;
       }
     }};
   }
