@@ -1,21 +1,15 @@
 import { useAppDispatch } from '@src/common/hooks/main/useAppDispatch';
 import { useTypedSelector } from '@src/common/hooks/main/useTypedSelector';
-import { useLocation } from 'react-router-dom';
+import useGetCategoryId from '@features/categories/hooks/useGetCategoryId';
 import { getMoreDevices } from '../devicesSlice';
 
-interface ILocationState {
-  categoryId: number;
-}
-
 const useGetMoreDevices = () => {
-  const location = useLocation();
+  const categoryId = useGetCategoryId();
   const dispatch = useAppDispatch();
   const { hasMore, isLoadingMore } = useTypedSelector((state) => state.devices);
 
-  const locationState = location.state as ILocationState;
-
   const fetchMore = () => {
-    dispatch(getMoreDevices({ categoryId: locationState?.categoryId }));
+    dispatch(getMoreDevices({ categoryId }));
   };
 
   return {

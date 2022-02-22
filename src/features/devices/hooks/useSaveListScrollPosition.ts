@@ -10,17 +10,17 @@ const useSaveListScrollPosition = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
+  const locationState = location.state as ILocationStateProps;
+
   const resetScrollPosition = () => {
     navigate(location.pathname, { replace: true });
   };
-
-  const locationState = location.state as ILocationStateProps;
 
   useEffect(() => {
     if (locationState?.rowIndex) {
       setRowIndexState(locationState.rowIndex);
     }
-  }, []);
+  }, [locationState]);
 
   return {
     rowIndexState,

@@ -130,6 +130,7 @@ const devicesSlice = createSlice({
   extraReducers: (builder) => {
     // get all devices
     builder.addCase(getDevices.pending, (state: State) => {
+      state.hasMore = true;
       state.isLoading = true;
       state.isError = false;
     });

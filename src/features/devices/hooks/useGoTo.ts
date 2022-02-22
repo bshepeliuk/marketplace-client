@@ -1,25 +1,26 @@
 import { useLocation, useNavigate } from 'react-router-dom';
-import { routes } from '@src/app/Router';
 
 interface ILocationStateProps {
   rowIndex: number;
+  from: string;
 }
 
-const useGoHome = () => {
+const useGoTo = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
   const locationState = location.state as ILocationStateProps;
 
-  const goHome = () => {
-    navigate(routes.home, {
-      state: { rowIndex: locationState.rowIndex },
-    });
+  const goBack = () => {
+    navigate(
+      { pathname: locationState.from || '/' },
+      { state: { rowIndex: locationState.rowIndex } },
+    );
   };
 
   return {
-    goHome,
+    goBack,
   };
 };
 
-export default useGoHome;
+export default useGoTo;

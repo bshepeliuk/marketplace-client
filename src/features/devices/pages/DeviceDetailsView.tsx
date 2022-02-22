@@ -11,11 +11,11 @@ import {
 } from '../styles/deviceDetails.styled';
 import LoadingDeviceDetailsView from '../components/LoadingDeviceDetailsView';
 import NotFoundDeviceView from '../components/NotFoundDeviceView';
-import useGoHome from '../hooks/useGoHome';
+import useGoTo from '../hooks/useGoTo';
 
 function DeviceDetailsView() {
   const { deviceId } = useParams();
-  const { goHome } = useGoHome();
+  const { goBack } = useGoTo();
   // prettier-ignore
   // eslint-disable-next-line max-len
   const { device, isLoading, hasNoDeviceFound, hasDeviceImages } = useGetDeviceById(deviceId);
@@ -42,7 +42,7 @@ function DeviceDetailsView() {
             <p>price: {device.price}</p>
           </div>
 
-          <button type="button" onClick={goHome}>
+          <button type="button" onClick={goBack}>
             go back
           </button>
         </InnerWrap>

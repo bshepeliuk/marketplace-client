@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 // eslint-disable-next-line max-len
 import useGetDevicesByCategory from '@features/devices/hooks/useGetDevicesByCategory';
 import { useAppDispatch } from '@src/common/hooks/main/useAppDispatch';
@@ -7,18 +7,23 @@ import { getDevices } from '@src/features/devices/devicesSlice';
 import useGetCategories from '../hooks/useGetCategories';
 import { List, Wrap } from '../styles/categoriesList.styled';
 import { ICategory } from '../types';
+import useGetCategoryId from '../hooks/useGetCategoryId';
 
 const useGetDevicesByRequest = () => {
+  const categoryId = useGetCategoryId();
   const navigate = useNavigate();
-  const location = useLocation();
+
   const dispatch = useAppDispatch();
 
   const getAll = () => {
-    if (location.state === null) return;
+    if (categoryId === undefined) return;
 
     dispatch(getDevices({ offset: 0, limit: 20 }));
 
-    navigate(location.pathname, { replace: true, state: null });
+    navigate({
+      pathname: '/',
+      search: undefined,
+    });
   };
 
   return {
@@ -26,45 +31,54 @@ const useGetDevicesByRequest = () => {
   };
 };
 
-function CategoriesListView() {
-  const { items } = useGetCategories();
+function GetAllDevicesButton() {
   const { getAll } = useGetDevicesByRequest();
+
+  return (
+    <button type="button" onClick={getAll}>
+      All
+    </button>
+  );
+}
+
+function CategoriesListView() {
+  const categoryId = useGetCategoryId();
+  const { items } = useGetCategories();
 
   return (
     <Wrap>
       <List>
         <li>
-          <button type="button" onClick={getAll}>
-            All
-          </button>
+          <GetAllDevicesButton />
         </li>
         {items.map((item) => (
-          <CategoryItemView key={item.id} category={item} />
+          <CategoryItemView
+            key={item.id}
+            category={item}
+            currentCategoryId={categoryId}
+          />
         ))}
       </List>
     </Wrap>
   );
 }
 
-interface ILocationState {
-  categoryId: number;
-}
-
-function CategoryItemView({ category }: { category: ICategory }) {
-  const location = useLocation();
+function CategoryItemView({
+  category,
+  currentCategoryId,
+}: {
+  category: ICategory;
+  currentCategoryId: number | undefined;
+}) {
   const navigate = useNavigate();
   const { getByCategory } = useGetDevicesByCategory();
 
-  const locationState = location.state as ILocationState;
-
   const handleClick = () => {
-    if (locationState?.categoryId === category.id) return;
+    if (currentCategoryId === category.id) return;
 
     getByCategory(category.id);
 
-    navigate('/', {
-      state: { categoryId: category.id },
-    });
+    navigate({ pathname: '/', search: `?categoryId=${category.id}` });
   };
 
   return (
