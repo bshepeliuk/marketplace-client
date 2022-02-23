@@ -1,24 +1,28 @@
 import { useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
 import { useAppDispatch } from '@src/common/hooks/main/useAppDispatch';
+import useGetCategoryId from '@features/categories/hooks/useGetCategoryId';
 import { useTypedSelector } from '@src/common/hooks/main/useTypedSelector';
 import { getDevices } from '../devicesSlice';
 import { devicesSelector } from '../selectors/deviceSelector';
 
 const useGetDevices = () => {
-  // eslint-disable-next-line no-unused-vars
-  const [_, setSearchParams] = useSearchParams();
   const dispatch = useAppDispatch();
-  const { items, isLoading } = useTypedSelector(devicesSelector);
+  const categoryId = useGetCategoryId();
+  const { items, isLoading } = useTypedSelector((state) => {
+    return devicesSelector(state, categoryId);
+  });
 
-  const getAll = () => dispatch(getDevices({ offset: 0, limit: 20 }));
+  const getAll = () => {
+    dispatch(getDevices({ categoryId, offset: 0, limit: 20 }));
+  };
+
+  const hasNoDevices = items.length === 0;
 
   useEffect(() => {
-    if (items.length === 0) {
-      setSearchParams('');
+    if (hasNoDevices) {
       getAll();
     }
-  }, []);
+  }, [categoryId]);
 
   return {
     items,

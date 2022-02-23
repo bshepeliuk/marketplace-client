@@ -13,7 +13,7 @@ const useSaveListScrollPosition = () => {
   const locationState = location.state as ILocationStateProps;
 
   const resetScrollPosition = () => {
-    navigate(location.pathname, { replace: true });
+    navigate(location, { replace: true });
   };
 
   useEffect(() => {

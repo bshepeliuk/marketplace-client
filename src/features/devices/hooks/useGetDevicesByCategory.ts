@@ -4,7 +4,7 @@ import { getDevices } from '../devicesSlice';
 const useGetDevicesByCategory = () => {
   const dispatch = useAppDispatch();
 
-  const getByCategory = (categoryId: number) => {
+  const getByCategory = (categoryId: number | undefined) => {
     dispatch(getDevices({ categoryId, offset: 0, limit: 20 }));
   };
 

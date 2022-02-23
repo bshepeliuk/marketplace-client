@@ -11,8 +11,10 @@ const useGetCategories = () => {
     dispatch(getCategories());
   };
 
+  const hasNoCategories = items.length === 0;
+
   useEffect(() => {
-    if (items.length === 0) {
+    if (hasNoCategories) {
       fetchCategories();
     }
   }, []);

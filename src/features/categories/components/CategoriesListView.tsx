@@ -5,7 +5,12 @@ import useGetDevicesByCategory from '@features/devices/hooks/useGetDevicesByCate
 import { useAppDispatch } from '@src/common/hooks/main/useAppDispatch';
 import { getDevices } from '@src/features/devices/devicesSlice';
 import useGetCategories from '../hooks/useGetCategories';
-import { List, Wrap } from '../styles/categoriesList.styled';
+import {
+  CategoryButton,
+  List,
+  Wrap,
+  ListItem,
+} from '../styles/categoriesList.styled';
 import { ICategory } from '../types';
 import useGetCategoryId from '../hooks/useGetCategoryId';
 
@@ -35,9 +40,9 @@ function GetAllDevicesButton() {
   const { getAll } = useGetDevicesByRequest();
 
   return (
-    <button type="button" onClick={getAll}>
+    <CategoryButton type="button" onClick={getAll}>
       All
-    </button>
+    </CategoryButton>
   );
 }
 
@@ -48,9 +53,9 @@ function CategoriesListView() {
   return (
     <Wrap>
       <List>
-        <li>
+        <ListItem>
           <GetAllDevicesButton />
-        </li>
+        </ListItem>
         {items.map((item) => (
           <CategoryItemView
             key={item.id}
@@ -82,11 +87,11 @@ function CategoryItemView({
   };
 
   return (
-    <li key={category.id}>
-      <button type="button" onClick={handleClick}>
+    <ListItem key={category.id}>
+      <CategoryButton type="button" onClick={handleClick}>
         {category.name}
-      </button>
-    </li>
+      </CategoryButton>
+    </ListItem>
   );
 }
 
