@@ -1,38 +1,53 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+import { normalize } from 'normalizr';
 import * as Api from '@src/common/api/Api';
+import { CategoriesSchema } from '@src/common/normalizeSchemas';
 import { IThunkAPI } from '@src/common/types/baseTypes';
 import getErrorMessage from '@src/common/utils/getErrorMessage';
-import { ICategoriesData, ICategory } from './types';
+import { ICategoriesData } from './types';
 
 const initialState = {
   isError: false,
   isLoading: false,
-  items: [] as ICategory[],
+  items: [] as number[],
 };
 
 type State = typeof initialState;
 
-type GetCategoriesPayload = PayloadAction<ICategoriesData>;
+type GetCategoriesPayload = PayloadAction<{ result: number[] }>;
 
 export const getCategories = createAsyncThunk<
   ICategoriesData,
   undefined,
   IThunkAPI
->('categories/get-all', async (_, { rejectWithValue }) => {
-  try {
-    const { data } = await Api.Categories.get();
+>(
+  'categories/get-all',
+  async (_, { rejectWithValue }) => {
+    try {
+      const { data } = await Api.Categories.get();
 
-    return {
-      categories: data.types,
-    };
-  } catch (error) {
-    const message = getErrorMessage(error);
+      const { result, entities } = normalize(data.types, CategoriesSchema);
 
-    return rejectWithValue({
-      message,
-    });
-  }
-});
+      return {
+        result,
+        entities,
+      };
+    } catch (error) {
+      const message = getErrorMessage(error);
+
+      return rejectWithValue({
+        message,
+      });
+    }
+  },
+  {
+    condition: (_, { getState }) => {
+      const { isLoading } = getState().categories;
+
+      if (isLoading) return false;
+    },
+  },
+);
 
 const categoriesSlice = createSlice({
   initialState,
@@ -47,7 +62,7 @@ const categoriesSlice = createSlice({
       getCategories.fulfilled,
       (state: State, { payload }: GetCategoriesPayload) => {
         state.isLoading = false;
-        state.items = payload.categories;
+        state.items = payload.result;
       },
     );
     builder.addCase(getCategories.rejected, (state: State) => {

@@ -40,6 +40,12 @@ export const Devices = {
   },
 };
 
+export const Filters = {
+  getMinMaxPriceByTypeId(typeId: number) {
+    return api.get(`/min-max-price/${typeId}`);
+  },
+};
+
 export const Categories = {
   get() {
     return api.get('/types');

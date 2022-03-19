@@ -1,6 +1,8 @@
 import React, { useRef } from 'react';
 import styled from 'styled-components';
 import HeaderView from '@src/common/components/Header/HeaderView';
+import useGetCategoryId from '@features/categories/hooks/useGetCategoryId';
+import { Filters } from '@src/common/api/Api';
 import DeviceListView from '../components/DeviceListView';
 
 export const DeviceListContainer = styled.div`
@@ -52,7 +54,7 @@ function DevicesView() {
 
       <Wrapper>
         <FilterWrap>
-          <div>Price filter</div>
+          <PriceFilterView />
         </FilterWrap>
 
         <DeviceListContainer ref={containerRef}>
@@ -60,6 +62,39 @@ function DevicesView() {
         </DeviceListContainer>
       </Wrapper>
     </>
+  );
+}
+
+const useGetMinMaxPriceByTypeId = (typeId: number | undefined) => {
+  const [prices, setPrices] = React.useState<null | {
+    min: number;
+    max: number;
+  }>(null);
+
+  const getPrices = async () => {
+    if (typeId === undefined) return;
+
+    const result = await Filters.getMinMaxPriceByTypeId(typeId);
+    setPrices(result.data.prices);
+  };
+
+  React.useEffect(() => {
+    getPrices();
+  }, [typeId]);
+
+  return prices;
+};
+
+function PriceFilterView() {
+  const typeId = useGetCategoryId();
+  const prices = useGetMinMaxPriceByTypeId(typeId);
+
+  return (
+    <div>
+      Price filter
+      <p>min: {prices?.min}</p>
+      <p>max: {prices?.max}</p>
+    </div>
   );
 }
 

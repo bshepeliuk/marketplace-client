@@ -48,11 +48,13 @@ function GetAllDevicesButton() {
 
 function CategoriesListView() {
   const categoryId = useGetCategoryId();
-  const { items } = useGetCategories();
+  const { items, isLoading } = useGetCategories();
 
   return (
     <Wrap>
       <List>
+        {isLoading && <div>Loading...</div>}
+
         <ListItem>
           <GetAllDevicesButton />
         </ListItem>

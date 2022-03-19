@@ -2,9 +2,10 @@ import { useAppDispatch } from '@src/common/hooks/main/useAppDispatch';
 import { useTypedSelector } from '@src/common/hooks/main/useTypedSelector';
 import { useEffect } from 'react';
 import { getCategories } from '../categoriesSlice';
+import { categoriesSelector } from '../selectors/categoriesSelector';
 
 const useGetCategories = () => {
-  const { items, isLoading } = useTypedSelector((state) => state.categories);
+  const { items, isLoading } = useTypedSelector(categoriesSelector);
   const dispatch = useAppDispatch();
 
   const fetchCategories = () => {

@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { BsFillGrid3X3GapFill } from 'react-icons/bs';
 import { routes } from '@src/app/Router';
-import { useTypedSelector } from '@common/hooks/main/useTypedSelector';
 import { ICategory } from '../types';
+import useGetCategories from '../hooks/useGetCategories';
 
 const List = styled.ul`
   list-style-type: none;
@@ -21,7 +22,7 @@ interface IProps {
 
 function CategoriesDropDown() {
   const [isShow, setIsShow] = useState<boolean>(false);
-  const items = useTypedSelector((state) => state.categories.items);
+  const { items } = useGetCategories();
 
   const toggleShow = () => setIsShow((prevIsShow) => !prevIsShow);
   const closeDropDown = () => setIsShow(false);
@@ -29,13 +30,14 @@ function CategoriesDropDown() {
   return (
     <div>
       <button type="button" onClick={toggleShow}>
+        <BsFillGrid3X3GapFill />
         Categories
       </button>
 
       {isShow && (
         <List>
           {items.map((item) => (
-            <CategoryItem
+            <CategoryDropDownItem
               key={item.id}
               item={item}
               closeDropDown={closeDropDown}
@@ -47,7 +49,7 @@ function CategoriesDropDown() {
   );
 }
 
-function CategoryItem({ item, closeDropDown }: IProps) {
+function CategoryDropDownItem({ item, closeDropDown }: IProps) {
   const navigate = useNavigate();
 
   const handleItemClick = () => {
