@@ -46,7 +46,13 @@ function DeviceItemView(props: IListItemProps) {
 
       <DeviceTitleLink
         to={generatePath(routes.device, { deviceId: `${device.id}` })}
-        state={{ rowIndex, from: location.pathname }}
+        state={{
+          rowIndex,
+          from: {
+            pathname: location.pathname,
+            search: location.search,
+          },
+        }}
       >
         {device.name}
       </DeviceTitleLink>

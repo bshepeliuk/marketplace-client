@@ -70,13 +70,12 @@ function CategoriesListView() {
   );
 }
 
-function CategoryItemView({
-  category,
-  currentCategoryId,
-}: {
+interface IProps {
   category: ICategory;
   currentCategoryId: number | undefined;
-}) {
+}
+
+function CategoryItemView({ category, currentCategoryId }: IProps) {
   const navigate = useNavigate();
   const { getByCategory } = useGetDevicesByCategory();
 

@@ -19,7 +19,9 @@ function HeaderView() {
 
   return (
     <Header>
-      <Link to={routes.home}>Marketplace</Link>
+      <Link to={routes.home} state={{ shouldRefetchDevices: true }}>
+        Marketplace
+      </Link>
       <CategoriesDropDown />
       <h1>{user?.fullName}</h1>
       {isLoggedIn && (

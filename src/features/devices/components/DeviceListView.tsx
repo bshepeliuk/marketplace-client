@@ -106,7 +106,12 @@ function DeviceListView({ containerRef }: Props) {
                   columnWidth={COLUMN_WIDTH + GUTTER_SIZE}
                   rowHeight={ROW_HEIGHT + GUTTER_SIZE}
                   rowCount={ROW_COUNT}
-                  itemData={{ items, isLoading, isLoadingMore, COLUMN_COUNT }}
+                  itemData={{
+                    items,
+                    isLoading,
+                    isLoadingMore,
+                    COLUMN_COUNT,
+                  }}
                   height={height}
                   width={width}
                   initialScrollTop={ROW_HEIGHT * rowIndexState}

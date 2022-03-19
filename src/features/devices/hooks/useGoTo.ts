@@ -1,8 +1,13 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 
+interface IFromProps {
+  pathname: string;
+  search: string;
+}
+
 interface ILocationStateProps {
   rowIndex: number;
-  from: string;
+  from: IFromProps;
 }
 
 const useGoTo = () => {
@@ -12,10 +17,16 @@ const useGoTo = () => {
   const locationState = location.state as ILocationStateProps;
 
   const goBack = () => {
-    navigate(
-      { pathname: locationState.from || '/' },
-      { state: { rowIndex: locationState.rowIndex } },
-    );
+    const to = {
+      pathname: locationState.from.pathname || '/',
+      search: locationState.from.search,
+    };
+
+    const options = {
+      state: { rowIndex: locationState.rowIndex },
+    };
+
+    navigate(to, options);
   };
 
   return {
