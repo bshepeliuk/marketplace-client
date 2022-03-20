@@ -1,7 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 // eslint-disable-next-line max-len
-import useGetDevicesByCategory from '@features/devices/hooks/useGetDevicesByCategory';
 import { useAppDispatch } from '@src/common/hooks/main/useAppDispatch';
 import { getDevices } from '@src/features/devices/devicesSlice';
 import useGetCategories from '../hooks/useGetCategories';
@@ -77,12 +76,9 @@ interface IProps {
 
 function CategoryItemView({ category, currentCategoryId }: IProps) {
   const navigate = useNavigate();
-  const { getByCategory } = useGetDevicesByCategory();
 
   const handleClick = () => {
     if (currentCategoryId === category.id) return;
-
-    getByCategory(category.id);
 
     navigate({ pathname: '/', search: `?categoryId=${category.id}` });
   };
