@@ -1,17 +1,11 @@
 import { ICategory } from '../categories/types';
-import { IDevice } from '../devices/types';
-
-export interface IDeviceEntity {
-  [deviceId: string]: IDevice;
-}
-
-export interface ICategoriesEntity {
-  [categoryId: string]: ICategory;
-}
+import { IDevice, IDeviceImage, IDeviceInfo } from '../devices/types';
 
 export interface IEntitiesState {
-  devices: IDeviceEntity;
-  categories: ICategoriesEntity;
+  devices: Record<string, IDevice>;
+  categories: Record<string, ICategory>;
+  images: Record<string, IDeviceImage>;
+  info: Record<string, IDeviceInfo>;
 }
 
 export type EntityKeys = keyof IEntitiesState;

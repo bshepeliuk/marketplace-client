@@ -4,7 +4,7 @@ import * as Api from '@src/common/api/Api';
 import { CategoriesSchema } from '@src/common/normalizeSchemas';
 import { IThunkAPI } from '@src/common/types/baseTypes';
 import getErrorMessage from '@src/common/utils/getErrorMessage';
-import { ICategoriesData } from './types';
+import { CategoryEntities, ICategoriesData, ICategory } from './types';
 
 const initialState = {
   isError: false,
@@ -26,7 +26,11 @@ export const getCategories = createAsyncThunk<
     try {
       const { data } = await Api.Categories.get();
 
-      const { result, entities } = normalize(data.types, CategoriesSchema);
+      const { result, entities } = normalize<
+        ICategory,
+        CategoryEntities,
+        number[]
+      >(data.types, CategoriesSchema);
 
       return {
         result,

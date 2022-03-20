@@ -5,7 +5,13 @@ import { IThunkAPI } from '@src/common/types/baseTypes';
 import { DeviceSchema, DevicesSchema } from '@common/normalizeSchemas';
 import { IGetDevicesParams } from '@src/common/types/apiTypes';
 import getErrorMessage from '@src/common/utils/getErrorMessage';
-import { IDeviceData, IDevicesData, IGetMoreDevicesParams } from './types';
+import {
+  DeviceEntities,
+  IDevice,
+  IDeviceData,
+  IDevicesData,
+  IGetMoreDevicesParams,
+} from './types';
 import { DEVICES_OFFSET } from './constants';
 
 export const initialState = {
@@ -35,12 +41,14 @@ export const getDevices = createAsyncThunk<
     try {
       const { data } = await Api.Devices.get({ offset, limit, categoryId });
 
-      const { result, entities } = normalize(data.devices, DevicesSchema);
+      const { result, entities } = normalize<IDevice, DeviceEntities, number[]>(
+        data.devices,
+        DevicesSchema,
+      );
 
       return {
         entities,
         result,
-        devices: data.devices,
       };
     } catch (error) {
       const message = getErrorMessage(error);
@@ -68,7 +76,10 @@ export const getMoreDevices = createAsyncThunk<
         limit: 20,
       });
 
-      const { result, entities } = normalize(data.devices, DevicesSchema);
+      const { result, entities } = normalize<IDevice, DeviceEntities, number[]>(
+        data.devices,
+        DevicesSchema,
+      );
 
       if (data.devices.length < DEVICES_OFFSET) {
         dispatch(deviceActions.hasNoMore({ hasMore: false }));
@@ -77,7 +88,6 @@ export const getMoreDevices = createAsyncThunk<
       return {
         entities,
         result,
-        devices: data.devices,
       };
     } catch (error) {
       const message = getErrorMessage(error);

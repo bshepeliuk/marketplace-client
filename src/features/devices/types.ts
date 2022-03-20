@@ -6,6 +6,15 @@ export interface IDeviceImage {
   deviceId: number;
 }
 
+export interface IDeviceInfo {
+  id: number;
+  title: string;
+  description: string;
+  typeId: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface IDevice {
   id: number;
   name: string;
@@ -13,18 +22,25 @@ export interface IDevice {
   brandId: number;
   typeId: number;
   quantity: number;
-  images: IDeviceImage[];
   createdAt: string;
   updatedAt: string;
+  images: IDeviceImage[] | number[];
+  info: IDeviceInfo[];
 }
 
 export interface IDeviceData {
   device: IDevice;
 }
 
+export type DeviceEntities = {
+  devices: Record<string, IDevice>;
+  images: Record<string, IDeviceImage>;
+  info: Record<string, IDeviceInfo>;
+};
+
 export interface IDevicesData {
-  devices: IDevice[];
   result: number[];
+  entities: DeviceEntities;
 }
 
 interface IListData {
