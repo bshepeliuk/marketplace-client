@@ -1,7 +1,9 @@
 import React from 'react';
+import { useParams } from 'react-router-dom';
 import HeaderView from '@common/components/Header/HeaderView';
 import { Container } from '@common/styles/base.styled';
-import { useParams } from 'react-router-dom';
+// eslint-disable-next-line max-len
+import useSlowDownLoaderIndicator from '@common/hooks/useSlowDownLoaderIndicator';
 import useGetDeviceById from '../hooks/useGetDeviceById';
 import {
   Image,
@@ -16,12 +18,24 @@ import useGoTo from '../hooks/useGoTo';
 function DeviceDetailsView() {
   const { deviceId } = useParams();
   const { goBack } = useGoTo();
-  // prettier-ignore
-  // eslint-disable-next-line max-len
-  const { device, isLoading, hasNoDeviceFound, hasDeviceImages } = useGetDeviceById(deviceId);
 
-  if (isLoading) return <LoadingDeviceDetailsView />;
-  if (hasNoDeviceFound) return <NotFoundDeviceView />;
+  const { device, isLoading, hasNoDevice, hasNoFound } = useGetDeviceById(
+    Number(deviceId),
+  );
+  const isLoadingSlow = useSlowDownLoaderIndicator({
+    isLoading,
+    duration: 1000,
+  });
+
+  const hasDeviceImages = device && device.images.length > 0;
+
+  if (isLoadingSlow) return <LoadingDeviceDetailsView />;
+
+  if (hasNoDevice && !isLoadingSlow && hasNoFound) {
+    return <NotFoundDeviceView />;
+  }
+
+  if (!device) return null;
 
   return (
     <>

@@ -37,7 +37,10 @@ export const getDevices = createAsyncThunk<
   IThunkAPI
 >(
   'devices/get-all',
-  async ({ offset = 0, limit = 20, categoryId }, { rejectWithValue }) => {
+  async (
+    { offset = 0, limit = 20, categoryId },
+    { rejectWithValue, dispatch },
+  ) => {
     try {
       const { data } = await Api.Devices.get({ offset, limit, categoryId });
 
@@ -45,6 +48,10 @@ export const getDevices = createAsyncThunk<
         data.devices,
         DevicesSchema,
       );
+
+      if (data.devices.length < DEVICES_OFFSET) {
+        dispatch(deviceActions.hasNoMore({ hasMore: false }));
+      }
 
       return {
         entities,

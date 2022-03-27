@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 // eslint-disable-next-line max-len
-import { useAppDispatch } from '@src/common/hooks/main/useAppDispatch';
+import { useAppDispatch } from '@src/common/hooks/useAppDispatch';
 import { getDevices } from '@src/features/devices/devicesSlice';
 import useGetCategories from '../hooks/useGetCategories';
 import {

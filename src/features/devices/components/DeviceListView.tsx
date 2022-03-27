@@ -2,7 +2,7 @@ import React, { useRef, useState, RefObject } from 'react';
 import { FixedSizeGrid as Grid } from 'react-window';
 import InfiniteLoader from 'react-window-infinite-loader';
 import AutoSizer from 'react-virtualized-auto-sizer';
-import useContainerDimensions from '@common/hooks/main/useContainerDimensions';
+import useContainerDimensions from '@src/common/hooks/useContainerDimensions';
 import DeviceItemView from './DeviceItemView';
 import useGetDevices from '../hooks/useGetDevices';
 import {

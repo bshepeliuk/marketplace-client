@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import useLogout from '@features/auth/hooks/useLogout';
 import styled from 'styled-components';
-import { useTypedSelector } from '@common/hooks/main/useTypedSelector';
+import { useTypedSelector } from '@src/common/hooks/useTypedSelector';
 import { routes } from '@src/app/Router';
 import CategoriesDropDown from '@features/categories/atoms/CategoriesDropDown';
 

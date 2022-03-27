@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { routes } from '@src/app/Router';
 import { logout } from '@src/features/auth/authSlice';
-import { useAppDispatch } from '@common/hooks/main/useAppDispatch';
+import { useAppDispatch } from '@src/common/hooks/useAppDispatch';
 import { persistor } from '@src/app/store';
 
 const useLogout = () => {

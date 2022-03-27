@@ -1,6 +1,6 @@
 import { renderHook } from '@testing-library/react-hooks';
 import { act } from 'react-dom/test-utils';
-import useWindowWidthResize from '@src/common/hooks/main/useWindowWidthResize';
+import useWindowWidthResize from '@src/common/hooks/useWindowWidthResize';
 import resizeWindow from '../../helpers/resizeWindow';
 
 describe('useWindowWidthResize', () => {

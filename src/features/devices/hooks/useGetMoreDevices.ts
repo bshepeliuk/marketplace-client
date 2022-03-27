@@ -1,5 +1,5 @@
-import { useAppDispatch } from '@src/common/hooks/main/useAppDispatch';
-import { useTypedSelector } from '@src/common/hooks/main/useTypedSelector';
+import { useAppDispatch } from '@src/common/hooks/useAppDispatch';
+import { useTypedSelector } from '@src/common/hooks/useTypedSelector';
 import useGetCategoryId from '@features/categories/hooks/useGetCategoryId';
 import { getMoreDevices } from '../devicesSlice';
 

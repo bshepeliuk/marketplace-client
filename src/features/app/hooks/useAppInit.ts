@@ -1,6 +1,6 @@
+import { useAppDispatch } from '@src/common/hooks/useAppDispatch';
+import { useTypedSelector } from '@src/common/hooks/useTypedSelector';
 import { initialization } from '@src/features/app/appSlice';
-import { useAppDispatch } from '../main/useAppDispatch';
-import { useTypedSelector } from '../main/useTypedSelector';
 
 const useAppInit = () => {
   const dispatch = useAppDispatch();

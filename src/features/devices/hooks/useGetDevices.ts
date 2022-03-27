@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
-import { useAppDispatch } from '@src/common/hooks/main/useAppDispatch';
+import { useAppDispatch } from '@src/common/hooks/useAppDispatch';
 import useGetCategoryId from '@features/categories/hooks/useGetCategoryId';
-import { useTypedSelector } from '@src/common/hooks/main/useTypedSelector';
-import useClearLocationState from '@common/hooks/main/useClearLocationState';
+import { useTypedSelector } from '@src/common/hooks/useTypedSelector';
+import useClearLocationState from '@src/common/hooks/useClearLocationState';
 import { getDevices } from '../devicesSlice';
 import { devicesSelector } from '../selectors/deviceSelector';
 import useCheckIfShouldRefetchDevices from './useCheckIfShouldRefetchDevices';
