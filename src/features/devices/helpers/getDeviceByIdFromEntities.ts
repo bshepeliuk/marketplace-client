@@ -3,12 +3,14 @@ import { IEntitiesState } from '@src/features/entities/types';
 const getDeviceByIdFromEntities = (
   deviceId: number,
   entities: IEntitiesState,
-) => ({
-  ...entities.devices[deviceId],
-  images: entities.devices[deviceId].images.map(
-    (imgId) => entities.images[imgId as number],
-  ),
-  info: [],
-});
+) => {
+  const device = entities.devices[deviceId];
+
+  return {
+    ...device,
+    images: device.images.map((imgId) => entities.images[imgId as number]),
+    info: device.info.map((infoId) => entities.info[infoId as number]),
+  };
+};
 
 export default getDeviceByIdFromEntities;

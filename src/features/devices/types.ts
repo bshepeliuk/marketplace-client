@@ -10,7 +10,7 @@ export interface IDeviceInfo {
   id: number;
   title: string;
   description: string;
-  typeId: string;
+  typeId: number;
   createdAt: string;
   updatedAt: string;
 }
@@ -25,7 +25,7 @@ export interface IDevice {
   createdAt: string;
   updatedAt: string;
   images: IDeviceImage[] | number[];
-  info: IDeviceInfo[];
+  info: IDeviceInfo[] | number[];
 }
 
 export interface IDeviceData {

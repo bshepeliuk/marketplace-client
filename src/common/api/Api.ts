@@ -41,8 +41,8 @@ export const Devices = {
 };
 
 export const Filters = {
-  getMinMaxPriceByTypeId(typeId: number) {
-    return api.get(`/min-max-price/${typeId}`);
+  getByCategoryId(categoryId: number) {
+    return api.get(`/filters/${categoryId}`);
   },
 };
 
