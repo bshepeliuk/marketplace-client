@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { IDeviceInfo } from '@features/devices/types';
+import useCheckFirstRender from '@common/hooks/useCheckFirstRender';
 import { AccordingHeader, ArrowIcon } from '../../styles/filters.styled';
 import AccordionInfoListView from './AccordionInfoListView';
+import { useFilterContext } from '../../context/FilterContext';
 
 interface IProps {
   title: string;
@@ -9,18 +11,30 @@ interface IProps {
 }
 
 function AccordionItemView({ title, info }: IProps) {
-  const [isItVisible, setVisible] = React.useState<boolean>(true);
+  const [isVisible, setVisible] = useState<boolean>(true);
+  const { setShowApplyBtn, hasSelectedItems } = useFilterContext();
+  const isItFirstRender = useCheckFirstRender();
 
   const toggleVisibility = () => setVisible((prev) => !prev);
 
+  useEffect(() => {
+    if (isItFirstRender || !hasSelectedItems) return;
+
+    if (isVisible) {
+      setShowApplyBtn(true);
+    } else {
+      setShowApplyBtn(false);
+    }
+  }, [isVisible]);
+
   return (
     <li key={title}>
-      <AccordingHeader data-info="accordion-header" onClick={toggleVisibility}>
-        <ArrowIcon isItVisible={isItVisible} />
+      <AccordingHeader onClick={toggleVisibility}>
+        <ArrowIcon isItVisible={isVisible} />
         <div>{title}</div>
       </AccordingHeader>
 
-      {isItVisible && <AccordionInfoListView info={info} />}
+      {isVisible && <AccordionInfoListView info={info} />}
     </li>
   );
 }

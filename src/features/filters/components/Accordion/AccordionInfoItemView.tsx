@@ -1,30 +1,39 @@
-import React, { useState } from 'react';
+import React, { ChangeEvent } from 'react';
 import { IDeviceInfo } from '@src/features/devices/types';
 import { AccordionInfo, CheckBox } from '../../styles/filters.styled';
-
-type ISelectProps = Partial<IDeviceInfo>;
+import { useFilterContext } from '../../context/FilterContext';
 
 interface IProps {
   item: IDeviceInfo;
-  // eslint-disable-next-line no-unused-vars
-  onSelect: (props: ISelectProps) => void;
 }
 
-function AccordionInfoItemView({ item, onSelect }: IProps) {
-  const [checked, setChecked] = useState<boolean>(false);
+function AccordionInfoItemView({ item }: IProps) {
+  const context = useFilterContext();
+  // prettier-ignore
+  // eslint-disable-next-line max-len
+  const { setBtnVerticalOffset, onSelectOption, setShowApplyBtn, selected } = context;
+  const { id, description, title } = item;
 
-  const handleChange = () => {
-    //  TODO: evt.target.offsetTop; offset for apply filter button
-    const { id, title, description } = item;
+  const handleChange = (evt: ChangeEvent) => {
+    const target = evt.target as HTMLElement;
 
-    onSelect({ id, title, description });
-    setChecked((prev) => !prev);
+    setBtnVerticalOffset(target.offsetTop);
+    onSelectOption({ id, title, description });
+    setShowApplyBtn(true);
+  };
+
+  const hasChecked = (optionId: number) => {
+    return selected.some((i) => i.id === optionId);
   };
 
   return (
     <AccordionInfo>
-      <CheckBox type="checkbox" checked={checked} onChange={handleChange} />
-      <li>{item.description}</li>
+      <CheckBox
+        type="checkbox"
+        checked={hasChecked(item.id)}
+        onChange={handleChange}
+      />
+      <li>{description}</li>
     </AccordionInfo>
   );
 }

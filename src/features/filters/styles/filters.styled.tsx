@@ -2,6 +2,11 @@ import React from 'react';
 import styled, { css } from 'styled-components';
 import { IoIosArrowForward } from 'react-icons/io';
 
+interface IBtnProps {
+  btnVerticalOffset: number;
+  shouldShow: boolean;
+}
+
 export const SideBar = styled.div`
   border: 1px solid rgba(189, 195, 199, 0.4);
   padding: 20px 15px;
@@ -35,11 +40,13 @@ export const AccordingHeader = styled.div`
   padding: 10px 5px;
   align-items: center;
   border-radius: 4px;
+  user-select: none;
 `;
 
 export const AccordionInfo = styled.div`
   display: flex;
   margin-bottom: 5px;
+  user-select: none;
 `;
 
 export const ArrowIcon = styled(({ isItVisible, ...props }) => (
@@ -53,4 +60,25 @@ export const ArrowIcon = styled(({ isItVisible, ...props }) => (
 
 export const CheckBox = styled.input`
   margin-right: 10px;
+`;
+
+export const ApplyButton = styled.button<IBtnProps>`
+  margin-top: -5px;
+  border-radius: 0 4px 4px 0;
+  background-color: #fff;
+  box-shadow: 0 8px 25px rgb(48 48 48 / 20%);
+  padding: 4px 21px;
+  color: #5285cc;
+  border: 1px solid currentColor;
+  position: absolute;
+  right: 5px;
+  top: ${({ btnVerticalOffset }) => {
+    return css`
+      ${btnVerticalOffset}px
+    `;
+  }};
+
+  display: ${({ shouldShow }) => {
+    return shouldShow ? 'block' : 'none';
+  }};
 `;

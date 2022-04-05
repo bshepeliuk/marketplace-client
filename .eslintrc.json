@@ -1,11 +1,6 @@
 {
   "parser": "@typescript-eslint/parser",
-  "extends": [
-    "airbnb",
-    "prettier",
-    "plugin:import/errors",
-    "plugin:import/warnings"
-  ],
+  "extends": ["airbnb", "prettier", "plugin:import/errors", "plugin:import/warnings"],
   "plugins": [
     "prettier",
     "react",
@@ -24,7 +19,7 @@
     "no-shadow": 0,
     "@typescript-eslint/no-shadow": ["error"],
     "prettier/prettier": ["error"],
-    "max-len": [1, 80, 2, { "ignoreComments": true }],
+    "max-len": [1, 90, 2, { "ignoreComments": true }],
     "react/no-unescaped-entities": 0,
     "import/prefer-default-export": 0,
     "react/jsx-props-no-spreading": 0,
@@ -41,10 +36,7 @@
     "no-param-reassign": 0,
     "no-use-before-define": 0,
     "react/require-default-props": 0,
-    "react/jsx-filename-extension": [
-      1,
-      { "extensions": [".js", ".jsx", ".ts", ".tsx"] }
-    ],
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx", ".ts", ".tsx"] }],
     "import/extensions": "off"
   },
   "settings": {
