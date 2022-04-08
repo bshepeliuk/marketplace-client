@@ -4,7 +4,7 @@ import { IThunkAPI } from '@src/common/types/baseTypes';
 import getErrorMessage from '@src/common/utils/getErrorMessage';
 import { IDeviceInfo } from '../devices/types';
 
-interface IMinMaxPrice {
+export interface IMinMaxPrice {
   min: number;
   max: number;
 }

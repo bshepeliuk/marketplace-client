@@ -1,4 +1,5 @@
 import './index.scss';
+import 'rc-slider/assets/index.css';
 import React, { StrictMode } from 'react';
 import { Provider } from 'react-redux';
 import ReactDOM from 'react-dom';

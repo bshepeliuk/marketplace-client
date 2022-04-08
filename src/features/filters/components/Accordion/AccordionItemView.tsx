@@ -16,7 +16,7 @@ function AccordionItemView({ title, info }: IProps) {
   const isItFirstRender = useCheckFirstRender();
 
   const toggleVisibility = () => setVisible((prev) => !prev);
-
+  // TODO: check apply button useEffect;
   useEffect(() => {
     if (isItFirstRender || !hasSelectedItems) return;
 
