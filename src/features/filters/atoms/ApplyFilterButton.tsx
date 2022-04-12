@@ -6,8 +6,14 @@ import { ApplyButton } from '../styles/filters.styled';
 function ApplyFilterButton() {
   const categoryId = useGetCategoryId();
   const context = useFilterContext();
-  // prettier-ignore
-  const { btnVerticalOffset, showApplyBtn, setShowApplyBtn, hasSelectedItems } = context;
+
+  const {
+    btnVerticalOffset,
+    showApplyBtn,
+    setShowApplyBtn,
+    hasSelectedItems,
+    apply,
+  } = context;
 
   useEffect(() => {
     setShowApplyBtn(false);
@@ -22,6 +28,7 @@ function ApplyFilterButton() {
       type="button"
       btnVerticalOffset={btnVerticalOffset}
       shouldShow={showApplyBtn}
+      onClick={apply}
     >
       apply
     </ApplyButton>

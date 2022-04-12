@@ -3,7 +3,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import * as Api from '@src/common/api/Api';
 import { IThunkAPI } from '@src/common/types/baseTypes';
 import { DeviceSchema, DevicesSchema } from '@common/normalizeSchemas';
-import { IGetDevicesParams } from '@src/common/types/apiTypes';
+import { IGetDevicesProps } from '@src/common/types/apiTypes';
 import getErrorMessage from '@src/common/utils/getErrorMessage';
 import {
   DeviceEntities,
@@ -33,39 +33,40 @@ type State = typeof initialState;
 
 export const getDevices = createAsyncThunk<
   IDevicesData,
-  IGetDevicesParams,
+  IGetDevicesProps,
   IThunkAPI
->(
-  'devices/get-all',
-  async (
-    { offset = 0, limit = 20, categoryId },
-    { rejectWithValue, dispatch },
-  ) => {
-    try {
-      const { data } = await Api.Devices.get({ offset, limit, categoryId });
+>('devices/get-all', async (props, { rejectWithValue, dispatch }) => {
+  const { offset = 0, limit = 20, categoryId, filters } = props;
 
-      const { result, entities } = normalize<IDevice, DeviceEntities, number[]>(
-        data.devices,
-        DevicesSchema,
-      );
+  try {
+    const { data } = await Api.Devices.get({
+      offset,
+      limit,
+      categoryId,
+      filters,
+    });
 
-      if (data.devices.length < DEVICES_OFFSET) {
-        dispatch(deviceActions.hasNoMore({ hasMore: false }));
-      }
+    const { result, entities } = normalize<IDevice, DeviceEntities, number[]>(
+      data.devices,
+      DevicesSchema,
+    );
 
-      return {
-        entities,
-        result,
-      };
-    } catch (error) {
-      const message = getErrorMessage(error);
-
-      return rejectWithValue({
-        message,
-      });
+    if (data.devices.length < DEVICES_OFFSET) {
+      dispatch(deviceActions.hasNoMore({ hasMore: false }));
     }
-  },
-);
+
+    return {
+      entities,
+      result,
+    };
+  } catch (error) {
+    const message = getErrorMessage(error);
+
+    return rejectWithValue({
+      message,
+    });
+  }
+});
 
 export const getMoreDevices = createAsyncThunk<
   IDevicesData,

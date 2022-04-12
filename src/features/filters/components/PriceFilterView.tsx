@@ -1,15 +1,35 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
-import { useTypedSelector } from '@src/common/hooks/useTypedSelector';
-import { IThumbProps, ITrackProps } from 'react-range/lib/types';
-import { getTrackBackground, Range } from 'react-range';
+import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
+import { useTypedSelector } from '@common/hooks/useTypedSelector';
+import useCheckFirstRender from '@common/hooks/useCheckFirstRender';
 import { AccordingHeader, ArrowIcon } from '../styles/filters.styled';
-import { IMinMaxPrice } from '../filtersSlice';
+import RangeInput from '../atoms/RangeInput/RangeInput';
+import { useFilterContext } from '../context/FilterContext';
 
 function PriceFilterView() {
-  const [isItVisible, setVisible] = useState<boolean>(true);
+  const ref = useRef<HTMLDivElement>(null);
+  const [isVisible, setVisible] = useState<boolean>(true);
   const { prices } = useTypedSelector((state) => state.filters.options);
-
   const [values, setValues] = useState<number[]>([0, 0]);
+  const context = useFilterContext();
+  const isItFirstRender = useCheckFirstRender();
+  // prettier-ignore
+  const {
+    setShowApplyBtn,
+    hasSelectedItems,
+    setBtnVerticalOffset,
+    setPrices
+  } = context;
+
+  const isItInitValues = () => {
+    // FIXME: refactoring;
+    const isInit = values.every((value) =>
+      Object.values(prices).includes(value),
+    );
+
+    const isDefault = values[0] === 0 && values[1] === 0; // [number, number];
+
+    return isInit || isDefault;
+  };
 
   useEffect(() => {
     // eslint-disable-next-line no-prototype-builtins
@@ -18,14 +38,40 @@ function PriceFilterView() {
     }
   }, [prices]);
 
+  // TODO: create hook for using between two components
+  useEffect(() => {
+    if (isItFirstRender || !hasSelectedItems) return;
+
+    if (isVisible) {
+      setShowApplyBtn(true);
+    } else {
+      setShowApplyBtn(false);
+    }
+  }, [isVisible]);
+
+  useEffect(() => {
+    if (ref.current) {
+      const { offsetTop } = ref.current;
+      const { height } = ref.current.getBoundingClientRect();
+
+      const offset = offsetTop + height / 2;
+
+      if (!isItInitValues()) {
+        setBtnVerticalOffset(offset);
+        setShowApplyBtn(true);
+      }
+    }
+
+    const timeoutId = setTimeout(() => setPrices(values), 500);
+
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [values]);
+
   const toggleVisibility = () => setVisible((prev) => !prev);
 
-  const handleChange = (value: number[]) => setValues(value);
-
-  const renderTrack = (trackProps: {
-    props: ITrackProps;
-    children: React.ReactNode;
-  }) => <RangeTrackView {...trackProps} values={values} prices={prices} />;
+  const handleRangeChange = (value: number[]) => setValues(value);
 
   const handleInputChange = (evt: ChangeEvent<HTMLInputElement>) => {
     if (evt.target.name === 'min') {
@@ -38,12 +84,12 @@ function PriceFilterView() {
   return (
     <div>
       <AccordingHeader onClick={toggleVisibility}>
-        <ArrowIcon isItVisible={isItVisible} />
+        <ArrowIcon isItVisible={isVisible} />
         <div>Price</div>
       </AccordingHeader>
 
-      {isItVisible && (
-        <div>
+      {isVisible && (
+        <div ref={ref} style={{ height: '100px' }}>
           <div>
             <input
               name="min"
@@ -60,98 +106,14 @@ function PriceFilterView() {
             />
           </div>
 
-          <Range
-            step={1}
-            draggableTrack
+          <RangeInput
             min={prices.min}
             max={prices.max}
             values={values}
-            onChange={handleChange}
-            renderTrack={renderTrack}
-            renderThumb={RangeThumbView}
+            onChange={handleRangeChange}
           />
         </div>
       )}
-    </div>
-  );
-}
-
-function RangeTrackView({
-  props,
-  children,
-  values,
-  prices,
-}: {
-  props: ITrackProps;
-  prices: IMinMaxPrice;
-  children: React.ReactNode;
-  values: number[];
-}) {
-  const trackStyles = {
-    ...props.style,
-    height: '36px',
-    display: 'flex',
-    width: '100%',
-    padding: '0px 5px',
-  };
-
-  const rangeStyles = {
-    height: '5px',
-    width: '100%',
-    borderRadius: '4px',
-    background: getTrackBackground({
-      values,
-      colors: ['#ccc', '#548BF4', '#ccc'],
-      min: prices.min,
-      max: prices.max,
-    }),
-    alignSelf: 'center',
-  };
-
-  return (
-    // eslint-disable-next-line jsx-a11y/no-static-element-interactions
-    <div
-      onMouseDown={props.onMouseDown}
-      onTouchStart={props.onTouchStart}
-      style={trackStyles}
-    >
-      <div ref={props.ref} style={rangeStyles}>
-        {children}
-      </div>
-    </div>
-  );
-}
-
-function RangeThumbView({
-  props,
-  isDragged,
-}: {
-  props: IThumbProps;
-  isDragged: boolean;
-}) {
-  const thumbWrapStyles = {
-    ...props.style,
-    height: '15px',
-    width: '15px',
-    borderRadius: '50%',
-    backgroundColor: '#FFF',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    outline: isDragged ? '#548BF4 solid 2px' : 'none',
-  };
-
-  const thumbItemStyles = {
-    height: '15px',
-    width: '15px',
-    borderRadius: '50%',
-    border: '2px solid #fff',
-    backgroundColor: isDragged ? '#CCC' : '#548BF4',
-  };
-
-  return (
-    <div {...props} style={thumbWrapStyles}>
-      <div style={thumbItemStyles} />
     </div>
   );
 }

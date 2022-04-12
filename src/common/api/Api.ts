@@ -1,9 +1,10 @@
 import {
-  IGetDevicesParams,
+  IGetDevicesProps,
   ILogin,
   IRegister,
 } from '@src/common/types/apiTypes';
 import getApiInstance from '@src/common/utils/getApiInstance';
+import createSearchParamsStr from '../utils/createSearchParamsStr';
 
 const api = getApiInstance();
 
@@ -26,14 +27,15 @@ export const User = {
 };
 
 export const Devices = {
-  get({ offset, limit, categoryId }: IGetDevicesParams) {
-    return api.get(`/devices`, {
-      params: {
-        offset,
-        limit,
-        categoryId,
-      },
+  get({ offset, limit, categoryId, filters }: IGetDevicesProps) {
+    const paramsUrl = createSearchParamsStr({
+      ...filters,
+      offset,
+      limit,
+      categoryId,
     });
+
+    return api.get(`/devices?${paramsUrl}`);
   },
   getOneById(deviceId: number) {
     return api.get(`/devices/${deviceId}`);

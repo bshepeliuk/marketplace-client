@@ -13,8 +13,8 @@ export const SideBar = styled.div`
   height: calc(100vh - 80px);
   overflow: auto;
   overflow-x: hidden;
-  border-radius: 5px;
   position: relative;
+  border-radius: 5px;
 
   &::-webkit-scrollbar {
     width: 6px;
@@ -71,7 +71,8 @@ export const ApplyButton = styled.button<IBtnProps>`
   color: #5285cc;
   border: 1px solid currentColor;
   position: absolute;
-  right: 5px;
+  right: 0;
+  z-index: 2;
   top: ${({ btnVerticalOffset }) => {
     return css`
       ${btnVerticalOffset}px
