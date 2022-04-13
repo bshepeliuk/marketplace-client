@@ -7,6 +7,10 @@ interface IBtnProps {
   shouldShow: boolean;
 }
 
+export const Wrap = styled.div`
+  padding: 20px 50px 20px 0;
+`;
+
 export const SideBar = styled.div`
   border: 1px solid rgba(189, 195, 199, 0.4);
   padding: 20px 15px;
@@ -15,6 +19,8 @@ export const SideBar = styled.div`
   overflow-x: hidden;
   position: relative;
   border-radius: 5px;
+  grid-column: 1 / 2;
+  grid-row-start: 1;
 
   &::-webkit-scrollbar {
     width: 6px;
@@ -63,16 +69,15 @@ export const CheckBox = styled.input`
 `;
 
 export const ApplyButton = styled.button<IBtnProps>`
-  margin-top: -5px;
   border-radius: 0 4px 4px 0;
   background-color: #fff;
   box-shadow: 0 8px 25px rgb(48 48 48 / 20%);
   padding: 4px 21px;
   color: #5285cc;
   border: 1px solid currentColor;
+  z-index: 2;
   position: absolute;
   right: 0;
-  z-index: 2;
   top: ${({ btnVerticalOffset }) => {
     return css`
       ${btnVerticalOffset}px
@@ -82,4 +87,26 @@ export const ApplyButton = styled.button<IBtnProps>`
   display: ${({ shouldShow }) => {
     return shouldShow ? 'block' : 'none';
   }};
+`;
+
+export const InputWrapper = styled.div`
+  display: flex;
+  margin-bottom: 15px;
+`;
+
+export const Input = styled.input`
+  width: 120px;
+  margin-right: 10px;
+  height: 30px;
+  border-radius: 3px;
+  border: 1px solid #bdc3c7;
+  padding: 0 5px;
+
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  -moz-appearance: textfield;
 `;

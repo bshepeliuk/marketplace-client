@@ -1,7 +1,13 @@
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { useTypedSelector } from '@common/hooks/useTypedSelector';
-import useCheckFirstRender from '@common/hooks/useCheckFirstRender';
-import { AccordingHeader, ArrowIcon } from '../styles/filters.styled';
+import usePrevious from '@src/common/hooks/usePrevious';
+import {
+  AccordingHeader,
+  ArrowIcon,
+  Input,
+  InputWrapper,
+  Wrap,
+} from '../styles/filters.styled';
 import RangeInput from '../atoms/RangeInput/RangeInput';
 import { useFilterContext } from '../context/FilterContext';
 
@@ -10,25 +16,19 @@ function PriceFilterView() {
   const [isVisible, setVisible] = useState<boolean>(true);
   const { prices } = useTypedSelector((state) => state.filters.options);
   const [values, setValues] = useState<number[]>([0, 0]);
+  const prevValues = usePrevious(values);
   const context = useFilterContext();
-  const isItFirstRender = useCheckFirstRender();
   // prettier-ignore
   const {
     setShowApplyBtn,
-    hasSelectedItems,
     setBtnVerticalOffset,
     setPrices
   } = context;
 
   const isItInitValues = () => {
-    // FIXME: refactoring;
-    const isInit = values.every((value) =>
-      Object.values(prices).includes(value),
+    return values.every(
+      (value) => Object.values(prices).includes(value) || value === 0,
     );
-
-    const isDefault = values[0] === 0 && values[1] === 0; // [number, number];
-
-    return isInit || isDefault;
   };
 
   useEffect(() => {
@@ -38,9 +38,12 @@ function PriceFilterView() {
     }
   }, [prices]);
 
-  // TODO: create hook for using between two components
+  // FIXME: don't show button in case prev values is the same;
   useEffect(() => {
-    if (isItFirstRender || !hasSelectedItems) return;
+    if (prevValues === undefined || prevValues[0] === values[0]) {
+      setShowApplyBtn(false);
+      return;
+    }
 
     if (isVisible) {
       setShowApplyBtn(true);
@@ -52,9 +55,8 @@ function PriceFilterView() {
   useEffect(() => {
     if (ref.current) {
       const { offsetTop } = ref.current;
-      const { height } = ref.current.getBoundingClientRect();
 
-      const offset = offsetTop + height / 2;
+      const offset = offsetTop + 20; // 20 - padding top
 
       if (!isItInitValues()) {
         setBtnVerticalOffset(offset);
@@ -89,22 +91,22 @@ function PriceFilterView() {
       </AccordingHeader>
 
       {isVisible && (
-        <div ref={ref} style={{ height: '100px' }}>
-          <div>
-            <input
+        <Wrap ref={ref}>
+          <InputWrapper>
+            <Input
               name="min"
               type="number"
               value={values[0]}
               onChange={handleInputChange}
             />
 
-            <input
+            <Input
               name="max"
               type="number"
               value={values[1]}
               onChange={handleInputChange}
             />
-          </div>
+          </InputWrapper>
 
           <RangeInput
             min={prices.min}
@@ -112,7 +114,7 @@ function PriceFilterView() {
             values={values}
             onChange={handleRangeChange}
           />
-        </div>
+        </Wrap>
       )}
     </div>
   );

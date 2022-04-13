@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 
 export const DeviceListContainer = styled.div`
+  grid-column: 2 / 3;
+  grid-row-start: 1;
   max-width: 1200px;
 
   @media (max-width: 1600px) {
