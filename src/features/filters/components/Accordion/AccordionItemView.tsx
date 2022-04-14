@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { IDeviceInfo } from '@features/devices/types';
-import useCheckFirstRender from '@common/hooks/useCheckFirstRender';
 import { AccordingHeader, ArrowIcon } from '../../styles/filters.styled';
 import AccordionInfoListView from './AccordionInfoListView';
 import { useFilterContext } from '../../context/FilterContext';
@@ -13,12 +12,9 @@ interface IProps {
 function AccordionItemView({ title, info }: IProps) {
   const [isVisible, setVisible] = useState<boolean>(true);
   const { setShowApplyBtn, hasSelectedItems } = useFilterContext();
-  const isItFirstRender = useCheckFirstRender();
 
-  const toggleVisibility = () => setVisible((prev) => !prev);
-  // TODO: check apply button useEffect;
   useEffect(() => {
-    if (isItFirstRender || !hasSelectedItems) return;
+    if (!hasSelectedItems) return;
 
     if (isVisible) {
       setShowApplyBtn(true);
@@ -26,6 +22,8 @@ function AccordionItemView({ title, info }: IProps) {
       setShowApplyBtn(false);
     }
   }, [isVisible]);
+
+  const toggleVisibility = () => setVisible((prev) => !prev);
 
   return (
     <li key={title}>

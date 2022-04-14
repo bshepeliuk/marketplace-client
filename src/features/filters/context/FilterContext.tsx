@@ -4,11 +4,13 @@ import React, {
   createContext,
   Dispatch,
   SetStateAction,
+  useEffect,
 } from 'react';
 import { IDeviceInfo } from '@src/features/devices/types';
 import isInArray from '@src/common/utils/isInArray';
 import { useAppDispatch } from '@src/common/hooks/useAppDispatch';
 import { getDevices } from '@src/features/devices/devicesSlice';
+import useGetCategoryId from '@src/features/categories/hooks/useGetCategoryId';
 
 type ISelectProps = Pick<IDeviceInfo, 'id' | 'title' | 'description'>;
 
@@ -25,17 +27,23 @@ interface IContext {
   setShowApplyBtn: Dispatch<SetStateAction<boolean>>;
   setSelected: Dispatch<SetStateAction<ISelectProps[]>>;
   setPrices: Dispatch<SetStateAction<number[]>>;
+  prices: number[];
 }
 
 export const FilterContext = createContext<IContext | undefined>(undefined);
 
 export function FilterProvider({ children }: { children: React.ReactNode }) {
   const dispatch = useAppDispatch();
+  const categoryId = useGetCategoryId();
 
   const [showApplyBtn, setShowApplyBtn] = useState<boolean>(false);
   const [prices, setPrices] = useState<number[]>([]);
   const [selected, setSelected] = useState<ISelectProps[]>([]);
   const [btnVerticalOffset, setBtnVerticalOffset] = useState<number>(0);
+
+  useEffect(() => {
+    if (categoryId) setPrices([]);
+  }, [categoryId]);
 
   const onSelectOption = (option: ISelectProps) => {
     if (isInArray(option.id, selected)) {
@@ -84,6 +92,7 @@ export function FilterProvider({ children }: { children: React.ReactNode }) {
     hasSelectedItems,
     setPrices,
     apply,
+    prices,
   };
 
   return (
