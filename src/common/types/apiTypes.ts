@@ -16,7 +16,7 @@ export interface IRegister extends ILogin {
 }
 
 export interface IFilterOptions {
-  description: string[];
+  features: string[];
   prices: number[];
 }
 

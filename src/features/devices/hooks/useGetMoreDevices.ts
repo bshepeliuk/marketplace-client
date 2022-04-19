@@ -9,6 +9,7 @@ const useGetMoreDevices = () => {
   const { hasMore, isLoadingMore } = useTypedSelector((state) => state.devices);
 
   const fetchMore = () => {
+    // FIXME: handle query params string;
     dispatch(getMoreDevices({ categoryId }));
   };
 

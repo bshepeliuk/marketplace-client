@@ -1,6 +1,5 @@
 import React, {
   useState,
-  useContext,
   createContext,
   Dispatch,
   SetStateAction,
@@ -11,6 +10,7 @@ import isInArray from '@src/common/utils/isInArray';
 import { useAppDispatch } from '@src/common/hooks/useAppDispatch';
 import { getDevices } from '@src/features/devices/devicesSlice';
 import useGetCategoryId from '@src/features/categories/hooks/useGetCategoryId';
+import serializeSelectedFeatures from '../helpers/serializeSelectedFeatures';
 
 type ISelectProps = Pick<IDeviceInfo, 'id' | 'title' | 'description'>;
 
@@ -56,24 +56,19 @@ export function FilterProvider({ children }: { children: React.ReactNode }) {
   const clearSelectedOptions = () => setSelected([]);
 
   const apply = async () => {
-    // FIXME: add action; save to state only desc. and title;
-    const options = selected.reduce((acc, current) => {
-      return {
-        description: (acc.description || []).concat(current.description),
-      };
-    }, {} as Record<'description', string[]>);
+    const features = serializeSelectedFeatures(selected);
 
     const filters = {
       prices,
-      description: options.description,
+      features,
     };
 
     dispatch(
       getDevices({
         filters,
+        categoryId,
         offset: 0,
         limit: 20,
-        categoryId: 1,
       }),
     );
   };
@@ -99,13 +94,3 @@ export function FilterProvider({ children }: { children: React.ReactNode }) {
     <FilterContext.Provider value={values}>{children}</FilterContext.Provider>
   );
 }
-
-export const useFilterContext = () => {
-  const context = useContext(FilterContext);
-
-  if (context === undefined) {
-    throw new Error('useFilterContext must be used within a FilterProvider.');
-  }
-
-  return context;
-};

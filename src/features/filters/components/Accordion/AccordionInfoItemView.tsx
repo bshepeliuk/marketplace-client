@@ -1,7 +1,7 @@
 import React, { ChangeEvent } from 'react';
 import { IDeviceInfo } from '@src/features/devices/types';
 import { AccordionInfo, CheckBox } from '../../styles/filters.styled';
-import { useFilterContext } from '../../context/FilterContext';
+import useFilterContext from '../../hooks/useFilterContext';
 
 interface IProps {
   item: IDeviceInfo;

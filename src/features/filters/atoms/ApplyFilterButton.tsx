@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import useGetCategoryId from '@features/categories/hooks/useGetCategoryId';
-import { useFilterContext } from '../context/FilterContext';
 import { ApplyButton } from '../styles/filters.styled';
+import useFilterContext from '../hooks/useFilterContext';
 
 function ApplyFilterButton() {
   const categoryId = useGetCategoryId();

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { IDeviceInfo } from '@features/devices/types';
 import { AccordingHeader, ArrowIcon } from '../../styles/filters.styled';
 import AccordionInfoListView from './AccordionInfoListView';
-import { useFilterContext } from '../../context/FilterContext';
+import useFilterContext from '../../hooks/useFilterContext';
 
 interface IProps {
   title: string;
