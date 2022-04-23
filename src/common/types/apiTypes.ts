@@ -15,10 +15,7 @@ export interface IRegister extends ILogin {
   role: ROLE.SELLER | ROLE.BUYER;
 }
 
-export interface IFilterOptions {
-  features: string[];
-  prices: number[];
-}
+export type IFilterOptions = Array<[string, string]>;
 
 interface IDeviceDefaultParams {
   limit: number;

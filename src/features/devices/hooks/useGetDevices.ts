@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { useAppDispatch } from '@src/common/hooks/useAppDispatch';
 import useGetCategoryId from '@features/categories/hooks/useGetCategoryId';
 import { useTypedSelector } from '@src/common/hooks/useTypedSelector';
@@ -8,6 +9,7 @@ import { devicesSelector } from '../selectors/deviceSelector';
 import useCheckIfShouldRefetchDevices from './useCheckIfShouldRefetchDevices';
 
 const useGetDevices = () => {
+  const [params] = useSearchParams();
   const dispatch = useAppDispatch();
   const { shouldRefetchDevices } = useCheckIfShouldRefetchDevices();
   const clearLocationState = useClearLocationState();
@@ -20,7 +22,9 @@ const useGetDevices = () => {
   const hasNoDevices = items.length === 0;
 
   const getAll = () => {
-    dispatch(getDevices({ categoryId, offset: 0, limit: 20 }));
+    const filters = Array.from(params.entries());
+
+    dispatch(getDevices({ filters, offset: 0, limit: 20 }));
   };
 
   useEffect(() => {

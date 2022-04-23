@@ -5,12 +5,13 @@ import React, {
   SetStateAction,
   useEffect,
 } from 'react';
+import { useSearchParams, ParamKeyValuePair } from 'react-router-dom';
 import { IDeviceInfo } from '@src/features/devices/types';
 import isInArray from '@src/common/utils/isInArray';
 import { useAppDispatch } from '@src/common/hooks/useAppDispatch';
 import { getDevices } from '@src/features/devices/devicesSlice';
 import useGetCategoryId from '@src/features/categories/hooks/useGetCategoryId';
-import serializeSelectedFeatures from '../helpers/serializeSelectedFeatures';
+import getFeaturesEntries from '../helpers/getFeaturesEntries';
 
 type ISelectProps = Pick<IDeviceInfo, 'id' | 'title' | 'description'>;
 
@@ -33,6 +34,8 @@ interface IContext {
 export const FilterContext = createContext<IContext | undefined>(undefined);
 
 export function FilterProvider({ children }: { children: React.ReactNode }) {
+  // TODO: remove filter item by id;
+  const [, setSearchParams] = useSearchParams();
   const dispatch = useAppDispatch();
   const categoryId = useGetCategoryId();
 
@@ -55,22 +58,27 @@ export function FilterProvider({ children }: { children: React.ReactNode }) {
 
   const clearSelectedOptions = () => setSelected([]);
 
-  const apply = async () => {
-    const features = serializeSelectedFeatures(selected);
+  const apply = () => {
+    const featuresEntries = getFeaturesEntries(selected);
 
-    const filters = {
-      prices,
-      features,
-    };
+    const params: ParamKeyValuePair[] = [
+      ...featuresEntries,
+      ['categoryId', String(categoryId)],
+      ['minPrice', String(prices[0])],
+      ['maxPrice', String(prices[1])],
+    ];
+
+    setSearchParams(params);
 
     dispatch(
       getDevices({
-        filters,
-        categoryId,
         offset: 0,
         limit: 20,
+        filters: params,
       }),
     );
+
+    setShowApplyBtn(false);
   };
 
   const hasSelectedItems = selected.length > 0;
