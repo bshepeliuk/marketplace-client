@@ -1,3 +1,4 @@
+import { IFilterOptions } from '@src/common/types/apiTypes';
 import { CSSProperties } from 'styled-components';
 
 export interface IDeviceImage {
@@ -51,7 +52,7 @@ interface IListData {
 }
 
 export interface IGetMoreDevicesParams {
-  categoryId: number | undefined;
+  filters: IFilterOptions;
 }
 
 export interface IListItemProps {

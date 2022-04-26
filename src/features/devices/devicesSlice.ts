@@ -74,12 +74,12 @@ export const getMoreDevices = createAsyncThunk<
   IThunkAPI
 >(
   'devices/get-more-devices',
-  async ({ categoryId }, { rejectWithValue, dispatch, getState }) => {
+  async ({ filters }, { rejectWithValue, dispatch, getState }) => {
     const { items } = getState().devices;
 
     try {
       const { data } = await Api.Devices.get({
-        categoryId,
+        filters,
         offset: items.length,
         limit: 20,
       });

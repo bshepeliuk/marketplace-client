@@ -2,6 +2,8 @@ import React, { useRef } from 'react';
 import HeaderView from '@src/common/components/Header/HeaderView';
 // eslint-disable-next-line max-len
 import SideBarDeviceFilterView from '@features/filters/components/SideBarDeviceFilterView';
+// eslint-disable-next-line max-len
+import ActiveFilterListView from '@features/filters/components/ActiveFilterList/ActiveFilterListView';
 import DeviceListView from '../components/DeviceListView';
 import { DeviceListContainer, Wrapper } from '../styles/deviceView.styled';
 
@@ -13,6 +15,7 @@ function DevicesView() {
       <HeaderView />
 
       <Wrapper>
+        <ActiveFilterListView />
         <SideBarDeviceFilterView />
 
         <DeviceListContainer ref={containerRef}>

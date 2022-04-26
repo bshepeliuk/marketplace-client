@@ -6,7 +6,7 @@ import getDeviceByIdFromEntities from '../helpers/getDeviceByIdFromEntities';
 const getDevicesState = (state: RootState) => state.devices;
 const getEntitiesState = (state: RootState) => state.entities;
 const getDeviceIdProp = (_: unknown, deviceId: number) => deviceId;
-const getCategoryIdProps = (_: unknown, categoryId: number | undefined) => {
+const getCategoryIdProps = (_: unknown, categoryId: string | null) => {
   return categoryId;
 };
 
@@ -31,7 +31,9 @@ export const devicesSelector = createSelector(
 
     items = state.items.map((id) => getDeviceByIdFromEntities(id, entities));
 
-    if (categoryId) items = items.filter((item) => item.typeId === categoryId);
+    if (categoryId) {
+      items = items.filter((item) => item.typeId === Number(categoryId));
+    }
 
     return {
       items,
