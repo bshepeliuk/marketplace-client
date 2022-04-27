@@ -8,9 +8,11 @@ import CategoriesDropDown from '@features/categories/atoms/CategoriesDropDown';
 
 const Header = styled.header`
   height: 80px;
-  align-self: center;
+  align-items: center;
   padding: 10px 20px;
   display: flex;
+  background-color: #303030;
+  margin-bottom: 80px;
 `;
 
 function HeaderView() {

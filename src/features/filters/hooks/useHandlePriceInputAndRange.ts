@@ -1,9 +1,12 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useTypedSelector } from '@src/common/hooks/useTypedSelector';
 import useFilterContext from './useFilterContext';
+import validateValuesByMinMaxBounds from '../helpers/validateValuesByMinMaxBounds';
 
+// TODO: refactoring;
 const useHandlePriceInputAndRange = () => {
   const options = useTypedSelector((state) => state.filters.options);
+  const [range, setRange] = useState<number[]>([0, 0]);
   const [values, setValues] = useState<number[]>([0, 0]);
   const context = useFilterContext();
 
@@ -12,39 +15,63 @@ const useHandlePriceInputAndRange = () => {
   const haveMinMaxValues = Object.keys(options.prices).length > 0;
 
   useEffect(() => {
-    if (prices.length > 0) setValues(prices);
+    if (prices.length > 0) setRange(prices);
   }, []);
 
   useEffect(() => {
     if (prices.length === 0 && haveMinMaxValues) {
+      setRange([options.prices.min, options.prices.max]);
       setValues([options.prices.min, options.prices.max]);
     }
   }, [options.prices]);
 
   useEffect(() => {
-    const timeoutId = setTimeout(() => setPrices(values), 500);
+    const timeoutId = setTimeout(() => {
+      setPrices(range);
+    }, 500);
 
     return () => {
       clearTimeout(timeoutId);
     };
+  }, [range]);
+
+  useEffect(() => {
+    const { min, max } = options.prices;
+
+    validateValuesByMinMaxBounds({
+      values: { min: values[0], max: values[1] },
+      bounds: { min, max },
+    })
+      .then((res) => {
+        if (res.min && res.max) {
+          setRange([res.min, res.max]);
+        }
+      })
+      .catch(() => {
+        // TODO: notification;
+      });
   }, [values]);
-  // TODO: validation for number input; min & values;
-  const handleRangeChange = (value: number[]) => setValues(value);
 
-  const handleInputChange = (evt: ChangeEvent<HTMLInputElement>) => {
-    // TODO: validation for number input; min & values;
-    const value = evt.target.valueAsNumber;
+  const handleRangeChange = (value: number[]) => {
+    setRange(value);
+    setValues(value);
+  };
 
-    if (Number.isNaN(value)) return;
+  const handleInputChange = async (evt: ChangeEvent<HTMLInputElement>) => {
+    const { valueAsNumber, name } = evt.target;
+    const isMinValue = name === 'min';
 
-    if (evt.target.name === 'min') {
-      setValues([value, values[1]]);
+    if (Number.isNaN(valueAsNumber) || valueAsNumber < 0) return;
+
+    if (isMinValue) {
+      setValues([valueAsNumber, values[1]]);
     } else {
-      setValues([values[0], value]);
+      setValues([values[0], valueAsNumber]);
     }
   };
 
   return {
+    range,
     values,
     handleRangeChange,
     handleInputChange,

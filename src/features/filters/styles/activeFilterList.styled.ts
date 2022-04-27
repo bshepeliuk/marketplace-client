@@ -2,11 +2,11 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
   grid-row-start: 1;
-  grid-column-start: 2;
+  grid-column-start: 1;
   z-index: 1;
   grid-column-end: 3;
   height: max-content;
-  margin-top: -50px;
+  margin-top: -75px;
   width: 100%;
   overflow-x: auto;
   white-space: nowrap;
@@ -38,6 +38,10 @@ export const List = styled.ul`
     color: #303030;
     user-select: none;
     align-items: center;
+
+    &:hover {
+      box-shadow: 0px 8px 16px -6px rgba(52, 152, 219, 0.23);
+    }
   }
 `;
 

@@ -47,11 +47,7 @@ function ActiveFilterListView() {
   ) : null;
 }
 
-interface IProps {
-  item: string[];
-}
-
-function ListItem(props: IProps) {
+function ListItem(props: { item: string[] }) {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const handleClick = () => {

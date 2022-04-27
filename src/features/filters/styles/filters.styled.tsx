@@ -14,7 +14,6 @@ export const Wrap = styled.div`
 export const SideBar = styled.div`
   border: 1px solid rgba(189, 195, 199, 0.4);
   padding: 20px 15px;
-  height: calc(100vh - 80px);
   overflow: auto;
   overflow-x: hidden;
   position: relative;

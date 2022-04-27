@@ -34,7 +34,9 @@ interface IContext {
 export const FilterContext = createContext<IContext | undefined>(undefined);
 
 export function FilterProvider({ children }: { children: React.ReactNode }) {
-  // TODO: remove filter item by id;
+  // FEATURE: unselect all; remove selected and return default min/max prices;
+  // FEATURE: should do as above when all active filters will clear;
+
   const [, setSearchParams] = useSearchParams();
   const dispatch = useAppDispatch();
   const categoryId = useGetCategoryId();

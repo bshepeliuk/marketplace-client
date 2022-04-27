@@ -8,9 +8,10 @@ function PriceInfoView() {
   const ref = useRef<HTMLDivElement>(null);
   const props = useHandlePriceInputAndRange();
   const context = useFilterContext();
-  // prettier-ignore
+
   const { setShowApplyBtn, setBtnVerticalOffset } = context;
-  const { values, minMaxValues, handleRangeChange, handleInputChange } = props;
+  // prettier-ignore
+  const { values, range, minMaxValues, handleRangeChange, handleInputChange } = props;
 
   const isNotInitStateValues = !values.every(
     (value) => Object.values(minMaxValues).includes(value) || value === 0,
@@ -50,7 +51,7 @@ function PriceInfoView() {
       <RangeInput
         min={minMaxValues.min}
         max={minMaxValues.max}
-        values={values}
+        values={range}
         onChange={handleRangeChange}
       />
     </Wrap>
