@@ -71,7 +71,7 @@ export const ApplyButton = styled.button<IBtnProps>`
   border-radius: 0 4px 4px 0;
   background-color: #fff;
   box-shadow: 0 8px 25px rgb(48 48 48 / 20%);
-  padding: 4px 21px;
+  padding: 4px 10px;
   color: #5285cc;
   border: 1px solid currentColor;
   z-index: 2;

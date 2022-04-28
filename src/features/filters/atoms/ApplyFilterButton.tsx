@@ -30,7 +30,7 @@ function ApplyFilterButton() {
       shouldShow={showApplyBtn}
       onClick={apply}
     >
-      apply
+      show
     </ApplyButton>
   );
 }

@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import getActiveSearchParamsEntries from '../../helpers/getActiveSearchParamsEntries';
+import joinMinMaxPricesInEntries from '../../helpers/joinMinMaxPricesInEntries';
 import parseFeaturesParams from '../../helpers/parseFeaturesParams';
+import removePriceParamsFromEntries from '../../helpers/removePriceParamsFromEntries';
 // eslint-disable-next-line max-len
 import removeSearchParamsFromEntriesByValue from '../../helpers/removeSearchParamsFromEntriesByValue';
 import {
@@ -32,10 +34,12 @@ function ActiveFilterListView() {
     }
   };
 
+  const items = joinMinMaxPricesInEntries(activeItems);
+
   return haveActiveItems ? (
     <Container>
       <List>
-        {activeItems.map((item) => (
+        {items.map((item) => (
           <ListItem key={item[1]} item={item} />
         ))}
       </List>
@@ -50,18 +54,22 @@ function ActiveFilterListView() {
 function ListItem(props: { item: string[] }) {
   const [searchParams, setSearchParams] = useSearchParams();
 
+  const [key, value] = props.item;
+
   const handleClick = () => {
-    const params = removeSearchParamsFromEntriesByValue(
-      searchParams,
-      props.item[1],
-    );
+    let params = removeSearchParamsFromEntriesByValue(searchParams, value);
+
+    if (key === 'prices') {
+      // TODO: refactoring;
+      params = removePriceParamsFromEntries(params);
+    }
 
     setSearchParams(params);
   };
 
   return (
     <li>
-      {props.item[1]}
+      {value}
       <DeleteButton type="button" onClick={handleClick}>
         X
       </DeleteButton>
