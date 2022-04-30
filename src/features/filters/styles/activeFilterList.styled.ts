@@ -1,6 +1,6 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-export const Container = styled.div`
+export const Container = styled.div<{ isScrolling: boolean }>`
   grid-row-start: 1;
   grid-column-start: 1;
   z-index: 1;
@@ -8,10 +8,14 @@ export const Container = styled.div`
   height: max-content;
   margin-top: -75px;
   width: 100%;
-  overflow-x: auto;
+  overflow-x: hidden;
   white-space: nowrap;
   display: flex;
   padding: 10px;
+
+  cursor: ${({ isScrolling }) => {
+    return isScrolling ? css`grabbing` : css`pointer`;
+  }};
 
   &::-webkit-scrollbar {
     height: 10px;
@@ -24,24 +28,23 @@ export const Container = styled.div`
 
 export const List = styled.ul`
   display: flex;
+`;
 
-  li {
-    height: 40px;
-    margin-right: 20px;
-    background-color: #f2f2f2;
-    padding: 10px 20px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 12px;
-    font-weight: 400;
-    letter-spacing: 0.2px;
-    color: #303030;
-    user-select: none;
-    align-items: center;
+export const ListItem = styled.li`
+  height: 40px;
+  margin-right: 20px;
+  background-color: #f2f2f2;
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.2px;
+  color: #303030;
+  user-select: none;
+  align-items: center;
 
-    &:hover {
-      box-shadow: 0px 8px 16px -6px rgba(52, 152, 219, 0.23);
-    }
+  &:hover {
+    box-shadow: 0px 10px 10px -7px rgb(52 152 219 / 20%);
   }
 `;
 
@@ -52,6 +55,7 @@ export const ClearAllButton = styled.button`
   background-color: #fff;
   padding: 10px 20px;
   height: 40px;
+  margin-right: 25px;
 
   &:hover {
     background-color: #3498db;

@@ -6,18 +6,19 @@ import parseFeaturesParams from '../../helpers/parseFeaturesParams';
 import removePriceParamsFromEntries from '../../helpers/removePriceParamsFromEntries';
 // eslint-disable-next-line max-len
 import removeSearchParamsFromEntriesByValue from '../../helpers/removeSearchParamsFromEntriesByValue';
+import useHandleScrollOnMouseEvents from '../../hooks/useHandleScrollOnMouseEvents';
 import {
   ClearAllButton,
   Container,
   DeleteButton,
   List,
+  ListItem,
 } from '../../styles/activeFilterList.styled';
 
 function ActiveFilterListView() {
   const [activeItems, setActiveItems] = useState<Array<string[]>>([]);
   const [searchParams, setSearchParams] = useSearchParams();
-
-  const haveActiveItems = activeItems.length > 0;
+  const { wrapRef, isScrolling } = useHandleScrollOnMouseEvents();
 
   useEffect(() => {
     const filters = getActiveSearchParamsEntries(searchParams);
@@ -36,22 +37,21 @@ function ActiveFilterListView() {
 
   const items = joinMinMaxPricesInEntries(activeItems);
 
-  return haveActiveItems ? (
-    <Container>
+  return (
+    <Container ref={wrapRef} isScrolling={isScrolling}>
       <List>
         {items.map((item) => (
-          <ListItem key={item[1]} item={item} />
+          <ListItemView key={item[1]} item={item} />
         ))}
       </List>
-
       <ClearAllButton type="button" onClick={onClearAll}>
         clear
       </ClearAllButton>
     </Container>
-  ) : null;
+  );
 }
 
-function ListItem(props: { item: string[] }) {
+function ListItemView(props: { item: string[] }) {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const [key, value] = props.item;
@@ -68,12 +68,12 @@ function ListItem(props: { item: string[] }) {
   };
 
   return (
-    <li>
+    <ListItem>
       {value}
       <DeleteButton type="button" onClick={handleClick}>
         X
       </DeleteButton>
-    </li>
+    </ListItem>
   );
 }
 
