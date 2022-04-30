@@ -1,14 +1,32 @@
 import { Dispatch, SetStateAction, useEffect } from 'react';
 import { useTypedSelector } from '@src/common/hooks/useTypedSelector';
 import validateValuesByMinMaxBounds from '../helpers/validateValuesByMinMaxBounds';
+import useFilterContext from './useFilterContext';
 
 interface IProps {
   values: number[];
   setRange: Dispatch<SetStateAction<number[]>>;
+  setValues: Dispatch<SetStateAction<number[]>>;
 }
 
-const useSyncInputStateWithRangeState = ({ values, setRange }: IProps) => {
+const useSyncInputStateWithRangeState = ({
+  values,
+  setRange,
+  setValues,
+}: IProps) => {
+  const context = useFilterContext();
   const options = useTypedSelector((state) => state.filters.options);
+
+  const { prices } = context;
+
+  const haveMinMaxValues = Object.keys(options.prices).length > 0;
+
+  useEffect(() => {
+    if (prices.length === 0 && haveMinMaxValues) {
+      setRange([options.prices.min, options.prices.max]);
+      setValues([options.prices.min, options.prices.max]);
+    }
+  }, [options.prices]);
 
   useEffect(() => {
     const { min, max } = options.prices;

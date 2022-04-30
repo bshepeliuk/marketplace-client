@@ -11,7 +11,7 @@ import useGetCategoryId from '../hooks/useGetCategoryId';
 const List = styled.ul`
   list-style-type: none;
   position: absolute;
-  z-index: 1;
+  z-index: 2;
   width: 100%;
   padding: 10px;
   background-color: rgba(236, 240, 241, 1);

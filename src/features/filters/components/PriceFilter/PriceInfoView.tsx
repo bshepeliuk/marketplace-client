@@ -15,7 +15,7 @@ function PriceInfoView() {
   const { values, setValues, handleInputChange } = useHandleInputsPrice();
   const { range, setRange, handleRangeChange } = useHandleRangePrice();
 
-  useSyncInputStateWithRangeState({ values, setRange });
+  useSyncInputStateWithRangeState({ values, setRange, setValues });
 
   const isNotInitStateValues = !values.every(
     (value) => Object.values(options.prices).includes(value) || value === 0,
