@@ -8,6 +8,7 @@ import React, {
 import { useSearchParams, ParamKeyValuePair } from 'react-router-dom';
 import { IDeviceInfo } from '@src/features/devices/types';
 import isInArray from '@src/common/utils/isInArray';
+import { Devices } from '@src/common/api/Api';
 import { useAppDispatch } from '@src/common/hooks/useAppDispatch';
 import { getDevices } from '@src/features/devices/devicesSlice';
 import useGetCategoryId from '@src/features/categories/hooks/useGetCategoryId';
@@ -29,14 +30,13 @@ interface IContext {
   setSelected: Dispatch<SetStateAction<ISelectProps[]>>;
   setPrices: Dispatch<SetStateAction<number[]>>;
   prices: number[];
+  count: number;
 }
 
 export const FilterContext = createContext<IContext | undefined>(undefined);
 
 export function FilterProvider({ children }: { children: React.ReactNode }) {
-  // FEATURE: unselect all; remove selected and return default min/max prices;
-  // FEATURE: should do as above when all active filters will clear;
-
+  const [count, setCount] = useState(0);
   const [, setSearchParams] = useSearchParams();
   const dispatch = useAppDispatch();
   const categoryId = useGetCategoryId();
@@ -58,9 +58,7 @@ export function FilterProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
-  const clearSelectedOptions = () => setSelected([]);
-
-  const apply = () => {
+  const getFilterParams = () => {
     const featuresEntries = getFeaturesEntries(selected);
 
     const params: ParamKeyValuePair[] = [
@@ -69,6 +67,40 @@ export function FilterProvider({ children }: { children: React.ReactNode }) {
       ['minPrice', String(prices[0])],
       ['maxPrice', String(prices[1])],
     ];
+
+    return params;
+  };
+
+  const clearSelectedOptions = () => {
+    setSelected([]);
+    setShowApplyBtn(false);
+  };
+  // TODO: refactoring;
+  const getCount = async () => {
+    // FEATURE: loader;
+    try {
+      const params = getFilterParams();
+
+      const res = await Devices.get({ limit: 20, offset: 0, filters: params });
+
+      setCount(res.data.devices.length);
+    } catch (error) {
+      setCount(0);
+    }
+  };
+  // TODO: refactoring;
+  useEffect(() => {
+    if (selected.length === 0) return;
+
+    const timeoutId = setTimeout(() => getCount(), 1000);
+
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [selected.length]);
+
+  const apply = () => {
+    const params = getFilterParams();
 
     setSearchParams(params);
 
@@ -98,6 +130,7 @@ export function FilterProvider({ children }: { children: React.ReactNode }) {
     setPrices,
     apply,
     prices,
+    count,
   };
 
   return (

@@ -22,6 +22,7 @@ function DeviceDetailsView() {
   const { device, isLoading, hasNoDevice, hasNoFound } = useGetDeviceById(
     Number(deviceId),
   );
+
   const isLoadingSlow = useSlowDownLoaderIndicator({
     isLoading,
     duration: 1000,

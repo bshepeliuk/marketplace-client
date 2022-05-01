@@ -67,25 +67,13 @@ export const CheckBox = styled.input`
   margin-right: 10px;
 `;
 
-export const ApplyButton = styled.button<IBtnProps>`
+export const ApplyButton = styled.button`
   border-radius: 0 4px 4px 0;
   background-color: #fff;
   box-shadow: 0 8px 25px rgb(48 48 48 / 20%);
   padding: 4px 10px;
   color: #5285cc;
   border: 1px solid currentColor;
-  z-index: 2;
-  position: absolute;
-  right: 0;
-  top: ${({ btnVerticalOffset }) => {
-    return css`
-      ${btnVerticalOffset}px
-    `;
-  }};
-
-  display: ${({ shouldShow }) => {
-    return shouldShow ? 'block' : 'none';
-  }};
 `;
 
 export const InputWrapper = styled.div`

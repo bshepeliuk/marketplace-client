@@ -17,6 +17,14 @@ const deviceIds = devices.map((item) => item.id);
 const rootState = {
   entities: {
     devices: devicesEntity,
+    categories: {},
+    images: {
+      1: {
+        id: 1,
+        url: 'https://image.jpeg',
+      },
+    },
+    info: {},
   },
   auth: {
     isLoggedIn: true,

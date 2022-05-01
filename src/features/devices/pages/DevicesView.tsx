@@ -1,8 +1,8 @@
 /* eslint-disable max-len */
 import React, { useRef } from 'react';
 import HeaderView from '@src/common/components/Header/HeaderView';
-import SideBarDeviceFilterView from '@features/filters/components/SideBarDeviceFilterView';
 import getActiveSearchParamsEntries from '@features/filters/helpers/getActiveSearchParamsEntries';
+import FilterSideBarView from '@src/features/filters/components/FilterSideBar';
 import { useSearchParams } from 'react-router-dom';
 import ActiveFilterListView from '@features/filters/components/ActiveFilterList/ActiveFilterListView';
 import DeviceListView from '../components/DeviceListView';
@@ -20,8 +20,9 @@ function DevicesView() {
       <HeaderView />
 
       <Wrapper>
-        <SideBarDeviceFilterView />
         {hasActiveFilters && <ActiveFilterListView />}
+
+        <FilterSideBarView />
 
         <DeviceListContainer ref={containerRef}>
           <DeviceListView containerRef={containerRef} />
