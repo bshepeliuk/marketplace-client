@@ -10,20 +10,10 @@ const show = (prev: number | undefined, current: number) => {
   return keyframes`
     0% {
       top: ${prev}px;
-      opacity: 0;
-      transform: scale(1);
-    }
-
-    50% {
-      transform: scale(1.1);
-      opacity: 0.5;
     }
 
     100% {
-      margin-top: 10px;
       top: ${current}px;
-      opacity: 1;
-      transform: scale(1);
     }
   `;
 };

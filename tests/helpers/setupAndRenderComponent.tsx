@@ -8,7 +8,7 @@ import thunk from 'redux-thunk';
 interface Props {
   state: any;
   // eslint-disable-next-line no-unused-vars
-  component: (props: any) => ReactElement;
+  component: (props: any) => ReactElement | null;
   props?: any;
 }
 

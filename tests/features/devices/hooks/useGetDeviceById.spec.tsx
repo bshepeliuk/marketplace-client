@@ -1,8 +1,8 @@
 import * as ReactRedux from 'react-redux';
 import React from 'react';
-
 import { renderHook } from '@testing-library/react-hooks';
 import useGetDeviceById from '@src/features/devices/hooks/useGetDeviceById';
+
 import { getDeviceById } from '@src/features/devices/devicesSlice';
 import { Wrapper } from '../../../wrapper';
 
@@ -16,7 +16,8 @@ const useDispatchMock = jest.spyOn(ReactRedux, 'useDispatch');
 
 const rootState = {
   entities: {
-    devices: { 1: { id: 1, images: ['https://image.jpeg'] } },
+    devices: { 1: { id: 1, images: [1], info: [] } },
+    images: { 1: { id: 1, url: 'https://image.jpeg' } },
   },
   devices: {
     device: {
@@ -42,11 +43,13 @@ describe('useGetDeviceById hook', () => {
 
     expect(result.current.device).toEqual({
       id: 1,
-      images: ['https://image.jpeg'],
+      info: [],
+      images: [{ id: 1, url: 'https://image.jpeg' }],
     });
+
     expect(dispatch).toHaveBeenCalledTimes(0);
-    expect(result.current.hasNoDeviceFound).toBeFalsy();
-    expect(result.current.hasDeviceImages).toBeTruthy();
+    expect(result.current.hasNoFound).toBeFalsy();
+    expect(result.current.hasNoDevice).toBeFalsy();
   });
 
   test('should fetch device by id', async () => {
@@ -57,8 +60,7 @@ describe('useGetDeviceById hook', () => {
     });
 
     expect(result.current.device).toBeUndefined();
-    expect(result.current.hasNoDeviceFound).toBeTruthy();
-    expect(result.current.hasDeviceImages).toBeFalsy();
+    expect(result.current.hasNoDevice).toBeTruthy();
     expect(dispatch).toHaveBeenCalledTimes(1);
     expect(getDeviceById).toBeCalledWith({ deviceId: 2 });
   });

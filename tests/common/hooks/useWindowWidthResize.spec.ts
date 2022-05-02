@@ -4,7 +4,7 @@ import useWindowWidthResize from '@src/common/hooks/useWindowWidthResize';
 import resizeWindow from '../../helpers/resizeWindow';
 
 describe('useWindowWidthResize', () => {
-  test('resize window', async () => {
+  test('resize window', () => {
     const { result } = renderHook(() => useWindowWidthResize());
 
     expect(result.current.size.width).toBe(global.innerWidth);

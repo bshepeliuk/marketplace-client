@@ -13,10 +13,10 @@ const useGetDeviceById = (deviceId: number) => {
 
   const hasNoDevice = device === undefined;
 
-  const getDevice = () => {
-    dispatch(getDeviceById({ deviceId })).then((action) => {
-      if (getDeviceById.rejected.match(action)) setHasNoFound(true);
-    });
+  const getDevice = async () => {
+    const action = await dispatch(getDeviceById({ deviceId }));
+
+    if (getDeviceById.rejected?.match(action)) setHasNoFound(true);
   };
 
   useEffect(() => {

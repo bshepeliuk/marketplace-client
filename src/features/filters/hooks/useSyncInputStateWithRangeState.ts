@@ -17,9 +17,18 @@ const useSyncInputStateWithRangeState = ({
   const context = useFilterContext();
   const options = useTypedSelector((state) => state.filters.options);
 
-  const { prices } = context;
+  const { prices, shouldBeInitial, setShouldBeInitial } = context;
 
   const haveMinMaxValues = Object.keys(options.prices).length > 0;
+
+  useEffect(() => {
+    if (shouldBeInitial) {
+      setRange([options.prices.min, options.prices.max]);
+      setValues([options.prices.min, options.prices.max]);
+
+      setShouldBeInitial(false);
+    }
+  }, [shouldBeInitial]);
 
   useEffect(() => {
     if (prices.length === 0 && haveMinMaxValues) {

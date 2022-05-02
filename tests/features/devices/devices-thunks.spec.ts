@@ -42,7 +42,8 @@ describe('DEVICES THUNKS', () => {
           brandId: 1,
           typeId: 1,
           price: 1000,
-          images: [{ url: 'https://image.jpg' }],
+          images: [{ id: 1, url: 'https://image.jpg' }],
+          info: [],
         },
       ];
 
@@ -63,11 +64,16 @@ describe('DEVICES THUNKS', () => {
           payload: undefined,
         },
         {
+          type: deviceActions.hasNoMore.type,
+          payload: {
+            hasMore: false,
+          },
+        },
+        {
           type: getDevices.fulfilled.type,
           payload: {
             result,
             entities,
-            devices: devicesResponse,
           },
         },
       ];
@@ -203,7 +209,7 @@ describe('DEVICES THUNKS', () => {
         }),
       );
 
-      await store.dispatch(getMoreDevices({ categoryId: undefined }));
+      await store.dispatch(getMoreDevices({ filters: [['categoryId', '']] }));
 
       const actualActions = store.getActions();
       const expectedActions = [
@@ -220,7 +226,6 @@ describe('DEVICES THUNKS', () => {
           payload: {
             result,
             entities,
-            devices,
           },
         },
       ];
@@ -245,7 +250,7 @@ describe('DEVICES THUNKS', () => {
         }),
       );
 
-      await store.dispatch(getMoreDevices({ categoryId: undefined }));
+      await store.dispatch(getMoreDevices({ filters: [['categoryId', '']] }));
 
       const actualActions = store.getActions();
       const expectedActions = [
@@ -258,7 +263,6 @@ describe('DEVICES THUNKS', () => {
           payload: {
             result,
             entities,
-            devices,
           },
         },
       ];
@@ -278,7 +282,7 @@ describe('DEVICES THUNKS', () => {
         }),
       );
 
-      await store.dispatch(getMoreDevices({ categoryId: undefined }));
+      await store.dispatch(getMoreDevices({ filters: [['categoryId', '']] }));
 
       const actualActions = store.getActions();
       const expectedActions = [
