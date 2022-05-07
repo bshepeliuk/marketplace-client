@@ -1,12 +1,19 @@
 import styled, { css } from 'styled-components';
 
-export const Container = styled.div<{ isScrolling: boolean }>`
+export const Wrap = styled.div`
   grid-row-start: 1;
   grid-column-start: 1;
   z-index: 1;
   grid-column-end: 3;
-  height: max-content;
   margin-top: -75px;
+  display: flex;
+  height: max-content;
+  align-items: center;
+`;
+
+export const ScrollContainer = styled.div<{ isScrolling: boolean }>`
+  height: max-content;
+
   width: 100%;
   overflow-x: hidden;
   white-space: nowrap;
@@ -42,9 +49,11 @@ export const ListItem = styled.li`
   color: #303030;
   user-select: none;
   align-items: center;
+  transition: all 0.2s ease-in-out;
 
   &:hover {
     box-shadow: 0px 10px 10px -7px rgb(52 152 219 / 20%);
+    transform: scale(1.1);
   }
 `;
 
@@ -67,4 +76,57 @@ export const DeleteButton = styled.button`
   margin-left: 10px;
   border: none;
   color: #3498db;
+`;
+
+const ScrollArrowButton = styled.button`
+  height: 40px;
+  width: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 4px;
+  background-color: #fff;
+  position: relative;
+
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    transform: scale(1.4);
+  }
+`;
+
+export const LeftArrowButton = styled(ScrollArrowButton)<{
+  isLeftVisible: boolean;
+}>`
+  display: ${({ isLeftVisible }) => {
+    return isLeftVisible ? css`flex` : css`none`;
+  }};
+
+  &::after {
+    content: '';
+    background: linear-gradient(to right, #fff 10%, rgba(249, 249, 249, 0) 90%);
+    height: 40px;
+    width: 30px;
+    position: absolute;
+    display: block;
+    left: 28px;
+  }
+`;
+export const RightArrowButton = styled(ScrollArrowButton)<{
+  isRightVisible: boolean;
+}>`
+  display: ${({ isRightVisible }) => {
+    return isRightVisible ? css`flex` : css`none`;
+  }};
+
+  &::before {
+    content: '';
+    background: linear-gradient(to left, #fff 20%, rgba(255, 255, 255, 0) 80%);
+    height: 40px;
+    width: 30px;
+    display: block;
+    position: absolute;
+    right: 28px;
+  }
 `;

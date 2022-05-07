@@ -1,24 +1,39 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { MdArrowBackIosNew, MdArrowForwardIos } from 'react-icons/md';
+
+import useHandleScrollOnMouseEvents from '@src/common/hooks/useHandleScrollOnMouseEvents';
 import getActiveSearchParamsEntries from '../../helpers/getActiveSearchParamsEntries';
 import joinMinMaxPricesInEntries from '../../helpers/joinMinMaxPricesInEntries';
 import parseFeaturesParams from '../../helpers/parseFeaturesParams';
 import removePriceParamsFromEntries from '../../helpers/removePriceParamsFromEntries';
 // eslint-disable-next-line max-len
 import removeSearchParamsFromEntriesByValue from '../../helpers/removeSearchParamsFromEntriesByValue';
-import useHandleScrollOnMouseEvents from '../../hooks/useHandleScrollOnMouseEvents';
 import {
   ClearAllButton,
-  Container,
+  ScrollContainer,
   DeleteButton,
   List,
   ListItem,
+  Wrap,
+  LeftArrowButton,
+  RightArrowButton,
 } from '../../styles/activeFilterList.styled';
+import useHandleScrollBySideBtnClick from '../../hooks/useHandleScrollBySideBtnClick';
 
 function ActiveFilterListView() {
+  const scrollWrapRef = useRef<HTMLDivElement>(null);
+
   const [activeItems, setActiveItems] = useState<Array<string[]>>([]);
   const [searchParams, setSearchParams] = useSearchParams();
-  const { wrapRef, isScrolling } = useHandleScrollOnMouseEvents();
+  const { isScrolling } = useHandleScrollOnMouseEvents(scrollWrapRef);
+  // prettier-ignore
+  const {
+    isLeftVisible,
+    isRightVisible,
+    onLeftClick,
+    onRightClick
+  } = useHandleScrollBySideBtnClick(scrollWrapRef, activeItems.length);
 
   useEffect(() => {
     const filters = getActiveSearchParamsEntries(searchParams);
@@ -38,16 +53,34 @@ function ActiveFilterListView() {
   const items = joinMinMaxPricesInEntries(activeItems);
 
   return (
-    <Container ref={wrapRef} isScrolling={isScrolling}>
-      <List>
-        {items.map((item) => (
-          <ListItemView key={item[1]} item={item} />
-        ))}
-      </List>
-      <ClearAllButton type="button" onClick={onClearAll}>
-        clear
-      </ClearAllButton>
-    </Container>
+    <Wrap>
+      <LeftArrowButton
+        type="button"
+        onClick={onLeftClick}
+        isLeftVisible={isLeftVisible}
+      >
+        <MdArrowBackIosNew />
+      </LeftArrowButton>
+
+      <ScrollContainer ref={scrollWrapRef} isScrolling={isScrolling}>
+        <List>
+          {items.map((item) => (
+            <ListItemView key={item[1]} item={item} />
+          ))}
+        </List>
+        <ClearAllButton type="button" onClick={onClearAll}>
+          clear
+        </ClearAllButton>
+      </ScrollContainer>
+
+      <RightArrowButton
+        type="button"
+        onClick={onRightClick}
+        isRightVisible={isRightVisible}
+      >
+        <MdArrowForwardIos />
+      </RightArrowButton>
+    </Wrap>
   );
 }
 

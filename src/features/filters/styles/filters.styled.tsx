@@ -2,11 +2,6 @@ import React from 'react';
 import styled, { css } from 'styled-components';
 import { IoIosArrowForward } from 'react-icons/io';
 
-interface IBtnProps {
-  btnVerticalOffset: number;
-  shouldShow: boolean;
-}
-
 export const Wrap = styled.div`
   padding: 20px 50px 20px 0;
 `;
