@@ -36,8 +36,9 @@ const useHandleScrollBySideBtnClick = (
 
     const AVG_WIDTH = Math.ceil(scrollWidth / countOfItems);
 
-    if (hasStartedScroll) setLeftVisible(true);
     if (hasStartedScroll && hasEndReached) setRightVisible(false);
+
+    setLeftVisible(true);
 
     scrollWrapRef.current.scrollTo({
       left: scrollLeft + AVG_WIDTH,

@@ -56,6 +56,7 @@ export const ArrowIcon = styled(({ isItVisible, ...props }) => (
   transform: ${({ isItVisible }) => {
     return isItVisible ? css`rotate(90deg)` : css`rotate(0deg)`;
   }};
+  transition: all 0.3s ease-in-out;
 `;
 
 export const CheckBox = styled.input`

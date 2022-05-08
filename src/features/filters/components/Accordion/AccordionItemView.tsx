@@ -32,7 +32,7 @@ function AccordionItemView({ title, info }: IProps) {
         <div>{title}</div>
       </AccordingHeader>
 
-      {isVisible && <AccordionInfoListView info={info} />}
+      <AccordionInfoListView info={info} isVisible={isVisible} />
     </li>
   );
 }

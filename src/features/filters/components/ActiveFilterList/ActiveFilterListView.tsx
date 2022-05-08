@@ -1,13 +1,14 @@
+/* eslint-disable max-len */
 import React, { useState, useEffect, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { MdArrowBackIosNew, MdArrowForwardIos } from 'react-icons/md';
 
 import useHandleScrollOnMouseEvents from '@src/common/hooks/useHandleScrollOnMouseEvents';
+import useHandleScrollBySideBtnClick from '@src/common/hooks/useHandleScrollBySideBtnClick';
 import getActiveSearchParamsEntries from '../../helpers/getActiveSearchParamsEntries';
 import joinMinMaxPricesInEntries from '../../helpers/joinMinMaxPricesInEntries';
 import parseFeaturesParams from '../../helpers/parseFeaturesParams';
 import removePriceParamsFromEntries from '../../helpers/removePriceParamsFromEntries';
-// eslint-disable-next-line max-len
 import removeSearchParamsFromEntriesByValue from '../../helpers/removeSearchParamsFromEntriesByValue';
 import {
   ClearAllButton,
@@ -19,7 +20,6 @@ import {
   LeftArrowButton,
   RightArrowButton,
 } from '../../styles/activeFilterList.styled';
-import useHandleScrollBySideBtnClick from '../../hooks/useHandleScrollBySideBtnClick';
 
 function ActiveFilterListView() {
   const scrollWrapRef = useRef<HTMLDivElement>(null);

@@ -12,7 +12,7 @@ const List = styled.ul`
   list-style-type: none;
   position: absolute;
   z-index: 2;
-  width: 100%;
+  width: 200px;
   padding: 10px;
   background-color: rgba(236, 240, 241, 1);
   margin: 0;
@@ -22,7 +22,6 @@ const List = styled.ul`
 
 const Wrap = styled.div`
   position: relative;
-  margin-left: 50px;
 `;
 
 const CategoriesButton = styled.button`

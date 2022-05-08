@@ -13,6 +13,22 @@ const Header = styled.header`
   display: flex;
   background-color: #303030;
   margin-bottom: 80px;
+  display: grid;
+  grid-template-columns: 200px 1fr 200px;
+`;
+
+const LogoLink = styled(Link)`
+  color: #fff;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-weight: bold;
+  letter-spacing: 1px;
+  transition: all 0.7s ease-out;
+
+  &:hover {
+    transform: scale(1.01);
+    letter-spacing: 2px;
+  }
 `;
 
 function HeaderView() {
@@ -21,11 +37,14 @@ function HeaderView() {
 
   return (
     <Header>
-      <Link to={routes.home} state={{ shouldRefetchDevices: true }}>
+      <LogoLink to={routes.home} state={{ shouldRefetchDevices: true }}>
         Marketplace
-      </Link>
+      </LogoLink>
+
       <CategoriesDropDown />
+
       <h1>{user?.fullName}</h1>
+
       {isLoggedIn && (
         <button type="button" onClick={onLogout}>
           logout

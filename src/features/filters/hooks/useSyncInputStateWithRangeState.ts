@@ -31,6 +31,13 @@ const useSyncInputStateWithRangeState = ({
   }, [shouldBeInitial]);
 
   useEffect(() => {
+    if (prices.length > 0) {
+      setRange([prices[0], prices[1]]);
+      setValues([prices[0], prices[1]]);
+    }
+  }, []);
+
+  useEffect(() => {
     if (prices.length === 0 && haveMinMaxValues) {
       setRange([options.prices.min, options.prices.max]);
       setValues([options.prices.min, options.prices.max]);

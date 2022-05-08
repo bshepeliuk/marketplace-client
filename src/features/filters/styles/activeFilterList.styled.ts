@@ -100,7 +100,7 @@ export const LeftArrowButton = styled(ScrollArrowButton)<{
   isLeftVisible: boolean;
 }>`
   display: ${({ isLeftVisible }) => {
-    return isLeftVisible ? css`flex` : css`none`;
+    return isLeftVisible ? 'flex' : 'none';
   }};
 
   &::after {
@@ -117,7 +117,7 @@ export const RightArrowButton = styled(ScrollArrowButton)<{
   isRightVisible: boolean;
 }>`
   display: ${({ isRightVisible }) => {
-    return isRightVisible ? css`flex` : css`none`;
+    return isRightVisible ? 'flex' : 'none';
   }};
 
   &::before {
