@@ -9,9 +9,18 @@ interface IProps {
   info: IDeviceInfo[];
 }
 
+export const InfoStatus = {
+  show: 'show-accordion-info',
+  hide: 'hide-accordion-info',
+} as const;
+// prettier-ignore
+export type InfoStatusUnion = typeof InfoStatus[keyof typeof InfoStatus];
+
 function AccordionItemView({ title, info }: IProps) {
-  const [isVisible, setVisible] = useState<boolean>(true);
+  const [infoStatus, setInfoStatus] = useState<InfoStatusUnion | null>(null);
   const { setShowApplyBtn, hasSelectedItems } = useFilterContext();
+
+  const isVisible = infoStatus === InfoStatus.show;
 
   useEffect(() => {
     if (!hasSelectedItems) return;
@@ -23,7 +32,14 @@ function AccordionItemView({ title, info }: IProps) {
     }
   }, [isVisible]);
 
-  const toggleVisibility = () => setVisible((prev) => !prev);
+  const toggleVisibility = () => {
+    if (infoStatus === InfoStatus.hide) {
+      setInfoStatus(InfoStatus.show);
+      return;
+    }
+
+    setInfoStatus(InfoStatus.hide);
+  };
 
   return (
     <li key={title}>
@@ -32,7 +48,7 @@ function AccordionItemView({ title, info }: IProps) {
         <div>{title}</div>
       </AccordingHeader>
 
-      <AccordionInfoListView info={info} isVisible={isVisible} />
+      <AccordionInfoListView info={info} infoStatus={infoStatus} />
     </li>
   );
 }

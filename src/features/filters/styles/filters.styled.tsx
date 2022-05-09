@@ -1,9 +1,39 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 import { IoIosArrowForward } from 'react-icons/io';
+import {
+  InfoStatus,
+  InfoStatusUnion,
+} from '../components/PriceFilter/PriceFilterView';
+import { hideByHeight, showByHeight } from './filterAnimation.styled';
 
-export const Wrap = styled.div`
+export const Wrap = styled.div<{
+  infoStatus: InfoStatusUnion | null;
+  height: number | null;
+}>`
   padding: 20px 50px 20px 0;
+  transition: all 0.2s ease-in-out;
+  overflow: hidden;
+
+  padding: ${({ infoStatus }) => {
+    const isVisible = infoStatus === InfoStatus.show || infoStatus === null;
+    return isVisible ? '20px 50px 20px 0' : '0 50px 0 0';
+  }};
+
+  height: ${({ infoStatus }) => {
+    const isVisible = infoStatus === InfoStatus.show || infoStatus === null;
+    return isVisible ? '121px' : '0px';
+  }};
+
+  animation: ${({ height, infoStatus }) => {
+    if (infoStatus === InfoStatus.show) {
+      return css`0.3s ${showByHeight(height)} ease-in-out backwards`;
+    }
+
+    if (infoStatus === InfoStatus.hide) {
+      return css`0.3s ${hideByHeight(height)} ease-in-out backwards`;
+    }
+  }};
 `;
 
 export const SideBar = styled.div`
@@ -54,7 +84,7 @@ export const ArrowIcon = styled(({ isItVisible, ...props }) => (
 ))<{ isItVisible: boolean; props: unknown }>`
   margin-right: 10px;
   transform: ${({ isItVisible }) => {
-    return isItVisible ? css`rotate(90deg)` : css`rotate(0deg)`;
+    return isItVisible ? 'rotate(90deg)' : 'rotate(0deg)';
   }};
   transition: all 0.3s ease-in-out;
 `;

@@ -3,10 +3,26 @@ import { AccordingHeader, ArrowIcon } from '../../styles/filters.styled';
 
 import PriceInfoView from './PriceInfoView';
 
-function PriceFilterView() {
-  const [isVisible, setVisible] = useState<boolean>(true);
+export const InfoStatus = {
+  show: 'show-accordion-info',
+  hide: 'hide-accordion-info',
+} as const;
+// prettier-ignore
+export type InfoStatusUnion = typeof InfoStatus[keyof typeof InfoStatus];
 
-  const toggleVisibility = () => setVisible((prev) => !prev);
+function PriceFilterView() {
+  const [infoStatus, setInfoStatus] = useState<InfoStatusUnion | null>(null);
+
+  const toggleVisibility = () => {
+    if (infoStatus === InfoStatus.hide) {
+      setInfoStatus(InfoStatus.show);
+      return;
+    }
+
+    setInfoStatus(InfoStatus.hide);
+  };
+
+  const isVisible = infoStatus === InfoStatus.show;
 
   return (
     <div>
@@ -15,7 +31,7 @@ function PriceFilterView() {
         <div>Price</div>
       </AccordingHeader>
 
-      {isVisible && <PriceInfoView />}
+      <PriceInfoView infoStatus={infoStatus} />
     </div>
   );
 }

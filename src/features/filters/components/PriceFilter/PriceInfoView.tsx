@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useTypedSelector } from '@src/common/hooks/useTypedSelector';
 import { InputWrapper, Wrap, Input } from '../../styles/filters.styled';
 import RangeInput from '../../atoms/RangeInput/RangeInput';
@@ -6,9 +6,15 @@ import useFilterContext from '../../hooks/useFilterContext';
 import useHandleInputsPrice from '../../hooks/useHandleInputsPrice';
 import useHandleRangePrice from '../../hooks/useHandleRangePrice';
 import useSyncInputStateWithRangeState from '../../hooks/useSyncInputStateWithRangeState';
+import { InfoStatusUnion } from './PriceFilterView';
 
-function PriceInfoView() {
-  const ref = useRef<HTMLDivElement>(null);
+interface IProps {
+  infoStatus: InfoStatusUnion | null;
+}
+
+function PriceInfoView({ infoStatus }: IProps) {
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const [height, setHeight] = useState<number | null>(null);
 
   const options = useTypedSelector((state) => state.filters.options);
   const context = useFilterContext();
@@ -22,8 +28,8 @@ function PriceInfoView() {
   );
 
   useEffect(() => {
-    if (isNotInitStateValues && ref.current) {
-      context.setBtnVerticalOffset(ref.current.offsetTop + 20);
+    if (isNotInitStateValues && wrapRef.current) {
+      context.setBtnVerticalOffset(wrapRef.current.offsetTop + 20);
       context.setShowApplyBtn(true);
     }
 
@@ -38,6 +44,11 @@ function PriceInfoView() {
     return () => clearTimeout(timeoutId);
   }, [values]);
 
+  useEffect(() => {
+    if (!wrapRef.current) return;
+    setHeight(wrapRef.current.clientHeight);
+  }, []);
+
   const onRangeChange = (value: number[]) => {
     handleRangeChange(value);
     setValues(value);
@@ -48,7 +59,7 @@ function PriceInfoView() {
   };
 
   return (
-    <Wrap ref={ref}>
+    <Wrap ref={wrapRef} infoStatus={infoStatus} height={height}>
       <InputWrapper>
         <Input
           name="min"

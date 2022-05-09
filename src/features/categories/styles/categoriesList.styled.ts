@@ -46,3 +46,56 @@ export const CategoryButton = styled.button<{ isActive: boolean }>`
     box-shadow: 0 0 5px rgb(0 0 5 / 20%);
   }
 `;
+
+const ScrollArrowButton = styled.button`
+  height: 32px;
+  width: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 4px;
+  background-color: #fff;
+  position: relative;
+
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    transform: scale(1.4);
+  }
+`;
+
+export const LeftArrowButton = styled(ScrollArrowButton)<{
+  isLeftVisible: boolean;
+}>`
+  display: ${({ isLeftVisible }) => {
+    return isLeftVisible ? 'flex' : 'none';
+  }};
+
+  &::after {
+    content: '';
+    background: linear-gradient(to right, #fff 10%, rgba(249, 249, 249, 0) 90%);
+    height: 32px;
+    width: 32px;
+    position: absolute;
+    display: block;
+    left: 25px;
+  }
+`;
+export const RightArrowButton = styled(ScrollArrowButton)<{
+  isRightVisible: boolean;
+}>`
+  display: ${({ isRightVisible }) => {
+    return isRightVisible ? 'flex' : 'none';
+  }};
+
+  &::before {
+    content: '';
+    background: linear-gradient(to left, #fff 20%, rgba(255, 255, 255, 0) 80%);
+    height: 32px;
+    width: 32px;
+    display: block;
+    position: absolute;
+    right: 25px;
+  }
+`;

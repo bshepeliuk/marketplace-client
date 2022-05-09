@@ -52,6 +52,8 @@ function ActiveFilterListView() {
 
   const items = joinMinMaxPricesInEntries(activeItems);
 
+  const hasActiveItems = items.length > 0;
+
   return (
     <Wrap>
       <LeftArrowButton
@@ -68,9 +70,12 @@ function ActiveFilterListView() {
             <ListItemView key={item[1]} item={item} />
           ))}
         </List>
-        <ClearAllButton type="button" onClick={onClearAll}>
-          clear
-        </ClearAllButton>
+
+        {hasActiveItems && (
+          <ClearAllButton type="button" onClick={onClearAll}>
+            clear
+          </ClearAllButton>
+        )}
       </ScrollContainer>
 
       <RightArrowButton
@@ -85,9 +90,17 @@ function ActiveFilterListView() {
 }
 
 function ListItemView(props: { item: string[] }) {
+  const liRef = useRef<HTMLLIElement>(null);
+  const [width, setWidth] = useState<number>(0);
+  const [isMounted, setIsMounted] = useState(true);
   const [searchParams, setSearchParams] = useSearchParams();
 
   const [key, value] = props.item;
+
+  useEffect(() => {
+    if (!liRef.current) return;
+    setWidth(liRef.current.clientWidth);
+  }, []);
 
   const handleClick = () => {
     let params = removeSearchParamsFromEntriesByValue(searchParams, value);
@@ -97,11 +110,12 @@ function ListItemView(props: { item: string[] }) {
       params = removePriceParamsFromEntries(params);
     }
 
-    setSearchParams(params);
+    setTimeout(() => setSearchParams(params), 490);
+    setIsMounted(false);
   };
 
   return (
-    <ListItem>
+    <ListItem ref={liRef} isMounted={isMounted} width={width}>
       {value}
       <DeleteButton type="button" onClick={handleClick}>
         X

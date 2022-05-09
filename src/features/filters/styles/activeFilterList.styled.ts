@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 
 export const Wrap = styled.div`
   grid-row-start: 1;
@@ -37,7 +37,31 @@ export const List = styled.ul`
   display: flex;
 `;
 
-export const ListItem = styled.li`
+const show = keyframes`
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+`;
+
+const outAnimation = (width: number | null) => keyframes`
+  0% {
+    width: ${width}px;
+  }
+
+  100% {
+    opacity: 0;
+    width: 0;
+  }
+`;
+
+export const ListItem = styled.li<{
+  isMounted: boolean;
+  width: number;
+}>`
   height: 40px;
   margin-right: 20px;
   background-color: #f2f2f2;
@@ -49,7 +73,16 @@ export const ListItem = styled.li`
   color: #303030;
   user-select: none;
   align-items: center;
+  overflow: hidden;
   transition: all 0.2s ease-in-out;
+
+  animation: ${({ isMounted }) => {
+    if (isMounted) return css`0.3s ${show} ease-in-out backwards`;
+
+    return css`
+      500ms ${({ width }: { width: number }) => outAnimation(width)} ease-in
+    `;
+  }};
 
   &:hover {
     box-shadow: 0px 10px 10px -7px rgb(52 152 219 / 20%);
