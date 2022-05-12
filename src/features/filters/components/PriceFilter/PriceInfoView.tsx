@@ -1,12 +1,13 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useTypedSelector } from '@src/common/hooks/useTypedSelector';
+import useGetElementSizeByRef from '@common/hooks/useGetElementSizeByRef';
 import { InputWrapper, Wrap, Input } from '../../styles/filters.styled';
 import RangeInput from '../../atoms/RangeInput/RangeInput';
 import useFilterContext from '../../hooks/useFilterContext';
 import useHandleInputsPrice from '../../hooks/useHandleInputsPrice';
 import useHandleRangePrice from '../../hooks/useHandleRangePrice';
 import useSyncInputStateWithRangeState from '../../hooks/useSyncInputStateWithRangeState';
-import { InfoStatusUnion } from './PriceFilterView';
+import { InfoStatusUnion } from '../../types';
 
 interface IProps {
   infoStatus: InfoStatusUnion | null;
@@ -14,7 +15,7 @@ interface IProps {
 
 function PriceInfoView({ infoStatus }: IProps) {
   const wrapRef = useRef<HTMLDivElement>(null);
-  const [height, setHeight] = useState<number | null>(null);
+  const size = useGetElementSizeByRef(wrapRef);
 
   const options = useTypedSelector((state) => state.filters.options);
   const context = useFilterContext();
@@ -29,7 +30,7 @@ function PriceInfoView({ infoStatus }: IProps) {
 
   useEffect(() => {
     if (isNotInitStateValues && wrapRef.current) {
-      context.setBtnVerticalOffset(wrapRef.current.offsetTop + 20);
+      context.setBtnOffsetY(wrapRef.current.offsetTop + 20);
       context.setShowApplyBtn(true);
     }
 
@@ -44,11 +45,6 @@ function PriceInfoView({ infoStatus }: IProps) {
     return () => clearTimeout(timeoutId);
   }, [values]);
 
-  useEffect(() => {
-    if (!wrapRef.current) return;
-    setHeight(wrapRef.current.clientHeight);
-  }, []);
-
   const onRangeChange = (value: number[]) => {
     handleRangeChange(value);
     setValues(value);
@@ -59,7 +55,7 @@ function PriceInfoView({ infoStatus }: IProps) {
   };
 
   return (
-    <Wrap ref={wrapRef} infoStatus={infoStatus} height={height}>
+    <Wrap ref={wrapRef} infoStatus={infoStatus} height={size.height}>
       <InputWrapper>
         <Input
           name="min"

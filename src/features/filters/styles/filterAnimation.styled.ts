@@ -31,3 +31,24 @@ export const slowHeight = (prev: number | undefined, current: number) => {
     }
   `;
 };
+
+export const showFilterItem = keyframes`
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+`;
+
+export const removeFilterItem = (width: number | null) => keyframes`
+  0% {
+    width: ${width}px;
+  }
+
+  100% {
+    opacity: 0;
+    width: 0;
+  }
+`;

@@ -1,4 +1,5 @@
-import styled, { css, keyframes } from 'styled-components';
+import styled, { css } from 'styled-components';
+import { removeFilterItem, showFilterItem } from './filterAnimation.styled';
 
 export const Wrap = styled.div`
   grid-row-start: 1;
@@ -37,27 +38,6 @@ export const List = styled.ul`
   display: flex;
 `;
 
-const show = keyframes`
-  0% {
-    opacity: 0;
-  }
-
-  100% {
-    opacity: 1;
-  }
-`;
-
-const outAnimation = (width: number | null) => keyframes`
-  0% {
-    width: ${width}px;
-  }
-
-  100% {
-    opacity: 0;
-    width: 0;
-  }
-`;
-
 export const ListItem = styled.li<{
   isMounted: boolean;
   width: number;
@@ -77,10 +57,10 @@ export const ListItem = styled.li<{
   transition: all 0.2s ease-in-out;
 
   animation: ${({ isMounted }) => {
-    if (isMounted) return css`0.3s ${show} ease-in-out backwards`;
+    if (isMounted) return css`0.3s ${showFilterItem} ease-in-out backwards`;
 
     return css`
-      500ms ${({ width }: { width: number }) => outAnimation(width)} ease-in
+      500ms ${({ width }: { width: number }) => removeFilterItem(width)} ease-in
     `;
   }};
 

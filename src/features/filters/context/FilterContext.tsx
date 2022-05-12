@@ -8,7 +8,6 @@ import React, {
 import { useSearchParams, ParamKeyValuePair } from 'react-router-dom';
 import { IDeviceInfo } from '@src/features/devices/types';
 import isInArray from '@src/common/utils/isInArray';
-import * as Api from '@src/common/api/Api';
 import { useTypedSelector } from '@src/common/hooks/useTypedSelector';
 import { useAppDispatch } from '@src/common/hooks/useAppDispatch';
 import { getDevices } from '@src/features/devices/devicesSlice';
@@ -18,7 +17,7 @@ import getFeaturesEntries from '../helpers/getFeaturesEntries';
 type ISelectProps = Pick<IDeviceInfo, 'id' | 'title' | 'description'>;
 
 interface IContext {
-  btnVerticalOffset: number;
+  btnOffsetY: number;
   showApplyBtn: boolean;
   hasSelectedItems: boolean;
   selected: ISelectProps[];
@@ -26,20 +25,20 @@ interface IContext {
   onSelectOption: (option: ISelectProps) => void;
   apply: () => void;
   clearSelectedOptions: () => void;
-  setBtnVerticalOffset: Dispatch<SetStateAction<number>>;
+  setBtnOffsetY: Dispatch<SetStateAction<number>>;
   setShowApplyBtn: Dispatch<SetStateAction<boolean>>;
   setSelected: Dispatch<SetStateAction<ISelectProps[]>>;
   setPrices: Dispatch<SetStateAction<number[]>>;
   prices: number[];
-  count: number;
   shouldBeInitial: boolean;
+  isInitPrice: boolean;
   setShouldBeInitial: Dispatch<SetStateAction<boolean>>;
+  getFilterParams: () => ParamKeyValuePair[];
 }
 
 export const FilterContext = createContext<IContext | undefined>(undefined);
 
 export function FilterProvider({ children }: { children: React.ReactNode }) {
-  const [count, setCount] = useState(0);
   const [shouldBeInitial, setShouldBeInitial] = useState<boolean>(false);
   const [, setSearchParams] = useSearchParams();
   const dispatch = useAppDispatch();
@@ -48,7 +47,7 @@ export function FilterProvider({ children }: { children: React.ReactNode }) {
   const [showApplyBtn, setShowApplyBtn] = useState<boolean>(false);
   const [prices, setPrices] = useState<number[]>([]);
   const [selected, setSelected] = useState<ISelectProps[]>([]);
-  const [btnVerticalOffset, setBtnVerticalOffset] = useState<number>(0);
+  const [btnOffsetY, setBtnOffsetY] = useState<number>(0);
   const options = useTypedSelector((state) => state.filters.options);
 
   const hasSelectedItems = selected.length > 0;
@@ -60,18 +59,6 @@ export function FilterProvider({ children }: { children: React.ReactNode }) {
     if (categoryId) setPrices([]);
   }, [categoryId]);
 
-  useEffect(() => {
-    let timeoutId: ReturnType<typeof setTimeout>;
-
-    if (hasSelectedItems || !isInitPrice) {
-      timeoutId = setTimeout(getCount, 1000);
-    }
-
-    return () => {
-      clearTimeout(timeoutId);
-    };
-  }, [selected.length, prices]);
-
   const onSelectOption = (option: ISelectProps) => {
     if (isInArray(option.id, selected)) {
       setSelected((prev) => prev.filter((i) => i.id !== option.id));
@@ -81,8 +68,8 @@ export function FilterProvider({ children }: { children: React.ReactNode }) {
   };
 
   const clearSelectedOptions = () => {
+    // TODO: unnecessary re-renders; batching;
     setSelected([]);
-    setCount(0);
     setShouldBeInitial(true);
     setShowApplyBtn(false);
   };
@@ -102,22 +89,6 @@ export function FilterProvider({ children }: { children: React.ReactNode }) {
 
     setShowApplyBtn(false);
   };
-  // FEATURE: loader for counter;
-  async function getCount() {
-    try {
-      const params = getFilterParams();
-
-      const res = await Api.Devices.get({
-        limit: 20,
-        offset: 0,
-        filters: params,
-      });
-
-      setCount(res.data.devices.length);
-    } catch (error) {
-      setCount(0);
-    }
-  }
 
   function getFilterParams() {
     const featuresEntries = getFeaturesEntries(selected);
@@ -133,8 +104,8 @@ export function FilterProvider({ children }: { children: React.ReactNode }) {
   }
   // eslint-disable-next-line react/jsx-no-constructed-context-values
   const values = {
-    btnVerticalOffset,
-    setBtnVerticalOffset,
+    btnOffsetY,
+    setBtnOffsetY,
     selected,
     setSelected,
     onSelectOption,
@@ -145,8 +116,9 @@ export function FilterProvider({ children }: { children: React.ReactNode }) {
     setPrices,
     apply,
     prices,
-    count,
     shouldBeInitial,
+    isInitPrice,
+    getFilterParams,
     setShouldBeInitial,
   };
 

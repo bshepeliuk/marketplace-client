@@ -13,11 +13,11 @@ function InteractionWithFilterView() {
   const {
     setShowApplyBtn,
     hasSelectedItems,
-    btnVerticalOffset,
+    btnOffsetY,
     showApplyBtn,
   } = context;
 
-  const prevOffset = usePrevious(btnVerticalOffset);
+  const prevOffset = usePrevious(btnOffsetY);
 
   useEffect(() => {
     setShowApplyBtn(false);
@@ -29,7 +29,7 @@ function InteractionWithFilterView() {
 
   return (
     <Wrap
-      btnVerticalOffset={btnVerticalOffset}
+      btnOffsetY={btnOffsetY}
       shouldShow={showApplyBtn}
       prevOffset={prevOffset}
     >

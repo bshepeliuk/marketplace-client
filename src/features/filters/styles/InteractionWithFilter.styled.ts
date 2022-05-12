@@ -2,7 +2,7 @@ import styled, { css } from 'styled-components';
 import { slowHeight } from './filterAnimation.styled';
 
 interface IBtnProps {
-  btnVerticalOffset: number;
+  btnOffsetY: number;
   shouldShow: boolean;
   prevOffset: number | undefined;
 }
@@ -12,9 +12,9 @@ export const Wrap = styled.div<IBtnProps>`
   z-index: 2;
   position: absolute;
   right: 5px;
-  top: ${({ btnVerticalOffset }) => {
+  top: ${({ btnOffsetY }) => {
     return css`
-      ${btnVerticalOffset}px
+      ${btnOffsetY}px
     `;
   }};
 
@@ -22,7 +22,6 @@ export const Wrap = styled.div<IBtnProps>`
     return shouldShow ? 'block' : 'none';
   }};
 
-  animation: 0.3s
-    ${(props) => slowHeight(props.prevOffset, props.btnVerticalOffset)}
+  animation: 0.3s ${(props) => slowHeight(props.prevOffset, props.btnOffsetY)}
     ease-in-out backwards;
 `;

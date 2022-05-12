@@ -3,18 +3,12 @@ import { IDeviceInfo } from '@features/devices/types';
 import { AccordingHeader, ArrowIcon } from '../../styles/filters.styled';
 import AccordionInfoListView from './AccordionInfoListView';
 import useFilterContext from '../../hooks/useFilterContext';
+import { InfoStatus, InfoStatusUnion } from '../../types';
 
 interface IProps {
   title: string;
   info: IDeviceInfo[];
 }
-
-export const InfoStatus = {
-  show: 'show-accordion-info',
-  hide: 'hide-accordion-info',
-} as const;
-// prettier-ignore
-export type InfoStatusUnion = typeof InfoStatus[keyof typeof InfoStatus];
 
 function AccordionItemView({ title, info }: IProps) {
   const [infoStatus, setInfoStatus] = useState<InfoStatusUnion | null>(null);

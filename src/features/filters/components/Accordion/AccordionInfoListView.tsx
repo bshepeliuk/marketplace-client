@@ -1,8 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { IDeviceInfo } from '@features/devices/types';
+import useGetElementSizeByRef from '@common/hooks/useGetElementSizeByRef';
 import AccordionInfoItemView from './AccordionInfoItemView';
 import { List } from '../../styles/accordion.styled';
-import { InfoStatusUnion } from './AccordionItemView';
+import { InfoStatusUnion } from '../../types';
 
 interface IProps {
   info: IDeviceInfo[];
@@ -11,15 +12,10 @@ interface IProps {
 
 function AccordionInfoListView({ info, infoStatus }: IProps) {
   const listRef = useRef<HTMLUListElement>(null);
-  const [height, setHeight] = useState<number | null>(null);
-
-  useEffect(() => {
-    if (!listRef.current) return;
-    setHeight(listRef.current.clientHeight);
-  }, []);
+  const size = useGetElementSizeByRef(listRef);
 
   return (
-    <List ref={listRef} height={height} infoStatus={infoStatus}>
+    <List ref={listRef} height={size.height} infoStatus={infoStatus}>
       {info.map((item) => (
         <AccordionInfoItemView key={item.id} item={item} />
       ))}

@@ -1,12 +1,9 @@
 import styled, { css } from 'styled-components';
-import {
-  InfoStatus,
-  InfoStatusUnion,
-} from '../components/Accordion/AccordionItemView';
+import { InfoStatus, InfoStatusUnion } from '../types';
 import { hideByHeight, showByHeight } from './filterAnimation.styled';
 
 export const List = styled.ul<{
-  height: number | null;
+  height: number;
   infoStatus: InfoStatusUnion | null;
 }>`
   transition: all 0.2s ease-out;

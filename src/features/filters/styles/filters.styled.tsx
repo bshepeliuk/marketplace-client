@@ -1,11 +1,8 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 import { IoIosArrowForward } from 'react-icons/io';
-import {
-  InfoStatus,
-  InfoStatusUnion,
-} from '../components/PriceFilter/PriceFilterView';
 import { hideByHeight, showByHeight } from './filterAnimation.styled';
+import { InfoStatus, InfoStatusUnion } from '../types';
 
 export const Wrap = styled.div<{
   infoStatus: InfoStatusUnion | null;
