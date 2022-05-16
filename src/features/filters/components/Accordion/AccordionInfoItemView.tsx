@@ -1,6 +1,6 @@
-import React, { ChangeEvent } from 'react';
+import React, { useRef } from 'react';
 import { IDeviceInfo } from '@src/features/devices/types';
-import { AccordionInfo, CheckBox } from '../../styles/filters.styled';
+import { AccordionInfo, CheckBox, Label } from '../../styles/filters.styled';
 import useFilterContext from '../../hooks/useFilterContext';
 
 interface IProps {
@@ -8,16 +8,15 @@ interface IProps {
 }
 
 function AccordionInfoItemView({ item }: IProps) {
+  const wrapRef = useRef<HTMLDivElement>(null);
   const context = useFilterContext();
   // prettier-ignore
   // eslint-disable-next-line max-len
   const { setBtnOffsetY, onSelectOption, setShowApplyBtn, selected } = context;
   const { id, description, title } = item;
 
-  const handleChange = (evt: ChangeEvent) => {
-    const target = evt.target as HTMLElement;
-
-    setBtnOffsetY(target.offsetTop);
+  const handleChange = () => {
+    setBtnOffsetY(wrapRef.current!.offsetTop);
     onSelectOption({ id, title, description });
     setShowApplyBtn(true);
   };
@@ -27,12 +26,17 @@ function AccordionInfoItemView({ item }: IProps) {
   };
 
   return (
-    <AccordionInfo>
-      <CheckBox
-        type="checkbox"
-        checked={hasChecked(item.id)}
-        onChange={handleChange}
-      />
+    <AccordionInfo ref={wrapRef}>
+      <Label htmlFor={item.description}>
+        <CheckBox
+          id={item.description}
+          type="checkbox"
+          checked={hasChecked(item.id)}
+          onChange={handleChange}
+        />
+        <span className="checkmark" />
+      </Label>
+
       <li>{description}</li>
     </AccordionInfo>
   );

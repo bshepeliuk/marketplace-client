@@ -60,7 +60,7 @@ export const ListItem = styled.li<{
     if (isMounted) return css`0.3s ${showFilterItem} ease-in-out backwards`;
 
     return css`
-      500ms ${({ width }: { width: number }) => removeFilterItem(width)} ease-in
+      520ms ${({ width }: { width: number }) => removeFilterItem(width)} ease-in
     `;
   }};
 

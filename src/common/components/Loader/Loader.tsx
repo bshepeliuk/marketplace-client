@@ -1,58 +1,34 @@
 import React from 'react';
-import styled, { keyframes } from 'styled-components';
+import { LoaderSvg } from './loader.styled';
 
-const rotate = keyframes`
-  0% {
-    transform: rotate(0deg);
-  };
+interface IProps {
+  size: number;
+  color: string;
+  strokeWidth: number;
+}
 
-  100% {
-    transform: rotate(360deg);
-  }
-`;
+function LoaderView(props: IProps) {
+  const { size = 0, color = '#bdc3c7', strokeWidth = 5 } = props;
 
-const animate = keyframes`
-  0%, 100% {
-    stroke-dashoffset: 440;
-  };
+  const leftAndTopOffset = 1;
+  const radius = size / 2;
+  const radiusWithOffset = radius - leftAndTopOffset;
+  const perimeter = Math.round(2 * Math.PI * radius);
 
-  50% {
-    stroke-dashoffset: 0;
-  };
-
-  50.1% {
-    stroke-dashoffset: 880;
-  };
-`;
-
-const Svg = styled.svg`
-  position: relative;
-  z-index: 5;
-  width: 150px;
-  height: 150px;
-  animation: 2s ${rotate} linear infinite;
-
-  circle {
-    width: 100%;
-    height: 100%;
-    fill: none;
-    stroke-width: 10;
-    stroke: green;
-    transform: translate(5px, 5px);
-    stroke-linecap: round;
-    stroke-dasharray: 440;
-    stroke-dashoffset: 440;
-    animation: 4s ${animate} linear infinite;
-  }
-`;
-
-function Loader() {
-  const size = 70;
   return (
-    <Svg>
-      <circle cx={size} cy={size} r={size} />
-    </Svg>
+    <LoaderSvg
+      size={size}
+      color={color}
+      perimeter={perimeter}
+      strokeWidth={strokeWidth}
+    >
+      <circle
+        cx={radiusWithOffset}
+        cy={radiusWithOffset}
+        r={radiusWithOffset}
+      />
+    </LoaderSvg>
   );
 }
 
-export default Loader;
+export default LoaderView;

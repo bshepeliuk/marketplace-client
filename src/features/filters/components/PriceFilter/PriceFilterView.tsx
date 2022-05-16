@@ -15,7 +15,7 @@ function PriceFilterView() {
     setInfoStatus(InfoStatus.hide);
   };
 
-  const isVisible = infoStatus === InfoStatus.show;
+  const isVisible = infoStatus === InfoStatus.show || infoStatus === null;
 
   return (
     <div>

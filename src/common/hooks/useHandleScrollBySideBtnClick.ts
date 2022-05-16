@@ -54,7 +54,7 @@ const useHandleScrollBySideBtnClick = (
 
     if (hasReachedBegin) setLeftVisible(false);
     if (scrollWidth > clientWidth) setRightVisible(true);
-  }, [scrollWrapRef.current]);
+  }, []);
 
   useEffect(() => {
     if (!scrollWrapRef.current) return;
@@ -75,7 +75,7 @@ const useHandleScrollBySideBtnClick = (
     if (hasStartedScroll && hasEndReached) {
       setRightVisible(false);
     }
-  }, [scrollWrapRef.current?.scrollLeft]);
+  }, [isLeftVisible, isRightVisible]);
 
   useEffect(() => {
     if (!scrollWrapRef.current) return;

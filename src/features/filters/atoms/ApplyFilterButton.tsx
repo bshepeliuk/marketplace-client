@@ -1,79 +1,24 @@
-import React, { useEffect, useState } from 'react';
-import { ParamKeyValuePair } from 'react-router-dom';
-import * as Api from '@src/common/api/Api';
+import React from 'react';
+import LoaderView from '@common/components/Loader/Loader';
 import { ApplyButton } from '../styles/filters.styled';
 import useFilterContext from '../hooks/useFilterContext';
-
-const useGetCountOfDevices = () => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [count, setCount] = useState(0);
-
-  const getCountByParams = async (params: ParamKeyValuePair[]) => {
-    setIsLoading(true);
-
-    try {
-      const res = await Api.Devices.get({
-        limit: 20,
-        offset: 0,
-        filters: params,
-      });
-
-      setCount(res.data.devices.length);
-
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 500);
-    } catch (error) {
-      setCount(0);
-      setIsLoading(false);
-    }
-  };
-
-  return {
-    setCount,
-    count,
-    getCountByParams,
-    isLoading,
-  };
-};
+import useGetCountOfDevices from '../hooks/useGetCountOfDevices';
 
 function ApplyFilterButton() {
-  // prettier-ignore
-  const {
-    count,
-    isLoading,
-    getCountByParams,
-    setCount
-  } = useGetCountOfDevices();
+  const { count, isLoading } = useGetCountOfDevices();
   const context = useFilterContext();
 
-  const {
-    apply,
-    getFilterParams,
-    prices,
-    selected,
-    isInitPrice,
-    hasSelectedItems,
-  } = context;
+  const { apply } = context;
 
-  useEffect(() => {
-    if (!hasSelectedItems || !isInitPrice) return;
-
-    const params = getFilterParams();
-
-    const timeoutId = setTimeout(() => {
-      getCountByParams(params);
-    }, 1000);
-
-    return () => {
-      setCount(0);
-      clearTimeout(timeoutId);
-    };
-  }, [selected.length, prices]);
+  const content = isLoading ? (
+    <LoaderView size={10} color="#3498db" strokeWidth={1} />
+  ) : (
+    count
+  );
 
   return (
     <ApplyButton type="button" onClick={apply}>
-      show - {isLoading ? '...' : count}
+      show - {content}
     </ApplyButton>
   );
 }

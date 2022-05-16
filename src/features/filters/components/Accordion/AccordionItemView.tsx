@@ -14,7 +14,7 @@ function AccordionItemView({ title, info }: IProps) {
   const [infoStatus, setInfoStatus] = useState<InfoStatusUnion | null>(null);
   const { setShowApplyBtn, hasSelectedItems } = useFilterContext();
 
-  const isVisible = infoStatus === InfoStatus.show;
+  const isVisible = infoStatus === InfoStatus.show || infoStatus === null;
 
   useEffect(() => {
     if (!hasSelectedItems) return;

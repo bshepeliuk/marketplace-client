@@ -3,8 +3,9 @@ import { Link } from 'react-router-dom';
 import useLogout from '@features/auth/hooks/useLogout';
 import styled from 'styled-components';
 import { useTypedSelector } from '@src/common/hooks/useTypedSelector';
+// eslint-disable-next-line max-len
+import CategoriesDropDown from '@features/categories/atoms/CategoriesDropDown/CategoriesDropDown';
 import { routes } from '@src/app/Router';
-import CategoriesDropDown from '@features/categories/atoms/CategoriesDropDown';
 
 const Header = styled.header`
   height: 80px;

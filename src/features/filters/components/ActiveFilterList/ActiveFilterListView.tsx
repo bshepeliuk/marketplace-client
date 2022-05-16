@@ -110,7 +110,7 @@ function ListItemView(props: { item: string[] }) {
       params = removePriceParamsFromEntries(params);
     }
 
-    setTimeout(() => setSearchParams(params), 490);
+    setTimeout(() => setSearchParams(params), 500);
     setIsMounted(false);
   };
 

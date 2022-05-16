@@ -46,15 +46,15 @@ export const SideBar = styled.div`
   &::-webkit-scrollbar {
     width: 6px;
   }
-  /* Track */
+
   &::-webkit-scrollbar-track {
     background-color: rgba(236, 240, 241, 0.5);
   }
-  /* Handle */
+
   &::-webkit-scrollbar-thumb {
     background-color: rgba(52, 73, 94, 0.1);
   }
-  /* Handle on hover */
+
   &::-webkit-scrollbar-thumb:hover {
     background-color: rgba(52, 73, 94, 0.5);
   }
@@ -72,8 +72,16 @@ export const AccordingHeader = styled.div`
 
 export const AccordionInfo = styled.div`
   display: flex;
-  margin-bottom: 5px;
+  margin-bottom: 6px;
   user-select: none;
+
+  &:first-child {
+    margin-top: 8px;
+  }
+
+  &:last-child {
+    margin-bottom: 13px;
+  }
 `;
 
 export const ArrowIcon = styled(({ isItVisible, ...props }) => (
@@ -88,6 +96,56 @@ export const ArrowIcon = styled(({ isItVisible, ...props }) => (
 
 export const CheckBox = styled.input`
   margin-right: 10px;
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+`;
+
+export const Label = styled.label`
+  display: block;
+  position: relative;
+  padding-left: 30px;
+  cursor: pointer;
+  font-size: 22px;
+  user-select: none;
+  border-radius: 3px;
+
+  & input:checked ~ .checkmark:after {
+    display: block;
+  }
+
+  &:hover input ~ .checkmark {
+    background-color: rgba(149, 165, 166, 0.4);
+  }
+
+  & input:checked ~ .checkmark {
+    background-color: #2196f3;
+  }
+
+  .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 18px;
+    width: 18px;
+    background-color: rgba(236, 240, 241, 0.8);
+    border-radius: 3px;
+
+    &:after {
+      content: '';
+      position: absolute;
+      display: none;
+      left: 6px;
+      top: 2px;
+      width: 4px;
+      height: 7px;
+      border: solid white;
+      border-width: 0 3px 3px 0;
+      transform: rotate(45deg);
+    }
+  }
 `;
 
 export const ApplyButton = styled.button`
