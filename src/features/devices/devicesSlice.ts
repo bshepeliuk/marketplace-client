@@ -3,9 +3,15 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import * as Api from '@src/common/api/Api';
 import { IThunkAPI } from '@src/common/types/baseTypes';
 import { DeviceSchema, DevicesSchema } from '@common/normalizeSchemas';
-import { IGetDevicesParams } from '@src/common/types/apiTypes';
+import { IGetDevicesProps } from '@src/common/types/apiTypes';
 import getErrorMessage from '@src/common/utils/getErrorMessage';
-import { IDeviceData, IDevicesData } from './types';
+import {
+  DeviceEntities,
+  IDevice,
+  IDeviceData,
+  IDevicesData,
+  IGetMoreDevicesParams,
+} from './types';
 import { DEVICES_OFFSET } from './constants';
 
 export const initialState = {
@@ -27,47 +33,61 @@ type State = typeof initialState;
 
 export const getDevices = createAsyncThunk<
   IDevicesData,
-  IGetDevicesParams,
+  IGetDevicesProps,
   IThunkAPI
->(
-  'devices/get-all',
-  async ({ offset = 0, limit = 20 }, { rejectWithValue }) => {
-    try {
-      const { data } = await Api.Devices.get({ offset, limit });
+>('devices/get-all', async (props, { rejectWithValue, dispatch }) => {
+  const { offset = 0, limit = 20, categoryId, filters } = props;
 
-      const { result, entities } = normalize(data.devices, DevicesSchema);
+  try {
+    const { data } = await Api.Devices.get({
+      offset,
+      limit,
+      categoryId,
+      filters,
+    });
 
-      return {
-        entities,
-        result,
-        devices: data.devices,
-      };
-    } catch (error) {
-      const message = getErrorMessage(error);
+    const { result, entities } = normalize<IDevice, DeviceEntities, number[]>(
+      data.devices,
+      DevicesSchema,
+    );
 
-      return rejectWithValue({
-        message,
-      });
+    if (data.devices.length < DEVICES_OFFSET) {
+      dispatch(deviceActions.hasNoMore({ hasMore: false }));
     }
-  },
-);
+
+    return {
+      entities,
+      result,
+    };
+  } catch (error) {
+    const message = getErrorMessage(error);
+
+    return rejectWithValue({
+      message,
+    });
+  }
+});
 
 export const getMoreDevices = createAsyncThunk<
   IDevicesData,
-  undefined,
+  IGetMoreDevicesParams,
   IThunkAPI
 >(
   'devices/get-more-devices',
-  async (_, { rejectWithValue, dispatch, getState }) => {
+  async ({ filters }, { rejectWithValue, dispatch, getState }) => {
     const { items } = getState().devices;
 
     try {
       const { data } = await Api.Devices.get({
+        filters,
         offset: items.length,
         limit: 20,
       });
 
-      const { result, entities } = normalize(data.devices, DevicesSchema);
+      const { result, entities } = normalize<IDevice, DeviceEntities, number[]>(
+        data.devices,
+        DevicesSchema,
+      );
 
       if (data.devices.length < DEVICES_OFFSET) {
         dispatch(deviceActions.hasNoMore({ hasMore: false }));
@@ -76,7 +96,6 @@ export const getMoreDevices = createAsyncThunk<
       return {
         entities,
         result,
-        devices: data.devices,
       };
     } catch (error) {
       const message = getErrorMessage(error);
@@ -129,6 +148,7 @@ const devicesSlice = createSlice({
   extraReducers: (builder) => {
     // get all devices
     builder.addCase(getDevices.pending, (state: State) => {
+      state.hasMore = true;
       state.isLoading = true;
       state.isError = false;
     });

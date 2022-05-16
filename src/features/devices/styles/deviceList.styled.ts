@@ -1,11 +1,6 @@
 import styled from 'styled-components';
 import { MdOutlineDoubleArrow } from 'react-icons/md';
 import { goToTopArrowAnimation } from './animation.styled';
-// Header - 80px;
-export const Wrap = styled.div`
-  flex: 1 1 auto;
-  height: calc(100vh - 80px);
-`;
 
 export const GoToTopButton = styled.button`
   position: fixed;

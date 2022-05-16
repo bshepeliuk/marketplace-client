@@ -15,7 +15,20 @@ const useDispatchMock = jest.spyOn(ReactRedux, 'useDispatch');
 
 const rootState = {
   entities: {
-    devices: { 1: { id: 1, images: ['https://image.jpeg'] } },
+    devices: {
+      1: {
+        id: 1,
+        images: [1],
+        info: [],
+      },
+    },
+
+    images: {
+      1: {
+        id: 1,
+        url: 'https://image.jpeg',
+      },
+    },
   },
   devices: {
     device: {

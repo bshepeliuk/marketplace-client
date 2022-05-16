@@ -1,9 +1,19 @@
+import { IFilterOptions } from '@src/common/types/apiTypes';
 import { CSSProperties } from 'styled-components';
 
 export interface IDeviceImage {
   id: number;
   url: string;
   deviceId: number;
+}
+
+export interface IDeviceInfo {
+  id: number;
+  title: string;
+  description: string;
+  typeId: number;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface IDevice {
@@ -13,18 +23,25 @@ export interface IDevice {
   brandId: number;
   typeId: number;
   quantity: number;
-  images: IDeviceImage[];
   createdAt: string;
   updatedAt: string;
+  images: IDeviceImage[] | number[];
+  info: IDeviceInfo[] | number[];
 }
 
 export interface IDeviceData {
   device: IDevice;
 }
 
+export type DeviceEntities = {
+  devices: Record<string, IDevice>;
+  images: Record<string, IDeviceImage>;
+  info: Record<string, IDeviceInfo>;
+};
+
 export interface IDevicesData {
-  devices: IDevice[];
   result: number[];
+  entities: DeviceEntities;
 }
 
 interface IListData {
@@ -32,6 +49,10 @@ interface IListData {
   isLoading: boolean;
   isLoadingMore: boolean;
   COLUMN_COUNT: number;
+}
+
+export interface IGetMoreDevicesParams {
+  filters: IFilterOptions;
 }
 
 export interface IListItemProps {

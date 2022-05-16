@@ -8,7 +8,8 @@ function generateDevicesByCount(count: number) {
       brandId: 1,
       typeId: 1,
       price: 1000,
-      images: [{ url: 'https://image.jpg' }],
+      images: [1],
+      info: [1],
     });
   }
 

@@ -3,6 +3,9 @@ import { EntityKeys, IEntitiesState } from './types';
 
 const initialState: IEntitiesState = {
   devices: {},
+  categories: {},
+  images: {},
+  info: {},
 };
 // prettier-ignore
 // eslint-disable-next-line default-param-last, max-len

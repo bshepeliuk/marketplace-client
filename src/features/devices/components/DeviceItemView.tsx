@@ -1,5 +1,5 @@
 import React from 'react';
-import { generatePath } from 'react-router-dom';
+import { generatePath, useLocation } from 'react-router-dom';
 import { routes } from '@src/app/Router';
 import ImageView from '../atoms/ImageView';
 import { GUTTER_SIZE } from '../constants';
@@ -14,6 +14,8 @@ import DeviceLoaderView from './DeviceLoaderView';
 import AddToCartButton from '../atoms/AddToCartButton';
 
 function DeviceItemView(props: IListItemProps) {
+  const location = useLocation();
+
   const { style, data, rowIndex, columnIndex } = props;
 
   const styles = {
@@ -25,9 +27,7 @@ function DeviceItemView(props: IListItemProps) {
   };
 
   const itemIndex = rowIndex * data.COLUMN_COUNT + columnIndex;
-
   const device = data.items[itemIndex];
-
   const hasNoDevice = device === undefined;
 
   if (data.isLoading || (data.isLoadingMore && hasNoDevice)) {
@@ -46,7 +46,13 @@ function DeviceItemView(props: IListItemProps) {
 
       <DeviceTitleLink
         to={generatePath(routes.device, { deviceId: `${device.id}` })}
-        state={{ rowIndex }}
+        state={{
+          rowIndex,
+          from: {
+            pathname: location.pathname,
+            search: location.search,
+          },
+        }}
       >
         {device.name}
       </DeviceTitleLink>

@@ -1,5 +1,5 @@
 import React from 'react';
-import useAppInit from '@common/hooks/app/useAppInit';
+import useAppInit from '@src/features/app/hooks/useAppInit';
 import Router from './Router';
 
 function App() {

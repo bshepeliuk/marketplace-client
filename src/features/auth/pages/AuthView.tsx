@@ -1,5 +1,5 @@
 import React from 'react';
-import { useTypedSelector } from '@common/hooks/main/useTypedSelector';
+import { useTypedSelector } from '@src/common/hooks/useTypedSelector';
 import { routes } from '@src/app/Router';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import styled from 'styled-components';

@@ -2,6 +2,8 @@ import styled from 'styled-components';
 
 export const DeviceListContainer = styled.div`
   max-width: 1200px;
+  // 80px - header; 80px - margin-bottom;
+  height: calc(100vh - 80px - 80px);
   margin: 0 auto;
 
   @media (max-width: 1200px) {

@@ -1,24 +1,39 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { RootState } from '@src/app/store';
+import { IDevice } from '../types';
+import getDeviceByIdFromEntities from '../helpers/getDeviceByIdFromEntities';
 
 const getDevicesState = (state: RootState) => state.devices;
-const getDevicesEntity = (state: RootState) => state.entities.devices;
-const getDeviceIdProp = (_: any, deviceId: string) => deviceId;
+const getEntitiesState = (state: RootState) => state.entities;
+const getDeviceIdProp = (_: unknown, deviceId: number) => deviceId;
+const getCategoryIdProps = (_: unknown, categoryId: string | null) => {
+  return categoryId;
+};
 
 export const deviceSelector = createSelector(
-  [getDevicesEntity, getDevicesState, getDeviceIdProp],
-  (entity, state, deviceId) => {
+  [getEntitiesState, getDevicesState, getDeviceIdProp],
+  (entities, deviceState, deviceId) => {
+    const device = entities.devices[deviceId]
+      ? getDeviceByIdFromEntities(Number(deviceId), entities)
+      : undefined;
+
     return {
-      device: entity[deviceId],
-      isLoading: state.device.isLoading,
+      device,
+      isLoading: deviceState.device.isLoading,
     };
   },
 );
 
 export const devicesSelector = createSelector(
-  [getDevicesState, getDevicesEntity],
-  (state, devices) => {
-    const items = state.items.map((id) => devices[id]);
+  [getDevicesState, getEntitiesState, getCategoryIdProps],
+  (state, entities, categoryId) => {
+    let items = [] as IDevice[];
+
+    items = state.items.map((id) => getDeviceByIdFromEntities(id, entities));
+
+    if (categoryId) {
+      items = items.filter((item) => item.typeId === Number(categoryId));
+    }
 
     return {
       items,

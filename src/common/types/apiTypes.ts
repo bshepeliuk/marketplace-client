@@ -15,7 +15,22 @@ export interface IRegister extends ILogin {
   role: ROLE.SELLER | ROLE.BUYER;
 }
 
-export interface IGetDevicesParams {
+export type IFilterOptions = Array<[string, string]>;
+
+interface IDeviceDefaultParams {
   limit: number;
   offset: number;
+  categoryId?: number;
+}
+
+export interface IGetDevicesProps extends IDeviceDefaultParams {
+  filters?: IFilterOptions;
+}
+
+export interface IGetDevicesParams extends IDeviceDefaultParams {
+  offset: number;
+  limit: number;
+  categoryId?: number;
+  options?: string;
+  prices?: string;
 }

@@ -1,33 +1,35 @@
-import { useEffect } from 'react';
-import { useAppDispatch } from '@common/hooks/main/useAppDispatch';
-import { useTypedSelector } from '@common/hooks/main/useTypedSelector';
+import { useEffect, useState } from 'react';
+import { useAppDispatch } from '@src/common/hooks/useAppDispatch';
+import { useTypedSelector } from '@src/common/hooks/useTypedSelector';
 import { getDeviceById } from '../devicesSlice';
 import { deviceSelector } from '../selectors/deviceSelector';
 
-const useGetDeviceById = (deviceId: any) => {
+const useGetDeviceById = (deviceId: number) => {
+  const [hasNoFound, setHasNoFound] = useState<boolean>(false);
   const dispatch = useAppDispatch();
   const { device, isLoading } = useTypedSelector((state) => {
     return deviceSelector(state, deviceId);
   });
 
-  const getDevice = () => {
-    dispatch(getDeviceById({ deviceId }));
+  const hasNoDevice = device === undefined;
+
+  const getDevice = async () => {
+    const action = await dispatch(getDeviceById({ deviceId }));
+
+    if (getDeviceById.rejected?.match(action)) setHasNoFound(true);
   };
 
   useEffect(() => {
-    if (device === undefined) {
+    if (hasNoDevice) {
       getDevice();
     }
   }, []);
 
-  const hasNoDeviceFound = device === undefined && !isLoading;
-  const hasDeviceImages = device?.images.length > 0;
-
   return {
     device,
+    hasNoDevice,
     isLoading,
-    hasNoDeviceFound,
-    hasDeviceImages,
+    hasNoFound,
   };
 };
 
