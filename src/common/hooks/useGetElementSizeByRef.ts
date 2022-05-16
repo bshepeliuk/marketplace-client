@@ -14,8 +14,8 @@ const useGetElementSizeByRef = (elementRef: RefObject<HTMLElement>) => {
     const { clientHeight, clientWidth } = elementRef.current;
 
     setSize({
-      height: clientHeight,
-      width: clientWidth,
+      height: clientHeight ?? 0,
+      width: clientWidth ?? 0,
     });
   }, []);
 

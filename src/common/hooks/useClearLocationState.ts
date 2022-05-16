@@ -1,4 +1,4 @@
-import { useLocation, useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const useClearLocationState = () => {
   const location = useLocation();
@@ -11,7 +11,9 @@ const useClearLocationState = () => {
     );
   };
 
-  return clearLocationState;
+  return {
+    clearLocationState,
+  };
 };
 
 export default useClearLocationState;

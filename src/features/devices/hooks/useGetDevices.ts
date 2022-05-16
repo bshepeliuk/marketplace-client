@@ -13,7 +13,7 @@ const useGetDevices = () => {
   const [params] = useSearchParams();
   const dispatch = useAppDispatch();
   const { shouldRefetchDevices } = useCheckIfShouldRefetchDevices();
-  const clearLocationState = useClearLocationState();
+  const { clearLocationState } = useClearLocationState();
   const prevParams = usePrevious(params.toString());
 
   const categoryId = params.get('categoryId');
