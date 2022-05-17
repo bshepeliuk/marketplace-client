@@ -22,6 +22,7 @@ export const List = styled.ul`
 
 export const ListItem = styled.li`
   margin-right: 10px;
+  user-select: none;
 `;
 
 export const CategoryButton = styled.button<{ isActive: boolean }>`

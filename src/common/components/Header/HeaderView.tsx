@@ -1,11 +1,27 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import useLogout from '@features/auth/hooks/useLogout';
 import styled from 'styled-components';
-import { useTypedSelector } from '@src/common/hooks/useTypedSelector';
 // eslint-disable-next-line max-len
 import CategoriesDropDown from '@features/categories/atoms/CategoriesDropDown/CategoriesDropDown';
+import { useTypedSelector } from '@src/common/hooks/useTypedSelector';
 import { routes } from '@src/app/Router';
+import UserInfoView from '../UserInfo/UserInfoView';
+
+function HeaderView() {
+  const { isLoggedIn } = useTypedSelector((state) => state.auth);
+
+  return (
+    <Header>
+      <LogoLink to={routes.home} state={{ shouldRefetchDevices: true }}>
+        Marketplace
+      </LogoLink>
+
+      <CategoriesDropDown />
+      <UserInfoView />
+      {!isLoggedIn && <LoginLink to={routes.login}>Login</LoginLink>}
+    </Header>
+  );
+}
 
 const Header = styled.header`
   height: 80px;
@@ -15,7 +31,8 @@ const Header = styled.header`
   background-color: #303030;
   margin-bottom: 80px;
   display: grid;
-  grid-template-columns: 200px 1fr 200px;
+  grid-template-columns: 200px 200px 1fr 200px;
+  justify-items: center;
 `;
 
 const LogoLink = styled(Link)`
@@ -32,27 +49,12 @@ const LogoLink = styled(Link)`
   }
 `;
 
-function HeaderView() {
-  const { onLogout } = useLogout();
-  const { isLoggedIn, user } = useTypedSelector((state) => state.auth);
-
-  return (
-    <Header>
-      <LogoLink to={routes.home} state={{ shouldRefetchDevices: true }}>
-        Marketplace
-      </LogoLink>
-
-      <CategoriesDropDown />
-
-      <h1>{user?.fullName}</h1>
-
-      {isLoggedIn && (
-        <button type="button" onClick={onLogout}>
-          logout
-        </button>
-      )}
-    </Header>
-  );
-}
+const LoginLink = styled(Link)`
+  text-decoration: none;
+  color: #fff;
+  grid-column-start: 4;
+  text-transform: uppercase;
+  font-size: 14px;
+`;
 
 export default HeaderView;

@@ -76,6 +76,8 @@ export const logout = createAsyncThunk<undefined, undefined, IThunkAPI>(
 
       dispatch(authActions.setLoggedIn({ isLoggedIn: false }));
     } catch (error) {
+      dispatch(authActions.setLoggedIn({ isLoggedIn: false }));
+
       const message = getErrorMessage(error);
 
       return rejectWithValue({

@@ -5,6 +5,8 @@ import HomeView from '@features/home/HomeView';
 import AuthView from '@features/auth/pages/AuthView';
 import DeviceDetailsView from '@src/features/devices/pages/DeviceDetailsView';
 import DevicesView from '@src/features/devices/pages/DevicesView';
+import AccountView from '@features/account/pages/AccountView';
+import PrivateRoute from './PrivateRoute';
 
 export const routes = {
   home: '/',
@@ -13,6 +15,7 @@ export const routes = {
   register: '/auth/register',
   devices: '/devices',
   device: '/devices/:deviceId',
+  account: '/account',
 };
 
 function Router() {
@@ -23,6 +26,14 @@ function Router() {
         <Route path={routes.auth} element={<AuthView />} />
         <Route path={routes.device} element={<DeviceDetailsView />} />
         <Route path={routes.devices} element={<DevicesView />} />
+        <Route
+          path={routes.account}
+          element={
+            <PrivateRoute isAllowed>
+              <AccountView />
+            </PrivateRoute>
+          }
+        />
 
         <Route path="*" element={<NotFoundView />} />
       </Routes>

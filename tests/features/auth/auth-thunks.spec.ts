@@ -144,6 +144,12 @@ describe('AUTH THUNKS', () => {
           payload: undefined,
         },
         {
+          type: authActions.setLoggedIn.type,
+          payload: {
+            isLoggedIn: false,
+          },
+        },
+        {
           type: logout.rejected.type,
           payload: logoutResponseError,
         },
