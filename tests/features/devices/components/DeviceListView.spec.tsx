@@ -58,7 +58,13 @@ describe('DeviceListView', () => {
   test('should render device list.', async () => {
     const { findAllByAltText } = setupAndRenderComponent({
       component: DeviceListView,
-      props: { containerRef: { current: {} } },
+      props: {
+        containerRef: { current: {} },
+        items: devices,
+        isLoading: false,
+        isLoadingMore: false,
+        fetchMore: () => {},
+      },
       state: rootState,
     });
 
@@ -70,7 +76,13 @@ describe('DeviceListView', () => {
   test('should render loader.', async () => {
     const { getAllByText } = setupAndRenderComponent({
       component: DeviceListView,
-      props: { containerRef: { current: {} } },
+      props: {
+        containerRef: { current: {} },
+        items: [],
+        isLoading: true,
+        isLoadingMore: false,
+        fetchMore: () => {},
+      },
       state: {
         ...rootState,
         devices: {
