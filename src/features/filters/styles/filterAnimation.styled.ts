@@ -3,20 +3,24 @@ import { keyframes } from 'styled-components';
 export const showByHeight = (height: number | null) => keyframes`
   0% {
     height: 0;
+    opacity: 0;
   }
 
   100% {
     height: ${height}px;
+    opacity: 1;
   }
 `;
 
 export const hideByHeight = (height: number | null) => keyframes`
   0% {
     height: ${height}px;
+    opacity: 1;
   }
 
   100% {
     height: 0;
+    opacity: 0;
   }
 `;
 

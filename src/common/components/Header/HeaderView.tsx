@@ -41,7 +41,7 @@ const LogoLink = styled(Link)`
   text-transform: uppercase;
   font-weight: bold;
   letter-spacing: 1px;
-  transition: all 0.7s ease-out;
+  transition: all 0.2s ease-out;
 
   &:hover {
     transform: scale(1.01);

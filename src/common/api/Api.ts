@@ -54,3 +54,18 @@ export const Brands = {
     return api.get('/brands');
   },
 };
+
+export const Interceptors = {
+  response(logout: () => void) {
+    api.interceptors.response.use(
+      (res) => res,
+      (error) => {
+        const { response } = error;
+
+        if (response.status === 401) logout();
+
+        return Promise.reject(error);
+      },
+    );
+  },
+};

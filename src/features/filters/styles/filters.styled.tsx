@@ -117,7 +117,7 @@ export const Label = styled.label`
   }
 
   &:hover input ~ .checkmark {
-    background-color: rgba(149, 165, 166, 0.4);
+    background-color: rgba(189, 195, 199, 0.2);
   }
 
   & input:checked ~ .checkmark {
@@ -130,17 +130,18 @@ export const Label = styled.label`
     left: 0;
     height: 18px;
     width: 18px;
-    background-color: rgba(236, 240, 241, 0.8);
-    border-radius: 3px;
+    background-color: #fff;
+    border-radius: 2px;
+    border: 1px solid rgba(189, 195, 199, 0.4);
 
     &:after {
       content: '';
       position: absolute;
       display: none;
-      left: 6px;
+      left: 5px;
       top: 2px;
       width: 4px;
-      height: 7px;
+      height: 6px;
       border: solid white;
       border-width: 0 3px 3px 0;
       transform: rotate(45deg);

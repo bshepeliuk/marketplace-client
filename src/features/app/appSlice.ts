@@ -1,4 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import * as Api from '@common/api/Api';
+import { authActions } from '../auth/authSlice';
 
 const initialState = {
   isLoading: false,
@@ -10,9 +12,10 @@ type State = typeof initialState;
 
 export const initialization = createAsyncThunk(
   'app/init',
-  async (_, { rejectWithValue }) => {
+  async (_, { rejectWithValue, dispatch }) => {
     try {
-      // TODO: await Api.User.get();
+      const { data } = await Api.User.get();
+      dispatch(authActions.setUser({ user: data.user }));
     } catch (error) {
       return rejectWithValue({
         message: 'Something went wrong!!!',
