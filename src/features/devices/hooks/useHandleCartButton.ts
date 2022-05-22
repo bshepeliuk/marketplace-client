@@ -8,19 +8,17 @@ export const CART_BTN_STATE = {
 
 export type CartBtnState = typeof CART_BTN_STATE[keyof typeof CART_BTN_STATE];
 
-const useHandleCartButton = () => {
-  const [currentButtonState, setButtonState] = useState<CartBtnState>(
-    CART_BTN_STATE.None,
-  );
+const useHandleCartBtnState = () => {
+  const [btnState, setBtnState] = useState<CartBtnState>(CART_BTN_STATE.None);
 
-  const onMouseEnter = () => setButtonState(CART_BTN_STATE.Show);
-  const onMouseLeave = () => setButtonState(CART_BTN_STATE.Hide);
+  const onMouseEnter = () => setBtnState(CART_BTN_STATE.Show);
+  const onMouseLeave = () => setBtnState(CART_BTN_STATE.Hide);
 
   return {
-    currentButtonState,
+    btnState,
     onMouseEnter,
     onMouseLeave,
   };
 };
 
-export default useHandleCartButton;
+export default useHandleCartBtnState;

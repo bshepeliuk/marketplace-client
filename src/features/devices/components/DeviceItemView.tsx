@@ -1,6 +1,7 @@
 import React from 'react';
 import { generatePath, useLocation } from 'react-router-dom';
 import { routes } from '@src/app/Router';
+import useCartBtnClick from '@src/features/cart/hooks/useCartBtnClick';
 import ImageView from '../atoms/ImageView';
 import { GUTTER_SIZE } from '../constants';
 import {
@@ -15,8 +16,15 @@ import AddToCartButton from '../atoms/AddToCartButton';
 
 function DeviceItemView(props: IListItemProps) {
   const location = useLocation();
+  const { handle, hasAddedToCart } = useCartBtnClick();
 
   const { style, data, rowIndex, columnIndex } = props;
+
+  const itemIndex = rowIndex * data.COLUMN_COUNT + columnIndex;
+  const device = data.items[itemIndex];
+  const hasNoDevice = device === undefined;
+
+  const inCart = hasAddedToCart(device);
 
   const styles = {
     ...style,
@@ -25,10 +33,6 @@ function DeviceItemView(props: IListItemProps) {
     width: Number(style.width) - GUTTER_SIZE,
     height: Number(style.height) - GUTTER_SIZE,
   };
-
-  const itemIndex = rowIndex * data.COLUMN_COUNT + columnIndex;
-  const device = data.items[itemIndex];
-  const hasNoDevice = device === undefined;
 
   if (data.isLoading || (data.isLoadingMore && hasNoDevice)) {
     return (
@@ -60,7 +64,7 @@ function DeviceItemView(props: IListItemProps) {
       <Price>{device.price} $</Price>
 
       <CartBtnWrapper>
-        <AddToCartButton />
+        <AddToCartButton inCart={inCart} onClick={() => handle(device)} />
       </CartBtnWrapper>
     </ListItem>
   );

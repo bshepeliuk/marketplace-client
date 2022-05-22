@@ -8,6 +8,7 @@ import entitiesReducer from '@src/features/entities/entitiesReducer';
 import filtersReducer from '@src/features/filters/filtersSlice';
 import categoriesReducer from '@src/features/categories/categoriesSlice';
 import brandsReducer from '@src/features/brands/brandsSlice';
+import cartReducer from '@src/features/cart/cartSlice';
 
 const authPersistConfig = {
   storage,
@@ -22,6 +23,7 @@ const baseReducer = combineReducers({
   filters: filtersReducer,
   categories: categoriesReducer,
   brands: brandsReducer,
+  cart: cartReducer,
   auth: persistReducer(authPersistConfig, authReducer),
 });
 

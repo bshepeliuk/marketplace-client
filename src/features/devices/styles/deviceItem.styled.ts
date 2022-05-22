@@ -77,14 +77,24 @@ export const CartBtnWrapper = styled.div`
   justify-self: end;
 `;
 
-export const CartButton = styled.button<{ currentButtonState: CartBtnState }>`
-  background-color: #e31837;
+export const CartButton = styled.button<{
+  btnState: CartBtnState;
+  inCart: boolean;
+}>`
   border: none;
   border-radius: 4px;
-  color: #fff;
   display: flex;
   align-items: center;
   padding: 5px;
+  transition: all 0.4s ease-in-out;
+
+  background-color: ${(props) => {
+    return props.inCart ? '#f2f2f2' : '#e31837';
+  }};
+
+  color: ${(props) => {
+    return props.inCart ? '#1abc9c' : '#fff';
+  }};
 
   .cart-btn-title {
     opacity: 0;
@@ -92,14 +102,14 @@ export const CartButton = styled.button<{ currentButtonState: CartBtnState }>`
     white-space: nowrap;
     overflow: hidden;
 
-    animation: ${({ currentButtonState }) => {
-      if (currentButtonState === CART_BTN_STATE.None) return '';
+    animation: ${({ btnState }) => {
+      if (btnState === CART_BTN_STATE.None) return '';
 
-      if (currentButtonState === CART_BTN_STATE.Show) {
-        return css`0.5s ${showCartBtnTitle} ease-out forwards`;
+      if (btnState === CART_BTN_STATE.Show) {
+        return css`80ms ${showCartBtnTitle} ease-out forwards`;
       }
 
-      if (currentButtonState === CART_BTN_STATE.Hide) {
+      if (btnState === CART_BTN_STATE.Hide) {
         return css`80ms ${hideCartBtnTitle} ease-out forwards`;
       }
     }};

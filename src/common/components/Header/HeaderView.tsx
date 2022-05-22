@@ -1,11 +1,19 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import styled from 'styled-components';
+import React, { useEffect, useState } from 'react';
 // eslint-disable-next-line max-len
 import CategoriesDropDown from '@features/categories/atoms/CategoriesDropDown/CategoriesDropDown';
+import { Link } from 'react-router-dom';
 import { useTypedSelector } from '@src/common/hooks/useTypedSelector';
 import { routes } from '@src/app/Router';
 import UserInfoView from '../UserInfo/UserInfoView';
+import {
+  CartCounter,
+  CartIcon,
+  Header,
+  LoginLink,
+  LogoLink,
+  Text,
+  Wrap,
+} from './header.styled';
 
 function HeaderView() {
   const { isLoggedIn } = useTypedSelector((state) => state.auth);
@@ -17,44 +25,46 @@ function HeaderView() {
       </LogoLink>
 
       <CategoriesDropDown />
+
+      <CartIconView />
+
       <UserInfoView />
       {!isLoggedIn && <LoginLink to={routes.login}>Login</LoginLink>}
     </Header>
   );
 }
 
-const Header = styled.header`
-  height: 80px;
-  align-items: center;
-  padding: 10px 20px;
-  display: flex;
-  background-color: #303030;
-  margin-bottom: 80px;
-  display: grid;
-  grid-template-columns: 200px 200px 1fr 200px;
-  justify-items: center;
-`;
+function CartIconView() {
+  const [hasIncremented, setHasIncremented] = useState(true);
+  const { items } = useTypedSelector((state) => state.cart);
 
-const LogoLink = styled(Link)`
-  color: #fff;
-  text-decoration: none;
-  text-transform: uppercase;
-  font-weight: bold;
-  letter-spacing: 1px;
-  transition: all 0.2s ease-out;
+  const hasItems = items.length > 0;
 
-  &:hover {
-    transform: scale(1.01);
-    letter-spacing: 2px;
-  }
-`;
+  useEffect(() => {
+    setHasIncremented(true);
 
-const LoginLink = styled(Link)`
-  text-decoration: none;
-  color: #fff;
-  grid-column-start: 4;
-  text-transform: uppercase;
-  font-size: 14px;
-`;
+    const timeoutId = setTimeout(() => {
+      setHasIncremented(false);
+    }, 300);
+
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [items]);
+
+  return (
+    <Wrap>
+      <Link to={routes.cart}>
+        <CartIcon />
+
+        {hasItems && (
+          <CartCounter>
+            <Text hasIncremented={hasIncremented}>{items.length}</Text>
+          </CartCounter>
+        )}
+      </Link>
+    </Wrap>
+  );
+}
 
 export default HeaderView;

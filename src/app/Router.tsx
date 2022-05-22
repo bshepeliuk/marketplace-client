@@ -6,6 +6,7 @@ import AuthView from '@features/auth/pages/AuthView';
 import DeviceDetailsView from '@src/features/devices/pages/DeviceDetailsView';
 import DevicesView from '@src/features/devices/pages/DevicesView';
 import AccountView from '@features/account/pages/AccountView';
+import CartView from '@src/features/cart/pages/CartView';
 import PrivateRoute from './PrivateRoute';
 
 export const routes = {
@@ -16,6 +17,7 @@ export const routes = {
   devices: '/devices',
   device: '/devices/:deviceId',
   account: '/account',
+  cart: '/cart',
 };
 
 function Router() {
@@ -26,6 +28,7 @@ function Router() {
         <Route path={routes.auth} element={<AuthView />} />
         <Route path={routes.device} element={<DeviceDetailsView />} />
         <Route path={routes.devices} element={<DevicesView />} />
+        <Route path={routes.cart} element={<CartView />} />
         <Route
           path={routes.account}
           element={

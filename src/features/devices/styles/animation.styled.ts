@@ -7,14 +7,14 @@ export const showCartBtnTitle = keyframes`
   }
 
   100% {
-    width: 70px;
+    width: 60px;
     opacity: 1;
   }
 `;
 
 export const hideCartBtnTitle = keyframes`
   0% {
-    width: 70px;
+    width: 60px;
     opacity: 1;
 
   }
