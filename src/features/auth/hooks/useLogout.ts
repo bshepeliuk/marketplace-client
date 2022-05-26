@@ -10,6 +10,7 @@ const useLogout = () => {
 
   const onLogout = async () => {
     localStorage.removeItem('persist:auth');
+    localStorage.removeItem('persist:cart');
     persistor.pause();
 
     await dispatch(logout());

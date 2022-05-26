@@ -2,8 +2,8 @@ import React, { useEffect, useReducer } from 'react';
 import { FixedSizeList as List } from 'react-window';
 import HeaderView from '@src/common/components/Header/HeaderView';
 import { useTypedSelector } from '@src/common/hooks/useTypedSelector';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { routes } from '@src/app/Router';
+import { useLocation } from 'react-router-dom';
+import useMakePayment from '@features/payment/pages/hooks/useMakePayment';
 import { Container, PayButton } from '../styles/cartList.styled';
 import EmptyCartView from '../components/EmptyCartView';
 import CartItemView from '../components/CartItemView';
@@ -19,9 +19,8 @@ interface ILocationStateProps {
 function CartView() {
   const [localState, dispatch] = useReducer(cartCalcReducer, cartCalcInitState);
   const { items } = useTypedSelector((state) => state.cart);
-  const { isLoggedIn } = useTypedSelector((state) => state.auth);
   const location = useLocation();
-  const navigate = useNavigate();
+  const { pay, isPending } = useMakePayment(localState.devices);
 
   const locationState = location.state as ILocationStateProps;
 
@@ -37,14 +36,6 @@ function CartView() {
 
   const updateCount = (id: number, count: number) => {
     dispatch(cartCalcActions.updateCounter({ id, count }));
-  };
-
-  const pay = () => {
-    if (!isLoggedIn) {
-      navigate(routes.login, { state: { from: location.pathname } });
-    } else {
-      // TODO: Api.Cart.pay();
-    }
   };
 
   if (hasNoDevicesInCart) return <EmptyCartView />;
@@ -69,8 +60,8 @@ function CartView() {
 
         <div>
           <p>Total: {localState.sum}</p>
-          <PayButton type="button" onClick={pay}>
-            pay
+          <PayButton type="button" onClick={pay} disabled={isPending}>
+            {isPending ? 'Processing...' : 'Pay for it'}
           </PayButton>
         </div>
       </Container>

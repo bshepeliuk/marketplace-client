@@ -16,6 +16,12 @@ const authPersistConfig = {
   blacklist: ['login', 'logout', 'register'],
 };
 
+const cartPersistConfig = {
+  storage,
+  key: 'cart',
+  blacklist: ['isLoading', 'isError', 'register'],
+};
+
 const baseReducer = combineReducers({
   app: appReducer,
   devices: devicesReducer,
@@ -23,7 +29,7 @@ const baseReducer = combineReducers({
   filters: filtersReducer,
   categories: categoriesReducer,
   brands: brandsReducer,
-  cart: cartReducer,
+  cart: persistReducer(cartPersistConfig, cartReducer),
   auth: persistReducer(authPersistConfig, authReducer),
 });
 

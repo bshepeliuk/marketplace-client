@@ -7,6 +7,8 @@ import DeviceDetailsView from '@src/features/devices/pages/DeviceDetailsView';
 import DevicesView from '@src/features/devices/pages/DevicesView';
 import AccountView from '@features/account/pages/AccountView';
 import CartView from '@src/features/cart/pages/CartView';
+import PaymentCheckoutSuccess from '@features/payment/pages/PaymentCheckoutSuccess';
+import PaymentCheckoutCancel from '@features/payment/pages/PaymentCheckoutCancel';
 import PrivateRoute from './PrivateRoute';
 
 export const routes = {
@@ -18,6 +20,8 @@ export const routes = {
   device: '/devices/:deviceId',
   account: '/account',
   cart: '/cart',
+  checkoutSuccess: '/checkout-success',
+  checkoutCancel: '/checkout-cancel',
 };
 
 function Router() {
@@ -29,6 +33,14 @@ function Router() {
         <Route path={routes.device} element={<DeviceDetailsView />} />
         <Route path={routes.devices} element={<DevicesView />} />
         <Route path={routes.cart} element={<CartView />} />
+        <Route
+          path={routes.checkoutCancel}
+          element={<PaymentCheckoutCancel />}
+        />
+        <Route
+          path={routes.checkoutSuccess}
+          element={<PaymentCheckoutSuccess />}
+        />
         <Route
           path={routes.account}
           element={

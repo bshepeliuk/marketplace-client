@@ -59,4 +59,5 @@ export const CounterWrap = styled.div`
 
 export const DeviceLink = styled(Link)`
   text-decoration: none;
+  grid-column-start: 2;
 `;

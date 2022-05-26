@@ -4,6 +4,8 @@ import {
   IRegister,
 } from '@src/common/types/apiTypes';
 import getApiInstance from '@src/common/utils/getApiInstance';
+import { IPaymentItems } from '@src/features/payment/types';
+import { IUser } from '../types/userTypes';
 import generateSearchParamsStr from '../utils/generateSearchParamsStr';
 
 const api = getApiInstance();
@@ -52,6 +54,12 @@ export const Categories = {
 export const Brands = {
   get() {
     return api.get('/brands');
+  },
+};
+
+export const Payment = {
+  session(items: IPaymentItems[], customer: IUser) {
+    return api.post('/create-checkout-session', { items, customer });
   },
 };
 

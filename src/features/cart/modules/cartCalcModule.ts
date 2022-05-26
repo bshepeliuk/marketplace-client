@@ -1,8 +1,4 @@
-import { IDevice } from '@src/features/devices/types';
-
-interface IDeviceWithCount extends IDevice {
-  count: number;
-}
+import { IDevice, IDeviceWithCount } from '@src/features/devices/types';
 
 type CartCalcAction =
   | {

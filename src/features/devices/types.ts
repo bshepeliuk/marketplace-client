@@ -33,6 +33,10 @@ export interface IDeviceData {
   device: IDevice;
 }
 
+export interface IDeviceWithCount extends IDevice {
+  count: number;
+}
+
 export type DeviceEntities = {
   devices: Record<string, IDevice>;
   images: Record<string, IDeviceImage>;

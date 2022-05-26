@@ -18,4 +18,8 @@ export const PayButton = styled.button`
   font-size: 12px;
   text-transform: uppercase;
   font-weight: 700;
+
+  &:disabled {
+    background-color: #bdc3c7;
+  }
 `;
