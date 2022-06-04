@@ -12,7 +12,7 @@ const initialValues: ILogin = {
 };
 
 function LoginFormView() {
-  const { onLogin } = useLogin();
+  const { onLogin, isLoading } = useLogin();
   const formik = useFormik<ILogin>({
     initialValues,
     validationSchema: LoginSchema,
@@ -21,7 +21,7 @@ function LoginFormView() {
     },
   });
 
-  const isDisabled = !(formik.isValid && formik.dirty);
+  const isDisabled = !(formik.isValid && formik.dirty) || isLoading;
 
   return (
     <LoginForm onSubmit={formik.handleSubmit}>
@@ -42,7 +42,7 @@ function LoginFormView() {
       />
 
       <LoginButton type="submit" disabled={isDisabled}>
-        Login
+        {isLoading ? 'Processing...' : 'Login'}
       </LoginButton>
     </LoginForm>
   );

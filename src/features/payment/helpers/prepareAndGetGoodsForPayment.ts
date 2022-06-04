@@ -8,6 +8,9 @@ const prepareAndGetGoodsForPayment = (data: IDeviceWithCount[]) => {
       unit_amount: item.price * 100,
       product_data: {
         name: item.name,
+        metadata: {
+          sellerId: item.userId,
+        },
         description: `id: ${item.id}`,
         images:
           item.images.length > 0 ? [(item.images[0] as IDeviceImage).url] : [],

@@ -14,6 +14,10 @@ export const List = styled.ul`
 
 export const Wrap = styled.div`
   position: relative;
+
+  @media (max-width: 700px) {
+    display: none;
+  }
 `;
 
 export const CategoriesButton = styled.button`

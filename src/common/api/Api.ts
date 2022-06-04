@@ -61,6 +61,9 @@ export const Payment = {
   session(items: IPaymentItems[], customer: IUser) {
     return api.post('/create-checkout-session', { items, customer });
   },
+  activateStripeAccount() {
+    return api.post('/onboard-user');
+  },
 };
 
 export const Interceptors = {

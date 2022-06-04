@@ -5,6 +5,11 @@ import { IUser, IUserData } from '@src/common/types/userTypes';
 import { IThunkAPI, Nullable } from '@src/common/types/baseTypes';
 import getErrorMessage from '@src/common/utils/getErrorMessage';
 
+interface IStripeAccount {
+  id: string;
+  isActive: boolean;
+}
+
 export const initialState = {
   login: {
     isLoading: false,
@@ -21,6 +26,7 @@ export const initialState = {
     isError: false,
     error: null,
   },
+  stripeAccount: null as Nullable<IStripeAccount>,
   isLoggedIn: false,
   user: null as Nullable<IUser>,
 };
@@ -34,6 +40,11 @@ export const login = createAsyncThunk<IUserData, ILogin, IThunkAPI>(
       const { data } = await Api.Auth.login({ email, password });
 
       dispatch(authActions.setLoggedIn({ isLoggedIn: true }));
+      dispatch(
+        authActions.setStripeAccount({
+          account: data.stripeAccount,
+        }),
+      );
 
       return { user: data.user };
     } catch (error) {
@@ -96,6 +107,12 @@ const authSlice = createSlice({
     },
     setUser(state: State, { payload }: PayloadAction<IUserData>) {
       state.user = payload.user;
+    },
+    setStripeAccount(
+      state: State,
+      { payload }: PayloadAction<{ account: IStripeAccount }>,
+    ) {
+      state.stripeAccount = payload.account;
     },
   },
   extraReducers: (builder) => {

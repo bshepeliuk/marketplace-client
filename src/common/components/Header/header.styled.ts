@@ -12,6 +12,10 @@ export const Header = styled.header`
   display: grid;
   grid-template-columns: 200px 200px 1fr 50px 180px;
   justify-items: center;
+
+  @media (max-width: 700px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
 `;
 
 export const LogoLink = styled(Link)`
@@ -25,6 +29,10 @@ export const LogoLink = styled(Link)`
   &:hover {
     transform: scale(1.01);
     letter-spacing: 2px;
+  }
+
+  @media (max-width: 700px) {
+    justify-self: start;
   }
 `;
 
@@ -44,6 +52,10 @@ export const CartIcon = styled(AiOutlineShoppingCart)`
 export const Wrap = styled.div`
   grid-column-start: 4;
   position: relative;
+
+  @media (max-width: 700px) {
+    display: none;
+  }
 `;
 
 const count = keyframes`

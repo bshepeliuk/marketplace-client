@@ -21,6 +21,7 @@ export interface IDevice {
   name: string;
   price: number;
   brandId: number;
+  userId: number;
   typeId: number;
   quantity: number;
   createdAt: string;
