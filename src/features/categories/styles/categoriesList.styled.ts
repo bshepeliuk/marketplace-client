@@ -26,13 +26,15 @@ export const ListItem = styled.li`
 `;
 
 export const CategoryButton = styled.button<{ isActive: boolean }>`
-  font-size: 13px;
+  font-size: 10px;
   line-height: 16px;
   white-space: nowrap;
   color: #303030;
   background: #fff;
   border-radius: 4px;
   padding: 7px 15px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 
   border: ${({ isActive }) => {
     return isActive ? '1px solid #e31837' : '1px solid #e0e0e0';
