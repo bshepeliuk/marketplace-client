@@ -19,18 +19,12 @@ export const Container = styled.div`
   }
 `;
 
-export const PayButton = styled.button`
-  background-color: #e31837;
-  height: 48px;
-  width: 250px;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  font-size: 12px;
-  text-transform: uppercase;
-  font-weight: 700;
+export const ListWrap = styled.div`
+  grid-column-start: 1;
+  justify-self: center;
 
-  &:disabled {
-    background-color: #bdc3c7;
+  @media (max-width: 1000px) {
+    grid-column-start: 1;
+    order: 2;
   }
 `;

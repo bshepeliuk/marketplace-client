@@ -7,25 +7,27 @@ interface IState {
 const useContainerDimensions = (containerRef: RefObject<HTMLElement>) => {
   const [size, setSize] = useState<IState>({ width: 0 });
 
-  const getDimensions = () => ({
-    width: containerRef.current!.offsetWidth,
-  });
+  const getDimensions = () => {
+    if (containerRef.current === null) return size;
+
+    return {
+      width: containerRef.current.offsetWidth,
+    };
+  };
 
   const handleResize = () => {
     setSize(getDimensions());
   };
 
   useEffect(() => {
+    setSize(getDimensions());
+
     window.addEventListener('resize', handleResize);
 
     return () => {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
-
-  useEffect(() => {
-    setSize(getDimensions());
-  }, [containerRef.current]);
 
   return {
     size,

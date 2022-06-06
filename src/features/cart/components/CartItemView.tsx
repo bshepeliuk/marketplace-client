@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { generatePath, useLocation } from 'react-router-dom';
-import styled, { CSSProperties } from 'styled-components';
+import { CSSProperties } from 'styled-components';
 
 import { IDevice, IDeviceImage } from '@src/features/devices/types';
 import { useAppDispatch } from '@src/common/hooks/useAppDispatch';
@@ -16,32 +16,8 @@ import {
   IncrementBtn,
   Price,
   Title,
+  Wrap,
 } from '../styles/cartItem.styled';
-
-const Wrap = styled.div`
-  background-color: #fff;
-  border-radius: 5px;
-  padding: 10px;
-  display: grid;
-  align-items: center;
-  grid-template-columns: 100px 220px 150px 100px 40px;
-  border: 1px solid rgba(189, 195, 199, 0.2);
-  box-shadow: rgba(99, 99, 99, 0.07) 0px 2px 8px 0px;
-  width: 99%;
-
-  @media (max-width: 700px) {
-    grid-template-columns: 90px 150px 130px 100px 20px;
-  }
-
-  @media (max-width: 600px) {
-    grid-template-columns: 80px 150px 120px 15px;
-    grid-template-rows: 40px 20px;
-  }
-
-  @media (max-width: 420px) {
-    grid-template-columns: 75px 130px 110px 15px;
-  }
-`;
 
 interface IData {
   items: IDevice[];
