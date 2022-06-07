@@ -6,14 +6,24 @@ import { Container } from '@common/styles/base.styled';
 import useSlowDownLoaderIndicator from '@common/hooks/useSlowDownLoaderIndicator';
 import useGetDeviceById from '../hooks/useGetDeviceById';
 import {
+  BackBtn,
+  FeatureDescription,
+  FeatureTitle,
   Image,
   ImageWrapper,
+  InfoItem,
+  InfoList,
+  InfoWrap,
   InnerWrap,
+  Price,
   PurchaseButton,
+  PurchaseWrap,
+  Title,
 } from '../styles/deviceDetails.styled';
 import LoadingDeviceDetailsView from '../components/LoadingDeviceDetailsView';
 import NotFoundDeviceView from '../components/NotFoundDeviceView';
 import useGoTo from '../hooks/useGoTo';
+import { IDeviceInfo } from '../types';
 
 function DeviceDetailsView() {
   const { deviceId } = useParams();
@@ -44,7 +54,9 @@ function DeviceDetailsView() {
 
       <Container>
         <InnerWrap>
-          <h1>{device.name}</h1>
+          <BackBtn onClick={goBack} />
+
+          <Title>{device.name}</Title>
 
           {hasDeviceImages && (
             <ImageWrapper>
@@ -52,17 +64,35 @@ function DeviceDetailsView() {
             </ImageWrapper>
           )}
 
-          <div>
+          <PurchaseWrap>
             <PurchaseButton type="button">purchase</PurchaseButton>
-            <p>price: {device.price}</p>
-          </div>
 
-          <button type="button" onClick={goBack}>
-            go back
-          </button>
+            <Price title={`${device.price} $`}>{device.price} $</Price>
+          </PurchaseWrap>
+
+          <InfoWrap>
+            <InfoList>
+              <DeviceFeatureList features={device.info} />
+            </InfoList>
+          </InfoWrap>
         </InnerWrap>
       </Container>
     </>
+  );
+}
+
+function DeviceFeatureList({ features }: { features: IDeviceInfo[] }) {
+  return (
+    <InfoList>
+      {features.map((item) => {
+        return (
+          <InfoItem key={item.id}>
+            <FeatureTitle>{item.title}:</FeatureTitle>
+            <FeatureDescription>{item.description}</FeatureDescription>
+          </InfoItem>
+        );
+      })}
+    </InfoList>
   );
 }
 
