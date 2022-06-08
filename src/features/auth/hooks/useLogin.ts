@@ -17,14 +17,14 @@ const useLogin = () => {
 
   const locationState = location.state as ILocationState;
 
-  const onLogin = ({ email, password }: ILogin) => {
-    dispatch(login({ email, password })).then((action) => {
-      persistor.persist();
+  const onLogin = async ({ email, password }: ILogin) => {
+    const action = await dispatch(login({ email, password }));
 
-      if (login.fulfilled.match(action) && locationState?.from) {
-        navigate(locationState.from);
-      }
-    });
+    persistor.persist();
+
+    if (login.fulfilled?.match(action) && locationState?.from) {
+      navigate(locationState.from);
+    }
   };
 
   return {

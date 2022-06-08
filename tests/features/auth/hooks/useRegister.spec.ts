@@ -2,7 +2,7 @@ import * as reactRedux from 'react-redux';
 import { renderHook, act } from '@testing-library/react-hooks';
 import useRegister from '@src/features/auth/hooks/useRegister';
 import { register } from '@src/features/auth/authSlice';
-import { ROLE } from '@src/common/types/apiTypes';
+import { ROLES } from '@src/common/constants';
 
 jest.mock('@src/features/auth/authSlice', () => {
   const originalModule = jest.requireActual('@src/features/auth/authSlice');
@@ -30,7 +30,7 @@ describe('useRegister hook', () => {
       result.current.onRegister({
         email: 'tony@stark.star',
         password: '1234',
-        role: ROLE.BUYER,
+        role: ROLES.BUYER,
         fullName: 'Tony Stark',
       });
     });
@@ -39,7 +39,7 @@ describe('useRegister hook', () => {
     expect(register).toHaveBeenCalledWith({
       email: 'tony@stark.star',
       password: '1234',
-      role: ROLE.BUYER,
+      role: ROLES.BUYER,
       fullName: 'Tony Stark',
     });
   });

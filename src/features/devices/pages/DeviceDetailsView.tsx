@@ -54,7 +54,7 @@ function DeviceDetailsView() {
 
       <Container>
         <InnerWrap>
-          <BackBtn onClick={goBack} />
+          <BackBtn id="back-btn" onClick={goBack} />
 
           <Title>{device.name}</Title>
 

@@ -9,9 +9,8 @@ const useGetFilterOptionsByCategoryId = (categoryId: number | undefined) => {
   const { items } = useTypedSelector((state) => state.filters.options);
 
   const fetchOptions = () => {
-    if (categoryId) {
-      dispatch(getFilterOptionsByCategoryId({ categoryId }));
-    }
+    if (categoryId === undefined) return;
+    dispatch(getFilterOptionsByCategoryId({ categoryId }));
   };
 
   useEffect(() => {

@@ -64,6 +64,9 @@ describe('DeviceDetailsView', () => {
         isLoading: false,
       },
     },
+    cart: {
+      items: [],
+    },
   };
 
   beforeAll(() => server.listen());
@@ -79,7 +82,7 @@ describe('DeviceDetailsView', () => {
       .spyOn(Router, 'useParams')
       .mockReturnValue({ deviceId: device.id.toString() });
 
-    const { getByText, getByAltText } = setupAndRenderComponent({
+    const { getByText, getByAltText, getByTestId } = setupAndRenderComponent({
       state: rootState,
       component: DeviceDetailsView,
     });
@@ -87,8 +90,8 @@ describe('DeviceDetailsView', () => {
     const deviceTitle = getByText(device.name);
     const deviceImg = getByAltText(device.name);
     const purchaseBtn = getByText(/purchase/i);
-    const priceField = getByText(/price: 1234/i);
-    const goBackBtn = getByText(/go back/i);
+    const priceField = getByText(/1234/i);
+    const goBackBtn = getByTestId('back-btn');
 
     fireEvent.click(goBackBtn);
 

@@ -2,6 +2,7 @@ import * as reactRedux from 'react-redux';
 import { renderHook, act } from '@testing-library/react-hooks';
 import useLogin from '@src/features/auth/hooks/useLogin';
 import { login } from '@src/features/auth/authSlice';
+import { Wrapper } from '../../../wrapper';
 
 jest.mock('@src/features/auth/authSlice', () => ({
   ...jest.requireActual('@src/features/auth/authSlice'),
@@ -19,7 +20,7 @@ describe('useLogin hook', () => {
   });
 
   test('call onLogin function', () => {
-    const { result } = renderHook(() => useLogin());
+    const { result } = renderHook(() => useLogin(), { wrapper: Wrapper });
 
     act(() => {
       result.current.onLogin({ email: 'tony@stark.star', password: '1234' });

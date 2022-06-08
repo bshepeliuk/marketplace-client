@@ -1,7 +1,8 @@
 import React from 'react';
 import { useFormik } from 'formik';
 import useRegister from '@src/features/auth/hooks/useRegister';
-import { IRegister, ROLE } from '@src/common/types/apiTypes';
+import { IRegister } from '@src/common/types/apiTypes';
+import { ROLES } from '@src/common/constants';
 import CustomInput from '@common/components/CustomInput/CustomInput';
 import CustomSelect from '@common/components/CustomSelect/CustomSelect';
 import { RegisterButton, RegistrationForm } from '../styles/register.styled';
@@ -16,12 +17,12 @@ const initialValues = {
   password: '',
   passwordConfirmation: '',
   email: '',
-  role: ROLE.BUYER,
+  role: ROLES.BUYER,
 };
 
 const ROLE_OPTIONS = [
-  { value: ROLE.BUYER, label: 'buyer' },
-  { value: ROLE.SELLER, label: 'seller' },
+  { value: ROLES.BUYER, label: 'buyer' },
+  { value: ROLES.SELLER, label: 'seller' },
 ];
 // TODO: add selector for role field
 function RegisterFormView() {

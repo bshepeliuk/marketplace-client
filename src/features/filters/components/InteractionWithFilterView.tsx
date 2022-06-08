@@ -11,26 +11,26 @@ function InteractionWithFilterView() {
   const context = useFilterContext();
   // prettier-ignore
   const {
-    setShowApplyBtn,
+    setIsShownApplyBtn,
     hasSelectedItems,
     btnOffsetY,
-    showApplyBtn,
+    isShownApplyBtn,
   } = context;
 
   const prevOffset = usePrevious(btnOffsetY);
 
   useEffect(() => {
-    setShowApplyBtn(false);
+    setIsShownApplyBtn(false);
   }, [categoryId]);
 
   useEffect(() => {
-    if (!hasSelectedItems) setShowApplyBtn(false);
+    if (!hasSelectedItems) setIsShownApplyBtn(false);
   }, [hasSelectedItems]);
 
   return (
     <Wrap
       btnOffsetY={btnOffsetY}
-      shouldShow={showApplyBtn}
+      shouldShow={isShownApplyBtn}
       prevOffset={prevOffset}
     >
       <ClearFilterButton />

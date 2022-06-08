@@ -18,7 +18,7 @@ type ISelectProps = Pick<IDeviceInfo, 'id' | 'title' | 'description'>;
 
 interface IContext {
   btnOffsetY: number;
-  showApplyBtn: boolean;
+  isShownApplyBtn: boolean;
   hasSelectedItems: boolean;
   selected: ISelectProps[];
   // eslint-disable-next-line no-unused-vars
@@ -26,7 +26,7 @@ interface IContext {
   apply: () => void;
   clearSelectedOptions: () => void;
   setBtnOffsetY: Dispatch<SetStateAction<number>>;
-  setShowApplyBtn: Dispatch<SetStateAction<boolean>>;
+  setIsShownApplyBtn: Dispatch<SetStateAction<boolean>>;
   setSelected: Dispatch<SetStateAction<ISelectProps[]>>;
   setPrices: Dispatch<SetStateAction<number[]>>;
   prices: number[];
@@ -44,7 +44,7 @@ export function FilterProvider({ children }: { children: React.ReactNode }) {
   const dispatch = useAppDispatch();
   const categoryId = useGetCategoryId();
 
-  const [showApplyBtn, setShowApplyBtn] = useState<boolean>(false);
+  const [isShownApplyBtn, setIsShownApplyBtn] = useState<boolean>(false);
   const [prices, setPrices] = useState<number[]>([]);
   const [selected, setSelected] = useState<ISelectProps[]>([]);
   const [btnOffsetY, setBtnOffsetY] = useState<number>(0);
@@ -68,10 +68,9 @@ export function FilterProvider({ children }: { children: React.ReactNode }) {
   };
 
   const clearSelectedOptions = () => {
-    // TODO: unnecessary re-renders; batching;
     setSelected([]);
     setShouldBeInitial(true);
-    setShowApplyBtn(false);
+    setIsShownApplyBtn(false);
   };
 
   const apply = () => {
@@ -87,7 +86,7 @@ export function FilterProvider({ children }: { children: React.ReactNode }) {
       }),
     );
 
-    setShowApplyBtn(false);
+    setIsShownApplyBtn(false);
   };
 
   function getFilterParams() {
@@ -110,8 +109,8 @@ export function FilterProvider({ children }: { children: React.ReactNode }) {
     setSelected,
     onSelectOption,
     clearSelectedOptions,
-    showApplyBtn,
-    setShowApplyBtn,
+    isShownApplyBtn,
+    setIsShownApplyBtn,
     hasSelectedItems,
     setPrices,
     apply,

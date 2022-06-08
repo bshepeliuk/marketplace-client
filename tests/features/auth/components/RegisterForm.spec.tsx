@@ -3,7 +3,7 @@ import { render, fireEvent, screen, waitFor } from '@testing-library/react';
 import RegisterFormView from '@src/features/auth/components/RegisterFormView';
 import useRegister from '@src/features/auth/hooks/useRegister';
 import selectEvent from 'react-select-event';
-import { ROLE } from '@src/common/types/apiTypes';
+import { ROLES } from '@src/common/constants';
 
 jest.mock('@src/features/auth/hooks/useRegister');
 
@@ -90,12 +90,12 @@ describe('RegistrationForm', () => {
     const roleInput = getByTestId('role') as HTMLInputElement;
 
     fireEvent.change(roleInput, {
-      target: { value: ROLE.SELLER },
+      target: { value: ROLES.SELLER },
     });
 
     await waitFor(() => {
       expect(roleInput).toBeInTheDocument();
-      expect(roleInput.value).toBe(ROLE.SELLER);
+      expect(roleInput.value).toBe(ROLES.SELLER);
     });
   });
 
@@ -127,7 +127,7 @@ describe('RegistrationForm', () => {
     const select = screen.getByTestId('role');
 
     const options = {
-      value: ROLE.SELLER,
+      value: ROLES.SELLER,
       label: 'seller',
     };
 

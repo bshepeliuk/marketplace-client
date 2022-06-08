@@ -1,9 +1,4 @@
-export enum ROLE {
-  // eslint-disable-next-line no-unused-vars
-  BUYER = 'BUYER',
-  // eslint-disable-next-line no-unused-vars
-  SELLER = 'SELLER',
-}
+import { ROLES } from '../constants';
 
 export interface ILogin {
   email: string;
@@ -12,7 +7,7 @@ export interface ILogin {
 
 export interface IRegister extends ILogin {
   fullName: string;
-  role: ROLE.SELLER | ROLE.BUYER;
+  role: typeof ROLES.SELLER | typeof ROLES.BUYER;
 }
 
 export type IFilterOptions = Array<[string, string]>;

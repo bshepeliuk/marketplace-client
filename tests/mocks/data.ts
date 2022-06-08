@@ -37,3 +37,34 @@ export const mockOptions = [
     description: '16',
   },
 ];
+
+export const goods = [
+  {
+    id: 2,
+    name: 'HP Pavillion 15 eh1021-ua',
+    price: 33448,
+    brandId: 2,
+    typeId: 1,
+    userId: 1,
+    quantity: 1,
+    images: [],
+    info: [],
+    count: 1,
+    createdAt: '2022-01-05T16:57:37.787Z',
+    updatedAt: '2022-01-05T16:57:37.787Z',
+  },
+  {
+    id: 3,
+    name: 'DELL Lattitude 7505',
+    price: 36638,
+    brandId: 4,
+    typeId: 1,
+    userId: 2,
+    quantity: 2,
+    images: [],
+    info: [],
+    count: 1,
+    createdAt: '2021-07-10T10:29:45.277Z',
+    updatedAt: '2021-07-10T10:29:45.277Z',
+  },
+];

@@ -6,6 +6,11 @@ module.exports = {
     '.+\\.(css|style|less|sass|scss|png|jpg|ttf|woff|woff2)$':
       'jest-transform-stub',
   },
+  coveragePathIgnorePatterns: [
+    'node_modules',
+    '<rootDir>/tests/mocks/',
+    '.styled.ts',
+  ],
   setupFilesAfterEnv: ['<rootDir>/jest-setup.js'],
   testEnvironment: 'jsdom',
 };

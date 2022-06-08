@@ -31,10 +31,10 @@ function PriceInfoView({ infoStatus }: IProps) {
   useEffect(() => {
     if (isNotInitStateValues && wrapRef.current) {
       context.setBtnOffsetY(wrapRef.current.offsetTop + 20);
-      context.setShowApplyBtn(true);
+      context.setIsShownApplyBtn(true);
     }
 
-    return () => context.setShowApplyBtn(false);
+    return () => context.setIsShownApplyBtn(false);
   }, [values]);
 
   useEffect(() => {

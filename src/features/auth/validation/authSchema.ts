@@ -1,4 +1,4 @@
-import { ROLE } from '@src/common/types/apiTypes';
+import { ROLES } from '@src/common/constants';
 import * as Yup from 'yup';
 
 const PasswordSchema = {
@@ -19,7 +19,7 @@ export const RegistrationSchema = Yup.object({
     .min(4, 'Too Short!')
     .max(20, 'Too Long!')
     .required('required'),
-  role: Yup.string().oneOf(Object.values(ROLE)).defined(),
+  role: Yup.string().oneOf(Object.values(ROLES)).defined(),
   email: Yup.string().email('Invalid email.').required('required'),
   ...PasswordSchema,
 });

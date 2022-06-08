@@ -8,8 +8,7 @@ import {
   logout,
   register,
 } from '@src/features/auth/authSlice';
-import { ROLE } from '@common/types/apiTypes';
-import { BASE_API_URL } from '@src/common/constants';
+import { BASE_API_URL, ROLES } from '@src/common/constants';
 import thunk from 'redux-thunk';
 import getActionTypesAndPayload from '../../helpers/getActionTypesAndPayload';
 
@@ -34,6 +33,7 @@ describe('AUTH THUNKS', () => {
           email: 'tony@stark.io',
           role: 'BUYER',
         },
+        stripeAccount: { accountId: 1 },
       };
 
       server.use(
@@ -51,6 +51,10 @@ describe('AUTH THUNKS', () => {
           payload: undefined,
         },
         { type: authActions.setLoggedIn.type, payload: { isLoggedIn: true } },
+        {
+          type: authActions.setStripeAccount.type,
+          payload: { account: loginResponse.stripeAccount },
+        },
         {
           type: login.fulfilled.type,
           payload: {
@@ -163,7 +167,7 @@ describe('AUTH THUNKS', () => {
     const user = {
       fullName: 'John Wick',
       email: 'john@wick.io',
-      role: ROLE.BUYER,
+      role: ROLES.BUYER,
     };
 
     test('- when registration completed successfully', async () => {

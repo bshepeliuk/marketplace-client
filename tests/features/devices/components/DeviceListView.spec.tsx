@@ -33,6 +33,9 @@ const rootState = {
     isLoading: false,
     items: deviceIds,
   },
+  cart: {
+    items: [],
+  },
 };
 
 jest.mock('react-virtualized-auto-sizer', () => {

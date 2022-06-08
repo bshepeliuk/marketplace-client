@@ -12,13 +12,13 @@ function AccordionInfoItemView({ item }: IProps) {
   const context = useFilterContext();
   // prettier-ignore
   // eslint-disable-next-line max-len
-  const { setBtnOffsetY, onSelectOption, setShowApplyBtn, selected } = context;
+  const { setBtnOffsetY, onSelectOption, setIsShownApplyBtn, selected } = context;
   const { id, description, title } = item;
 
   const handleChange = () => {
     setBtnOffsetY(wrapRef.current!.offsetTop);
     onSelectOption({ id, title, description });
-    setShowApplyBtn(true);
+    setIsShownApplyBtn(true);
   };
 
   const hasChecked = (optionId: number) => {

@@ -12,7 +12,7 @@ interface IProps {
 
 function AccordionItemView({ title, info }: IProps) {
   const [infoStatus, setInfoStatus] = useState<InfoStatusUnion | null>(null);
-  const { setShowApplyBtn, hasSelectedItems } = useFilterContext();
+  const { setIsShownApplyBtn, hasSelectedItems } = useFilterContext();
 
   const isVisible = infoStatus === InfoStatus.show || infoStatus === null;
 
@@ -20,9 +20,9 @@ function AccordionItemView({ title, info }: IProps) {
     if (!hasSelectedItems) return;
 
     if (isVisible) {
-      setShowApplyBtn(true);
+      setIsShownApplyBtn(true);
     } else {
-      setShowApplyBtn(false);
+      setIsShownApplyBtn(false);
     }
   }, [isVisible]);
 

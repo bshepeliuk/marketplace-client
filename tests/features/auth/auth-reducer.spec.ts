@@ -1,4 +1,4 @@
-import { ROLE } from '@src/common/types/apiTypes';
+import { ROLES } from '@src/common/constants';
 import authReducer, {
   authActions,
   initialState,
@@ -44,7 +44,7 @@ describe('AUTH REDUCER', () => {
     const user = {
       fullName: 'Leam Neeson',
       email: 'leam@neeson.io',
-      role: ROLE.BUYER,
+      role: ROLES.BUYER,
     };
 
     const action = {
@@ -78,7 +78,7 @@ describe('AUTH REDUCER', () => {
       const user = {
         fullName: 'Leam Neeson',
         email: 'leam@neeson.io',
-        role: ROLE.BUYER,
+        role: ROLES.BUYER,
       };
 
       const action = {

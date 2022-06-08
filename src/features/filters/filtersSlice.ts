@@ -18,7 +18,7 @@ interface IFilterOptionsParams {
   categoryId: number;
 }
 
-const initialState = {
+export const initialState = {
   options: {
     isError: false,
     isLoading: false,
