@@ -19,4 +19,14 @@ describe('useHandleRangePrice', () => {
 
     expect(result.current.range).toEqual([11, 22]);
   });
+
+  test('handleRangeChange should change state values.', () => {
+    const { result } = renderHook(() => useHandleRangePrice());
+
+    act(() => {
+      result.current.handleRangeChange([50, 220]);
+    });
+
+    expect(result.current.range).toEqual([50, 220]);
+  });
 });

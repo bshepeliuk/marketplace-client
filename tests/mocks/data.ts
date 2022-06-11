@@ -68,3 +68,22 @@ export const goods = [
     updatedAt: '2021-07-10T10:29:45.277Z',
   },
 ];
+
+export const filterContextValuesMock = {
+  btnOffsetY: 0,
+  setBtnOffsetY: jest.fn(),
+  selected: Array(2),
+  setSelected: jest.fn(),
+  onSelectOption: jest.fn(),
+  clearSelectedOptions: jest.fn(),
+  isShownApplyBtn: false,
+  setIsShownApplyBtn: jest.fn(),
+  hasSelectedItems: true,
+  setPrices: jest.fn(),
+  apply: jest.fn(),
+  prices: [],
+  shouldBeInitial: false,
+  isInitPrice: false,
+  getFilterParams: jest.fn(),
+  setShouldBeInitial: jest.fn(),
+};

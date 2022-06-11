@@ -52,7 +52,9 @@ const useSyncInputStateWithRangeState = ({
       bounds: { min, max },
     })
       .then((res) => {
-        if (res.min && res.max) setRange([res.min, res.max]);
+        const selectedPrices = res as { min: number; max: number };
+
+        setRange([selectedPrices.min, selectedPrices.max]);
       })
       .catch(() => {
         // TODO: notification; state for handle errors on min/max inputs;

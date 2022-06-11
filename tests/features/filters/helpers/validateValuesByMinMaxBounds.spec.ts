@@ -2,14 +2,6 @@
 import validateValuesByMinMaxBounds from '@src/features/filters/helpers/validateValuesByMinMaxBounds';
 import { ValidationError } from 'yup';
 
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
-  __esModule: true,
-  useSearchParams: jest
-    .fn()
-    .mockImplementation(() => [new URLSearchParams(), jest.fn()]),
-}));
-
 describe('[HELPERS] validateValuesByMinMaxBounds', () => {
   it('should throw error when value less than min. bound', async () => {
     try {

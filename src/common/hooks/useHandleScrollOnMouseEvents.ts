@@ -30,7 +30,6 @@ const useHandleScrollOnMouseEvents = (
     if (!scrollWrapRef.current) return;
 
     setIsScrolling(false);
-
     scrollWrapRef.current.removeEventListener('mousemove', onMoveHandler);
     document.removeEventListener('mouseup', onUpHandler);
   }

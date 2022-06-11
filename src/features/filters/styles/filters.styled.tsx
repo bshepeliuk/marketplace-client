@@ -121,7 +121,7 @@ export const Label = styled.label`
   }
 
   & input:checked ~ .checkmark {
-    background-color: #2196f3;
+    background-color: #fff;
   }
 
   .checkmark {
@@ -132,17 +132,17 @@ export const Label = styled.label`
     width: 18px;
     background-color: #fff;
     border-radius: 2px;
-    border: 1px solid rgba(189, 195, 199, 0.4);
+    border: 1px solid rgba(189, 195, 199, 0.7);
 
     &:after {
       content: '';
       position: absolute;
       display: none;
       left: 5px;
-      top: 2px;
+      top: 1px;
       width: 4px;
-      height: 6px;
-      border: solid white;
+      height: 8px;
+      border: solid #7f8c8d;
       border-width: 0 3px 3px 0;
       transform: rotate(45deg);
     }
