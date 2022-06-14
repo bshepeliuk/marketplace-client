@@ -51,19 +51,20 @@ function PriceInfoView({ infoStatus }: IProps) {
   };
 
   const onInputChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
-    // TODO: refactoring;
-    if (
+    const isValueLessThanMin =
       evt.target.name === 'min' &&
-      options.prices.min < evt.target.valueAsNumber
-    ) {
+      options.prices.min < evt.target.valueAsNumber;
+
+    const isValueGreaterThanMax =
+      evt.target.name === 'max' &&
+      options.prices.max < evt.target.valueAsNumber;
+    // TODO: refactoring;
+    if (isValueLessThanMin) {
       setValues([options.prices.min, values[1]]);
       return;
     }
 
-    if (
-      evt.target.name === 'max' &&
-      options.prices.max < evt.target.valueAsNumber
-    ) {
+    if (isValueGreaterThanMax) {
       setValues([values[0], options.prices.max]);
       return;
     }

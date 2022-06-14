@@ -6,7 +6,7 @@ import { IThunkAPI } from '@src/common/types/baseTypes';
 import getErrorMessage from '@src/common/utils/getErrorMessage';
 import { CategoryEntities, ICategoriesData, ICategory } from './types';
 
-const initialState = {
+export const initialState = {
   isError: false,
   isLoading: false,
   items: [] as number[],

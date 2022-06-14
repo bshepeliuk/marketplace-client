@@ -87,3 +87,63 @@ export const filterContextValuesMock = {
   getFilterParams: jest.fn(),
   setShouldBeInitial: jest.fn(),
 };
+
+export const categories = [
+  {
+    id: 1,
+    name: 'laptops',
+    createdAt: '2021-07-20T16:25:34.061Z',
+    updatedAt: '2021-07-20T16:25:34.061Z',
+  },
+  {
+    id: 2,
+    name: 'tablets',
+    createdAt: '2021-05-29T06:14:42.024Z',
+    updatedAt: '2021-05-29T06:14:42.024Z',
+  },
+  {
+    id: 3,
+    name: 'phones',
+    createdAt: '2021-06-11T06:34:35.158Z',
+    updatedAt: '2021-06-11T06:34:35.158Z',
+  },
+  {
+    id: 4,
+    name: 'TVs',
+    createdAt: '2021-12-26T02:54:47.083Z',
+    updatedAt: '2021-12-26T02:54:47.083Z',
+  },
+  {
+    id: 5,
+    name: 'cameras',
+    createdAt: '2021-12-19T19:49:56.187Z',
+    updatedAt: '2021-12-19T19:49:56.187Z',
+  },
+  {
+    id: 6,
+    name: 'test-type',
+    createdAt: '2022-05-07T06:07:05.350Z',
+    updatedAt: '2022-05-07T06:07:05.350Z',
+  },
+];
+
+export const brands = [
+  {
+    id: 1,
+    name: 'ASUS',
+    createdAt: '2021-07-20T16:25:34.061Z',
+    updatedAt: '2021-07-20T16:25:34.061Z',
+  },
+  {
+    id: 2,
+    name: 'HP',
+    createdAt: '2021-05-29T06:14:42.024Z',
+    updatedAt: '2021-05-29T06:14:42.024Z',
+  },
+  {
+    id: 3,
+    name: 'DELL',
+    createdAt: '2021-06-11T06:34:35.158Z',
+    updatedAt: '2021-06-11T06:34:35.158Z',
+  },
+];

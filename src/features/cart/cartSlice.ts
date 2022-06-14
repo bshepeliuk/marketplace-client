@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IDevice } from '../devices/types';
 
-const initialState = {
+export const initialState = {
   isError: false,
   isLoading: false,
   items: [] as IDevice[],
