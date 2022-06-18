@@ -20,6 +20,12 @@
     "node": true
   },
   "rules": {
+    "no-restricted-syntax": [
+      "error",
+      "ForInStatement",
+      "LabeledStatement",
+      "WithStatement"
+    ],
     "arrow-body-style": 0,
     "no-shadow": 0,
     "@typescript-eslint/no-shadow": ["error"],

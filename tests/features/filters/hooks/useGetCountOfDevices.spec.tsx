@@ -3,7 +3,7 @@ import React from 'react';
 import useGetCountOfDevices from '@src/features/filters/hooks/useGetCountOfDevices';
 import * as ReactRedux from 'react-redux';
 import { act, renderHook } from '@testing-library/react-hooks';
-import { MemoryRouter, ParamKeyValuePair } from 'react-router-dom';
+import { MemoryRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import {
   FilterContext,
@@ -13,20 +13,11 @@ import store from '@src/app/store';
 import { setupServer } from 'msw/node';
 import { rest } from 'msw';
 import { BASE_API_URL } from '@src/common/constants';
+import { paramsEntries } from '../../../mocks/data';
 
 const server = setupServer();
 
 const useDispatchMock = jest.spyOn(ReactRedux, 'useDispatch');
-
-const paramsEntries = [
-  ['features', 'Microprocessor:AMD Ryzen 5'],
-  ['features', 'Video graphics:Intel Iris Xe Max'],
-  ['features', 'Video graphics:NVIDIA GeForce RTX 3080'],
-  ['features', 'Screen size:17'],
-  ['features', 'Type of matrix:IPS'],
-  ['minPrice', '11237'],
-  ['maxPrice', '366381'],
-] as ParamKeyValuePair[];
 
 const filterContextValuesMock = {
   btnOffsetY: 0,

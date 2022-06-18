@@ -1,3 +1,5 @@
+import { ParamKeyValuePair } from 'react-router-dom';
+
 export const mockOptions = [
   {
     id: 2,
@@ -147,3 +149,13 @@ export const brands = [
     updatedAt: '2021-06-11T06:34:35.158Z',
   },
 ];
+
+export const paramsEntries = [
+  ['features', 'Microprocessor:AMD Ryzen 5'],
+  ['features', 'Video graphics:Intel Iris Xe Max'],
+  ['features', 'Video graphics:NVIDIA GeForce RTX 3080'],
+  ['features', 'Screen size:17'],
+  ['features', 'Type of matrix:IPS'],
+  ['minPrice', '11237'],
+  ['maxPrice', '366381'],
+] as ParamKeyValuePair[];

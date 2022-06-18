@@ -9,9 +9,9 @@ export const List = styled.ul<{
   transition: all 0.2s ease-out;
 
   overflow: hidden;
-  height: ${({ infoStatus }) => {
+  height: ${({ infoStatus, height }) => {
     const isVisible = infoStatus === InfoStatus.show || infoStatus === null;
-    return isVisible ? '100%' : '0px';
+    return isVisible ? `${height}px` : '0px';
   }};
 
   animation: ${({ height, infoStatus }) => {
