@@ -4,8 +4,10 @@ const useHandleInputsPrice = () => {
   const [values, setValues] = useState<number[]>([0, 0]);
 
   const handleInputChange = (evt: ChangeEvent<HTMLInputElement>) => {
-    const { valueAsNumber, name } = evt.target;
+    const { value, name } = evt.target;
     const isMinValue = name === 'min';
+
+    const valueAsNumber = Number(value);
 
     if (Number.isNaN(valueAsNumber) || valueAsNumber < 0) return;
 

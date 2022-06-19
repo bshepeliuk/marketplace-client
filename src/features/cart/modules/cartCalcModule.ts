@@ -65,7 +65,7 @@ function cartCalcReducer(state: State, action: CartCalcAction): State {
         return [...prev, current];
       }, [] as IDeviceWithCount[]);
 
-      const sum = getSum(devices);
+      const sum = getCartSum(devices);
 
       return {
         ...state,
@@ -75,7 +75,7 @@ function cartCalcReducer(state: State, action: CartCalcAction): State {
     }
 
     case types.SUM: {
-      const sum = getSum(state.devices);
+      const sum = getCartSum(state.devices);
 
       return {
         ...state,
@@ -87,7 +87,7 @@ function cartCalcReducer(state: State, action: CartCalcAction): State {
   }
 }
 
-const getSum = (items: IDeviceWithCount[]) => {
+export const getCartSum = (items: IDeviceWithCount[]) => {
   return items.reduce((prev, curr) => prev + curr.price * curr.count, 0);
 };
 

@@ -5,7 +5,7 @@ function PaymentCheckoutSuccess() {
   return (
     <>
       <HeaderView />
-      <div>Payment successful.</div>
+      <div>Payment successful!</div>
     </>
   );
 }

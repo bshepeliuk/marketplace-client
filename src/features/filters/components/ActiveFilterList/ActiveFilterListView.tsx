@@ -67,7 +67,7 @@ function ActiveFilterListView() {
       <ScrollContainer ref={scrollWrapRef} isScrolling={isScrolling}>
         <List>
           {items.map((item) => (
-            <ListItemView key={item[1]} item={item} />
+            <ActiveListItemView key={item[1]} item={item} />
           ))}
         </List>
 
@@ -89,7 +89,7 @@ function ActiveFilterListView() {
   );
 }
 
-function ListItemView(props: { item: string[] }) {
+export function ActiveListItemView(props: { item: string[] }) {
   const liRef = useRef<HTMLLIElement>(null);
   const [width, setWidth] = useState<number>(0);
   const [isMounted, setIsMounted] = useState(true);
@@ -98,11 +98,12 @@ function ListItemView(props: { item: string[] }) {
   const [key, value] = props.item;
 
   useEffect(() => {
+    // console.log({ liRef });
     if (!liRef.current) return;
     setWidth(liRef.current.clientWidth);
   }, []);
 
-  const handleClick = () => {
+  const handleRemove = () => {
     let params = removeSearchParamsFromEntriesByValue(searchParams, value);
 
     if (key === 'prices') {
@@ -117,7 +118,7 @@ function ListItemView(props: { item: string[] }) {
   return (
     <ListItem ref={liRef} isMounted={isMounted} width={width}>
       {value}
-      <DeleteButton type="button" onClick={handleClick}>
+      <DeleteButton data-delete-item-btn type="button" onClick={handleRemove}>
         X
       </DeleteButton>
     </ListItem>

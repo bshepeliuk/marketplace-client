@@ -6,7 +6,7 @@ function PaymentCheckoutCancel() {
     <>
       <HeaderView />
       <div>
-        Payment failed. Something went wrong. Kindly recheck your credentials.
+        Something went wrong. Kindly recheck your credentials and try again.
       </div>
     </>
   );

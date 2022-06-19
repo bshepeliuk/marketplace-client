@@ -1,7 +1,7 @@
 import { AnyAction } from '@reduxjs/toolkit';
 import { EntityKeys, IEntitiesState } from './types';
 
-const initialState: IEntitiesState = {
+export const initialState: IEntitiesState = {
   devices: {},
   categories: {},
   images: {},

@@ -47,18 +47,17 @@ function PriceInfoView({ infoStatus }: IProps) {
 
   const onRangeChange = (value: number[]) => {
     handleRangeChange(value);
+
     setValues(value);
   };
 
   const onInputChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
-    const isValueLessThanMin =
-      evt.target.name === 'min' &&
-      options.prices.min < evt.target.valueAsNumber;
+    const value = Number(evt.target.value);
+    const { min, max } = options.prices;
 
-    const isValueGreaterThanMax =
-      evt.target.name === 'max' &&
-      options.prices.max < evt.target.valueAsNumber;
-    // TODO: refactoring;
+    const isValueLessThanMin = evt.target.name === 'min' && min < value;
+    const isValueGreaterThanMax = evt.target.name === 'max' && max < value;
+
     if (isValueLessThanMin) {
       setValues([options.prices.min, values[1]]);
       return;
@@ -77,14 +76,14 @@ function PriceInfoView({ infoStatus }: IProps) {
       <InputWrapper>
         <Input
           name="min"
-          type="number"
+          type="text"
           value={values[0]}
           onChange={onInputChange}
         />
 
         <Input
           name="max"
-          type="number"
+          type="text"
           value={values[1]}
           onChange={onInputChange}
         />
