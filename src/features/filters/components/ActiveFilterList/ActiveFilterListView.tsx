@@ -98,7 +98,6 @@ export function ActiveListItemView(props: { item: string[] }) {
   const [key, value] = props.item;
 
   useEffect(() => {
-    // console.log({ liRef });
     if (!liRef.current) return;
     setWidth(liRef.current.clientWidth);
   }, []);

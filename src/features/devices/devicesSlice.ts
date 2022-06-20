@@ -36,7 +36,7 @@ export const getDevices = createAsyncThunk<
   IGetDevicesProps,
   IThunkAPI
 >('devices/get-all', async (props, { rejectWithValue, dispatch }) => {
-  const { offset = 0, limit = 20, categoryId, filters } = props;
+  const { offset, limit, categoryId, filters } = props;
 
   try {
     const { data } = await Api.Devices.get({

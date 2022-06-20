@@ -22,7 +22,7 @@ import {
 interface IData {
   items: IDevice[];
   // eslint-disable-next-line no-unused-vars
-  updateCount: (id: number, count: number) => void;
+  updateCountById: (props: { id: number; count: number }) => void;
 }
 
 interface IProps {
@@ -44,7 +44,7 @@ function CartItemView({ index, style, data }: IProps) {
   const hasImages = item.images.length > 0;
 
   useEffect(() => {
-    data.updateCount(item.id, count);
+    data.updateCountById({ id: item.id, count });
   }, [count]);
 
   const remove = () => {
@@ -85,11 +85,15 @@ function CartItemView({ index, style, data }: IProps) {
       </DeviceLink>
 
       <CounterWrap>
-        <IncrementBtn type="button" onClick={increment}>
+        <IncrementBtn
+          data-increment-count-btn
+          type="button"
+          onClick={increment}
+        >
           +
         </IncrementBtn>
         <Counter>{count}</Counter>
-        <DecrementBtn type="button" onClick={decrement}>
+        <DecrementBtn data-decrease-count-btn type="button" onClick={decrement}>
           -
         </DecrementBtn>
       </CounterWrap>

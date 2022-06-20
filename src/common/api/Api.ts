@@ -29,7 +29,7 @@ export const User = {
 };
 
 export const Devices = {
-  get({ offset, limit, filters }: IGetDevicesProps) {
+  get({ offset = 0, limit = 20, filters }: IGetDevicesProps) {
     const paramsUrl = generateSearchParamsStr({ offset, limit, filters });
 
     return api.get(`/devices?${paramsUrl}`);

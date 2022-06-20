@@ -156,6 +156,11 @@ export const ApplyButton = styled.button`
   padding: 4px 10px;
   color: #5285cc;
   border: 1px solid currentColor;
+
+  &:disabled {
+    border: 1px solid #bdc3c7;
+    color: #bdc3c7;
+  }
 `;
 
 export const InputWrapper = styled.div`

@@ -17,7 +17,7 @@ function ApplyFilterButton() {
   );
 
   return (
-    <ApplyButton type="button" onClick={apply}>
+    <ApplyButton type="button" onClick={apply} disabled={isLoading}>
       show - {content}
     </ApplyButton>
   );

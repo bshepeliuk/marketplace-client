@@ -39,7 +39,7 @@ function CartView() {
     dispatch(cartCalcActions.sum());
   }, [items]);
 
-  const updateCount = (id: number, count: number) => {
+  const updateCountById = ({ id, count }: { id: number; count: number }) => {
     dispatch(cartCalcActions.updateCounter({ id, count }));
   };
 
@@ -54,7 +54,7 @@ function CartView() {
           <List
             className="custom-scrollbar"
             itemCount={items.length}
-            itemData={{ items, updateCount }}
+            itemData={{ items, updateCountById }}
             width={LIST_WIDTH}
             height={LIST_HEIGHT}
             itemSize={ROW_HEIGHT}
