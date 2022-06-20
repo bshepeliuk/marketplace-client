@@ -83,6 +83,10 @@ export const PurchaseButton = styled.button`
   grid-column: 2;
   grid-row: 1;
 
+  &:disabled {
+    background-color: #bdc3c7;
+  }
+
   @media (max-width: 600px) {
     width: 150px;
   }

@@ -4,6 +4,7 @@ import HeaderView from '@common/components/Header/HeaderView';
 import { Container } from '@common/styles/base.styled';
 // eslint-disable-next-line max-len
 import useSlowDownLoaderIndicator from '@common/hooks/useSlowDownLoaderIndicator';
+import useMakePayment from '@features/payment/pages/hooks/useMakePayment';
 import useGetDeviceById from '../hooks/useGetDeviceById';
 import {
   BackBtn,
@@ -23,15 +24,18 @@ import {
 import LoadingDeviceDetailsView from '../components/LoadingDeviceDetailsView';
 import NotFoundDeviceView from '../components/NotFoundDeviceView';
 import useGoTo from '../hooks/useGoTo';
-import { IDeviceInfo } from '../types';
+import { IDeviceInfo, IDeviceWithCount } from '../types';
 
 function DeviceDetailsView() {
   const { deviceId } = useParams();
   const { goBack } = useGoTo();
-
   const { device, isLoading, hasNoDevice, hasNoFound } = useGetDeviceById(
     Number(deviceId),
   );
+
+  const { pay, isPending } = useMakePayment([
+    { ...device, count: 1 },
+  ] as IDeviceWithCount[]);
 
   const isLoadingSlow = useSlowDownLoaderIndicator({
     isLoading,
@@ -65,7 +69,9 @@ function DeviceDetailsView() {
           )}
 
           <PurchaseWrap>
-            <PurchaseButton type="button">purchase</PurchaseButton>
+            <PurchaseButton type="button" onClick={pay} disabled={isPending}>
+              purchase
+            </PurchaseButton>
 
             <Price title={`${device.price} $`}>{device.price} $</Price>
           </PurchaseWrap>

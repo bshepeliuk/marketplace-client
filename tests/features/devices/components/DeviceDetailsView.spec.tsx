@@ -1,10 +1,13 @@
+/* eslint-disable max-len */
 import { fireEvent, screen } from '@testing-library/react';
 import Router from 'react-router-dom';
 import { setupServer } from 'msw/node';
 import { rest } from 'msw';
 import DeviceDetailsView from '@features/devices/pages/DeviceDetailsView';
 import { BASE_API_URL } from '@src/common/constants';
+import useMakePayment from '@features/payment/pages/hooks/useMakePayment';
 import setupAndRenderComponent from '../../../helpers/setupAndRenderComponent';
+import { mockStripe } from '../../../mocks/stripe';
 
 const server = setupServer(
   rest.get(`${BASE_API_URL}/devices/:deviceId`, (req, res, ctx) => {
@@ -31,45 +34,61 @@ jest.mock('react-router-dom', () => ({
   }),
 }));
 
-describe('DeviceDetailsView', () => {
-  const device = {
-    id: 1,
-    images: [1],
-    name: 'HP Pavillion - test',
-    price: 1234,
-    info: [],
-  };
+jest.mock('@stripe/react-stripe-js', () => ({
+  ...jest.requireActual('@stripe/react-stripe-js'),
+  useStripe: () => mockStripe(),
+}));
 
-  const rootState = {
-    entities: {
-      devices: {
-        1: device,
-      },
-      images: {
-        1: { id: 1, url: 'https://image.jpeg' },
-      },
-    },
-    auth: {
-      isLoggedIn: true,
-    },
-    categories: {
-      items: [],
-      isError: false,
-      isLoading: false,
-    },
+jest.mock('@features/payment/pages/hooks/useMakePayment');
+
+const device = {
+  id: 1,
+  images: [1],
+  name: 'HP Pavillion - test',
+  price: 1234,
+  info: [],
+};
+
+const rootState = {
+  entities: {
     devices: {
+      1: device,
+    },
+    images: {
+      1: { id: 1, url: 'https://image.jpeg' },
+    },
+  },
+  auth: {
+    isLoggedIn: true,
+  },
+  categories: {
+    items: [],
+    isError: false,
+    isLoading: false,
+  },
+  devices: {
+    isLoading: false,
+    items: [1],
+    device: {
       isLoading: false,
-      items: [1],
-      device: {
-        isLoading: false,
-      },
     },
-    cart: {
-      items: [],
-    },
-  };
+  },
+  cart: {
+    items: [],
+  },
+};
 
-  beforeAll(() => server.listen());
+describe('[PAGES]: DeviceDetailsView', () => {
+  const payMethodMock = jest.fn();
+
+  beforeAll(() => {
+    server.listen();
+
+    (useMakePayment as jest.Mock).mockReturnValue({
+      pay: payMethodMock,
+      isPending: false,
+    });
+  });
   afterAll(() => server.close());
 
   afterEach(() => {
@@ -105,8 +124,37 @@ describe('DeviceDetailsView', () => {
     expect(purchaseBtn).toBeInTheDocument();
     expect(deviceImg).toBeInTheDocument();
     expect(deviceTitle).toBeInTheDocument();
+
+    const PurchaseBtn = getByText(/purchase/i) as HTMLButtonElement;
+
+    fireEvent.click(PurchaseBtn);
+
+    expect(payMethodMock).toBeCalledTimes(1);
   });
-  // eslint-disable-next-line max-len
+
+  test('purchase button should be disabled when isPending (from useMakePayment hook) equal to true', async () => {
+    (useMakePayment as jest.Mock).mockReturnValue({
+      pay: payMethodMock,
+      isPending: true,
+    });
+
+    jest
+      .spyOn(Router, 'useParams')
+      .mockReturnValue({ deviceId: device.id.toString() });
+
+    const { getByText } = setupAndRenderComponent({
+      state: rootState,
+      component: DeviceDetailsView,
+    });
+
+    const PurchaseBtn = getByText(/purchase/i) as HTMLButtonElement;
+
+    fireEvent.click(PurchaseBtn);
+
+    expect(PurchaseBtn.disabled).toBeTruthy();
+    expect(payMethodMock).not.toBeCalled();
+  });
+
   test('when device ID is not correct, should render message that such device not found', async () => {
     server.use(
       rest.get(`${BASE_API_URL}/devices/999`, (req, res, ctx) => {
