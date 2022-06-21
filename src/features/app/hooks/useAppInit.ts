@@ -4,6 +4,8 @@ import { useAppDispatch } from '@src/common/hooks/useAppDispatch';
 import { useTypedSelector } from '@src/common/hooks/useTypedSelector';
 import { initialization } from '@src/features/app/appSlice';
 import { authActions } from '@src/features/auth/authSlice';
+import { getBrands } from '@src/features/brands/brandsSlice';
+import { getCategories } from '@src/features/categories/categoriesSlice';
 
 const useAppInit = () => {
   const dispatch = useAppDispatch();
@@ -17,6 +19,8 @@ const useAppInit = () => {
 
   const init = () => {
     dispatch(initialization());
+    dispatch(getBrands());
+    dispatch(getCategories());
   };
 
   return {

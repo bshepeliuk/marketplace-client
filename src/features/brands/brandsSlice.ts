@@ -32,7 +32,6 @@ export const getBrands = createAsyncThunk<IBrandsData, undefined, IThunkAPI>(
     }
   },
 );
-
 const brandsSlice = createSlice({
   initialState,
   name: 'brands',

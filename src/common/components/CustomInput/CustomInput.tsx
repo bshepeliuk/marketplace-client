@@ -34,7 +34,7 @@ function CustomInput({ label, fieldName, type, id, ...props }: IInputProps) {
           value={values[fieldName]}
         />
 
-        {hasError && <ErrorWrapper>{errors[fieldName]}</ErrorWrapper>}
+        {hasError && <ErrorWrapper>{errors[fieldName] as string}</ErrorWrapper>}
       </InnerWrapper>
     </Wrapper>
   );

@@ -24,7 +24,7 @@ const ROLE_OPTIONS = [
   { value: ROLES.BUYER, label: 'buyer' },
   { value: ROLES.SELLER, label: 'seller' },
 ];
-// TODO: add selector for role field
+
 function RegisterFormView() {
   const { onRegister } = useRegister();
   const formik = useFormik<IRegisterFormValues>({
@@ -59,6 +59,7 @@ function RegisterFormView() {
         formikProps={formik}
         options={ROLE_OPTIONS}
         fieldName="role"
+        placeholder="Please select role..."
         label="Role"
       />
 

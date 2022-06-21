@@ -11,6 +11,10 @@ interface IProps {
 function PrivateRoute({ children, isAllowed }: IProps) {
   const { isLoggedIn } = useTypedSelector((state) => state.auth);
 
+  if (isLoggedIn && !isAllowed) {
+    return <Navigate to={routes.forbidden} />;
+  }
+
   return isLoggedIn && isAllowed ? children : <Navigate to={routes.login} />;
 }
 
