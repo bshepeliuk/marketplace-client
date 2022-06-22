@@ -1,14 +1,23 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import useHandleScrollBySideBtnClick from '@common/hooks/useHandleScrollBySideBtnClick';
+import useGetImgURLsByFiles from '@src/common/hooks/useGetImgURLsByFiles';
+import React, { ChangeEvent, useRef } from 'react';
+
 import useNewDeviceContext from '../../hooks/useNewDeviceContext';
 import { newDeviceRoutes } from '../../pages/NewDeviceView';
 import {
+  DeleteImgButton,
   FormFooter,
   FormWrap,
+  LeftArrow,
+  LeftArrowWrap,
   PreviewImage,
   PreviewList,
   PreviewListItem,
   PrevLink,
+  RightArrow,
+  RightArrowWrap,
   SaveButton,
+  Wrap,
 } from '../../styles/deviceForm.styled';
 
 function DeviceImagesStepView() {
@@ -32,12 +41,14 @@ function DeviceImagesStepView() {
 function ImageFileInput() {
   const context = useNewDeviceContext();
 
+  const MAX_FILES_LENGTH = 5;
+
+  const isDisabled = context.formState.images.length === MAX_FILES_LENGTH;
+
   const onChange = (evt: ChangeEvent<HTMLInputElement>) => {
     const { files } = evt.currentTarget;
 
     if (files === null) return;
-
-    const MAX_FILES_LENGTH = 5;
 
     if (files && files.length > MAX_FILES_LENGTH) {
       // TODO: max 5, show notification or error.
@@ -49,73 +60,66 @@ function ImageFileInput() {
     }
   };
 
-  return <input type="file" onChange={onChange} accept="image/*" multiple />;
+  return (
+    <input
+      type="file"
+      onChange={onChange}
+      accept="image/*"
+      multiple
+      disabled={isDisabled}
+    />
+  );
 }
 
-const useGetImgURLsByFiles = (files: File[]) => {
-  const [imageDataURLs, setImageDataURLs] = useState<string[]>([]);
-
-  useEffect(() => {
-    const images: string[] = [];
-    const fileReaders: FileReader[] = [];
-
-    let isCancel = false;
-
-    if (files.length > 0) {
-      files.forEach((file: File) => {
-        const fileReader = new FileReader();
-
-        fileReaders.push(fileReader);
-
-        fileReader.onload = (evt) => {
-          const { result } = evt.target as FileReader;
-
-          if (typeof result === 'string') images.push(result);
-
-          if (images.length === files.length && !isCancel) {
-            setImageDataURLs(images);
-          }
-        };
-
-        fileReader.readAsDataURL(file);
-      });
-    }
-    return () => {
-      isCancel = true;
-
-      fileReaders.forEach((fileReader) => {
-        if (fileReader.readyState === 1) {
-          fileReader.abort();
-        }
-      });
-    };
-  }, [files]);
-
-  return imageDataURLs;
-};
-
 function DeviceImagesPreview() {
+  const scrollWrapRef = useRef(null);
   const { formState } = useNewDeviceContext();
   const imageDataURLs = useGetImgURLsByFiles(formState.images);
+  // prettier-ignore
+  const {
+    onLeftClick,
+    onRightClick,
+    isLeftVisible,
+    isRightVisible
+   } = useHandleScrollBySideBtnClick(scrollWrapRef, imageDataURLs.length);
 
   const hasImgURLs = imageDataURLs.length > 0;
 
-  return hasImgURLs ? (
-    <PreviewList>
-      {imageDataURLs.map((dataUrl, idx) => {
-        return (
+  if (!hasImgURLs) return null;
+
+  return (
+    <Wrap>
+      {isLeftVisible && (
+        <LeftArrowWrap>
+          <LeftArrow onClick={onLeftClick} />
+        </LeftArrowWrap>
+      )}
+
+      <PreviewList ref={scrollWrapRef}>
+        {imageDataURLs.map((dataUrl, idx) => (
           // eslint-disable-next-line react/no-array-index-key
           <PreviewImageItem key={idx} dataUrl={dataUrl} />
-        );
-      })}
-    </PreviewList>
-  ) : null;
+        ))}
+      </PreviewList>
+
+      {isRightVisible && (
+        <RightArrowWrap>
+          <RightArrow onClick={onRightClick} />
+        </RightArrowWrap>
+      )}
+    </Wrap>
+  );
 }
 
 function PreviewImageItem({ dataUrl }: { dataUrl: string }) {
+  const context = useNewDeviceContext();
+
   return (
     <PreviewListItem>
       <PreviewImage src={dataUrl} alt="preview" />
+      <DeleteImgButton type="button" onClick={context.deleteImg}>
+        delete
+      </DeleteImgButton>
     </PreviewListItem>
   );
 }

@@ -59,4 +59,10 @@ export type NewDeviceAction =
       payload: {
         feature: INewDeviceFeature;
       };
+    }
+  | {
+      type: typeof newDeviceActionTypes.DELETE_IMAGE;
+      payload: {
+        url: string;
+      };
     };

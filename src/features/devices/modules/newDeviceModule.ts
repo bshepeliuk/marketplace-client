@@ -21,6 +21,10 @@ export const newDeviceActions = {
     type: newDeviceActionTypes.ADD_IMAGES,
     payload: { file },
   }),
+  deleteImageByUrl: (url: string) => ({
+    type: newDeviceActionTypes.DELETE_IMAGE,
+    payload: { url },
+  }),
   addBaseInfo: (info: INewDeviceInfo) => ({
     type: newDeviceActionTypes.ADD_BASE_INFO,
     payload: { info },
@@ -97,6 +101,14 @@ function newDeviceReducer(
       return {
         ...state,
         images: state.images.concat(action.payload.file),
+      };
+    }
+
+    case newDeviceActionTypes.DELETE_IMAGE: {
+      const { url } = action.payload;
+      return {
+        ...state,
+        images: [],
       };
     }
 

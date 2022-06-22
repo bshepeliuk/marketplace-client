@@ -1,10 +1,12 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { AiFillLeftCircle, AiFillRightCircle } from 'react-icons/ai';
 
 export const Wrap = styled.div`
   display: flex;
   justify-content: center;
   width: 100%;
+  position: relative;
 `;
 
 export const FormWrap = styled.div`
@@ -47,7 +49,7 @@ export const PreviewList = styled.ul`
   padding: 20px 15px;
   margin: 0;
   display: flex;
-  overflow-x: auto;
+  overflow: hidden;
 `;
 
 export const PreviewListItem = styled.li`
@@ -56,6 +58,7 @@ export const PreviewListItem = styled.li`
   padding: 2px 6px;
   margin-right: 15px;
   transition: transform 0.3s;
+  user-select: none;
 
   &:hover {
     transform: scale(1.1);
@@ -64,4 +67,53 @@ export const PreviewListItem = styled.li`
   &:last-child {
     margin-right: 0px;
   }
+`;
+
+export const LeftArrow = styled(AiFillLeftCircle)`
+  position: absolute;
+  left: -40px;
+  font-size: 35px;
+  top: 50%;
+  transform: translateY(-50%);
+`;
+
+export const RightArrow = styled(AiFillRightCircle)`
+  position: absolute;
+  right: -40px;
+  font-size: 35px;
+  top: 50%;
+  transform: translateY(-50%);
+`;
+
+export const RightArrowWrap = styled.div`
+  &:before {
+    content: '';
+    background: linear-gradient(to left, #fff 20%, rgba(255, 255, 255, 0) 80%);
+    height: 100%;
+    width: 32px;
+    display: block;
+    position: absolute;
+    right: 0;
+    z-index: 100;
+  }
+`;
+
+export const LeftArrowWrap = styled.div`
+  &:after {
+    z-index: 100;
+    content: '';
+    background: linear-gradient(to right, #fff 10%, rgba(249, 249, 249, 0) 90%);
+    height: 100%;
+    width: 32px;
+    position: absolute;
+    display: block;
+    left: 0;
+  }
+`;
+
+export const DeleteImgButton = styled.button`
+  background-color: transparent;
+  border: none;
+  color: #3498db;
+  text-decoration: underline;
 `;

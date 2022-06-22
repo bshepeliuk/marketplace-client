@@ -10,6 +10,7 @@ import { INewDeviceFeature, INewDeviceInfo } from '../modules/newDeviceTypes';
 
 interface IContext {
   save: () => void;
+  deleteImg: () => void;
   addBrand: (name: string) => void;
   addCategory: (name: string) => void;
   addImage: (file: File) => void;
@@ -48,6 +49,11 @@ export function NewDeviceProvider({ children }: { children: React.ReactNode }) {
     dispatch(newDeviceActions.deleteDeviceFeature(feature));
   };
 
+  const deleteImg = () => {
+    // FIXME: add ID for each file.
+    dispatch(newDeviceActions.deleteImageByUrl(''));
+  };
+
   const save = () => {};
 
   const values = {
@@ -58,6 +64,7 @@ export function NewDeviceProvider({ children }: { children: React.ReactNode }) {
     addCategory,
     addBaseInfo,
     deleteFeatureDetails,
+    deleteImg,
     formState: state,
   };
 

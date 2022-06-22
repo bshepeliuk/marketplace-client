@@ -12,13 +12,11 @@ const useHandleScrollBySideBtnClick = (
 
     const { scrollLeft, scrollWidth } = scrollWrapRef.current;
 
-    const hasStartedScroll = scrollLeft > 0;
-    const hasReachedStart = scrollLeft === 0;
-
     const AVG_WIDTH = Math.ceil(scrollWidth / countOfItems);
 
-    if (hasReachedStart) setLeftVisible(false);
-    if (hasStartedScroll) setRightVisible(true);
+    if (AVG_WIDTH > scrollLeft) setLeftVisible(false);
+
+    setRightVisible(true);
 
     scrollWrapRef.current.scrollTo({
       left: scrollLeft - AVG_WIDTH,
@@ -31,12 +29,12 @@ const useHandleScrollBySideBtnClick = (
 
     const { clientWidth, scrollLeft, scrollWidth } = scrollWrapRef.current;
 
-    const hasEndReached = scrollLeft + clientWidth === scrollWidth;
-    const hasStartedScroll = scrollLeft > 0;
-
     const AVG_WIDTH = Math.ceil(scrollWidth / countOfItems);
+    const scrollRight = scrollWidth - (scrollLeft + clientWidth);
 
-    if (hasStartedScroll && hasEndReached) setRightVisible(false);
+    if (AVG_WIDTH > scrollRight) {
+      setRightVisible(false);
+    }
 
     setLeftVisible(true);
 
@@ -55,27 +53,6 @@ const useHandleScrollBySideBtnClick = (
     if (hasReachedBegin) setLeftVisible(false);
     if (scrollWidth > clientWidth) setRightVisible(true);
   }, []);
-
-  useEffect(() => {
-    if (!scrollWrapRef.current) return;
-
-    const { clientWidth, scrollLeft, scrollWidth } = scrollWrapRef.current;
-
-    const hasEndReached = scrollLeft + clientWidth === scrollWidth;
-    const hasStartedScroll = scrollLeft > 0;
-    const hasReachedStart = scrollLeft === 0;
-
-    if (hasReachedStart) setLeftVisible(false);
-
-    if (hasStartedScroll) {
-      setLeftVisible(true);
-      setRightVisible(true);
-    }
-
-    if (hasStartedScroll && hasEndReached) {
-      setRightVisible(false);
-    }
-  }, [isLeftVisible, isRightVisible]);
 
   useEffect(() => {
     if (!scrollWrapRef.current) return;

@@ -6,13 +6,26 @@ import { Link } from 'react-router-dom';
 
 const Wrap = styled.div`
   grid-column-start: 4;
+
+  &:hover {
+    transform: rotate(360deg);
+  }
+`;
+
+const Icon = styled(FaPlus)`
+  color: #fff;
+  transition: all 0.4s ease-out;
+
+  &:hover {
+    transform: rotate(90deg);
+  }
 `;
 
 function AddDeviceIcon() {
   return (
     <Wrap>
       <Link to={routes.newDevice}>
-        <FaPlus color="#fff" />
+        <Icon />
       </Link>
     </Wrap>
   );
