@@ -52,8 +52,13 @@ export const Categories = {
 };
 
 export const Brands = {
-  get() {
-    return api.get('/brands');
+  create({ name }: { name: string }) {
+    return api.post('/brands', { name });
+  },
+  get({ name }: { name?: string }) {
+    const params = { name };
+
+    return api.get('/brands', { params });
   },
 };
 

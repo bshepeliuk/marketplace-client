@@ -2,11 +2,11 @@ import React from 'react';
 import HeaderView from '@common/components/Header/HeaderView';
 import { Route, Routes } from 'react-router-dom';
 import NotFoundView from '@src/features/notFound/NotFoundView';
-import BrandStepView from '../components/steps/BrandStepView';
-import CategoryStepView from '../components/steps/CategoryStepView';
-import DeviceBaseInfoStepView from '../components/steps/DeviceBaseInfoStepView';
-import DeviceFeatureStepView from '../components/steps/DeviceFeatureStepView';
-import DeviceImagesStepView from '../components/steps/DeviceImagesStepView';
+import BrandStepView from './BrandStepView';
+import CategoryStepView from './CategoryStepView';
+import DeviceBaseInfoStepView from './DeviceBaseInfoStepView';
+import DeviceFeatureStepView from './DeviceFeatureStepView';
+import DeviceImagesStepView from './DeviceImagesStepView';
 import { Wrap } from '../styles/deviceForm.styled';
 import { NewDeviceProvider } from '../context/NewDeviceContext';
 

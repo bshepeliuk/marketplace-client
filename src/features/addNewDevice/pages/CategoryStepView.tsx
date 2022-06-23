@@ -1,22 +1,24 @@
-import { NewBrandSchema } from '@src/features/auth/validation/brandSchema';
 import { FormikProps, useFormik } from 'formik';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useTypedSelector } from '@src/common/hooks/useTypedSelector';
 import CustomSelect from '@src/common/components/CustomSelect/CustomSelect';
-import { IBrand } from '@src/features/brands/types';
-import useNewDeviceContext from '../../hooks/useNewDeviceContext';
-import { newDeviceRoutes } from '../../pages/NewDeviceView';
+import { useTypedSelector } from '@src/common/hooks/useTypedSelector';
+import { categoriesSelector } from '@features/categories/selectors/categoriesSelector';
+import { ICategory } from '@src/features/categories/types';
+import { NewCategorySchema } from '@src/features/auth/validation/categorySchema';
+import useNewDeviceContext from '../hooks/useNewDeviceContext';
+import { newDeviceRoutes } from './NewDeviceView';
 import {
-  FormWrap,
   FormFooter,
+  FormWrap,
   NextButton,
-} from '../../styles/deviceForm.styled';
+  PrevLink,
+} from '../styles/deviceForm.styled';
 
-function BrandStepView() {
+function CategoryStepView() {
   return (
     <FormWrap>
-      <BrandFormView />
+      <CategoryFormView />
     </FormWrap>
   );
 }
@@ -25,16 +27,16 @@ const initialValues = {
   name: '',
 };
 
-function BrandFormView() {
+function CategoryFormView() {
   const context = useNewDeviceContext();
   const navigate = useNavigate();
 
   const formik = useFormik<{ name: string }>({
     initialValues,
-    validationSchema: NewBrandSchema,
+    validationSchema: NewCategorySchema,
     onSubmit: ({ name }) => {
-      context.addBrand(name);
-      navigate(newDeviceRoutes.category);
+      context.addCategory(name);
+      navigate(newDeviceRoutes.info);
     },
   });
 
@@ -42,9 +44,10 @@ function BrandFormView() {
 
   return (
     <form onSubmit={formik.handleSubmit}>
-      <BrandSelect formik={formik} />
+      <CategorySelect formik={formik} />
 
       <FormFooter>
+        <PrevLink to={newDeviceRoutes.brand}>Prev</PrevLink>
         <NextButton type="submit" disabled={isDisabled}>
           Next
         </NextButton>
@@ -53,9 +56,9 @@ function BrandFormView() {
   );
 }
 
-function BrandSelect({ formik }: { formik: FormikProps<{ name: string }> }) {
+function CategorySelect({ formik }: { formik: FormikProps<{ name: string }> }) {
   const context = useNewDeviceContext();
-  const brands = useTypedSelector((state) => state.brands);
+  const categories = useTypedSelector(categoriesSelector);
 
   const [state, setState] = useState({
     isClearable: true,
@@ -65,20 +68,20 @@ function BrandSelect({ formik }: { formik: FormikProps<{ name: string }> }) {
   });
 
   useEffect(() => {
-    formik.setFieldValue('name', context.formState.brand?.name);
+    formik.setFieldValue('name', context.formState.category?.name);
   }, []);
 
   useEffect(() => {
-    if (brands.isLoading) {
+    if (categories.isLoading) {
       setState((prev) => ({ ...prev, isDisabled: true, isLoading: true }));
     } else {
       setState((prev) => ({ ...prev, isDisabled: false, isLoading: false }));
     }
-  }, [brands.isLoading]);
+  }, [categories.isLoading]);
 
-  const options = brands.items.map((brand: IBrand) => ({
-    value: brand.name,
-    label: brand.name,
+  const options = categories.items.map((category: ICategory) => ({
+    value: category.name,
+    label: category.name,
   }));
 
   return (
@@ -87,10 +90,10 @@ function BrandSelect({ formik }: { formik: FormikProps<{ name: string }> }) {
       selectorState={state}
       options={options}
       fieldName="name"
-      label="Brand"
-      placeholder="Kindly select brand."
+      label="Category"
+      placeholder="Kindly select category."
     />
   );
 }
 
-export default BrandStepView;
+export default CategoryStepView;

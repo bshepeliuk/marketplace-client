@@ -105,7 +105,6 @@ function newDeviceReducer(
     }
 
     case newDeviceActionTypes.DELETE_IMAGE: {
-      const { url } = action.payload;
       return {
         ...state,
         images: [],

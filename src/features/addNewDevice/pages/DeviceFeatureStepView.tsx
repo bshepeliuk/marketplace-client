@@ -3,14 +3,14 @@ import { NewDeviceFeatureSchema } from '@features/auth/validation/deviceFeatureS
 import { useFormik } from 'formik';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import useNewDeviceContext from '../../hooks/useNewDeviceContext';
-import { newDeviceRoutes } from '../../pages/NewDeviceView';
+import useNewDeviceContext from '../hooks/useNewDeviceContext';
+import { newDeviceRoutes } from './NewDeviceView';
 import {
   FormFooter,
   FormWrap,
   NextButton,
   PrevLink,
-} from '../../styles/deviceForm.styled';
+} from '../styles/deviceForm.styled';
 
 function DeviceFeatureStepView() {
   return (

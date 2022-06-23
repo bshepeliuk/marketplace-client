@@ -3,14 +3,14 @@ import CustomInput from '@src/common/components/CustomInput/CustomInput';
 import { NewDeviceSchema } from '@src/features/auth/validation/newDeviceSchema';
 import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
-import useNewDeviceContext from '../../hooks/useNewDeviceContext';
-import { newDeviceRoutes } from '../../pages/NewDeviceView';
+import useNewDeviceContext from '../hooks/useNewDeviceContext';
+import { newDeviceRoutes } from './NewDeviceView';
 import {
   FormFooter,
   FormWrap,
   NextButton,
   PrevLink,
-} from '../../styles/deviceForm.styled';
+} from '../styles/deviceForm.styled';
 
 function DeviceBaseInfoStepView() {
   return (

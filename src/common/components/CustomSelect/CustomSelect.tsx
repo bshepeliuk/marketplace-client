@@ -1,4 +1,3 @@
-import { FormikProps } from 'formik';
 import React from 'react';
 import Select, {
   StylesConfig,
@@ -7,8 +6,10 @@ import Select, {
   MultiValue,
   GroupBase,
 } from 'react-select';
-
 import styled from 'styled-components';
+import { FormikProps } from 'formik';
+
+import createOption from '@src/common/utils/createSelectOption';
 
 const Wrap = styled.div`
   padding-bottom: 5px;
@@ -68,11 +69,6 @@ const customStyles: StylesConfig<Option, boolean, GroupBase<Option>> = {
     color: 'rgba(189, 195, 199,0.9)',
   }),
 };
-
-const createOption = (label: string) => ({
-  label,
-  value: label,
-});
 
 function CustomSelect({
   formikProps,

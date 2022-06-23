@@ -9,7 +9,7 @@ import AccountView from '@features/account/pages/AccountView';
 import CartView from '@src/features/cart/pages/CartView';
 import PaymentCheckoutSuccess from '@features/payment/pages/PaymentCheckoutSuccess';
 import PaymentCheckoutCancel from '@features/payment/pages/PaymentCheckoutCancel';
-import NewDeviceView from '@src/features/devices/pages/NewDeviceView';
+import NewDeviceView from '@features/addNewDevice/pages/NewDeviceView';
 import ForbiddenView from '@features/forbidden/ForbiddenView';
 import { useTypedSelector } from '@src/common/hooks/useTypedSelector';
 import { ROLES } from '@src/common/constants';

@@ -2,8 +2,8 @@ import useHandleScrollBySideBtnClick from '@common/hooks/useHandleScrollBySideBt
 import useGetImgURLsByFiles from '@src/common/hooks/useGetImgURLsByFiles';
 import React, { ChangeEvent, useRef } from 'react';
 
-import useNewDeviceContext from '../../hooks/useNewDeviceContext';
-import { newDeviceRoutes } from '../../pages/NewDeviceView';
+import useNewDeviceContext from '../hooks/useNewDeviceContext';
+import { newDeviceRoutes } from './NewDeviceView';
 import {
   DeleteImgButton,
   FormFooter,
@@ -18,7 +18,7 @@ import {
   RightArrowWrap,
   SaveButton,
   Wrap,
-} from '../../styles/deviceForm.styled';
+} from '../styles/deviceForm.styled';
 
 function DeviceImagesStepView() {
   const context = useNewDeviceContext();

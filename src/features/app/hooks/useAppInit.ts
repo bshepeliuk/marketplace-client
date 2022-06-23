@@ -19,8 +19,8 @@ const useAppInit = () => {
 
   const init = () => {
     dispatch(initialization());
-    dispatch(getBrands());
     dispatch(getCategories());
+    dispatch(getBrands({ name: undefined }));
   };
 
   return {
