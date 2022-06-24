@@ -9,6 +9,7 @@ import DeviceFeatureStepView from './DeviceFeatureStepView';
 import DeviceImagesStepView from './DeviceImagesStepView';
 import { Wrap } from '../styles/deviceForm.styled';
 import { NewDeviceProvider } from '../context/NewDeviceContext';
+import StepIndicatorList from '../components/StepIndicatorList';
 
 export const newDeviceRoutes = {
   brand: '/new',
@@ -25,6 +26,8 @@ function NewDeviceView() {
 
       <Wrap>
         <NewDeviceProvider>
+          <StepIndicatorList />
+
           <Routes>
             <Route path="/" element={<BrandStepView />} />
             <Route path="device-category" element={<CategoryStepView />} />

@@ -8,6 +8,8 @@ export const Wrap = styled.div`
   justify-content: center;
   width: 100%;
   position: relative;
+  flex-flow: column wrap;
+  align-items: center;
 `;
 
 export const FormWrap = styled.div`
@@ -60,6 +62,7 @@ export const PreviewList = styled.ul`
   margin: 0;
   display: flex;
   overflow: hidden;
+  width: 500px;
 `;
 
 export const PreviewListItem = styled.li`
