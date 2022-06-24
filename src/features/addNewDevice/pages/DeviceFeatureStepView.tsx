@@ -6,9 +6,9 @@ import { useNavigate } from 'react-router-dom';
 import useNewDeviceContext from '../hooks/useNewDeviceContext';
 import { newDeviceRoutes } from './NewDeviceView';
 import {
-  FormFooter,
+  FeatureFormFooter,
+  FeatureNextBtn,
   FormWrap,
-  NextButton,
   PrevLink,
 } from '../styles/deviceForm.styled';
 
@@ -86,19 +86,19 @@ function DeviceFeatureFormView() {
         {...formik}
       />
 
-      <FormFooter>
+      <FeatureFormFooter>
         <PrevLink to={newDeviceRoutes.info}>Prev</PrevLink>
         <button type="submit" disabled={isDisabled}>
           add
         </button>
-        <NextButton
+        <FeatureNextBtn
           type="button"
           onClick={onClickNext}
           disabled={isNextDisabled}
         >
           Next
-        </NextButton>
-      </FormFooter>
+        </FeatureNextBtn>
+      </FeatureFormFooter>
     </form>
   );
 }

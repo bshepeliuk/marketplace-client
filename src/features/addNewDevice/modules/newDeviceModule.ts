@@ -1,29 +1,29 @@
 import { Nullable } from '@src/common/types/baseTypes';
+import { IBrand } from '@src/features/brands/types';
+import { ICategory } from '@src/features/categories/types';
 import { newDeviceActionTypes } from './constants';
 import {
-  INewBrand,
-  INewCategory,
   INewDeviceFeature,
   INewDeviceInfo,
   NewDeviceAction,
 } from './newDeviceTypes';
 
 export const newDeviceActions = {
-  addBrand: (name: string) => ({
+  addBrand: ({ brand }: { brand: IBrand }) => ({
     type: newDeviceActionTypes.ADD_BRAND,
-    payload: { brand: { name } },
+    payload: { brand },
   }),
-  addCategory: (name: string) => ({
+  addCategory: ({ category }: { category: ICategory }) => ({
     type: newDeviceActionTypes.ADD_CATEGORY,
-    payload: { category: { name } },
+    payload: { category },
   }),
-  addImage: (file: File) => ({
+  addImage: ({ id, file }: { id: string; file: File }) => ({
     type: newDeviceActionTypes.ADD_IMAGES,
-    payload: { file },
+    payload: { image: { id, file } },
   }),
-  deleteImageByUrl: (url: string) => ({
+  deleteImageById: (id: string) => ({
     type: newDeviceActionTypes.DELETE_IMAGE,
-    payload: { url },
+    payload: { id },
   }),
   addBaseInfo: (info: INewDeviceInfo) => ({
     type: newDeviceActionTypes.ADD_BASE_INFO,
@@ -40,10 +40,10 @@ export const newDeviceActions = {
 };
 
 export const newDeviceInitState = {
-  brand: null as Nullable<INewBrand>,
-  category: null as Nullable<INewCategory>,
+  brand: null as Nullable<IBrand>,
+  category: null as Nullable<ICategory>,
   info: null as Nullable<INewDeviceInfo>,
-  images: [] as Array<File>,
+  images: [] as Array<{ id: string; file: File }>,
   features: [] as Array<INewDeviceFeature>,
 };
 
@@ -98,16 +98,19 @@ function newDeviceReducer(
     }
 
     case newDeviceActionTypes.ADD_IMAGES: {
+      const { image } = action.payload;
       return {
         ...state,
-        images: state.images.concat(action.payload.file),
+        images: state.images.concat(image),
       };
     }
 
     case newDeviceActionTypes.DELETE_IMAGE: {
+      const items = state.images.filter((img) => img.id !== action.payload.id);
+
       return {
         ...state,
-        images: [],
+        images: items,
       };
     }
 

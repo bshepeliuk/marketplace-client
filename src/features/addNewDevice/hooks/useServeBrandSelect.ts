@@ -10,6 +10,15 @@ interface Option {
   readonly value: string;
 }
 
+type SelectActionTypes =
+  | 'clear'
+  | 'create-option'
+  | 'deselect-option'
+  | 'pop-value'
+  | 'remove-value'
+  | 'select-option'
+  | 'set-value';
+
 const selectInitState = {
   isClearable: true,
   isSearchable: true,
@@ -36,7 +45,7 @@ const useServeBrandSelect = () => {
     if (payload === undefined) return;
 
     if ('brand' in payload) {
-      setOption({ label: payload.brand.name, value: payload?.brand.name });
+      setOption({ label: payload.brand.name, value: payload.brand.name });
     }
 
     setSelectState((prev) => ({
@@ -46,7 +55,14 @@ const useServeBrandSelect = () => {
     }));
   };
 
-  const handleChange = (newValue: OnChangeValue<Option, false>) => {
+  const handleChange = (
+    newValue: OnChangeValue<Option, false>,
+    actionMeta: { action: SelectActionTypes },
+  ) => {
+    if (actionMeta.action === 'clear') {
+      setOption(null);
+    }
+
     setOption(newValue);
   };
 

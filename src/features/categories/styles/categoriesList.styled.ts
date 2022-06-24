@@ -35,6 +35,7 @@ export const CategoryButton = styled.button<{ isActive: boolean }>`
   padding: 7px 15px;
   text-transform: uppercase;
   letter-spacing: 1px;
+  transition: all 0.2s ease-out;
 
   border: ${({ isActive }) => {
     return isActive ? '1px solid #e31837' : '1px solid #e0e0e0';

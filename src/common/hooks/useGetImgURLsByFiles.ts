@@ -1,35 +1,40 @@
 import { useEffect, useState } from 'react';
 
-const useGetImgURLsByFiles = (files: File[]) => {
-  const [imageDataURLs, setImageDataURLs] = useState<string[]>([]);
+const useGetImgURLsByFiles = (files: { id: string; file: File }[]) => {
+  const [imageDataURLs, setImageDataURLs] = useState<
+    Array<{ id: string; url: string }>
+  >([]);
 
   useEffect(() => {
-    const images: string[] = [];
+    if (files.length === 0) {
+      setImageDataURLs([]);
+      return;
+    }
+
+    const images: Array<{ id: string; url: string }> = [];
     const fileReaders: FileReader[] = [];
 
     let isCancel = false;
 
-    const hasFiles = files.length > 0;
+    files.forEach((item: { id: string; file: File }) => {
+      const fileReader = new FileReader();
+      fileReaders.push(fileReader);
 
-    if (hasFiles) {
-      files.forEach((file: File) => {
-        const fileReader = new FileReader();
+      fileReader.onload = (evt) => {
+        const { result } = evt.target as FileReader;
 
-        fileReaders.push(fileReader);
+        if (typeof result === 'string') {
+          images.push({ id: item.id, url: result });
+        }
 
-        fileReader.onload = (evt) => {
-          const { result } = evt.target as FileReader;
+        if (images.length === files.length && !isCancel) {
+          setImageDataURLs(images);
+        }
+      };
 
-          if (typeof result === 'string') images.push(result);
+      fileReader.readAsDataURL(item.file);
+    });
 
-          if (images.length === files.length && !isCancel) {
-            setImageDataURLs(images);
-          }
-        };
-
-        fileReader.readAsDataURL(file);
-      });
-    }
     return () => {
       isCancel = true;
 

@@ -1,5 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/jsx-no-constructed-context-values */
+import { IBrand } from '@src/features/brands/types';
+import { ICategory } from '@src/features/categories/types';
 import React, { createContext, useReducer } from 'react';
 import newDeviceReducer, {
   newDeviceActions,
@@ -10,9 +12,9 @@ import { INewDeviceFeature, INewDeviceInfo } from '../modules/newDeviceTypes';
 
 interface IContext {
   save: () => void;
-  deleteImg: () => void;
-  addBrand: (name: string) => void;
-  addCategory: (name: string) => void;
+  deleteImgById: (id: string) => void;
+  addBrand: ({ brand }: { brand: IBrand }) => void;
+  addCategory: ({ category }: { category: ICategory }) => void;
   addImage: (file: File) => void;
   addBaseInfo: (info: INewDeviceInfo) => void;
   addFeatureDetails: (feature: INewDeviceFeature) => void;
@@ -25,16 +27,16 @@ export const NewDeviceContext = createContext<IContext | undefined>(undefined);
 export function NewDeviceProvider({ children }: { children: React.ReactNode }) {
   const [state, dispatch] = useReducer(newDeviceReducer, newDeviceInitState);
 
-  const addBrand = (name: string) => {
-    dispatch(newDeviceActions.addBrand(name));
+  const addBrand = ({ brand }: { brand: IBrand }) => {
+    dispatch(newDeviceActions.addBrand({ brand }));
   };
 
-  const addCategory = (name: string) => {
-    dispatch(newDeviceActions.addCategory(name));
+  const addCategory = ({ category }: { category: ICategory }) => {
+    dispatch(newDeviceActions.addCategory({ category }));
   };
 
   const addImage = (file: File) => {
-    dispatch(newDeviceActions.addImage(file));
+    dispatch(newDeviceActions.addImage({ id: file.name, file }));
   };
 
   const addBaseInfo = (info: INewDeviceInfo) => {
@@ -49,9 +51,9 @@ export function NewDeviceProvider({ children }: { children: React.ReactNode }) {
     dispatch(newDeviceActions.deleteDeviceFeature(feature));
   };
 
-  const deleteImg = () => {
+  const deleteImgById = (id: string) => {
     // FIXME: add ID for each file.
-    dispatch(newDeviceActions.deleteImageByUrl(''));
+    dispatch(newDeviceActions.deleteImageById(id));
   };
 
   const save = () => {};
@@ -64,7 +66,7 @@ export function NewDeviceProvider({ children }: { children: React.ReactNode }) {
     addCategory,
     addBaseInfo,
     deleteFeatureDetails,
-    deleteImg,
+    deleteImgById,
     formState: state,
   };
 

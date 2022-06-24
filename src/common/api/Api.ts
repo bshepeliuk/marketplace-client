@@ -46,8 +46,13 @@ export const Filters = {
 };
 
 export const Categories = {
-  get() {
-    return api.get('/types');
+  create({ name }: { name: string }) {
+    return api.post('/types', { name });
+  },
+  get({ name }: { name?: string }) {
+    const params = { name };
+
+    return api.get('/types', { params });
   },
 };
 

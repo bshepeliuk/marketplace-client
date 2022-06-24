@@ -1,21 +1,30 @@
 import { FormikProps } from 'formik';
 import React, { useEffect } from 'react';
 import AsyncCreatableSelect from 'react-select/async-creatable';
+import createOption from '@common/utils/createSelectOption';
+import useServeCategorySelect from '../../hooks/useServeCategorySelect';
 import useNewDeviceContext from '../../hooks/useNewDeviceContext';
-import useServeBrandSelect from '../../hooks/useServeBrandSelect';
 
-function BrandSelect({ formik }: { formik: FormikProps<{ name: string }> }) {
+function CategorySelect({ formik }: { formik: FormikProps<{ name: string }> }) {
   const context = useNewDeviceContext();
-
   const {
     onCreateOption,
-    handleChange,
     loadOptions,
+    handleChange,
     option,
     options,
     setOption,
     selectState,
-  } = useServeBrandSelect();
+  } = useServeCategorySelect();
+
+  useEffect(() => {
+    const { category } = context.formState;
+
+    if (category !== null) {
+      formik.setFieldValue('name', category.name);
+      setOption(createOption(category.name));
+    }
+  }, []);
 
   useEffect(() => {
     if (option !== null) {
@@ -24,19 +33,6 @@ function BrandSelect({ formik }: { formik: FormikProps<{ name: string }> }) {
       formik.resetForm();
     }
   }, [option]);
-
-  useEffect(() => {
-    const { brand } = context.formState;
-
-    if (brand !== null) {
-      formik.setFieldValue('name', brand.name);
-
-      setOption({
-        label: brand.name,
-        value: brand.name,
-      });
-    }
-  }, []);
 
   return (
     <AsyncCreatableSelect
@@ -50,9 +46,9 @@ function BrandSelect({ formik }: { formik: FormikProps<{ name: string }> }) {
       loadOptions={loadOptions}
       value={option}
       onChange={handleChange}
-      placeholder="Please select or create device brand."
+      placeholder="Please select or create device category."
     />
   );
 }
 
-export default BrandSelect;
+export default CategorySelect;

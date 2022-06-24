@@ -1,3 +1,5 @@
+import { IBrand } from '@src/features/brands/types';
+import { ICategory } from '@src/features/categories/types';
 import { newDeviceActionTypes } from './constants';
 
 export interface INewBrand {
@@ -27,19 +29,19 @@ export type NewDeviceAction =
   | {
       type: typeof newDeviceActionTypes.ADD_BRAND;
       payload: {
-        brand: INewBrand;
+        brand: IBrand;
       };
     }
   | {
       type: typeof newDeviceActionTypes.ADD_CATEGORY;
       payload: {
-        category: INewCategory;
+        category: ICategory;
       };
     }
   | {
       type: typeof newDeviceActionTypes.ADD_IMAGES;
       payload: {
-        file: File;
+        image: { id: string; file: File };
       };
     }
   | {
@@ -63,6 +65,6 @@ export type NewDeviceAction =
   | {
       type: typeof newDeviceActionTypes.DELETE_IMAGE;
       payload: {
-        url: string;
+        id: string;
       };
     };

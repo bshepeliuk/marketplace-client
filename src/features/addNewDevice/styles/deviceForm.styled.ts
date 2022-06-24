@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { AiFillLeftCircle, AiFillRightCircle } from 'react-icons/ai';
+import { MdUpload } from 'react-icons/md';
 
 export const Wrap = styled.div`
   display: flex;
@@ -18,6 +19,11 @@ export const FormFooter = styled.footer`
   grid-template-columns: repeat(2, 1fr);
 `;
 
+export const FeatureFormFooter = styled.footer`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+`;
+
 export const NextLink = styled(Link)`
   grid-column: 2;
   justify-self: end;
@@ -28,6 +34,10 @@ export const NextButton = styled.button`
   grid-column: 2;
   justify-self: end;
   user-select: none;
+`;
+
+export const FeatureNextBtn = styled(NextButton)`
+  grid-column: 3;
 `;
 
 export const PrevLink = styled(Link)`
@@ -116,4 +126,22 @@ export const DeleteImgButton = styled.button`
   border: none;
   color: #3498db;
   text-decoration: underline;
+`;
+
+export const FileInputLabel = styled.label<{ isDisabled: boolean }>`
+  background-color: ${({ isDisabled }) => (isDisabled ? '#bdc3c7' : '#34495e')};
+  color: white;
+  padding: 0.5rem;
+  font-family: sans-serif;
+  border-radius: 2px;
+  cursor: pointer;
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const UploadIcon = styled(MdUpload)`
+  font-size: 30px;
+  margin-right: 15px;
 `;

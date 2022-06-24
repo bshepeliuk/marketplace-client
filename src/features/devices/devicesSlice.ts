@@ -27,6 +27,7 @@ export const initialState = {
     error: null,
   },
   items: [] as number[], // device ids
+  hasNoDevices: false,
 };
 
 type State = typeof initialState;
@@ -149,18 +150,24 @@ const devicesSlice = createSlice({
     // get all devices
     builder.addCase(getDevices.pending, (state: State) => {
       state.hasMore = true;
+      state.hasNoDevices = false;
       state.isLoading = true;
       state.isError = false;
     });
     builder.addCase(
       getDevices.fulfilled,
       (state: State, { payload }: PayloadAction<{ result: number[] }>) => {
+        if (payload.result.length === 0) {
+          state.hasNoDevices = true;
+        }
+
         state.isLoading = false;
         state.items = payload.result;
       },
     );
     builder.addCase(getDevices.rejected, (state: State) => {
       state.isLoading = false;
+      state.hasNoDevices = false;
       state.isError = true;
     });
     // get one by id

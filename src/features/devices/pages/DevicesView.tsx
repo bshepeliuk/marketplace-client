@@ -5,11 +5,13 @@ import getActiveSearchParamsEntries from '@features/filters/helpers/getActiveSea
 import FilterSideBarView from '@src/features/filters/components/FilterSideBar';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import ActiveFilterListView from '@features/filters/components/ActiveFilterList/ActiveFilterListView';
+import { useTypedSelector } from '@src/common/hooks/useTypedSelector';
 import { routes } from '@src/app/Router';
 import DeviceListView from '../components/DeviceListView';
 import { DeviceListContainer, Wrapper } from '../styles/deviceView.styled';
 import useGetMoreDevices from '../hooks/useGetMoreDevices';
 import useGetDevices from '../hooks/useGetDevices';
+import NoDevicesView from '../components/NoDevicesView';
 
 function DevicesView() {
   const containerRef = useRef<any>(null);
@@ -18,15 +20,26 @@ function DevicesView() {
   const [searchParams] = useSearchParams();
   const location = useLocation();
   const navigate = useNavigate();
+  const hasNoDevices = useTypedSelector((state) => state.devices.hasNoDevices);
 
   const activeFilters = getActiveSearchParamsEntries(searchParams);
+
   const hasActiveFilters = activeFilters.length > 0;
+  // prettier-ignore
+  const hasNoSearchParams = location.pathname === routes.devices && location.search === '';
 
   useEffect(() => {
-    if (location.pathname === routes.devices && location.search === '') {
-      navigate('/');
-    }
+    if (hasNoSearchParams) navigate('/');
   }, [location.pathname]);
+
+  if (hasNoDevices) {
+    return (
+      <>
+        <HeaderView />
+        <NoDevicesView />
+      </>
+    );
+  }
 
   return (
     <>
