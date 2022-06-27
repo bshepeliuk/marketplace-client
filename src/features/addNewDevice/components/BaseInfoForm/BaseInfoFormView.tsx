@@ -40,6 +40,7 @@ function BaseInfoFormView() {
 
   useEffect(() => {
     const { info } = context.formState;
+
     if (info !== null) {
       formik.setValues(info);
     }

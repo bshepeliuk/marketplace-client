@@ -9,6 +9,7 @@ import {
   FeatureFormFooter,
   FeatureNextBtn,
   PrevLink,
+  AddButton,
 } from '../../styles/deviceForm.styled';
 
 const initialValues = {
@@ -29,8 +30,12 @@ function DeviceFeatureFormView() {
     initialValues,
     validationSchema: NewDeviceFeatureSchema,
     onSubmit: ({ title, description }, { resetForm }) => {
-      context.addFeatureDetails({ title, description });
-      resetForm();
+      if (context.checkIfNewFeatureUniqueByTitle(title)) {
+        context.addFeatureDetails({ title, description });
+        resetForm();
+      } else {
+        // TODO: notification;
+      }
     },
   });
 
@@ -61,9 +66,9 @@ function DeviceFeatureFormView() {
 
       <FeatureFormFooter>
         <PrevLink to={newDeviceRoutes.info}>Prev</PrevLink>
-        <button type="submit" disabled={isDisabled}>
+        <AddButton type="submit" disabled={isDisabled}>
           add
-        </button>
+        </AddButton>
         <FeatureNextBtn
           type="button"
           onClick={onClickNext}

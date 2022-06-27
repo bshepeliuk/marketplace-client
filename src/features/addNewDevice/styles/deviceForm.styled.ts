@@ -16,14 +16,24 @@ export const FormWrap = styled.div`
   width: 400px;
 `;
 
+export const ImageFormWrap = styled(FormWrap)`
+  width: 400px;
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
+`;
+
 export const FormFooter = styled.footer`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
+  margin-top: 30px;
+  width: 400px;
 `;
 
 export const FeatureFormFooter = styled.footer`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  margin-top: 30px;
 `;
 
 export const NextLink = styled(Link)`
@@ -36,25 +46,89 @@ export const NextButton = styled.button`
   grid-column: 2;
   justify-self: end;
   user-select: none;
+  border: none;
+  color: #01a3a4;
+  border-radius: 4px;
+  text-transform: uppercase;
+  font-size: 0.8em;
+  font-weight: bold;
+  border: 1px solid #01a3a4;
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 70px;
+  height: 40px;
+
+  &:disabled {
+    color: #bdc3c7;
+    border: 1px solid #bdc3c7;
+  }
 `;
 
 export const FeatureNextBtn = styled(NextButton)`
   grid-column: 3;
 `;
 
+export const AddButton = styled.button`
+  background-color: #10ac84;
+  border: none;
+  border-radius: 4px;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 0.8em;
+
+  &:disabled {
+    border: 1px solid #c8d6e5;
+    border-radius: 4px;
+    color: #c8d6e5;
+    background-color: #fff;
+  }
+`;
+
 export const PrevLink = styled(Link)`
-  grid-column: 1;
-  justify-self: start;
+  border-radius: 4px;
+  text-transform: uppercase;
+  font-weight: bold;
+  text-decoration: none;
+  color: #fff;
+  width: 70px;
   user-select: none;
+  text-align: center;
+  height: 40px;
+  border: 1px solid #01a3a4;
+  color: #01a3a4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8em;
 `;
 
 export const SaveButton = styled.button`
   grid-column: 2;
   justify-self: end;
+  background-color: #10ac84;
+  border: none;
+  border-radius: 4px;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 0.8em;
+  width: 70px;
+  height: 40px;
+  user-select: none;
+
+  &:disabled {
+    border: 1px solid #c8d6e5;
+    border-radius: 4px;
+    color: #c8d6e5;
+    background-color: #fff;
+  }
 `;
 
 export const PreviewImage = styled.img`
-  height: 200px;
+  height: 150px;
 `;
 
 export const PreviewList = styled.ul`
@@ -62,7 +136,7 @@ export const PreviewList = styled.ul`
   margin: 0;
   display: flex;
   overflow: hidden;
-  width: 500px;
+  width: 400px;
 `;
 
 export const PreviewListItem = styled.li`
@@ -108,6 +182,7 @@ export const RightArrowWrap = styled.div`
     position: absolute;
     right: 0;
     z-index: 100;
+    top: 0;
   }
 `;
 
@@ -121,6 +196,7 @@ export const LeftArrowWrap = styled.div`
     position: absolute;
     display: block;
     left: 0;
+    top: 0;
   }
 `;
 
@@ -139,12 +215,13 @@ export const FileInputLabel = styled.label<{ isDisabled: boolean }>`
   border-radius: 2px;
   cursor: pointer;
   display: flex;
-  width: 100%;
   justify-content: center;
   align-items: center;
+  flex-flow: column wrap;
+  user-select: none;
+  width: 100%;
 `;
 
 export const UploadIcon = styled(MdUpload)`
   font-size: 30px;
-  margin-right: 15px;
 `;

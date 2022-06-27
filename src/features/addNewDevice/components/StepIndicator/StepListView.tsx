@@ -1,10 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import setStepIsActiveById from '../../helpers/setStepIsActiveById';
+import useCheckStep from '../../hooks/useCheckStep';
 import { Circle, InnerWrap, Title } from '../../styles/stepIndicator.styled';
 import { STEP_LIST } from './steps';
 
-function StepListView({ activeStepId }: { activeStepId: number }) {
+interface Props {
+  activeStepId: number;
+}
+
+function StepListView({ activeStepId }: Props) {
   const [steps, setSteps] = useState(STEP_LIST);
+  const { checkIfValidByStepId } = useCheckStep();
 
   useEffect(() => {
     setSteps((prev) => setStepIsActiveById({ steps: prev, id: activeStepId }));
@@ -13,7 +19,9 @@ function StepListView({ activeStepId }: { activeStepId: number }) {
   return (
     <>
       {steps.map((item) => {
-        const Icon = item.icon;
+        const Icon = checkIfValidByStepId(item.id)
+          ? item.icon.completed
+          : item.icon.default;
 
         return (
           <InnerWrap key={item.id}>

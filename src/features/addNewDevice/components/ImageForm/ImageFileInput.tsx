@@ -13,7 +13,7 @@ function ImageFileInput() {
   const hasSelectedImages = images.length > 0;
 
   const onChange = (evt: ChangeEvent<HTMLInputElement>) => {
-    const { files } = evt.currentTarget;
+    const { files } = evt.target;
 
     if (files === null) return;
 
@@ -25,24 +25,25 @@ function ImageFileInput() {
     for (const file of Array.from(files)) {
       context.addImage(file);
     }
+    // NOTE: cannot select the same files after deleting; should reset input value;
+    evt.target.value = '';
   };
 
   return (
-    <div>
-      <FileInputLabel htmlFor="device-images" isDisabled={isDisabled}>
-        <UploadIcon />
-        {hasSelectedImages ? `${images.length} selected files` : 'choose files'}
-        <input
-          id="device-images"
-          type="file"
-          onChange={onChange}
-          accept="image/*"
-          multiple
-          hidden
-          disabled={isDisabled}
-        />
-      </FileInputLabel>
-    </div>
+    <FileInputLabel htmlFor="device-images" isDisabled={isDisabled}>
+      <UploadIcon />
+      {hasSelectedImages ? `${images.length} selected files` : 'choose files'}
+
+      <input
+        id="device-images"
+        type="file"
+        onChange={onChange}
+        accept="image/*"
+        multiple
+        hidden
+        disabled={isDisabled}
+      />
+    </FileInputLabel>
   );
 }
 

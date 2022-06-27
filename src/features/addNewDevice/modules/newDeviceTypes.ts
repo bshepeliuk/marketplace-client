@@ -33,10 +33,16 @@ export type NewDeviceAction =
       };
     }
   | {
+      type: typeof newDeviceActionTypes.REMOVE_BRAND;
+    }
+  | {
       type: typeof newDeviceActionTypes.ADD_CATEGORY;
       payload: {
         category: ICategory;
       };
+    }
+  | {
+      type: typeof newDeviceActionTypes.REMOVE_CATEGORY;
     }
   | {
       type: typeof newDeviceActionTypes.ADD_IMAGES;
@@ -49,6 +55,9 @@ export type NewDeviceAction =
       payload: {
         info: INewDeviceInfo;
       };
+    }
+  | {
+      type: typeof newDeviceActionTypes.REMOVE_BASE_INFO;
     }
   | {
       type: typeof newDeviceActionTypes.ADD_FEATURE_DETAILS;

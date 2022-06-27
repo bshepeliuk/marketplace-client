@@ -15,15 +15,21 @@ function BrandSelect({ formik }: { formik: FormikProps<{ name: string }> }) {
     options,
     setOption,
     selectState,
+    shouldClear,
   } = useServeBrandSelect();
 
   useEffect(() => {
     if (option !== null) {
       formik.setFieldValue('name', option.value);
-    } else {
-      formik.resetForm();
     }
   }, [option]);
+
+  useEffect(() => {
+    if (shouldClear) {
+      formik.resetForm();
+      context.clearBrand();
+    }
+  }, [shouldClear]);
 
   useEffect(() => {
     const { brand } = context.formState;

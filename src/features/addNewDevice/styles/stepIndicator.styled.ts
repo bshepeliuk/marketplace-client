@@ -28,7 +28,6 @@ export const Wrap = styled.div`
   justify-content: space-between;
   margin-bottom: 50px;
   position: relative;
-  overflow: hidden;
 `;
 
 export const ProgressLine = styled.div<{ width: number }>`
@@ -49,6 +48,7 @@ export const ProgressLine = styled.div<{ width: number }>`
     border-left: 4px solid #1abc9c;
     position: relative;
     left: 100%;
+    width: 10px;
   }
 `;
 
@@ -61,6 +61,8 @@ export const Title = styled.h4<{ isActive: boolean }>`
   margin-top: 10px;
   color: ${(props) => (props.isActive ? '#1abc9c;' : '#bdc3c7;')};
   transition: all 0.4s ease-out;
+  font-weight: normal;
+  user-select: none;
 `;
 
 export const InnerWrap = styled.div`

@@ -13,9 +13,15 @@ export const newDeviceActions = {
     type: newDeviceActionTypes.ADD_BRAND,
     payload: { brand },
   }),
+  removeBrand: () => ({
+    type: newDeviceActionTypes.REMOVE_BRAND,
+  }),
   addCategory: ({ category }: { category: ICategory }) => ({
     type: newDeviceActionTypes.ADD_CATEGORY,
     payload: { category },
+  }),
+  removeCategory: () => ({
+    type: newDeviceActionTypes.REMOVE_CATEGORY,
   }),
   addImage: ({ id, file }: { id: string; file: File }) => ({
     type: newDeviceActionTypes.ADD_IMAGES,
@@ -28,6 +34,9 @@ export const newDeviceActions = {
   addBaseInfo: (info: INewDeviceInfo) => ({
     type: newDeviceActionTypes.ADD_BASE_INFO,
     payload: { info },
+  }),
+  removeBaseInfo: () => ({
+    type: newDeviceActionTypes.REMOVE_BASE_INFO,
   }),
   addFeatureDetails: (feature: INewDeviceFeature) => ({
     type: newDeviceActionTypes.ADD_FEATURE_DETAILS,
@@ -61,6 +70,13 @@ function newDeviceReducer(
       };
     }
 
+    case newDeviceActionTypes.REMOVE_BRAND: {
+      return {
+        ...state,
+        brand: null,
+      };
+    }
+
     case newDeviceActionTypes.ADD_CATEGORY: {
       return {
         ...state,
@@ -68,10 +84,24 @@ function newDeviceReducer(
       };
     }
 
+    case newDeviceActionTypes.REMOVE_CATEGORY: {
+      return {
+        ...state,
+        category: null,
+      };
+    }
+
     case newDeviceActionTypes.ADD_BASE_INFO: {
       return {
         ...state,
         info: action.payload.info,
+      };
+    }
+
+    case newDeviceActionTypes.REMOVE_BASE_INFO: {
+      return {
+        ...state,
+        info: null,
       };
     }
 

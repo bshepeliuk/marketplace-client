@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/jsx-no-constructed-context-values */
+import { Devices } from '@src/common/api/Api';
 import { IBrand } from '@src/features/brands/types';
 import { ICategory } from '@src/features/categories/types';
 import React, { createContext, useReducer } from 'react';
@@ -19,6 +20,11 @@ interface IContext {
   addBaseInfo: (info: INewDeviceInfo) => void;
   addFeatureDetails: (feature: INewDeviceFeature) => void;
   deleteFeatureDetails: (feature: INewDeviceFeature) => void;
+  clearBrand: () => void;
+  clearCategory: () => void;
+  clearBaseInfo: () => void;
+  checkIfNewFeatureUniqueByTitle: (title: string) => boolean;
+  hasValidAllSteps: boolean;
   formState: NewDeviceState;
 }
 
@@ -26,6 +32,13 @@ export const NewDeviceContext = createContext<IContext | undefined>(undefined);
 
 export function NewDeviceProvider({ children }: { children: React.ReactNode }) {
   const [state, dispatch] = useReducer(newDeviceReducer, newDeviceInitState);
+
+  const hasValidAllSteps =
+    state.brand !== null &&
+    state.category !== null &&
+    state.info !== null &&
+    state.features.length > 0 &&
+    state.images.length > 0;
 
   const addBrand = ({ brand }: { brand: IBrand }) => {
     dispatch(newDeviceActions.addBrand({ brand }));
@@ -47,16 +60,43 @@ export function NewDeviceProvider({ children }: { children: React.ReactNode }) {
     dispatch(newDeviceActions.addFeatureDetails(feature));
   };
 
+  const checkIfNewFeatureUniqueByTitle = (title: string) => {
+    return !state.features.some(
+      (i) => i.title.toLowerCase() === title.toLowerCase(),
+    );
+  };
+
   const deleteFeatureDetails = (feature: INewDeviceFeature) => {
     dispatch(newDeviceActions.deleteDeviceFeature(feature));
   };
 
   const deleteImgById = (id: string) => {
-    // FIXME: add ID for each file.
     dispatch(newDeviceActions.deleteImageById(id));
   };
 
-  const save = () => {};
+  const clearBrand = () => {
+    dispatch(newDeviceActions.removeBrand());
+  };
+
+  const clearCategory = () => {
+    dispatch(newDeviceActions.removeCategory());
+  };
+
+  const clearBaseInfo = () => {
+    dispatch(newDeviceActions.removeBaseInfo());
+  };
+
+  const save = async () => {
+    if (!hasValidAllSteps) return;
+    // TODO: move to thunk;
+    Devices.create({
+      brandId: state.brand!.id,
+      categoryId: state.category!.id,
+      info: state.info!,
+      features: state.features,
+      images: state.images.map((i) => i.file),
+    });
+  };
 
   const values = {
     save,
@@ -67,6 +107,11 @@ export function NewDeviceProvider({ children }: { children: React.ReactNode }) {
     addBaseInfo,
     deleteFeatureDetails,
     deleteImgById,
+    clearBrand,
+    clearCategory,
+    clearBaseInfo,
+    hasValidAllSteps,
+    checkIfNewFeatureUniqueByTitle,
     formState: state,
   };
 

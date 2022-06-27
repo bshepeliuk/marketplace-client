@@ -1,20 +1,42 @@
 import React from 'react';
+
 import useNewDeviceContext from '../hooks/useNewDeviceContext';
+import {
+  DeleteIcon,
+  Description,
+  HeaderItem,
+  HeaderListItem,
+  List,
+  Title,
+  ListItem,
+} from '../styles/featureList.styled';
 
 function DeviceFeatureList() {
   const { formState, deleteFeatureDetails } = useNewDeviceContext();
 
+  const hasNoItems = formState.features.length === 0;
+
+  if (hasNoItems) return null;
+
   return (
-    <ul>
+    <List className="custom-scrollbar">
+      <HeaderListItem>
+        <HeaderItem>Feature</HeaderItem>
+        <HeaderItem>Description</HeaderItem>
+        <HeaderItem>Action</HeaderItem>
+      </HeaderListItem>
+
       {formState.features.map((item) => (
-        <li key={item.title + item.description}>
-          {item.title}: {item.description}
-          <button type="button" onClick={() => deleteFeatureDetails(item)}>
-            X
-          </button>
-        </li>
+        <ListItem key={item.title + item.description}>
+          <Title>{item.title}</Title>
+          <Description>{item.description}</Description>
+          <DeleteIcon
+            type="button"
+            onClick={() => deleteFeatureDetails(item)}
+          />
+        </ListItem>
       ))}
-    </ul>
+    </List>
   );
 }
 

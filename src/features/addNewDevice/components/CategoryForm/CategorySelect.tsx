@@ -14,6 +14,7 @@ function CategorySelect({ formik }: { formik: FormikProps<{ name: string }> }) {
     option,
     options,
     setOption,
+    shouldClear,
     selectState,
   } = useServeCategorySelect();
 
@@ -33,6 +34,13 @@ function CategorySelect({ formik }: { formik: FormikProps<{ name: string }> }) {
       formik.resetForm();
     }
   }, [option]);
+
+  useEffect(() => {
+    if (shouldClear) {
+      formik.resetForm();
+      context.clearCategory();
+    }
+  }, [shouldClear]);
 
   return (
     <AsyncCreatableSelect

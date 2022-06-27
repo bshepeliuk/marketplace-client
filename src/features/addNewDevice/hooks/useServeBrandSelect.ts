@@ -1,23 +1,10 @@
+import { useEffect, useRef, useState } from 'react';
+import { OnChangeValue, SingleValue } from 'react-select';
 import { useTypedSelector } from '@src/common/hooks/useTypedSelector';
+import { Option, SelectActionTypes } from '@src/common/types/selectTypes';
 import useCreateBrand from '@src/features/brands/hooks/useCreateBrand';
 import useCreateBrandOptions from '@src/features/brands/hooks/useCreateBrandOptions';
 import useFetchBrands from '@src/features/brands/hooks/useFetchBrands';
-import { useEffect, useRef, useState } from 'react';
-import { OnChangeValue, SingleValue } from 'react-select';
-
-interface Option {
-  readonly label: string;
-  readonly value: string;
-}
-
-type SelectActionTypes =
-  | 'clear'
-  | 'create-option'
-  | 'deselect-option'
-  | 'pop-value'
-  | 'remove-value'
-  | 'select-option'
-  | 'set-value';
 
 const selectInitState = {
   isClearable: true,
@@ -28,6 +15,7 @@ const selectInitState = {
 
 const useServeBrandSelect = () => {
   const timeoutId = useRef<ReturnType<typeof setTimeout>>();
+  const [shouldClear, setShouldClear] = useState(false);
   const [option, setOption] = useState<SingleValue<Option> | null>(null);
   const [selectState, setSelectState] = useState(selectInitState);
   const brands = useTypedSelector((state) => state.brands);
@@ -61,12 +49,17 @@ const useServeBrandSelect = () => {
   ) => {
     if (actionMeta.action === 'clear') {
       setOption(null);
+      setShouldClear(true);
     }
 
     setOption(newValue);
   };
 
-  const loadOptions = (value: string, callback: any) => {
+  const loadOptions = (
+    value: string,
+    // eslint-disable-next-line no-unused-vars
+    callback: (options: Array<Option>) => void,
+  ) => {
     clearTimeout(timeoutId.current as ReturnType<typeof setTimeout>);
 
     timeoutId.current = setTimeout(async () => {
@@ -101,6 +94,7 @@ const useServeBrandSelect = () => {
     options,
     setOption,
     selectState,
+    shouldClear,
     setSelectState,
   };
 };

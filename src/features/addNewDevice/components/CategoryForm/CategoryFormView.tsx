@@ -45,9 +45,9 @@ function CategoryFormView() {
       <CategorySelect formik={formik} />
 
       <FormFooter>
-        <PrevLink to={newDeviceRoutes.brand}>Prev</PrevLink>
+        <PrevLink to={newDeviceRoutes.brand}>prev</PrevLink>
         <NextButton type="submit" disabled={isDisabled}>
-          Next
+          next
         </NextButton>
       </FormFooter>
     </form>

@@ -4,7 +4,7 @@ import useNewDeviceContext from '../hooks/useNewDeviceContext';
 import { newDeviceRoutes } from './NewDeviceView';
 import {
   FormFooter,
-  FormWrap,
+  ImageFormWrap,
   PrevLink,
   SaveButton,
 } from '../styles/deviceForm.styled';
@@ -14,19 +14,20 @@ import ImageFileInput from '../components/ImageForm/ImageFileInput';
 function DeviceImagesStepView() {
   const context = useNewDeviceContext();
 
+  const isDisabled = !context.hasValidAllSteps;
+
   return (
-    <FormWrap>
+    <ImageFormWrap>
       <ImageFileInput />
+      <DeviceImagesPreview />
 
       <FormFooter>
         <PrevLink to={newDeviceRoutes.details}>Prev</PrevLink>
-        <SaveButton type="button" onClick={context.save}>
+        <SaveButton type="button" onClick={context.save} disabled={isDisabled}>
           Save
         </SaveButton>
       </FormFooter>
-
-      <DeviceImagesPreview />
-    </FormWrap>
+    </ImageFormWrap>
   );
 }
 

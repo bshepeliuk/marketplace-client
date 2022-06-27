@@ -1,4 +1,5 @@
 import {
+  ICreateDeviceParams,
   IGetDevicesProps,
   ILogin,
   IRegister,
@@ -36,6 +37,20 @@ export const Devices = {
   },
   getOneById(deviceId: number) {
     return api.get(`/devices/${deviceId}`);
+  },
+  create({ images, brandId, categoryId, info, features }: ICreateDeviceParams) {
+    const formData = new FormData();
+
+    formData.append('info', JSON.stringify(info));
+    formData.append('features', JSON.stringify(features));
+    formData.append('categoryId', categoryId.toString());
+    formData.append('brandId', brandId.toString());
+
+    for (const image of images) {
+      formData.append('images', image);
+    }
+
+    return api.post('/devices', formData);
   },
 };
 

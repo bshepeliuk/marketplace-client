@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import useGetImgURLsByFiles from '@src/common/hooks/useGetImgURLsByFiles';
 import useHandleScrollBySideBtnClick from '@common/hooks/useHandleScrollBySideBtnClick';
-
+import styled from 'styled-components';
 import useNewDeviceContext from '../../hooks/useNewDeviceContext';
 import {
   LeftArrow,
@@ -12,6 +12,10 @@ import {
   Wrap,
 } from '../../styles/deviceForm.styled';
 import PreviewImageItem from './PreviewImageItem';
+
+const Container = styled.div`
+  width: 400px;
+`;
 
 function DeviceImagesPreview() {
   const scrollWrapRef = useRef(null);
@@ -28,29 +32,31 @@ function DeviceImagesPreview() {
 
   const hasImgURLs = imageDataURLs.length > 0;
 
-  if (!hasImgURLs) return null;
-
   return (
-    <Wrap>
-      {isLeftVisible && (
-        <LeftArrowWrap>
-          <LeftArrow onClick={onLeftClick} />
-        </LeftArrowWrap>
-      )}
+    <Container>
+      {hasImgURLs && (
+        <Wrap>
+          {isLeftVisible && (
+            <LeftArrowWrap>
+              <LeftArrow onClick={onLeftClick} />
+            </LeftArrowWrap>
+          )}
 
-      <PreviewList ref={scrollWrapRef}>
-        {imageDataURLs.map((img) => (
-          // eslint-disable-next-line react/no-array-index-key
-          <PreviewImageItem key={img.id} image={img} />
-        ))}
-      </PreviewList>
+          <PreviewList ref={scrollWrapRef}>
+            {imageDataURLs.map((img) => (
+              // eslint-disable-next-line react/no-array-index-key
+              <PreviewImageItem key={img.id} image={img} />
+            ))}
+          </PreviewList>
 
-      {isRightVisible && (
-        <RightArrowWrap>
-          <RightArrow onClick={onRightClick} />
-        </RightArrowWrap>
+          {isRightVisible && (
+            <RightArrowWrap>
+              <RightArrow onClick={onRightClick} />
+            </RightArrowWrap>
+          )}
+        </Wrap>
       )}
-    </Wrap>
+    </Container>
   );
 }
 

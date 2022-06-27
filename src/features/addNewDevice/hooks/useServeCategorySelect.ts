@@ -7,11 +7,7 @@ import useCreateCategory from '@src/features/categories/hooks/useCreateCategory'
 import useCreateCategoryOptions from '@features/categories/hooks/useCreateCategoryOptions';
 import useFetchCategories from '@src/features/categories/hooks/useFetchCategories';
 import { categoriesSelector } from '@features/categories/selectors/categoriesSelector';
-
-interface Option {
-  readonly value: string;
-  readonly label: string;
-}
+import { Option, SelectActionTypes } from '@src/common/types/selectTypes';
 
 const selectInitState = {
   isClearable: true,
@@ -22,6 +18,7 @@ const selectInitState = {
 
 const useServeCategorySelect = () => {
   const timeoutId = useRef<ReturnType<typeof setTimeout>>();
+  const [shouldClear, setShouldClear] = useState(false);
   const categories = useTypedSelector(categoriesSelector);
   const [option, setOption] = useState<SingleValue<Option> | null>(null);
   const [selectState, setSelectState] = useState(selectInitState);
@@ -79,7 +76,15 @@ const useServeCategorySelect = () => {
     }, 1500);
   };
 
-  const handleChange = (newValue: OnChangeValue<Option, false>) => {
+  const handleChange = (
+    newValue: OnChangeValue<Option, false>,
+    actionMeta: { action: SelectActionTypes },
+  ) => {
+    if (actionMeta.action === 'clear') {
+      setOption(null);
+      setShouldClear(true);
+    }
+
     setOption(newValue);
   };
 
@@ -91,6 +96,7 @@ const useServeCategorySelect = () => {
     options,
     setOption,
     selectState,
+    shouldClear,
     setSelectState,
   };
 };
