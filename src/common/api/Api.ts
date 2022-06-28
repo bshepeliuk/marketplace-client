@@ -38,7 +38,9 @@ export const Devices = {
   getOneById(deviceId: number) {
     return api.get(`/devices/${deviceId}`);
   },
-  create({ images, brandId, categoryId, info, features }: ICreateDeviceParams) {
+  create(params: ICreateDeviceParams) {
+    const { images, brandId, categoryId, info, features } = params;
+
     const formData = new FormData();
 
     formData.append('info', JSON.stringify(info));

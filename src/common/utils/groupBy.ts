@@ -1,13 +1,15 @@
 function groupBy<T, K extends keyof T>(data: T[], key: K) {
   const result = data.reduce((prev, current) => {
-    if (prev.has(current[key])) {
-      prev.get(current[key])!.push(current);
+    const title = (current[key] as unknown as string).toLowerCase();
+
+    if (prev.has(title)) {
+      prev.get(title)!.push(current);
     } else {
-      prev.set(current[key], [current]);
+      prev.set(title, [current]);
     }
 
     return prev;
-  }, new Map<T[K], T[]>());
+  }, new Map<T[K] | string, T[]>());
 
   return Array.from(result);
 }

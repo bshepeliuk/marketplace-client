@@ -1,9 +1,9 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/jsx-no-constructed-context-values */
-import { Devices } from '@src/common/api/Api';
 import { IBrand } from '@src/features/brands/types';
 import { ICategory } from '@src/features/categories/types';
 import React, { createContext, useReducer } from 'react';
+import useCreateDevice from '../hooks/useCreateDevice';
 import newDeviceReducer, {
   newDeviceActions,
   newDeviceInitState,
@@ -26,12 +26,14 @@ interface IContext {
   checkIfNewFeatureUniqueByTitle: (title: string) => boolean;
   hasValidAllSteps: boolean;
   formState: NewDeviceState;
+  isCreating: boolean;
 }
 
 export const NewDeviceContext = createContext<IContext | undefined>(undefined);
 
 export function NewDeviceProvider({ children }: { children: React.ReactNode }) {
   const [state, dispatch] = useReducer(newDeviceReducer, newDeviceInitState);
+  const { addNewDevice, isCreating } = useCreateDevice();
 
   const hasValidAllSteps =
     state.brand !== null &&
@@ -86,10 +88,10 @@ export function NewDeviceProvider({ children }: { children: React.ReactNode }) {
     dispatch(newDeviceActions.removeBaseInfo());
   };
 
-  const save = async () => {
+  const save = () => {
     if (!hasValidAllSteps) return;
-    // TODO: move to thunk;
-    Devices.create({
+
+    return addNewDevice({
       brandId: state.brand!.id,
       categoryId: state.category!.id,
       info: state.info!,
@@ -112,6 +114,7 @@ export function NewDeviceProvider({ children }: { children: React.ReactNode }) {
     clearBaseInfo,
     hasValidAllSteps,
     checkIfNewFeatureUniqueByTitle,
+    isCreating,
     formState: state,
   };
 
