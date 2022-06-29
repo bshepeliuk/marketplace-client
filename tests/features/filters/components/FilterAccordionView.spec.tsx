@@ -47,7 +47,7 @@ describe('[COMPONENTS]: FilterAccordionView', () => {
     });
 
     for (const option of mockOptions) {
-      expect(getByText(option.title)).toBeInTheDocument();
+      expect(getByText(option.title.toLowerCase())).toBeInTheDocument();
       expect(getByText(option.description)).toBeInTheDocument();
     }
   });

@@ -44,7 +44,7 @@ describe('useGetFilterOptionsByCategoryId', () => {
 
   test('filter action should be called', () => {
     const { result } = renderHook(() => useGetFilterOptionsByCategoryId(1), {
-      wrapper: (props) => <Wrapper {...props} state={rootState} />,
+      wrapper: (props) => <Wrapper {...(props as object)} state={rootState} />,
     });
 
     expect(result.current.items).toHaveLength(

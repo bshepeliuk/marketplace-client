@@ -50,6 +50,7 @@ const useServeBrandSelect = () => {
     if (actionMeta.action === 'clear') {
       setOption(null);
       setShouldClear(true);
+      return;
     }
 
     setOption(newValue);

@@ -66,7 +66,7 @@ describe('useMakePayment hook', () => {
     const { result } = renderHook(() => useMakePayment(goods), {
       wrapper: (props) => (
         <Wrapper
-          {...props}
+          {...(props as object)}
           state={{
             auth: {
               isLoggedIn: true,
@@ -99,7 +99,7 @@ describe('useMakePayment hook', () => {
     const { result } = renderHook(() => useMakePayment(goods), {
       wrapper: (props) => (
         <Wrapper
-          {...props}
+          {...(props as object)}
           state={{
             auth: {
               isLoggedIn: true,
@@ -124,7 +124,10 @@ describe('useMakePayment hook', () => {
   test('should navigate to login page when unauthorized user tries to pay for goods.', () => {
     const { result } = renderHook(() => useMakePayment(goods), {
       wrapper: (props) => (
-        <Wrapper {...props} state={{ auth: { isLoggedIn: false } }} />
+        <Wrapper
+          {...(props as object)}
+          state={{ auth: { isLoggedIn: false } }}
+        />
       ),
     });
 
@@ -153,7 +156,7 @@ describe('useMakePayment hook', () => {
       {
         wrapper: (props) => (
           <Wrapper
-            {...props}
+            {...(props as object)}
             state={{ auth: { isLoggedIn: true, user: { id: 1 } } }}
           />
         ),

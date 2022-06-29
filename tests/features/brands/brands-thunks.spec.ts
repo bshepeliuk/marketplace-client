@@ -27,7 +27,7 @@ describe('[THUNKS]: brands.', () => {
       }),
     );
 
-    await store.dispatch(getBrands());
+    await store.dispatch(getBrands({ name: undefined }));
 
     const actualActions = store.getActions();
     const expectedActions = [
@@ -52,7 +52,7 @@ describe('[THUNKS]: brands.', () => {
       }),
     );
 
-    await store.dispatch(getBrands());
+    await store.dispatch(getBrands({ name: undefined }));
 
     const actualActions = store.getActions();
     const expectedActions = [
