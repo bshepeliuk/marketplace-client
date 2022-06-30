@@ -90,6 +90,30 @@ export const filterContextValuesMock = {
   setShouldBeInitial: jest.fn(),
 };
 
+export const newDeviceContextValuesMock = {
+  save: jest.fn(),
+  deleteImgById: jest.fn(),
+  addBrand: jest.fn(),
+  addCategory: jest.fn(),
+  addImage: jest.fn(),
+  addBaseInfo: jest.fn(),
+  addFeatureDetails: jest.fn(),
+  deleteFeatureDetails: jest.fn(),
+  clearBrand: jest.fn(),
+  clearCategory: jest.fn(),
+  clearBaseInfo: jest.fn(),
+  checkIfNewFeatureUniqueByTitle: jest.fn(),
+  hasValidAllSteps: false,
+  formState: {
+    brand: null,
+    category: null,
+    info: null,
+    images: [],
+    features: [],
+  },
+  isCreating: false,
+};
+
 export const categories = [
   {
     id: 1,

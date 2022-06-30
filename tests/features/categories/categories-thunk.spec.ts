@@ -4,9 +4,12 @@ import { rest } from 'msw';
 import thunk from 'redux-thunk';
 import { AnyAction } from '@reduxjs/toolkit';
 import { BASE_API_URL } from '@src/common/constants';
-import { getCategories } from '@features/categories/categoriesSlice';
+import {
+  addCategory,
+  getCategories,
+} from '@features/categories/categoriesSlice';
 import { normalize } from 'normalizr';
-import { CategoriesSchema } from '@common/normalizeSchemas';
+import { CategoriesSchema, CategorySchema } from '@common/normalizeSchemas';
 import getActionTypesAndPayload from '../../helpers/getActionTypesAndPayload';
 import { categories } from '../../mocks/data';
 
@@ -92,6 +95,74 @@ describe('[THUNKS]: categories.', () => {
 
     const actualActions = store.getActions();
     const expectedActions = [] as AnyAction[];
+
+    expect(getActionTypesAndPayload(actualActions)).toEqual(expectedActions);
+  });
+
+  test('should add a new category successfully', async () => {
+    const newCategory = {
+      id: 5,
+      name: 'NEW_CATEGORY',
+    };
+
+    server.use(
+      rest.post(`${BASE_API_URL}/types`, (req, res, ctx) => {
+        return res(
+          ctx.status(200),
+          ctx.json({
+            type: newCategory,
+          }),
+        );
+      }),
+    );
+
+    const { result, entities } = normalize(newCategory, CategorySchema);
+
+    await store.dispatch(addCategory({ name: 'NEW_CATEGORY' }));
+
+    const actualActions = store.getActions();
+    const expectedActions = [
+      { type: addCategory.pending.type, payload: undefined },
+      {
+        type: addCategory.fulfilled.type,
+        payload: {
+          result,
+          entities,
+        },
+      },
+    ] as AnyAction[];
+
+    expect(getActionTypesAndPayload(actualActions)).toEqual(expectedActions);
+  });
+
+  test('should return error when device was not added.', async () => {
+    const error = {
+      message: '[NEW DEVICE]: something went wrong!',
+    };
+
+    server.use(
+      rest.post(`${BASE_API_URL}/types`, (req, res, ctx) => {
+        return res(
+          ctx.status(500),
+          ctx.json({
+            message: error.message,
+          }),
+        );
+      }),
+    );
+
+    await store.dispatch(addCategory({ name: 'NEW_CATEGORY' }));
+
+    const actualActions = store.getActions();
+    const expectedActions = [
+      { type: addCategory.pending.type, payload: undefined },
+      {
+        type: addCategory.rejected.type,
+        payload: {
+          message: error.message,
+        },
+      },
+    ] as AnyAction[];
 
     expect(getActionTypesAndPayload(actualActions)).toEqual(expectedActions);
   });

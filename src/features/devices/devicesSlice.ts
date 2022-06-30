@@ -198,6 +198,7 @@ const devicesSlice = createSlice({
       (state: State, { payload }: PayloadAction<{ result: number[] }>) => {
         if (payload.result.length === 0) {
           state.hasNoDevices = true;
+          state.hasMore = false;
         }
 
         state.isLoading = false;

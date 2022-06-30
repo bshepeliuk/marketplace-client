@@ -9,20 +9,20 @@ const useCreateDevice = () => {
     (state) => state.devices,
   );
 
-  const addNewDevice = ({
+  const addNewDevice = async ({
     images,
     info,
     features,
     brandId,
     categoryId,
   }: ICreateDeviceParams) => {
-    return dispatch(
+    const action = await dispatch(
       createDevice({ images, info, features, brandId, categoryId }),
-    ).then((action) => {
-      if (createDevice.fulfilled?.match(action)) {
-        return action.payload.result; // deviceId
-      }
-    });
+    );
+
+    if (createDevice.fulfilled?.match(action)) {
+      return action.payload.result; // deviceId
+    }
   };
 
   return {

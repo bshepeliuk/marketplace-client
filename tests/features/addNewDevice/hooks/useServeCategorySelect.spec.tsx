@@ -2,14 +2,14 @@ import React from 'react';
 import { setupServer } from 'msw/node';
 import { rest } from 'msw';
 import { BASE_API_URL } from '@src/common/constants';
-import useServeBrandSelect from '@features/addNewDevice/hooks/useServeBrandSelect';
+import useServeCategorySelect from '@features/addNewDevice/hooks/useServeCategorySelect';
 import { renderHook, act } from '@testing-library/react-hooks';
 import { Wrapper } from '../../../wrapper';
 import sleep from '../../../helpers/sleep';
 
 const server = setupServer();
 
-describe('[HOOK]: useServeBrandSelect', () => {
+describe('[HOOK]: useServeCategorySelect', () => {
   beforeAll(() => server.listen());
   afterAll(() => server.close());
 
@@ -18,8 +18,8 @@ describe('[HOOK]: useServeBrandSelect', () => {
     jest.clearAllMocks();
   });
 
-  test('should have brand select initial state', () => {
-    const { result } = renderHook(() => useServeBrandSelect(), {
+  test('should have category select initial state', () => {
+    const { result } = renderHook(useServeCategorySelect, {
       wrapper: Wrapper,
     });
 
@@ -32,7 +32,7 @@ describe('[HOOK]: useServeBrandSelect', () => {
   test('should set option when setOption was called', () => {
     const option = { label: 'NEW_OPTION', value: 'new_option' };
 
-    const { result } = renderHook(() => useServeBrandSelect(), {
+    const { result } = renderHook(useServeCategorySelect, {
       wrapper: Wrapper,
     });
 
@@ -48,11 +48,11 @@ describe('[HOOK]: useServeBrandSelect', () => {
 
   test('should set selected option onChange', () => {
     const option = {
-      label: 'NEW_SELECTED_OPTION',
-      value: 'new_selected_option',
+      label: 'NEW_SELECTED_CATEGORY',
+      value: 'new_selected_category',
     };
 
-    const { result } = renderHook(() => useServeBrandSelect(), {
+    const { result } = renderHook(useServeCategorySelect, {
       wrapper: Wrapper,
     });
 
@@ -71,7 +71,7 @@ describe('[HOOK]: useServeBrandSelect', () => {
       value: 'new_selected_option',
     };
 
-    const { result } = renderHook(() => useServeBrandSelect(), {
+    const { result } = renderHook(useServeCategorySelect, {
       wrapper: Wrapper,
     });
 
@@ -87,67 +87,58 @@ describe('[HOOK]: useServeBrandSelect', () => {
     expect(result.current.shouldClear).toBeTruthy();
   });
 
-  test('should call loadOptions when user is searching brands.', async () => {
-    const brands = [
+  test('should call loadOptions when user is searching categories.', async () => {
+    const types = [
       {
         id: 1,
-        name: 'ASUS',
+        name: 'laptops',
         createdAt: '2021-06-24T05:59:49.863Z',
         updatedAt: '2021-06-24T05:59:49.863Z',
-      },
-      {
-        id: 18,
-        name: 'NEW_ASUS',
-        createdAt: '2022-06-23T11:38:07.909Z',
-        updatedAt: '2022-06-23T11:38:07.909Z',
       },
     ];
 
     server.use(
-      rest.get(`${BASE_API_URL}/brands`, (req, res, ctx) => {
-        return res(ctx.status(200), ctx.json({ brands }));
+      rest.get(`${BASE_API_URL}/types`, (req, res, ctx) => {
+        return res(ctx.status(200), ctx.json({ types }));
       }),
     );
 
-    const { result } = renderHook(useServeBrandSelect, {
+    const { result } = renderHook(useServeCategorySelect, {
       wrapper: Wrapper,
     });
 
     const callback = jest.fn();
 
     act(() => {
-      result.current.loadOptions('asus', callback);
+      result.current.loadOptions('laptops', callback);
     });
 
     await sleep(2000);
 
-    expect(callback).toBeCalledWith([
-      { label: 'ASUS', value: 'ASUS' },
-      { label: 'NEW_ASUS', value: 'NEW_ASUS' },
-    ]);
+    expect(callback).toBeCalledWith([{ label: 'laptops', value: 'laptops' }]);
   });
 
-  test('should set option when a new brand was created.', async () => {
+  test('should set option when a new category was created.', async () => {
     server.use(
-      rest.post(`${BASE_API_URL}/brands`, (req, res, ctx) => {
+      rest.post(`${BASE_API_URL}/types`, (req, res, ctx) => {
         return res(
           ctx.status(200),
           ctx.json({
-            brand: {
+            type: {
               id: 1,
-              name: 'NEW_BRAND',
+              name: 'NEW_CATEGORY',
             },
           }),
         );
       }),
     );
 
-    const { result, waitForNextUpdate } = renderHook(useServeBrandSelect, {
+    const { result, waitForNextUpdate } = renderHook(useServeCategorySelect, {
       wrapper: Wrapper,
     });
 
     act(() => {
-      result.current.onCreateOption('NEW_BRAND');
+      result.current.onCreateOption('NEW_CATEGORY');
     });
 
     expect(result.current.selectState.isLoading).toBeTruthy();
@@ -158,29 +149,35 @@ describe('[HOOK]: useServeBrandSelect', () => {
     expect(result.current.selectState.isLoading).toBeFalsy();
     expect(result.current.selectState.isDisabled).toBeFalsy();
     expect(result.current.option).toEqual({
-      label: 'NEW_BRAND',
-      value: 'NEW_BRAND',
+      label: 'NEW_CATEGORY',
+      value: 'NEW_CATEGORY',
     });
   });
+  // eslint-disable-next-line max-len
+  test('isDisabled and isLoading should be true when categories are loading', async () => {
+    const state = {
+      entities: {
+        categories: {
+          1: {
+            id: 1,
+            name: 'some_category',
+          },
+        },
+      },
+      categories: {
+        isCreating: false,
+        isCreatingError: false,
+        isLoading: true,
+        items: [1],
+      },
+    };
 
-  test('isDisabled and isLoading should be true when brands are loading', async () => {
-    const { result } = renderHook(useServeBrandSelect, {
-      wrapper: (props) => (
-        <Wrapper
-          {...(props as object)}
-          state={{
-            brands: {
-              isCreating: false,
-              isCreatingError: false,
-              isLoading: true,
-              items: [],
-            },
-          }}
-        />
-      ),
+    const { result } = renderHook(useServeCategorySelect, {
+      wrapper: (props) => <Wrapper {...(props as object)} state={state} />,
     });
 
     expect(result.current.selectState.isLoading).toBeTruthy();
     expect(result.current.selectState.isDisabled).toBeTruthy();
+    expect(result.current.options).toHaveLength(state.categories.items.length);
   });
 });

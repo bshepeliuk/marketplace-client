@@ -1,4 +1,6 @@
 import devicesReducer, {
+  createDevice,
+  deviceActions,
   getDeviceById,
   getDevices,
   getMoreDevices,
@@ -126,6 +128,68 @@ describe('DEVICES REDUCER', () => {
       ...initialState,
       isLoadingMore: false,
       isErrorMore: true,
+    });
+  });
+
+  test('isCreating should be true', () => {
+    const action = {
+      type: createDevice.pending.type,
+    };
+
+    expect(devicesReducer(initialState, action)).toEqual({
+      ...initialState,
+      isCreating: true,
+      isCreatingError: false,
+    });
+  });
+
+  test('should add a new device.', () => {
+    const action = {
+      type: createDevice.fulfilled.type,
+      payload: {},
+    };
+
+    expect(devicesReducer(initialState, action)).toEqual({
+      ...initialState,
+      isCreating: false,
+      isCreatingError: false,
+    });
+  });
+
+  test('isCreatingError should be true when API return some error.', () => {
+    const action = {
+      type: createDevice.rejected.type,
+    };
+
+    expect(devicesReducer(initialState, action)).toEqual({
+      ...initialState,
+      isCreating: false,
+      isCreatingError: true,
+    });
+  });
+
+  test('hasNoDevices should be true when fetched device array is empty.', () => {
+    const action = {
+      type: getDevices.fulfilled.type,
+      payload: { result: [] },
+    };
+
+    expect(devicesReducer(initialState, action)).toEqual({
+      ...initialState,
+      hasNoDevices: true,
+      hasMore: false,
+    });
+  });
+
+  test('hasMore should be false', () => {
+    const action = {
+      type: deviceActions.hasNoMore.type,
+      payload: { hasMore: false },
+    };
+
+    expect(devicesReducer(initialState, action)).toEqual({
+      ...initialState,
+      hasMore: false,
     });
   });
 });
