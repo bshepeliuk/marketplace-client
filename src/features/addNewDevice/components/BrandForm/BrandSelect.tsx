@@ -46,6 +46,7 @@ function BrandSelect({ formik }: { formik: FormikProps<{ name: string }> }) {
 
   return (
     <AsyncCreatableSelect
+      inputId="brand-select"
       cacheOptions
       defaultOptions={options}
       isClearable={selectState.isClearable}
