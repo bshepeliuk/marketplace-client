@@ -28,6 +28,7 @@ const useGetDevices = () => {
 
   const getAll = () => {
     const filters = Array.from(params.entries());
+
     dispatch(getDevices({ filters, offset: 0, limit: 20 }));
   };
 

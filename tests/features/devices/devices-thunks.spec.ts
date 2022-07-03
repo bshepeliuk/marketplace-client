@@ -2,6 +2,7 @@ import configureMockStore from 'redux-mock-store';
 import { setupServer } from 'msw/node';
 import { rest } from 'msw';
 import {
+  createDevice,
   deviceActions,
   getDeviceById,
   getDevices,
@@ -183,6 +184,20 @@ describe('DEVICES THUNKS', () => {
   });
 
   describe('get more devices', () => {
+    test('hasNoMore should be true', () => {
+      store.dispatch(deviceActions.hasNoMore({ hasMore: true }));
+
+      const actualActions = store.getActions();
+
+      const expectedActions = [
+        {
+          type: deviceActions.hasNoMore.type,
+          payload: { hasMore: true },
+        },
+      ];
+
+      expect(getActionTypesAndPayload(actualActions)).toEqual(expectedActions);
+    });
     // eslint-disable-next-line max-len
     test('should return devices and change hasMore to false when received devices length less than DEVICES_OFFSET=20', async () => {
       const devices = [
@@ -295,6 +310,89 @@ describe('DEVICES THUNKS', () => {
           payload: {
             message: 'Some server error!',
           },
+        },
+      ];
+
+      expect(getActionTypesAndPayload(actualActions)).toEqual(expectedActions);
+    });
+  });
+
+  describe('create a new device', () => {
+    const newDeviceParams = {
+      images: [],
+      info: { id: 1, name: 'ASUS 10', price: '10000', quantity: '5' },
+      brandId: 1,
+      categoryId: 1,
+      features: [{ id: 1, title: 'RAM', description: '16 GB' }],
+    };
+
+    const createdDevice = {
+      id: newDeviceParams.info.id,
+      name: newDeviceParams.info.name,
+      quantity: newDeviceParams.info.quantity,
+      price: newDeviceParams.info.price,
+      images: [],
+      info: newDeviceParams.features,
+    };
+
+    test('should add a new device successfully', async () => {
+      server.use(
+        rest.post(`${BASE_API_URL}/devices`, (req, res, ctx) => {
+          return res(
+            ctx.status(200),
+            ctx.json({
+              device: createdDevice,
+            }),
+          );
+        }),
+      );
+
+      const { result, entities } = normalize(createdDevice, DeviceSchema);
+
+      await store.dispatch(createDevice(newDeviceParams));
+
+      const actualActions = store.getActions();
+      const expectedActions = [
+        {
+          type: createDevice.pending.type,
+          payload: undefined,
+        },
+        {
+          type: createDevice.fulfilled.type,
+          payload: { result, entities },
+        },
+      ];
+
+      expect(getActionTypesAndPayload(actualActions)).toEqual(expectedActions);
+    });
+
+    test('should return an error when device was not added', async () => {
+      const error = {
+        message: '[NEW DEVICE]: something went wrong.',
+      };
+
+      server.use(
+        rest.post(`${BASE_API_URL}/devices`, (req, res, ctx) => {
+          return res(
+            ctx.status(500),
+            ctx.json({
+              message: error.message,
+            }),
+          );
+        }),
+      );
+
+      await store.dispatch(createDevice(newDeviceParams));
+
+      const actualActions = store.getActions();
+      const expectedActions = [
+        {
+          type: createDevice.pending.type,
+          payload: undefined,
+        },
+        {
+          type: createDevice.rejected.type,
+          payload: { message: error.message },
         },
       ];
 

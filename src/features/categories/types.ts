@@ -11,3 +11,8 @@ export interface ICategoriesData {
   result: number[];
   entities: CategoryEntities;
 }
+
+export interface ICategoryData {
+  result: number;
+  entities: CategoryEntities;
+}

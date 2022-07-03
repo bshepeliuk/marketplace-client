@@ -3,7 +3,10 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import * as Api from '@src/common/api/Api';
 import { IThunkAPI } from '@src/common/types/baseTypes';
 import { DeviceSchema, DevicesSchema } from '@common/normalizeSchemas';
-import { IGetDevicesProps } from '@src/common/types/apiTypes';
+import {
+  ICreateDeviceParams,
+  IGetDevicesProps,
+} from '@src/common/types/apiTypes';
 import getErrorMessage from '@src/common/utils/getErrorMessage';
 import {
   DeviceEntities,
@@ -27,6 +30,9 @@ export const initialState = {
     error: null,
   },
   items: [] as number[], // device ids
+  hasNoDevices: false,
+  isCreating: false,
+  isCreatingError: false,
 };
 
 type State = typeof initialState;
@@ -137,6 +143,40 @@ export const getDeviceById = createAsyncThunk<
   }
 });
 
+export const createDevice = createAsyncThunk<
+  any,
+  ICreateDeviceParams,
+  IThunkAPI
+>('device/create', async (params, { rejectWithValue }) => {
+  const { images, info, brandId, categoryId, features } = params;
+
+  try {
+    const { data } = await Api.Devices.create({
+      images,
+      info,
+      brandId,
+      categoryId,
+      features,
+    });
+
+    const { result, entities } = normalize<IDevice, DeviceEntities, number>(
+      data.device,
+      DeviceSchema,
+    );
+
+    return {
+      result,
+      entities,
+    };
+  } catch (error) {
+    const message = getErrorMessage(error);
+
+    return rejectWithValue({
+      message,
+    });
+  }
+});
+
 const devicesSlice = createSlice({
   initialState,
   name: 'devices',
@@ -149,18 +189,25 @@ const devicesSlice = createSlice({
     // get all devices
     builder.addCase(getDevices.pending, (state: State) => {
       state.hasMore = true;
+      state.hasNoDevices = false;
       state.isLoading = true;
       state.isError = false;
     });
     builder.addCase(
       getDevices.fulfilled,
       (state: State, { payload }: PayloadAction<{ result: number[] }>) => {
+        if (payload.result.length === 0) {
+          state.hasNoDevices = true;
+          state.hasMore = false;
+        }
+
         state.isLoading = false;
         state.items = payload.result;
       },
     );
     builder.addCase(getDevices.rejected, (state: State) => {
       state.isLoading = false;
+      state.hasNoDevices = false;
       state.isError = true;
     });
     // get one by id
@@ -190,6 +237,18 @@ const devicesSlice = createSlice({
     builder.addCase(getMoreDevices.rejected, (state: State) => {
       state.isLoadingMore = false;
       state.isErrorMore = true;
+    });
+    // create device
+    builder.addCase(createDevice.pending, (state: State) => {
+      state.isCreating = true;
+      state.isCreatingError = false;
+    });
+    builder.addCase(createDevice.fulfilled, (state: State) => {
+      state.isCreating = false;
+    });
+    builder.addCase(createDevice.rejected, (state: State) => {
+      state.isCreating = false;
+      state.isCreatingError = true;
     });
   },
 });

@@ -48,7 +48,9 @@ describe('useGetDevices hook', () => {
 
   test('should return devices from state', () => {
     const { result } = renderHook(() => useGetDevices(), {
-      wrapper: (props) => <Wrapper {...props} state={rootState} />,
+      wrapper: (props: { children: React.ReactNode }) => (
+        <Wrapper {...props} state={rootState} />
+      ),
     });
 
     expect(result.current.items).toHaveLength(1);
@@ -71,7 +73,9 @@ describe('useGetDevices hook', () => {
     };
 
     const { result } = renderHook(() => useGetDevices(), {
-      wrapper: (props) => <Wrapper {...props} state={newState} />,
+      wrapper: (props: { children: React.ReactNode }) => (
+        <Wrapper {...props} state={newState} />
+      ),
     });
 
     expect(result.current.items).toHaveLength(0);

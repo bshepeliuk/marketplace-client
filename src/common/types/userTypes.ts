@@ -1,9 +1,9 @@
-import { ROLE } from './apiTypes';
+import { ROLES } from '../constants';
 
 export interface IUser {
   fullName: string;
   email: string;
-  role: ROLE.BUYER | ROLE.SELLER;
+  role: typeof ROLES.BUYER | typeof ROLES.SELLER;
 }
 
 export interface IUserData {

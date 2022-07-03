@@ -1,3 +1,7 @@
+import {
+  INewDeviceFeature,
+  INewDeviceInfo,
+} from '@src/features/addNewDevice/modules/newDeviceTypes';
 import { ROLES } from '../constants';
 
 export interface ILogin {
@@ -28,4 +32,12 @@ export interface IGetDevicesParams extends IDeviceDefaultParams {
   categoryId?: number;
   options?: string;
   prices?: string;
+}
+
+export interface ICreateDeviceParams {
+  images: File[];
+  brandId: number;
+  categoryId: number;
+  info: INewDeviceInfo;
+  features: INewDeviceFeature[];
 }

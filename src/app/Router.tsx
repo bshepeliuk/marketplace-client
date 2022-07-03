@@ -9,6 +9,10 @@ import AccountView from '@features/account/pages/AccountView';
 import CartView from '@src/features/cart/pages/CartView';
 import PaymentCheckoutSuccess from '@features/payment/pages/PaymentCheckoutSuccess';
 import PaymentCheckoutCancel from '@features/payment/pages/PaymentCheckoutCancel';
+import NewDeviceView from '@features/addNewDevice/pages/NewDeviceView';
+import ForbiddenView from '@features/forbidden/ForbiddenView';
+import { useTypedSelector } from '@src/common/hooks/useTypedSelector';
+import { ROLES } from '@src/common/constants';
 import PrivateRoute from './PrivateRoute';
 
 export const routes = {
@@ -18,13 +22,17 @@ export const routes = {
   register: '/auth/register',
   devices: '/devices',
   device: '/devices/:deviceId',
+  newDevice: '/new',
   account: '/account',
   cart: '/cart',
   checkoutSuccess: '/checkout-success',
   checkoutCancel: '/checkout-cancel',
+  forbidden: '/forbidden',
 };
 
 function Router() {
+  const { user } = useTypedSelector((state) => state.auth);
+
   return (
     <BrowserRouter>
       <Routes>
@@ -49,7 +57,16 @@ function Router() {
             </PrivateRoute>
           }
         />
+        <Route
+          path={`${routes.newDevice}/*`}
+          element={
+            <PrivateRoute isAllowed={ROLES.SELLER === user?.role}>
+              <NewDeviceView />
+            </PrivateRoute>
+          }
+        />
 
+        <Route path={routes.forbidden} element={<ForbiddenView />} />
         <Route path="*" element={<NotFoundView />} />
       </Routes>
     </BrowserRouter>

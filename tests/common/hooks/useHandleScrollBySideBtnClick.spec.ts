@@ -3,6 +3,10 @@ import { renderHook, act } from '@testing-library/react-hooks';
 import useHandleScrollBySideBtnClick from '@common/hooks/useHandleScrollBySideBtnClick';
 
 describe('useHandleScrollBySideBtnClick', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
   test('left and right arrow btn should be hidden', () => {
     const ref = {
       current: {
@@ -18,39 +22,11 @@ describe('useHandleScrollBySideBtnClick', () => {
     expect(result.current.isRightVisible).toBeFalsy();
   });
 
-  test('left arrow button should be visible', () => {
-    const ref = {
-      current: {
-        scrollWidth: 0,
-        clientWidth: 0,
-        scrollLeft: 10,
-      },
-    } as RefObject<HTMLElement>;
-
-    const { result } = renderHook(() => useHandleScrollBySideBtnClick(ref, 5));
-
-    expect(result.current.isLeftVisible).toBeTruthy();
-  });
-
-  test('right arrow button should be visible', () => {
-    const ref = {
-      current: {
-        scrollWidth: 500,
-        clientWidth: 400,
-        scrollLeft: 10,
-      },
-    } as RefObject<HTMLElement>;
-
-    const { result } = renderHook(() => useHandleScrollBySideBtnClick(ref, 5));
-
-    expect(result.current.isRightVisible).toBeTruthy();
-  });
-
   test('right and left arrow buttons should be visible', () => {
     const ref = {
       current: {
-        scrollWidth: 500,
-        clientWidth: 400,
+        scrollWidth: 800,
+        clientWidth: 250,
         scrollLeft: 10,
         scrollTo() {},
       },

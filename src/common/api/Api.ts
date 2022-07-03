@@ -1,4 +1,5 @@
 import {
+  ICreateDeviceParams,
   IGetDevicesProps,
   ILogin,
   IRegister,
@@ -37,6 +38,22 @@ export const Devices = {
   getOneById(deviceId: number) {
     return api.get(`/devices/${deviceId}`);
   },
+  create(params: ICreateDeviceParams) {
+    const { images, brandId, categoryId, info, features } = params;
+
+    const formData = new FormData();
+
+    formData.append('info', JSON.stringify(info));
+    formData.append('features', JSON.stringify(features));
+    formData.append('categoryId', categoryId.toString());
+    formData.append('brandId', brandId.toString());
+
+    for (const image of images) {
+      formData.append('images', image);
+    }
+
+    return api.post('/devices', formData);
+  },
 };
 
 export const Filters = {
@@ -46,14 +63,24 @@ export const Filters = {
 };
 
 export const Categories = {
-  get() {
-    return api.get('/types');
+  create({ name }: { name: string }) {
+    return api.post('/types', { name });
+  },
+  get({ name }: { name?: string }) {
+    const params = { name };
+
+    return api.get('/types', { params });
   },
 };
 
 export const Brands = {
-  get() {
-    return api.get('/brands');
+  create({ name }: { name: string }) {
+    return api.post('/brands', { name });
+  },
+  get({ name }: { name?: string }) {
+    const params = { name };
+
+    return api.get('/brands', { params });
   },
 };
 
