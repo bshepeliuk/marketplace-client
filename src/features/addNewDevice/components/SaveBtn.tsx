@@ -13,6 +13,7 @@ function SaveBtn() {
 
   const onSave = async () => {
     const deviceId = await context.save();
+
     navigate(generatePath(routes.device, { deviceId: String(deviceId) }));
   };
 

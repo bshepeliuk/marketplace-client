@@ -12,7 +12,7 @@ import newDeviceReducer, {
 import { INewDeviceFeature, INewDeviceInfo } from '../modules/newDeviceTypes';
 
 interface IContext {
-  save: () => void;
+  save: () => Promise<number> | undefined;
   deleteImgById: (id: string) => void;
   addBrand: ({ brand }: { brand: IBrand }) => void;
   addCategory: ({ category }: { category: ICategory }) => void;
@@ -63,6 +63,8 @@ export function NewDeviceProvider({ children }: { children: React.ReactNode }) {
   };
 
   const checkIfNewFeatureUniqueByTitle = (title: string) => {
+    if (state.features.length === 0) return true;
+
     return !state.features.some(
       (i) => i.title.toLowerCase() === title.toLowerCase(),
     );

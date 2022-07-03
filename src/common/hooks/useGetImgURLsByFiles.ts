@@ -1,9 +1,17 @@
 import { useEffect, useState } from 'react';
 
-const useGetImgURLsByFiles = (files: { id: string; file: File }[]) => {
-  const [imageDataURLs, setImageDataURLs] = useState<
-    Array<{ id: string; url: string }>
-  >([]);
+interface IImgUrls {
+  id: string;
+  url: string;
+}
+
+interface IFile {
+  id: string;
+  file: File;
+}
+
+const useGetImgURLsByFiles = (files: Array<IFile>) => {
+  const [imageDataURLs, setImageDataURLs] = useState<Array<IImgUrls>>([]);
 
   useEffect(() => {
     if (files.length === 0) {
@@ -11,13 +19,14 @@ const useGetImgURLsByFiles = (files: { id: string; file: File }[]) => {
       return;
     }
 
-    const images: Array<{ id: string; url: string }> = [];
+    const images: Array<IImgUrls> = [];
     const fileReaders: FileReader[] = [];
 
     let isCancel = false;
 
     files.forEach((item: { id: string; file: File }) => {
       const fileReader = new FileReader();
+
       fileReaders.push(fileReader);
 
       fileReader.onload = (evt) => {

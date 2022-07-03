@@ -22,6 +22,7 @@ function DeviceImagesPreview() {
   const { formState } = useNewDeviceContext();
 
   const imageDataURLs = useGetImgURLsByFiles(formState.images);
+
   // prettier-ignore
   const {
     onLeftClick,

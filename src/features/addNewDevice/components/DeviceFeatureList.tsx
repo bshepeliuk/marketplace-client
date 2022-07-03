@@ -32,6 +32,7 @@ function DeviceFeatureList() {
           <Description>{item.description}</Description>
           <DeleteIcon
             type="button"
+            id="delete-feature-btn"
             onClick={() => deleteFeatureDetails(item)}
           />
         </ListItem>
