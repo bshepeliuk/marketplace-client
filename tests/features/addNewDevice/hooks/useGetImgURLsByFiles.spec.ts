@@ -37,7 +37,7 @@ describe('[HOOK]: useGetImgURLsByFiles', () => {
     });
   });
 
-  test('should not change return empty array, when files was not passed', async () => {
+  test('should return empty array, when files was not passed', async () => {
     const files: { id: string; file: File }[] = [];
 
     const { result } = renderHook(() => useGetImgURLsByFiles(files));

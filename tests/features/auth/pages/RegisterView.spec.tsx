@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
 
 import RegisterView from '@src/features/auth/components/RegisterView';
 import { Wrapper } from '../../../wrapper';
