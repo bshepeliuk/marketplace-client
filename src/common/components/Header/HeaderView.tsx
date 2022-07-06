@@ -6,6 +6,7 @@ import CartIconView from '@src/common/atoms/CartIcon/CartIconView';
 import { routes } from '@src/app/Router';
 import { ROLES } from '@src/common/constants';
 import AddDeviceIcon from '@common/atoms/AddDeviceIcon/AddDeviceIcon';
+import SearchBarView from '@src/features/search/components/SearchBar/SearchBar';
 import UserInfoView from '../UserInfo/UserInfoView';
 import { Header, LoginLink, LogoLink } from './header.styled';
 
@@ -21,6 +22,8 @@ function HeaderView() {
       </LogoLink>
 
       <CategoriesDropDown />
+
+      <SearchBarView />
 
       {!isSellerRole && <CartIconView />}
       {isSellerRole && <AddDeviceIcon />}

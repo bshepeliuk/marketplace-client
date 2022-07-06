@@ -23,7 +23,7 @@ const useGetDeviceById = (deviceId: number) => {
     if (hasNoDevice) {
       getDevice();
     }
-  }, []);
+  }, [deviceId]);
 
   return {
     device,

@@ -14,7 +14,7 @@ import useGetDevices from '../hooks/useGetDevices';
 import NoDevicesView from '../components/NoDevicesView';
 
 function DevicesView() {
-  const containerRef = useRef<any>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const { items, isLoading } = useGetDevices();
   const { isLoadingMore, fetchMore } = useGetMoreDevices();
   const [searchParams] = useSearchParams();
