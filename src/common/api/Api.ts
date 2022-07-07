@@ -9,7 +9,7 @@ import { IPaymentItems } from '@src/features/payment/types';
 import { IUser } from '../types/userTypes';
 import generateSearchParamsStr from '../utils/generateSearchParamsStr';
 
-const api = getApiInstance();
+export const api = getApiInstance();
 
 export const Auth = {
   login({ email, password }: ILogin) {

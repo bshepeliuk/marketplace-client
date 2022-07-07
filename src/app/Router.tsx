@@ -12,6 +12,7 @@ import PaymentCheckoutCancel from '@features/payment/pages/PaymentCheckoutCancel
 import NewDeviceView from '@features/addNewDevice/pages/NewDeviceView';
 import ForbiddenView from '@features/forbidden/ForbiddenView';
 import { useTypedSelector } from '@src/common/hooks/useTypedSelector';
+import SearchResultView from '@features/search/page/SearchResultView';
 import { ROLES } from '@src/common/constants';
 import PrivateRoute from './PrivateRoute';
 
@@ -28,6 +29,7 @@ export const routes = {
   checkoutSuccess: '/checkout-success',
   checkoutCancel: '/checkout-cancel',
   forbidden: '/forbidden',
+  searchResult: '/search-result',
 };
 
 function Router() {
@@ -41,6 +43,7 @@ function Router() {
         <Route path={routes.device} element={<DeviceDetailsView />} />
         <Route path={routes.devices} element={<DevicesView />} />
         <Route path={routes.cart} element={<CartView />} />
+        <Route path={routes.searchResult} element={<SearchResultView />} />
         <Route
           path={routes.checkoutCancel}
           element={<PaymentCheckoutCancel />}

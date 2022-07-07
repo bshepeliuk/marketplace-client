@@ -75,7 +75,7 @@ describe('[HOOK]: useGetCountOfDevices', () => {
     );
 
     const { result, waitForNextUpdate } = renderHook(useGetCountOfDevices, {
-      wrapper: (props: any) => (
+      wrapper: (props: { children: React.ReactNode }) => (
         <Provider store={store}>
           <MemoryRouter>
             <FilterProvider>{props.children}</FilterProvider>

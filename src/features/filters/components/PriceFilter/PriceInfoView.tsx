@@ -21,6 +21,7 @@ function PriceInfoView({ infoStatus }: IProps) {
   const context = useFilterContext();
   const { values, setValues, handleInputChange } = useHandleInputsPrice();
   const { range, setRange, handleRangeChange } = useHandleRangePrice();
+
   useSyncInputStateWithRangeState({ values, setRange, setValues });
 
   const isNotInitStateValues = !values.every(

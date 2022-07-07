@@ -38,6 +38,7 @@ export const devicesSelector = createSelector(
     return {
       items,
       isLoading: state.isLoading,
+      hasNoDevices: state.hasNoDevices,
     };
   },
 );

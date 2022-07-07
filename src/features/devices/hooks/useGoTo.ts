@@ -18,12 +18,12 @@ const useGoTo = () => {
 
   const goBack = () => {
     const to = {
-      pathname: locationState.from.pathname || '/',
-      search: locationState.from.search,
+      pathname: locationState?.from.pathname || '/',
+      search: locationState?.from.search,
     };
 
     const options = {
-      state: { rowIndex: locationState.rowIndex },
+      state: { rowIndex: locationState?.rowIndex },
     };
 
     navigate(to, options);

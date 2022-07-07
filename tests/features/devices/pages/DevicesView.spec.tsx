@@ -86,4 +86,20 @@ describe('[PAGES]: DevicesView', () => {
 
     expect(mockNavigate).toBeCalledWith('/');
   });
+
+  test('when devices was not found should render "not found" message.', () => {
+    const { getByText } = setupAndRenderComponent({
+      component: () => (
+        <FilterProvider>
+          <DevicesView />
+        </FilterProvider>
+      ),
+      state: {
+        ...rootState,
+        devices: { ...rootState.devices, hasNoDevices: true },
+      },
+    });
+
+    expect(getByText(/No devices in this category yet./i)).toBeInTheDocument();
+  });
 });
