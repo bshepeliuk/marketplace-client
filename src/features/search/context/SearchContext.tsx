@@ -60,32 +60,33 @@ function SearchProvider({ children }: { children: React.ReactNode }) {
     onClear();
   };
 
+  const fetchSuggestions = async (value: string) => {
+    try {
+      const { data } = await Devices.get({
+        limit: 20,
+        offset: 0,
+        filters: [['name', value]],
+      });
+
+      const hasNoSuggestions = data.devices.length === 0;
+
+      if (hasNoSuggestions) setIsEmpty(true);
+
+      setSuggestions(data.devices);
+    } catch (error) {
+      setIsEmpty(true);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   useEffect(() => {
+    if (hasNoSearchValue) return;
+
     setIsLoading(true);
     setIsEmpty(false);
 
-    if (hasNoSearchValue) return;
-
-    timeoutId.current = setTimeout(() => {
-      Devices.get({
-        limit: 20,
-        offset: 0,
-        filters: [['name', searchValue]],
-      })
-        .then((res) => {
-          const hasNoSuggestions = res.data.devices.length === 0;
-
-          setSuggestions(res.data.devices);
-          setIsLoading(false);
-
-          if (hasNoSuggestions) {
-            setIsEmpty(true);
-          }
-        })
-        .catch(() => {
-          setIsEmpty(true);
-        });
-    }, 2000);
+    timeoutId.current = setTimeout(() => fetchSuggestions(searchValue), 2000);
 
     return () => {
       clearTimeout(timeoutId.current as ReturnType<typeof setTimeout>);

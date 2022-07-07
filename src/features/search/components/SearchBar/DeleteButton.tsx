@@ -21,7 +21,7 @@ function DeleteButton() {
   if (!context.isVisible) return null;
 
   return (
-    <Button type="button" onClick={context.onClear}>
+    <Button id="clear-search" type="button" onClick={context.onClear}>
       <MdOutlineClose />
     </Button>
   );
