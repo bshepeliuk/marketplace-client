@@ -19,6 +19,7 @@ export const ListItem = styled.li`
   grid-template-areas:
     'IMAGE IMAGE'
     'TITLE TITLE'
+    'RATING BUTTON'
     'PRICE BUTTON';
 `;
 
@@ -70,6 +71,12 @@ export const ImagePlaceholder = styled.div`
 
 export const Price = styled.p`
   grid-area: PRICE;
+  margin: 0;
+`;
+
+export const RatingWrapper = styled.div`
+  grid-area: RATING;
+  align-self: center;
 `;
 
 export const CartBtnWrapper = styled.div`

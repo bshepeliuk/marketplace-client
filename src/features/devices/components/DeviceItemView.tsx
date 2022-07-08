@@ -2,6 +2,7 @@ import React from 'react';
 import { generatePath, useLocation } from 'react-router-dom';
 import { routes } from '@src/app/Router';
 import useCartBtnClick from '@src/features/cart/hooks/useCartBtnClick';
+import StarRatingView from '@common/components/StarRating/StarRatingView';
 import ImageView from '../atoms/ImageView';
 import { GUTTER_SIZE } from '../constants';
 import {
@@ -9,6 +10,7 @@ import {
   DeviceTitleLink,
   ListItem,
   Price,
+  RatingWrapper,
 } from '../styles/deviceItem.styled';
 import { IListItemProps } from '../types';
 import DeviceLoaderView from './DeviceLoaderView';
@@ -62,6 +64,10 @@ function DeviceItemView(props: IListItemProps) {
       </DeviceTitleLink>
 
       <Price>{device.price} $</Price>
+
+      <RatingWrapper>
+        <StarRatingView totalStars={5} precision={0.5} />
+      </RatingWrapper>
 
       <CartBtnWrapper>
         <AddToCartButton inCart={inCart} onClick={() => handle(device)} />
