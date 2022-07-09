@@ -2,7 +2,7 @@ import React from 'react';
 import { generatePath, useLocation } from 'react-router-dom';
 import { routes } from '@src/app/Router';
 import useCartBtnClick from '@src/features/cart/hooks/useCartBtnClick';
-import StarRatingView from '@common/components/StarRating/StarRatingView';
+import StarRating from '@common/components/StarRating/StarRatingView';
 import ImageView from '../atoms/ImageView';
 import { GUTTER_SIZE } from '../constants';
 import {
@@ -66,7 +66,7 @@ function DeviceItemView(props: IListItemProps) {
       <Price>{device.price} $</Price>
 
       <RatingWrapper>
-        <StarRatingView totalStars={5} precision={0.5} />
+        <StarRating totalStars={5} size={20} precision={0.5} />
       </RatingWrapper>
 
       <CartBtnWrapper>
