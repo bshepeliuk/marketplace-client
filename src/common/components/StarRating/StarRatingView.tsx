@@ -1,4 +1,7 @@
-import React from 'react';
+/* eslint-disable max-len */
+import React, { useRef, useState } from 'react';
+import { AiOutlineStar, AiFillStar } from 'react-icons/ai';
+import { IconType } from 'react-icons/lib';
 import { BackStar, FrontStar, StarWrap, Wrap } from './rating.styled';
 
 interface IRatingProps {
@@ -6,18 +9,43 @@ interface IRatingProps {
   totalStars: number;
   size: number;
   precision?: number;
+  isInteractive?: boolean;
+  filledSVGIcon?: IconType;
+  emptySVGIcon?: IconType;
 }
 
 function StarRating(props: IRatingProps) {
-  const { initRating = 0, precision = 1, totalStars = 5 } = props;
+  const {
+    initRating = 0,
+    precision = 1,
+    totalStars = 5,
+    size = 20,
+    isInteractive = true,
+    filledSVGIcon = AiFillStar,
+    emptySVGIcon = AiOutlineStar,
+  } = props;
 
-  const containerRef = React.useRef<HTMLDivElement>(null);
-  const [rating, setRating] = React.useState(initRating);
-  const [selection, setSelection] = React.useState(0);
-  const [isHover, setIsHover] = React.useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [rating, setRating] = useState(initRating);
+  const [hoveredRating, setHoveredRating] = useState(0);
+  const [isHover, setIsHover] = useState(false);
 
   const onClick = (evt: React.MouseEvent<HTMLDivElement>) => {
     setRating(calculateRating(evt));
+  };
+
+  const onMouseOver = (evt: React.MouseEvent<HTMLDivElement>) => {
+    setIsHover(true);
+    setHoveredRating(calculateRating(evt));
+  };
+
+  const onMouseMove = (evt: React.MouseEvent<HTMLDivElement>) => {
+    setHoveredRating(calculateRating(evt));
+  };
+
+  const onMouseLeave = () => {
+    setIsHover(false);
+    setHoveredRating(0);
   };
 
   const calculateRating = (evt: React.MouseEvent<HTMLDivElement>) => {
@@ -28,51 +56,36 @@ function StarRating(props: IRatingProps) {
     const positionX = (evt.clientX - left) / width;
 
     const numberInStars = positionX * totalStars;
+    // prettier-ignore
+    const nearestNumber = Math.round((numberInStars + precision) / precision) * precision;
 
-    const nearestNumber =
-      Math.round((numberInStars + precision) / precision) * precision;
-
-    return Number(
-      nearestNumber.toFixed(precision.toString().split('.')[1]?.length || 0),
-    );
-  };
-
-  const onMouseOver = (evt: React.MouseEvent<HTMLDivElement>) => {
-    setIsHover(true);
-    setSelection(calculateRating(evt));
-  };
-
-  const onMouseMove = (evt: React.MouseEvent<HTMLDivElement>) => {
-    setSelection(calculateRating(evt));
-  };
-
-  const onMouseLeave = () => {
-    setIsHover(false);
-    setSelection(0);
+    return Number(nearestNumber.toFixed(2));
   };
 
   const isMarked = (id: number) => {
-    return selection ? selection >= id + 1 : rating >= id + 1;
+    return hoveredRating ? hoveredRating >= id + 1 : rating >= id + 1;
   };
+
+  const starsArray = [...Array(props.totalStars)];
 
   return (
     <Wrap
+      isInteractive={isInteractive}
       ref={containerRef}
       onMouseOver={onMouseOver}
       onMouseOut={onMouseLeave}
       onMouseMove={onMouseMove}
       onClick={onClick}
-      size={props.size}
+      size={size}
     >
-      {[...Array(props.totalStars)].map((_, idx) => {
-        const currentRating = isHover ? selection : rating;
+      {starsArray.map((_, idx) => {
+        const currentRating = isHover ? hoveredRating : rating;
 
-        const isActiveRating = currentRating !== 1;
+        const isActiveRating = currentRating !== 0;
         const isRatingWithPrecision = currentRating % 1 !== 0;
         const isRatingEqualToIndex = Math.ceil(currentRating) === idx + 1;
-
-        const showRatingWithPrecision =
-          isActiveRating && isRatingWithPrecision && isRatingEqualToIndex;
+        // prettier-ignore
+        const showRatingWithPrecision = isActiveRating && isRatingWithPrecision && isRatingEqualToIndex;
 
         const widthInPercent = showRatingWithPrecision
           ? (currentRating % 1) * 100
@@ -85,6 +98,8 @@ function StarRating(props: IRatingProps) {
             key={key}
             marked={isMarked(idx)}
             widthInPercent={widthInPercent}
+            filledIcon={filledSVGIcon}
+            emptyIcon={emptySVGIcon}
           />
         );
       })}
@@ -95,13 +110,24 @@ function StarRating(props: IRatingProps) {
 interface IStarProps {
   marked: boolean;
   widthInPercent: number;
+  filledIcon: IconType;
+  emptyIcon: IconType;
 }
 
-function Star({ marked, widthInPercent }: IStarProps) {
+function Star(props: IStarProps) {
+  const {
+    marked,
+    widthInPercent,
+    filledIcon: Filled,
+    emptyIcon: Empty,
+  } = props;
+
   return (
     <StarWrap>
-      <FrontStar marked={marked}>{marked ? '\u2605' : '\u2606'}</FrontStar>
-      <BackStar widthInPercent={widthInPercent}>{'\u2605'}</BackStar>
+      <FrontStar marked={marked}>{marked ? <Filled /> : <Empty />}</FrontStar>
+      <BackStar widthInPercent={widthInPercent}>
+        <Filled />
+      </BackStar>
     </StarWrap>
   );
 }

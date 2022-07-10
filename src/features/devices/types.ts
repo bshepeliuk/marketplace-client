@@ -16,6 +16,15 @@ export interface IDeviceInfo {
   updatedAt: string;
 }
 
+export interface IDeviceRating {
+  id: number;
+  deviceId: number;
+  userId: number;
+  rate: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface IDevice {
   id: number;
   name: string;
@@ -28,6 +37,7 @@ export interface IDevice {
   updatedAt: string;
   images: IDeviceImage[] | number[];
   info: IDeviceInfo[] | number[];
+  ratings: IDeviceRating[] | number[];
 }
 
 export interface IDeviceData {

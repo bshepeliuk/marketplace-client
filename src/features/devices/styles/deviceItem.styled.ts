@@ -76,7 +76,16 @@ export const Price = styled.p`
 
 export const RatingWrapper = styled.div`
   grid-area: RATING;
-  align-self: center;
+  display: flex;
+  align-items: center;
+  column-gap: 5px;
+`;
+
+export const RatingTitle = styled.div`
+  font-size: 11px;
+  line-height: 14px;
+  color: #f97988;
+  user-select: none;
 `;
 
 export const CartBtnWrapper = styled.div`

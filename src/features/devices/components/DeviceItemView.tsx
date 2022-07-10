@@ -10,11 +10,13 @@ import {
   DeviceTitleLink,
   ListItem,
   Price,
+  RatingTitle,
   RatingWrapper,
 } from '../styles/deviceItem.styled';
-import { IListItemProps } from '../types';
+import { IDeviceRating, IListItemProps } from '../types';
 import DeviceLoaderView from './DeviceLoaderView';
 import AddToCartButton from '../atoms/AddToCartButton';
+import calculateAvgRating from '../helpers/calculateAvgRating';
 
 function DeviceItemView(props: IListItemProps) {
   const location = useLocation();
@@ -25,6 +27,9 @@ function DeviceItemView(props: IListItemProps) {
   const itemIndex = rowIndex * data.COLUMN_COUNT + columnIndex;
   const device = data.items[itemIndex];
   const hasNoDevice = device === undefined;
+
+  const ratings = device?.ratings ? device.ratings : [];
+  const avgRating = calculateAvgRating(ratings as IDeviceRating[]);
 
   const inCart = hasAddedToCart(device);
 
@@ -66,7 +71,14 @@ function DeviceItemView(props: IListItemProps) {
       <Price>{device.price} $</Price>
 
       <RatingWrapper>
-        <StarRating totalStars={5} size={20} precision={0.5} />
+        <StarRating
+          totalStars={5}
+          size={16}
+          precision={0.5}
+          initRating={avgRating}
+          isInteractive={false}
+        />
+        <RatingTitle>{avgRating}</RatingTitle>
       </RatingWrapper>
 
       <CartBtnWrapper>
