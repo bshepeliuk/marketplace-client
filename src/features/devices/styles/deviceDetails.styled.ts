@@ -12,18 +12,18 @@ export const ImageWrapper = styled.div`
   border: 1px solid #ecf0f1;
   padding: 10px;
   border-radius: 4px;
-  grid-row: 2 / 4;
+  grid-row: 3 / 5;
 
   @media (max-width: 968px) {
     grid-column: 1 / 4;
-    grid-row: 2 / 3;
+    grid-row: 3 / 4;
   }
 `;
 
 export const InnerWrap = styled.div`
   display: grid;
   grid-template-columns: 60px 440px 1fr;
-  grid-template-rows: 50px 50px 1fr;
+  grid-template-rows: 50px 50px 50px 1fr;
   margin-top: -40px;
   row-gap: 15px;
 
@@ -33,7 +33,7 @@ export const InnerWrap = styled.div`
 
   @media (max-width: 968px) {
     grid-template-columns: 60px 350px 1fr;
-    grid-template-rows: 50px 450px 50px 1fr;
+    grid-template-rows: 50px 50px 450px 50px 1fr;
   }
 
   @media (max-width: 420px) {
@@ -43,24 +43,41 @@ export const InnerWrap = styled.div`
 
 export const InfoWrap = styled.div`
   grid-column: 3 / 4;
-  grid-row: 3 / 4;
+  grid-row: 4 / 5;
 
   @media (max-width: 968px) {
     grid-column: 1 / 4;
-    grid-row: 4;
+    grid-row: 5;
     justify-self: center;
   }
 `;
 
+export const TabsWrap = styled.div`
+  grid-column: 1 / 4;
+  grid-row: 2 / 3;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+  align-self: center;
+  padding: 10px 20px;
+
+  & .tab-link {
+    margin-right: 15px;
+  }
+`;
+
+export const TabsContent = styled.div`
+  grid-column: 1 / -1;
+`;
+
 export const PurchaseWrap = styled.div`
   grid-column: 3;
-  grid-row: 2;
+  grid-row: 3 / 4;
   display: grid;
-  grid-template-columns: repeat(2, 300px);
+  grid-template-columns: repeat(2, 1fr);
   height: max-content;
 
   @media (max-width: 968px) {
-    grid-row: 3;
+    grid-row: 4;
     grid-column: 1 / 4;
     justify-self: center;
   }

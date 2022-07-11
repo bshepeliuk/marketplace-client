@@ -23,6 +23,7 @@ export const routes = {
   register: '/auth/register',
   devices: '/devices',
   device: '/devices/:deviceId',
+  deviceWithEntity: '/devices/:deviceId/:entity',
   newDevice: '/new',
   account: '/account',
   cart: '/cart',
@@ -40,7 +41,7 @@ function Router() {
       <Routes>
         <Route path={routes.home} element={<HomeView />} />
         <Route path={routes.auth} element={<AuthView />} />
-        <Route path={routes.device} element={<DeviceDetailsView />} />
+        <Route path={`${routes.device}/*`} element={<DeviceDetailsView />} />
         <Route path={routes.devices} element={<DevicesView />} />
         <Route path={routes.cart} element={<CartView />} />
         <Route path={routes.searchResult} element={<SearchResultView />} />

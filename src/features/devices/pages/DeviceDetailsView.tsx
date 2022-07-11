@@ -1,10 +1,11 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Route, Routes, Link, generatePath } from 'react-router-dom';
 import HeaderView from '@common/components/Header/HeaderView';
 import { Container } from '@common/styles/base.styled';
 // eslint-disable-next-line max-len
 import useSlowDownLoaderIndicator from '@common/hooks/useSlowDownLoaderIndicator';
 import useMakePayment from '@features/payment/pages/hooks/useMakePayment';
+import { routes } from '@src/app/Router';
 import useGetDeviceById from '../hooks/useGetDeviceById';
 import {
   BackBtn,
@@ -19,12 +20,14 @@ import {
   Price,
   PurchaseButton,
   PurchaseWrap,
+  TabsWrap,
   Title,
+  TabsContent,
 } from '../styles/deviceDetails.styled';
 import LoadingDeviceDetailsView from '../components/LoadingDeviceDetailsView';
 import NotFoundDeviceView from '../components/NotFoundDeviceView';
 import useGoTo from '../hooks/useGoTo';
-import { IDeviceInfo, IDeviceWithCount } from '../types';
+import { IDevice, IDeviceImage, IDeviceInfo, IDeviceWithCount } from '../types';
 
 function DeviceDetailsView() {
   const { deviceId } = useParams();
@@ -33,16 +36,10 @@ function DeviceDetailsView() {
     Number(deviceId),
   );
 
-  const { pay, isPending } = useMakePayment([
-    { ...device, count: 1 },
-  ] as IDeviceWithCount[]);
-
   const isLoadingSlow = useSlowDownLoaderIndicator({
     isLoading,
     duration: 1000,
   });
-
-  const hasDeviceImages = device && device.images.length > 0;
 
   if (isLoadingSlow) return <LoadingDeviceDetailsView />;
 
@@ -62,27 +59,73 @@ function DeviceDetailsView() {
 
           <Title>{device.name}</Title>
 
-          {hasDeviceImages && (
-            <ImageWrapper>
-              <Image src={device.images[0].url} alt={device.name} />
-            </ImageWrapper>
-          )}
+          <DeviceTabs deviceId={device.id} />
 
-          <PurchaseWrap>
-            <PurchaseButton type="button" onClick={pay} disabled={isPending}>
-              purchase
-            </PurchaseButton>
-
-            <Price title={`${device.price} $`}>{device.price} $</Price>
-          </PurchaseWrap>
-
-          <InfoWrap>
-            <InfoList>
-              <DeviceFeatureList features={device.info} />
-            </InfoList>
-          </InfoWrap>
+          <Routes>
+            <Route path="/" element={<DeviceOverView device={device} />} />
+            <Route path="/comments" element={<TabInfo />} />
+            <Route path="*" element={<div>Not Found....</div>} />
+          </Routes>
         </InnerWrap>
       </Container>
+    </>
+  );
+}
+
+function TabInfo() {
+  return <TabsContent>rating and comments will be here.</TabsContent>;
+}
+
+function DeviceTabs({ deviceId }: { deviceId: number }) {
+  return (
+    <TabsWrap>
+      <Link
+        className="tab-link"
+        to={generatePath(routes.device, { deviceId: String(deviceId) })}
+      >
+        Overview
+      </Link>
+      <Link
+        className="tab-link"
+        to={generatePath(routes.deviceWithEntity, {
+          deviceId: String(deviceId),
+          entity: 'comments',
+        })}
+      >
+        Rating & Comments
+      </Link>
+    </TabsWrap>
+  );
+}
+
+function DeviceOverView({ device }: { device: IDevice }) {
+  const { pay, isPending } = useMakePayment([
+    { ...device, count: 1 },
+  ] as IDeviceWithCount[]);
+
+  const hasDeviceImages = device && device.images.length > 0;
+  const images = device.images as IDeviceImage[];
+  const features = device.info as IDeviceInfo[];
+
+  return (
+    <>
+      {hasDeviceImages && (
+        <ImageWrapper>
+          <Image src={images[0].url} alt={device.name} />
+        </ImageWrapper>
+      )}
+      <PurchaseWrap>
+        <PurchaseButton type="button" onClick={pay} disabled={isPending}>
+          purchase
+        </PurchaseButton>
+
+        <Price title={`${device.price} $`}>{device.price} $</Price>
+      </PurchaseWrap>
+      <InfoWrap>
+        <InfoList>
+          <DeviceFeatureList features={features} />
+        </InfoList>
+      </InfoWrap>
     </>
   );
 }
