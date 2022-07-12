@@ -10,6 +10,10 @@ const Wrap = styled.div`
   &:hover {
     transform: rotate(360deg);
   }
+
+  @media (max-width: 700px) {
+    display: none;
+  }
 `;
 
 const Icon = styled(FaPlus)`

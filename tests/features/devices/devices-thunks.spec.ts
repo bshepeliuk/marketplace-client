@@ -45,6 +45,7 @@ describe('DEVICES THUNKS', () => {
           price: 1000,
           images: [{ id: 1, url: 'https://image.jpg' }],
           info: [],
+          ratings: [],
         },
       ];
 
@@ -121,6 +122,7 @@ describe('DEVICES THUNKS', () => {
         typeId: 1,
         price: 1000,
         images: [{ url: 'https://image.jpg' }],
+        ratings: [],
       };
 
       server.use(
@@ -129,7 +131,7 @@ describe('DEVICES THUNKS', () => {
         }),
       );
 
-      const { entities } = normalize(device, DeviceSchema);
+      const { result, entities } = normalize(device, DeviceSchema);
 
       await store.dispatch(getDeviceById({ deviceId: device.id }));
 
@@ -144,6 +146,7 @@ describe('DEVICES THUNKS', () => {
           payload: {
             device,
             entities,
+            result,
           },
         },
       ];
@@ -208,6 +211,7 @@ describe('DEVICES THUNKS', () => {
           typeId: 1,
           price: 1000,
           images: [{ url: 'https://image.jpg' }],
+          ratings: [],
         },
       ];
 

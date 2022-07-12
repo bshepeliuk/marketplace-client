@@ -4,7 +4,7 @@ import { useTypedSelector } from '@src/common/hooks/useTypedSelector';
 import calculateAvgRating from '../helpers/calculateAvgRating';
 import useEvaluateDevice from '../hooks/useEvaluateDevice';
 import { IDevice, IDeviceRating } from '../types';
-import { TabsContent } from '../styles/deviceDetails.styled';
+import { CommentsWrap } from '../styles/deviceDetails.styled';
 
 interface IProps {
   device: IDevice;
@@ -24,7 +24,7 @@ function DeviceCommentsView({ device }: IProps) {
   };
 
   return (
-    <TabsContent>
+    <CommentsWrap>
       <StarRating
         totalStars={5}
         size={40}
@@ -33,7 +33,7 @@ function DeviceCommentsView({ device }: IProps) {
         onChange={onChangeRating}
         isInteractive={hasRated && isLoggedIn && !isEvaluating}
       />
-    </TabsContent>
+    </CommentsWrap>
   );
 }
 

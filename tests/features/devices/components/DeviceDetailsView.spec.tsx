@@ -47,6 +47,7 @@ const device = {
   name: 'HP Pavillion - test',
   price: 1234,
   info: [],
+  ratings: [],
 };
 
 const rootState = {

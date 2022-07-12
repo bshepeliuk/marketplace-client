@@ -1,7 +1,7 @@
 import { IDeviceRating } from '../types';
 
 const calculateAvgRating = (ratings: IDeviceRating[]) => {
-  if (ratings.length === 0) return 0;
+  if (ratings === undefined || ratings.length === 0) return 0;
 
   const rating = ratings.reduce((acc, current) => acc + current.rate, 0);
 

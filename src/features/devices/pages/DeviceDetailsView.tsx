@@ -1,24 +1,19 @@
 import React from 'react';
-import { useParams, Route, Routes, generatePath } from 'react-router-dom';
+import { useParams, Route, Routes } from 'react-router-dom';
 import HeaderView from '@common/components/Header/HeaderView';
 import { Container } from '@common/styles/base.styled';
 // eslint-disable-next-line max-len
 import useSlowDownLoaderIndicator from '@common/hooks/useSlowDownLoaderIndicator';
-import { routes } from '@src/app/Router';
 import useGetDeviceById from '../hooks/useGetDeviceById';
-import {
-  BackBtn,
-  InnerWrap,
-  TabsWrap,
-  Title,
-  TabLink,
-} from '../styles/deviceDetails.styled';
+import { BackBtn, InnerWrap, Title } from '../styles/deviceDetails.styled';
 import LoadingDeviceDetailsView from '../components/LoadingDeviceDetailsView';
 import NotFoundDeviceView from '../components/NotFoundDeviceView';
 import useGoTo from '../hooks/useGoTo';
-
 import DeviceCommentsView from '../components/DeviceCommentsView';
 import DeviceOverView from '../components/DeviceOverView';
+import calculateAvgRating from '../helpers/calculateAvgRating';
+import AvgRatingView from '../components/AvgRatingView';
+import DeviceNavigation from '../components/DeviceNavigation';
 
 function DeviceDetailsView() {
   const { deviceId } = useParams();
@@ -34,6 +29,9 @@ function DeviceDetailsView() {
     isLoading,
     duration: 1000,
   });
+
+  const ratings = device?.ratings ?? [];
+  const avgRating = calculateAvgRating(ratings);
 
   if (isLoadingSlow) return <LoadingDeviceDetailsView />;
 
@@ -53,7 +51,9 @@ function DeviceDetailsView() {
 
           <Title>{device.name}</Title>
 
-          <DeviceTabsHeader deviceId={device.id} />
+          <AvgRatingView avgRating={avgRating} />
+
+          <DeviceNavigation deviceId={device.id} />
 
           <Routes>
             <Route path="/" element={<DeviceOverView device={device} />} />
@@ -66,28 +66,6 @@ function DeviceDetailsView() {
         </InnerWrap>
       </Container>
     </>
-  );
-}
-
-function DeviceTabsHeader({ deviceId }: { deviceId: number }) {
-  return (
-    <TabsWrap>
-      <TabLink
-        end
-        to={generatePath(routes.device, { deviceId: String(deviceId) })}
-      >
-        Overview
-      </TabLink>
-      <TabLink
-        className={({ isActive }) => (isActive ? 'active' : undefined)}
-        to={generatePath(routes.deviceWithEntity, {
-          deviceId: String(deviceId),
-          entity: 'comments',
-        })}
-      >
-        Rating & Comments
-      </TabLink>
-    </TabsWrap>
   );
 }
 

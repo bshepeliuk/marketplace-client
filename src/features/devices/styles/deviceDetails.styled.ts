@@ -16,29 +16,29 @@ export const ImageWrapper = styled.div`
   grid-row: 3 / 5;
 
   @media (max-width: 968px) {
-    grid-column: 1 / 4;
+    grid-column: 1 / -1;
     grid-row: 3 / 4;
   }
 `;
 
 export const InnerWrap = styled.div`
   display: grid;
-  grid-template-columns: 60px 440px 1fr;
+  grid-template-columns: 60px 440px 1fr 80px;
   grid-template-rows: 50px 50px 50px 1fr;
   margin-top: -40px;
   row-gap: 15px;
 
   @media (max-width: 1060px) {
-    grid-template-columns: 60px 350px 1fr;
+    grid-template-columns: 60px 350px 1fr 80px;
   }
 
   @media (max-width: 968px) {
-    grid-template-columns: 60px 350px 1fr;
+    grid-template-columns: 60px 1fr 1fr 60px;
     grid-template-rows: 50px 50px 450px 50px 1fr;
   }
 
   @media (max-width: 420px) {
-    grid-template-columns: 60px 300px 1fr;
+    grid-template-columns: 60px 1fr 1fr 60px;
   }
 `;
 
@@ -53,27 +53,68 @@ export const InfoWrap = styled.div`
   }
 `;
 
-export const TabsWrap = styled.div`
-  grid-column: 1 / 4;
+export const NavWrap = styled.div`
+  grid-column: 1 / -1;
   grid-row: 2 / 3;
   background-color: #f5f5f5;
   border-radius: 4px;
   align-self: center;
-  padding: 10px 20px;
+  padding: 10px 40px;
+  display: flex;
 `;
 
-export const TabsContent = styled.div`
+export const CommentsWrap = styled.div`
   grid-column: 1 / -1;
 `;
 
-export const TabLink = styled(NavLink)`
+export const MenuLink = styled(NavLink)`
   margin-right: 15px;
+  text-decoration: none;
+  position: relative;
+  user-select: none;
+  color: #3498db;
 
-  color: blue;
+  &::after {
+    position: absolute;
+    bottom: -10px;
+    content: '';
+    display: block;
+    width: 100%;
+    height: 2px;
+    background-color: #1abc9c;
+    border-radius: 2px;
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform 0.25s ease-out;
+  }
 
   &.active {
-    color: red;
+    color: #1abc9c;
+
+    &::after {
+      transition-delay: 0.25s;
+      transform: scaleX(1);
+    }
   }
+
+  &:last-child {
+    margin-right: 0;
+  }
+`;
+
+export const CurrentRating = styled.div`
+  grid-column: 4;
+  grid-row: 1;
+  justify-self: center;
+  align-self: center;
+
+  display: flex;
+  align-items: center;
+`;
+
+export const RatingValue = styled.div`
+  color: #95afc0;
+  font-weight: bold;
 `;
 
 export const PurchaseWrap = styled.div`
@@ -85,7 +126,7 @@ export const PurchaseWrap = styled.div`
 
   @media (max-width: 968px) {
     grid-row: 4;
-    grid-column: 1 / 4;
+    grid-column: 1 / -1;
     justify-self: center;
   }
 
@@ -122,8 +163,16 @@ export const Title = styled.h1`
   color: #34495e;
   grid-row: 1;
 
-  @media (max-width: 600px) {
+  @media (max-width: 650px) {
     font-size: 25px;
+  }
+
+  @media (max-width: 550px) {
+    font-size: 18px;
+  }
+
+  @media (max-width: 430px) {
+    grid-column: 2 / 4;
   }
 `;
 

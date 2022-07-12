@@ -11,6 +11,10 @@ export const Wrap = styled.div`
   @media (max-width: 1300px) {
     width: 90%;
   }
+
+  @media (max-width: 900px) {
+    display: none;
+  }
 `;
 
 export const SearchWrapper = styled.div`
