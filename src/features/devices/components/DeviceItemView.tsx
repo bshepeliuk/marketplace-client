@@ -26,6 +26,7 @@ function DeviceItemView(props: IListItemProps) {
 
   const itemIndex = rowIndex * data.COLUMN_COUNT + columnIndex;
   const device = data.items[itemIndex];
+
   const hasNoDevice = device === undefined;
 
   const ratings = device?.ratings ? device.ratings : [];

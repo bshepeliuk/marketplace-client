@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { MdOutlineArrowBackIos } from 'react-icons/md';
+import { NavLink } from 'react-router-dom';
 
 export const Image = styled.img`
   max-width: 100%;
@@ -59,14 +60,20 @@ export const TabsWrap = styled.div`
   border-radius: 4px;
   align-self: center;
   padding: 10px 20px;
-
-  & .tab-link {
-    margin-right: 15px;
-  }
 `;
 
 export const TabsContent = styled.div`
   grid-column: 1 / -1;
+`;
+
+export const TabLink = styled(NavLink)`
+  margin-right: 15px;
+
+  color: blue;
+
+  &.active {
+    color: red;
+  }
 `;
 
 export const PurchaseWrap = styled.div`

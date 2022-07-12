@@ -41,3 +41,8 @@ export interface ICreateDeviceParams {
   info: INewDeviceInfo;
   features: INewDeviceFeature[];
 }
+
+export interface IEvaluateDeviceParams {
+  rating: number;
+  deviceId: number;
+}

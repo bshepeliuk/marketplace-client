@@ -12,6 +12,8 @@ interface IRatingProps {
   isInteractive?: boolean;
   filledSVGIcon?: IconType;
   emptySVGIcon?: IconType;
+  // eslint-disable-next-line no-unused-vars
+  onChange?: (rating: number) => void;
 }
 
 function StarRating(props: IRatingProps) {
@@ -23,6 +25,7 @@ function StarRating(props: IRatingProps) {
     isInteractive = true,
     filledSVGIcon = AiFillStar,
     emptySVGIcon = AiOutlineStar,
+    onChange,
   } = props;
 
   const containerRef = useRef<HTMLDivElement>(null);
@@ -31,7 +34,11 @@ function StarRating(props: IRatingProps) {
   const [isHover, setIsHover] = useState(false);
 
   const onClick = (evt: React.MouseEvent<HTMLDivElement>) => {
-    setRating(calculateRating(evt));
+    const selectedRating = calculateRating(evt);
+
+    setRating(selectedRating);
+
+    if (onChange !== undefined) onChange(selectedRating);
   };
 
   const onMouseOver = (evt: React.MouseEvent<HTMLDivElement>) => {

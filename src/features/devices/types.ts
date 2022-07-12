@@ -52,11 +52,27 @@ export type DeviceEntities = {
   devices: Record<string, IDevice>;
   images: Record<string, IDeviceImage>;
   info: Record<string, IDeviceInfo>;
+  ratings: Record<string, IDeviceRating>;
 };
+
+export interface IDeviceRatingEntity {
+  result: number;
+  entities: Extract<DeviceEntities, 'ratings'>;
+}
 
 export interface IDevicesData {
   result: number[];
   entities: DeviceEntities;
+}
+
+export interface IDeviceEntityData {
+  result: number;
+  entities: DeviceEntities;
+}
+
+export interface IEvaluateDeviceEntity {
+  result: number;
+  entities: Pick<DeviceEntities, 'devices' | 'ratings'>;
 }
 
 interface IListData {

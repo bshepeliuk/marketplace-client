@@ -7,7 +7,7 @@ const calculateAvgRating = (ratings: IDeviceRating[]) => {
 
   const avgRating = rating / ratings.length;
 
-  return Number(avgRating.toFixed(1));
+  return Number(avgRating.toFixed(2));
 };
 
 export default calculateAvgRating;

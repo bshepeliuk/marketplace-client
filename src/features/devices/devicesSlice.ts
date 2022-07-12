@@ -2,9 +2,14 @@ import { normalize } from 'normalizr';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import * as Api from '@src/common/api/Api';
 import { IThunkAPI } from '@src/common/types/baseTypes';
-import { DeviceSchema, DevicesSchema } from '@common/normalizeSchemas';
+import {
+  DeviceSchema,
+  DevicesSchema,
+  RatingSchema,
+} from '@common/normalizeSchemas';
 import {
   ICreateDeviceParams,
+  IEvaluateDeviceParams,
   IGetDevicesProps,
 } from '@src/common/types/apiTypes';
 import getErrorMessage from '@src/common/utils/getErrorMessage';
@@ -12,7 +17,10 @@ import {
   DeviceEntities,
   IDevice,
   IDeviceData,
+  IDeviceEntityData,
+  IDeviceRating,
   IDevicesData,
+  IEvaluateDeviceEntity,
   IGetMoreDevicesParams,
 } from './types';
 import { DEVICES_OFFSET } from './constants';
@@ -33,6 +41,8 @@ export const initialState = {
   hasNoDevices: false,
   isCreating: false,
   isCreatingError: false,
+  isEvaluating: false,
+  isEvaluatingError: false,
 };
 
 type State = typeof initialState;
@@ -128,9 +138,13 @@ export const getDeviceById = createAsyncThunk<
   try {
     const { data } = await Api.Devices.getOneById(deviceId);
 
-    const { entities } = normalize(data.device, DeviceSchema);
+    const { entities, result } = normalize<IDevice, DeviceEntities, number>(
+      data.device,
+      DeviceSchema,
+    );
 
     return {
+      result,
       entities,
       device: data.device,
     };
@@ -144,7 +158,7 @@ export const getDeviceById = createAsyncThunk<
 });
 
 export const createDevice = createAsyncThunk<
-  any,
+  IDeviceEntityData,
   ICreateDeviceParams,
   IThunkAPI
 >('device/create', async (params, { rejectWithValue }) => {
@@ -167,6 +181,49 @@ export const createDevice = createAsyncThunk<
     return {
       result,
       entities,
+    };
+  } catch (error) {
+    const message = getErrorMessage(error);
+
+    return rejectWithValue({
+      message,
+    });
+  }
+});
+
+export const evaluateDevice = createAsyncThunk<
+  IEvaluateDeviceEntity,
+  IEvaluateDeviceParams,
+  IThunkAPI
+>('device/evaluate', async (params, { rejectWithValue, getState }) => {
+  const { rating, deviceId } = params;
+
+  const state = getState();
+
+  try {
+    const { data } = await Api.Ratings.evaluate({ rating, deviceId });
+
+    const { result, entities } = normalize<
+      IDeviceRating,
+      Pick<DeviceEntities, 'ratings'>,
+      number
+    >(data.rating, RatingSchema);
+
+    const deviceEntity = state.entities.devices[data.rating.deviceId];
+
+    const devices = {
+      [deviceEntity.id]: {
+        ...deviceEntity,
+        ratings: [...deviceEntity.ratings, result],
+      },
+    } as Record<string, IDevice>;
+
+    return {
+      result,
+      entities: {
+        ...entities,
+        devices,
+      },
     };
   } catch (error) {
     const message = getErrorMessage(error);
@@ -249,6 +306,18 @@ const devicesSlice = createSlice({
     builder.addCase(createDevice.rejected, (state: State) => {
       state.isCreating = false;
       state.isCreatingError = true;
+    });
+    // evaluate device
+    builder.addCase(evaluateDevice.pending, (state: State) => {
+      state.isEvaluating = true;
+      state.isEvaluatingError = false;
+    });
+    builder.addCase(evaluateDevice.fulfilled, (state: State) => {
+      state.isEvaluating = false;
+    });
+    builder.addCase(evaluateDevice.rejected, (state: State) => {
+      state.isEvaluating = false;
+      state.isEvaluatingError = true;
     });
   },
 });
