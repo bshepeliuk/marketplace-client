@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { MdOutlineArrowBackIos } from 'react-icons/md';
+import { NavLink } from 'react-router-dom';
 
 export const Image = styled.img`
   max-width: 100%;
@@ -12,56 +13,120 @@ export const ImageWrapper = styled.div`
   border: 1px solid #ecf0f1;
   padding: 10px;
   border-radius: 4px;
-  grid-row: 2 / 4;
+  grid-row: 3 / 5;
 
   @media (max-width: 968px) {
-    grid-column: 1 / 4;
-    grid-row: 2 / 3;
+    grid-column: 1 / -1;
+    grid-row: 3 / 4;
   }
 `;
 
 export const InnerWrap = styled.div`
   display: grid;
-  grid-template-columns: 60px 440px 1fr;
-  grid-template-rows: 50px 50px 1fr;
+  grid-template-columns: 60px 440px 1fr 80px;
+  grid-template-rows: 50px 50px 50px 1fr;
   margin-top: -40px;
   row-gap: 15px;
 
   @media (max-width: 1060px) {
-    grid-template-columns: 60px 350px 1fr;
+    grid-template-columns: 60px 350px 1fr 80px;
   }
 
   @media (max-width: 968px) {
-    grid-template-columns: 60px 350px 1fr;
-    grid-template-rows: 50px 450px 50px 1fr;
+    grid-template-columns: 60px 1fr 1fr 60px;
+    grid-template-rows: 50px 50px 450px 50px 1fr;
   }
 
   @media (max-width: 420px) {
-    grid-template-columns: 60px 300px 1fr;
+    grid-template-columns: 60px 1fr 1fr 60px;
   }
 `;
 
 export const InfoWrap = styled.div`
   grid-column: 3 / 4;
-  grid-row: 3 / 4;
+  grid-row: 4 / 5;
 
   @media (max-width: 968px) {
     grid-column: 1 / 4;
-    grid-row: 4;
+    grid-row: 5;
     justify-self: center;
   }
 `;
 
+export const NavWrap = styled.div`
+  grid-column: 1 / -1;
+  grid-row: 2 / 3;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+  align-self: center;
+  padding: 10px 40px;
+  display: flex;
+`;
+
+export const CommentsWrap = styled.div`
+  grid-column: 1 / -1;
+`;
+
+export const MenuLink = styled(NavLink)`
+  margin-right: 15px;
+  text-decoration: none;
+  position: relative;
+  user-select: none;
+  color: #3498db;
+
+  &::after {
+    position: absolute;
+    bottom: -10px;
+    content: '';
+    display: block;
+    width: 100%;
+    height: 2px;
+    background-color: #1abc9c;
+    border-radius: 2px;
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform 0.25s ease-out;
+  }
+
+  &.active {
+    color: #1abc9c;
+
+    &::after {
+      transition-delay: 0.25s;
+      transform: scaleX(1);
+    }
+  }
+
+  &:last-child {
+    margin-right: 0;
+  }
+`;
+
+export const CurrentRating = styled.div`
+  grid-column: 4;
+  grid-row: 1;
+  justify-self: center;
+  align-self: center;
+
+  display: flex;
+  align-items: center;
+`;
+
+export const RatingValue = styled.div`
+  color: #95afc0;
+  font-weight: bold;
+`;
+
 export const PurchaseWrap = styled.div`
   grid-column: 3;
-  grid-row: 2;
+  grid-row: 3 / 4;
   display: grid;
-  grid-template-columns: repeat(2, 300px);
+  grid-template-columns: repeat(2, 1fr);
   height: max-content;
 
   @media (max-width: 968px) {
-    grid-row: 3;
-    grid-column: 1 / 4;
+    grid-row: 4;
+    grid-column: 1 / -1;
     justify-self: center;
   }
 
@@ -98,8 +163,16 @@ export const Title = styled.h1`
   color: #34495e;
   grid-row: 1;
 
-  @media (max-width: 600px) {
+  @media (max-width: 650px) {
     font-size: 25px;
+  }
+
+  @media (max-width: 550px) {
+    font-size: 18px;
+  }
+
+  @media (max-width: 430px) {
+    grid-column: 2 / 4;
   }
 `;
 

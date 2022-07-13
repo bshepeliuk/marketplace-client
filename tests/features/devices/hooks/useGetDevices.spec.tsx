@@ -20,6 +20,7 @@ const rootState = {
         id: 1,
         images: [1],
         info: [],
+        ratings: [],
       },
     },
 

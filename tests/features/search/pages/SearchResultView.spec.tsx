@@ -21,6 +21,7 @@ const device = {
   quantity: 1,
   images: [{ id: 1, url: 'https://image.jpeg' }],
   info: [],
+  ratings: [],
   count: 1,
   createdAt: '2022-01-05T16:57:37.787Z',
   updatedAt: '2022-01-05T16:57:37.787Z',

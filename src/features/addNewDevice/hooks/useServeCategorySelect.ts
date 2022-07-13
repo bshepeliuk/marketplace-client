@@ -64,7 +64,11 @@ const useServeCategorySelect = () => {
     }));
   };
 
-  const loadOptions = (value: string, callback: any) => {
+  const loadOptions = (
+    value: string,
+    // eslint-disable-next-line no-unused-vars
+    callback: (options: Array<Option>) => void,
+  ) => {
     clearTimeout(timeoutId.current as ReturnType<typeof setTimeout>);
 
     timeoutId.current = setTimeout(async () => {

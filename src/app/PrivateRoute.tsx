@@ -4,7 +4,7 @@ import { Navigate } from 'react-router-dom';
 import { routes } from './Router';
 
 interface IProps {
-  children: any;
+  children: React.ReactElement;
   isAllowed: boolean;
 }
 

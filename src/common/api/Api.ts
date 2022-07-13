@@ -1,5 +1,6 @@
 import {
   ICreateDeviceParams,
+  IEvaluateDeviceParams,
   IGetDevicesProps,
   ILogin,
   IRegister,
@@ -90,6 +91,12 @@ export const Payment = {
   },
   activateStripeAccount() {
     return api.post('/onboard-user');
+  },
+};
+
+export const Ratings = {
+  evaluate({ rating, deviceId }: IEvaluateDeviceParams) {
+    return api.post('/ratings', { rating, deviceId });
   },
 };
 
