@@ -1,6 +1,7 @@
 import devicesReducer, {
   createDevice,
   deviceActions,
+  evaluateDevice,
   getDeviceById,
   getDevices,
   getMoreDevices,
@@ -190,6 +191,44 @@ describe('DEVICES REDUCER', () => {
     expect(devicesReducer(initialState, action)).toEqual({
       ...initialState,
       hasMore: false,
+    });
+  });
+
+  test('isEvaluating should be true when evaluateDevice thunk was called.', () => {
+    const action = {
+      type: evaluateDevice.pending.type,
+      payload: undefined,
+    };
+
+    expect(devicesReducer(initialState, action)).toEqual({
+      ...initialState,
+      isEvaluating: true,
+      isCreatingError: false,
+    });
+  });
+  // eslint-disable-next-line max-len
+  test('isEvaluating should be false when evaluation process fulfilled without errors.', () => {
+    const action = {
+      type: evaluateDevice.fulfilled.type,
+      payload: undefined,
+    };
+
+    expect(devicesReducer(initialState, action)).toEqual({
+      ...initialState,
+      isEvaluating: false,
+    });
+  });
+  // eslint-disable-next-line max-len
+  test('isEvaluatingError should be true when during evaluation process something went wrong.', () => {
+    const action = {
+      type: evaluateDevice.rejected.type,
+      payload: undefined,
+    };
+
+    expect(devicesReducer(initialState, action)).toEqual({
+      ...initialState,
+      isEvaluating: false,
+      isEvaluatingError: true,
     });
   });
 });

@@ -103,6 +103,7 @@ function StarRating(props: IRatingProps) {
         return (
           <Star
             key={key}
+            starId={idx + 1}
             marked={isMarked(idx)}
             widthInPercent={widthInPercent}
             filledIcon={filledSVGIcon}
@@ -119,19 +120,28 @@ interface IStarProps {
   widthInPercent: number;
   filledIcon: IconType;
   emptyIcon: IconType;
+  starId: number;
 }
 
 function Star(props: IStarProps) {
   const {
     marked,
+    starId,
     widthInPercent,
     filledIcon: Filled,
     emptyIcon: Empty,
   } = props;
 
   return (
-    <StarWrap>
-      <FrontStar marked={marked}>{marked ? <Filled /> : <Empty />}</FrontStar>
+    <StarWrap data-star-id={starId}>
+      <FrontStar marked={marked}>
+        {marked ? (
+          <Filled data-star-state="filled" />
+        ) : (
+          <Empty data-star-state="empty" />
+        )}
+      </FrontStar>
+
       <BackStar widthInPercent={widthInPercent}>
         <Filled />
       </BackStar>

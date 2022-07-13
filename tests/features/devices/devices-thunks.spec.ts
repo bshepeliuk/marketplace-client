@@ -4,13 +4,23 @@ import { rest } from 'msw';
 import {
   createDevice,
   deviceActions,
+  evaluateDevice,
   getDeviceById,
   getDevices,
   getMoreDevices,
   initialState,
 } from '@features/devices/devicesSlice';
+import {
+  DeviceEntities,
+  IDevice,
+  IDeviceRating,
+} from '@src/features/devices/types';
 import { BASE_API_URL } from '@src/common/constants';
-import { DeviceSchema, DevicesSchema } from '@src/common/normalizeSchemas';
+import {
+  DeviceSchema,
+  DevicesSchema,
+  RatingSchema,
+} from '@src/common/normalizeSchemas';
 import { normalize } from 'normalizr';
 import thunk from 'redux-thunk';
 import getActionTypesAndPayload from '../../helpers/getActionTypesAndPayload';
@@ -23,7 +33,11 @@ describe('DEVICES THUNKS', () => {
   let store: any;
 
   beforeAll(() => server.listen());
-  afterEach(() => server.resetHandlers());
+  afterEach(() => {
+    server.resetHandlers();
+    jest.clearAllMocks();
+    jest.resetAllMocks();
+  });
   afterAll(() => server.close());
   beforeEach(() => {
     store = mockStore({
@@ -396,6 +410,121 @@ describe('DEVICES THUNKS', () => {
         },
         {
           type: createDevice.rejected.type,
+          payload: { message: error.message },
+        },
+      ];
+
+      expect(getActionTypesAndPayload(actualActions)).toEqual(expectedActions);
+    });
+  });
+
+  describe('evaluate device', () => {
+    const device = {
+      id: 2,
+      name: 'HP Pavillion 15 eh1021-ua',
+      price: 33448,
+      brandId: 2,
+      typeId: 1,
+      userId: 1,
+      quantity: 1,
+      images: [],
+      info: [],
+      ratings: [],
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+
+    const { entities } = normalize<IDevice, DeviceEntities, number[]>(
+      [device],
+      DevicesSchema,
+    );
+
+    beforeEach(() => {
+      store = mockStore({
+        entities,
+      });
+    });
+
+    test('should add received rating to device from state.', async () => {
+      const rating = {
+        id: 24,
+        rate: 4,
+        userId: 1,
+        deviceId: device.id,
+      };
+
+      server.use(
+        rest.post(`${BASE_API_URL}/ratings`, (req, res, ctx) => {
+          return res(
+            ctx.status(200),
+            ctx.json({
+              rating,
+            }),
+          );
+        }),
+      );
+
+      const ratingEntity = normalize<
+        IDeviceRating,
+        Pick<DeviceEntities, 'ratings'>,
+        number
+      >(rating, RatingSchema);
+
+      await store.dispatch(evaluateDevice({ rating: 4, deviceId: device.id }));
+
+      const actualActions = store.getActions();
+      const expectedActions = [
+        {
+          type: evaluateDevice.pending.type,
+          payload: undefined,
+        },
+        {
+          type: evaluateDevice.fulfilled.type,
+          payload: {
+            result: ratingEntity.result,
+            entities: {
+              ...entities,
+              ...ratingEntity.entities,
+              devices: {
+                [rating.deviceId]: {
+                  ...entities.devices[rating.deviceId],
+                  ratings: [rating.id],
+                },
+              },
+            },
+          },
+        },
+      ];
+
+      expect(getActionTypesAndPayload(actualActions)).toEqual(expectedActions);
+    });
+
+    test('should return error from API when something went wrong.', async () => {
+      const error = {
+        message: '[Rating API]: something went wrong',
+      };
+
+      server.use(
+        rest.post(`${BASE_API_URL}/ratings`, (req, res, ctx) => {
+          return res(
+            ctx.status(500),
+            ctx.json({
+              message: error.message,
+            }),
+          );
+        }),
+      );
+
+      await store.dispatch(evaluateDevice({ rating: 4, deviceId: device.id }));
+
+      const actualActions = store.getActions();
+      const expectedActions = [
+        {
+          type: evaluateDevice.pending.type,
+          payload: undefined,
+        },
+        {
+          type: evaluateDevice.rejected.type,
           payload: { message: error.message },
         },
       ];
