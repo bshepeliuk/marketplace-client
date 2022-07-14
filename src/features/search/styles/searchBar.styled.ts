@@ -12,7 +12,7 @@ export const Wrap = styled.div`
     width: 90%;
   }
 
-  @media (max-width: 900px) {
+  @media (max-width: 960px) {
     display: none;
   }
 `;

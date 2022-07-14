@@ -9,6 +9,10 @@ export const UserWrap = styled.div`
   display: flex;
   align-items: center;
   position: relative;
+
+  @media (max-width: 960px) {
+    display: none;
+  }
 `;
 
 export const LogoWrap = styled.div`

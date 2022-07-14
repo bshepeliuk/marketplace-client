@@ -9,6 +9,7 @@ import AddDeviceIcon from '@common/atoms/AddDeviceIcon/AddDeviceIcon';
 import SearchBarView from '@src/features/search/components/SearchBar/SearchBar';
 import UserInfoView from '../UserInfo/UserInfoView';
 import { Header, LoginLink, LogoLink } from './header.styled';
+import BurgerMenu from '../BurgerMenu/BurgerMenu';
 
 function HeaderView() {
   const { isLoggedIn, user } = useTypedSelector((state) => state.auth);
@@ -31,6 +32,8 @@ function HeaderView() {
       <UserInfoView />
 
       {!isLoggedIn && <LoginLink to={routes.login}>Login</LoginLink>}
+
+      <BurgerMenu />
     </Header>
   );
 }

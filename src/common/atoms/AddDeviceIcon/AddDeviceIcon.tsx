@@ -11,7 +11,7 @@ const Wrap = styled.div`
     transform: rotate(360deg);
   }
 
-  @media (max-width: 700px) {
+  @media (max-width: 960px) {
     display: none;
   }
 `;

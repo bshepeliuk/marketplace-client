@@ -15,7 +15,7 @@ export const List = styled.ul`
 export const Wrap = styled.div`
   position: relative;
 
-  @media (max-width: 700px) {
+  @media (max-width: 960px) {
     display: none;
   }
 `;
