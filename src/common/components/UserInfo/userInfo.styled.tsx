@@ -15,18 +15,6 @@ export const UserWrap = styled.div`
   }
 `;
 
-export const LogoWrap = styled.div`
-  width: 50px;
-  height: 50px;
-  background-color: #ecf3f9;
-  border-radius: 50%;
-  justify-content: center;
-  align-items: center;
-  display: flex;
-  color: #34495e;
-  font-weight: bold;
-`;
-
 const show = keyframes`
   0% {
     width: 0;

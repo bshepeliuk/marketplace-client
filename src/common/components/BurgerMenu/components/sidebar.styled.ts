@@ -52,7 +52,6 @@ export const SideBarContainer = styled.div<ISideBarStyleProps>`
 `;
 
 export const SideBarContent = styled.div`
-  padding: 20px;
   white-space: nowrap;
 `;
 

@@ -8,10 +8,10 @@ import {
   Email,
   InfoWrap,
   Logout,
-  LogoWrap,
   Role,
   UserWrap,
 } from './userInfo.styled';
+import UserLogo from '../UserLogo/UserLogo';
 
 function UserInfoView() {
   const [isVisible, setIsVisible] = useState(false);
@@ -24,7 +24,7 @@ function UserInfoView() {
 
   return (
     <UserWrap>
-      <UserLogo fullName={user.fullName} />
+      <UserLogo fullName={user.fullName} size={50} />
       <ArrowIcon onClick={toggleVisibility} isOpen={isVisible} />
 
       {isVisible && (
@@ -40,10 +40,6 @@ function UserInfoView() {
       )}
     </UserWrap>
   );
-}
-
-function UserLogo({ fullName }: { fullName: string }) {
-  return <LogoWrap>{fullName[0]}</LogoWrap>;
 }
 
 export default UserInfoView;

@@ -45,13 +45,14 @@ function DropDownList() {
 
 function DropDownItem({ item }: { item: ICategory }) {
   const [params] = useSearchParams();
-  const pathToSelectedCategory = `${routes.devices}?categoryId=${item.id}`;
 
   const isActive = Number(params.get('categoryId')) === item.id;
 
   return (
     <ListItem key={item.id} isActive={isActive}>
-      <Link to={pathToSelectedCategory}>{item.name}</Link>
+      <Link to={{ pathname: routes.devices, search: `?categoryId=${item.id}` }}>
+        {item.name}
+      </Link>
     </ListItem>
   );
 }

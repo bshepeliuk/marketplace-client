@@ -43,3 +43,19 @@ export const LoginLink = styled(Link)`
   text-transform: uppercase;
   font-size: 14px;
 `;
+
+export const SearchWrap = styled.div`
+  width: 650px;
+
+  @media (max-width: 1440px) {
+    width: 500px;
+  }
+
+  @media (max-width: 1300px) {
+    width: 90%;
+  }
+
+  @media (max-width: 960px) {
+    display: none;
+  }
+`;
