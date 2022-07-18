@@ -1,6 +1,5 @@
 import React from 'react';
 import { useParams, Route, Routes } from 'react-router-dom';
-import HeaderView from '@common/components/Header/HeaderView';
 import { Container } from '@common/styles/base.styled';
 // eslint-disable-next-line max-len
 import useSlowDownLoaderIndicator from '@common/hooks/useSlowDownLoaderIndicator';
@@ -42,30 +41,26 @@ function DeviceDetailsView() {
   if (!device) return null;
 
   return (
-    <>
-      <HeaderView />
+    <Container>
+      <InnerWrap>
+        <BackBtn id="back-btn" onClick={goBack} />
 
-      <Container>
-        <InnerWrap>
-          <BackBtn id="back-btn" onClick={goBack} />
+        <Title>{device.name}</Title>
 
-          <Title>{device.name}</Title>
+        <AvgRatingView avgRating={avgRating} />
 
-          <AvgRatingView avgRating={avgRating} />
+        <DeviceNavigation deviceId={device.id} />
 
-          <DeviceNavigation deviceId={device.id} />
-
-          <Routes>
-            <Route path="/" element={<DeviceOverView device={device} />} />
-            <Route
-              path="/comments"
-              element={<DeviceCommentsView device={device} />}
-            />
-            <Route path="*" element={<div>Not Found....</div>} />
-          </Routes>
-        </InnerWrap>
-      </Container>
-    </>
+        <Routes>
+          <Route path="/" element={<DeviceOverView device={device} />} />
+          <Route
+            path="/comments"
+            element={<DeviceCommentsView device={device} />}
+          />
+          <Route path="*" element={<div>Not Found....</div>} />
+        </Routes>
+      </InnerWrap>
+    </Container>
   );
 }
 

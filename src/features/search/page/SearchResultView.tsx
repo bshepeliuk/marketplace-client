@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from 'react';
 import DeviceListView from '@features/devices/components/DeviceListView';
-import HeaderView from '@src/common/components/Header/HeaderView';
 import { useSearchParams } from 'react-router-dom';
 import { useTypedSelector } from '@src/common/hooks/useTypedSelector';
 import { devicesSelector } from '@src/features/devices/selectors/deviceSelector';
@@ -24,24 +23,18 @@ function SearchResultView() {
     fetchDevices();
   }, [searchNameValue]);
 
-  return (
-    <>
-      <HeaderView />
+  if (hasNoDevices) return <div>Not found.</div>;
 
-      {hasNoDevices ? (
-        <div>Not found.</div>
-      ) : (
-        <FoundListContainer ref={containerRef}>
-          <DeviceListView
-            containerRef={containerRef}
-            items={items}
-            isLoading={isLoading}
-            isLoadingMore={isLoadingMore}
-            fetchMore={fetchMore}
-          />
-        </FoundListContainer>
-      )}
-    </>
+  return (
+    <FoundListContainer ref={containerRef}>
+      <DeviceListView
+        containerRef={containerRef}
+        items={items}
+        isLoading={isLoading}
+        isLoadingMore={isLoadingMore}
+        fetchMore={fetchMore}
+      />
+    </FoundListContainer>
   );
 }
 

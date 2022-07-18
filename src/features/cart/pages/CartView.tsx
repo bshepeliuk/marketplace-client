@@ -1,6 +1,5 @@
 import React, { useEffect, useReducer } from 'react';
 import { FixedSizeList as List } from 'react-window';
-import HeaderView from '@src/common/components/Header/HeaderView';
 import { useTypedSelector } from '@src/common/hooks/useTypedSelector';
 import { useLocation } from 'react-router-dom';
 import useMakePayment from '@features/payment/pages/hooks/useMakePayment';
@@ -46,33 +45,29 @@ function CartView() {
   if (hasNoDevicesInCart) return <EmptyCartView />;
 
   return (
-    <>
-      <HeaderView />
+    <Container ref={containerRef}>
+      <ListWrap>
+        <List
+          className="custom-scrollbar"
+          itemCount={items.length}
+          itemData={{ items, updateCountById }}
+          width={LIST_WIDTH}
+          height={LIST_HEIGHT}
+          itemSize={ROW_HEIGHT}
+          overscanCount={5}
+          initialScrollOffset={ROW_HEIGHT * ROW_INDEX}
+        >
+          {CartItemView}
+        </List>
+      </ListWrap>
 
-      <Container ref={containerRef}>
-        <ListWrap>
-          <List
-            className="custom-scrollbar"
-            itemCount={items.length}
-            itemData={{ items, updateCountById }}
-            width={LIST_WIDTH}
-            height={LIST_HEIGHT}
-            itemSize={ROW_HEIGHT}
-            overscanCount={5}
-            initialScrollOffset={ROW_HEIGHT * ROW_INDEX}
-          >
-            {CartItemView}
-          </List>
-        </ListWrap>
-
-        <PayWrapper>
-          <TotalPrice>Total: {localState.sum}</TotalPrice>
-          <PayButton type="button" onClick={pay} disabled={isPending}>
-            {isPending ? 'Processing...' : 'Pay for it'}
-          </PayButton>
-        </PayWrapper>
-      </Container>
-    </>
+      <PayWrapper>
+        <TotalPrice>Total: {localState.sum}</TotalPrice>
+        <PayButton type="button" onClick={pay} disabled={isPending}>
+          {isPending ? 'Processing...' : 'Pay for it'}
+        </PayButton>
+      </PayWrapper>
+    </Container>
   );
 }
 
