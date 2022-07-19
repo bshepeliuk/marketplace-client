@@ -15,9 +15,9 @@ interface IProps {
 }
 
 function SideBarView(props: IProps) {
-  const { onClose, isOpen, children, width, color = '#34495e' } = props;
-
   const sideBarRef = useRef<HTMLDivElement>(null);
+
+  const { onClose, isOpen, children, width, color = '#34495e' } = props;
 
   const onMouseDown = (evt: MouseEvent) => {
     if (sideBarRef.current === null) return;

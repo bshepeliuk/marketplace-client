@@ -19,10 +19,6 @@ const Wrap = styled.div`
 const Icon = styled(FaPlus)`
   color: #fff;
   transition: all 0.1s ease-out;
-
-  &:hover {
-    transform: rotate(90deg);
-  }
 `;
 
 function AddDeviceIcon() {
