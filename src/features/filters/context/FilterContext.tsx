@@ -39,7 +39,7 @@ export const FilterContext = createContext<IContext | undefined>(undefined);
 
 export function FilterProvider({ children }: { children: React.ReactNode }) {
   const [shouldBeInitial, setShouldBeInitial] = useState<boolean>(false);
-  const [, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const dispatch = useAppDispatch();
   const categoryId = useGetCategoryId();
 
@@ -53,10 +53,19 @@ export function FilterProvider({ children }: { children: React.ReactNode }) {
   const isInitPrice = Object.values(options.prices).every((price) => {
     return prices.includes(price);
   });
+  const hasChangedPrice = prices.length > 0;
 
   useEffect(() => {
     if (categoryId) setPrices([]);
   }, [categoryId]);
+
+  useEffect(() => {
+    const haveInitParams = checkHaveInitSearchParams(searchParams);
+
+    if (haveInitParams && (hasSelectedItems || hasChangedPrice)) {
+      clearSelectedOptions();
+    }
+  }, [searchParams.toString()]);
 
   const onSelectOption = (option: ISelectProps) => {
     if (isInArray(option.id, selected)) {
@@ -88,7 +97,12 @@ export function FilterProvider({ children }: { children: React.ReactNode }) {
     setIsShownApplyBtn(false);
   };
 
-  function getFilterParams() {
+  const checkHaveInitSearchParams = (params: URLSearchParams) => {
+    const activeParams = Array.from(params.keys());
+    return activeParams.length === 1 && activeParams[0] === 'categoryId';
+  };
+
+  const getFilterParams = () => {
     const featuresEntries = getFeaturesEntries(selected);
 
     const params: ParamKeyValuePair[] = [
@@ -99,7 +113,7 @@ export function FilterProvider({ children }: { children: React.ReactNode }) {
     ];
 
     return params;
-  }
+  };
 
   const values = {
     btnOffsetY,
