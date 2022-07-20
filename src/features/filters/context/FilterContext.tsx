@@ -21,7 +21,6 @@ interface IContext {
   isShownApplyBtn: boolean;
   hasSelectedItems: boolean;
   selected: ISelectProps[];
-  // eslint-disable-next-line no-unused-vars
   onSelectOption: (option: ISelectProps) => void;
   apply: () => void;
   clearSelectedOptions: () => void;
@@ -101,7 +100,7 @@ export function FilterProvider({ children }: { children: React.ReactNode }) {
 
     return params;
   }
-  // eslint-disable-next-line react/jsx-no-constructed-context-values
+
   const values = {
     btnOffsetY,
     setBtnOffsetY,

@@ -8,7 +8,6 @@ interface IProps {
   min: number;
   max: number;
   values: number[];
-  // eslint-disable-next-line no-unused-vars
   onChange: (values: number[]) => void;
 }
 

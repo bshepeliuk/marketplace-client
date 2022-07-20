@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable react/jsx-no-constructed-context-values */
 import { IBrand } from '@src/features/brands/types';
 import { ICategory } from '@src/features/categories/types';
@@ -12,7 +11,7 @@ import newDeviceReducer, {
 import { INewDeviceFeature, INewDeviceInfo } from '../modules/newDeviceTypes';
 
 interface IContext {
-  save: () => Promise<number> | undefined;
+  save: () => Promise<number | undefined> | undefined;
   deleteImgById: (id: string) => void;
   addBrand: ({ brand }: { brand: IBrand }) => void;
   addCategory: ({ category }: { category: ICategory }) => void;

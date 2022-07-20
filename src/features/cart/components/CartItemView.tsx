@@ -21,7 +21,6 @@ import {
 
 interface IData {
   items: IDevice[];
-  // eslint-disable-next-line no-unused-vars
   updateCountById: (props: { id: number; count: number }) => void;
 }
 

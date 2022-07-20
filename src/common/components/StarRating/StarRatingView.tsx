@@ -12,7 +12,6 @@ interface IRatingProps {
   isInteractive?: boolean;
   filledSVGIcon?: IconType;
   emptySVGIcon?: IconType;
-  // eslint-disable-next-line no-unused-vars
   onChange?: (rating: number) => void;
 }
 

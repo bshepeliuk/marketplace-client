@@ -7,7 +7,6 @@ import { ICategory } from '../types';
 interface IProps {
   category: ICategory;
   currentCategoryId: number | undefined;
-  // eslint-disable-next-line no-unused-vars
   onClick: (category: ICategory) => void;
   active: string | null;
 }

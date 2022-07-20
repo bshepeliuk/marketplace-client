@@ -17,7 +17,7 @@ import useSaveListScrollPosition from '../hooks/useSaveListScrollPosition';
 import getCountOfColumns from '../helpers/getCountOfColumns';
 import calcAndGetCountOfRows from '../helpers/calcAndGetCountOfRows';
 import '../styles/scrollbar.scss';
-// eslint-disable-next-line no-unused-vars
+
 type OnItemsRendered = (props: ListOnItemsRenderedProps) => any;
 
 interface Props {

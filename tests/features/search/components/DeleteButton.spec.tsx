@@ -27,7 +27,6 @@ describe('[COMPONENTS]: DeleteButton', () => {
       state: {},
       component: () => (
         <SearchContext.Provider
-          // eslint-disable-next-line react/jsx-no-constructed-context-values
           value={{
             ...searchContextMock,
             isVisible: true,

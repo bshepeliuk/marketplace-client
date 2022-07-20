@@ -51,7 +51,6 @@ describe('[COMPONENTS]: SuggestionList', () => {
       state: {},
       component: () => (
         <SearchContext.Provider
-          // eslint-disable-next-line react/jsx-no-constructed-context-values
           value={{
             ...searchContextMock,
             isVisible: true,
@@ -75,7 +74,6 @@ describe('[COMPONENTS]: SuggestionList', () => {
       state: {},
       component: () => (
         <SearchContext.Provider
-          // eslint-disable-next-line react/jsx-no-constructed-context-values
           value={{
             ...searchContextMock,
             isVisible: true,

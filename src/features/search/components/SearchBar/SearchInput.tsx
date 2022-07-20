@@ -11,6 +11,7 @@ function SearchInput() {
       className="search-input"
       placeholder="Search devices here..."
       onChange={context.onChange}
+      onKeyPress={context.onEnterPress}
       value={context.searchValue}
     />
   );

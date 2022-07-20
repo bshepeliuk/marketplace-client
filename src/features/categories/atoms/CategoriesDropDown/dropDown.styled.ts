@@ -47,7 +47,7 @@ export const CategoryLink = styled(NavLink)`
   display: block;
 
   &:hover {
-    color: #70a1ff;
+    color: #e31837;
     background-color: rgba(189, 195, 199, 0.2);
   }
 

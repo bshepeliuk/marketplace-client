@@ -16,10 +16,10 @@ interface IContext {
   isLoading: boolean;
   isVisible: boolean;
   suggestions: IDevice[];
-  // eslint-disable-next-line no-unused-vars
   onChange: (evt: ChangeEvent<HTMLInputElement>) => void;
   onClear: () => void;
   onSearch: () => undefined | void;
+  onEnterPress: (evt: React.KeyboardEvent<HTMLElement>) => undefined | void;
 }
 
 export const SearchContext = createContext<IContext | undefined>(undefined);
@@ -56,11 +56,21 @@ function SearchProvider({ children }: { children: React.ReactNode }) {
   const onSearch = () => {
     if (hasNoSearchValue) return;
 
+    navigateToSearchResult();
+  };
+
+  const onEnterPress = (evt: React.KeyboardEvent<HTMLElement>) => {
+    if (hasNoSearchValue) return;
+
+    const hasClickOnEnterKey = evt.code.toLowerCase() === 'enter';
+
+    if (hasClickOnEnterKey) navigateToSearchResult();
+  };
+
+  const navigateToSearchResult = () => {
     navigate(`${routes.searchResult}?name=${searchValue}`);
     onClear();
   };
-
-  // FIXME: handle on enter click;
 
   const fetchSuggestions = async (value: string) => {
     try {
@@ -95,7 +105,6 @@ function SearchProvider({ children }: { children: React.ReactNode }) {
     };
   }, [searchValue]);
 
-  // eslint-disable-next-line react/jsx-no-constructed-context-values
   const values = {
     searchValue,
     isEmpty,
@@ -105,6 +114,7 @@ function SearchProvider({ children }: { children: React.ReactNode }) {
     onChange,
     onClear,
     onSearch,
+    onEnterPress,
   };
 
   return (
