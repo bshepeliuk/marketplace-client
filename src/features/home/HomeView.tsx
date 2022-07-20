@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
 import { useTypedSelector } from '@common/hooks/useTypedSelector';
+import ErrorMessageView from '@common/components/ErrorMessageView';
 import DeviceListView from '../devices/components/DeviceListView';
 import { DeviceListContainer } from './home.styled';
 import CategoriesListView from '../categories/components/CategoriesListView';
@@ -9,9 +10,11 @@ import NoDevicesView from '../devices/components/NoDevicesView';
 
 function HomeView() {
   const containerRef = useRef(null);
-  const { isLoading, items } = useGetDevices();
+  const { isLoading, isError, items } = useGetDevices();
   const { fetchMore, isLoadingMore } = useGetMoreDevices();
   const hasNoDevices = useTypedSelector((state) => state.devices.hasNoDevices);
+
+  if (isError) return <ErrorMessageView />;
 
   return (
     <DeviceListContainer ref={containerRef}>

@@ -18,7 +18,7 @@ const useGetDevices = () => {
   const categoryId = params.get('categoryId');
 
   const selector = (state: RootState) => devicesSelector(state, categoryId);
-  const { items, isLoading } = useTypedSelector(selector);
+  const { items, isLoading, isError } = useTypedSelector(selector);
 
   const searchParams = params.toString();
   const hasNoDevices = items.length === 0;
@@ -38,6 +38,7 @@ const useGetDevices = () => {
 
   return {
     items,
+    isError,
     isLoading,
   };
 };

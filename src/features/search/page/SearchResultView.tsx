@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import DeviceListView from '@features/devices/components/DeviceListView';
 import { useSearchParams } from 'react-router-dom';
 import { useTypedSelector } from '@src/common/hooks/useTypedSelector';
+import ErrorMessageView from '@common/components/ErrorMessageView';
 import { devicesSelector } from '@src/features/devices/selectors/deviceSelector';
 import useGetMoreDevices from '@src/features/devices/hooks/useGetMoreDevices';
 import useFetchDevicesByRequest from '@features/devices/hooks/useFetchDevicesByRequest';
@@ -15,7 +16,8 @@ function SearchResultView() {
   const { fetchMore, isLoadingMore } = useGetMoreDevices();
 
   const selector = (state: RootState) => devicesSelector(state, null);
-  const { items, isLoading, hasNoDevices } = useTypedSelector(selector);
+  // prettier-ignore
+  const { items, isLoading, isError, hasNoDevices } = useTypedSelector(selector);
 
   const searchNameValue = params.get('name');
 
@@ -23,6 +25,7 @@ function SearchResultView() {
     fetchDevices();
   }, [searchNameValue]);
 
+  if (isError) return <ErrorMessageView />;
   if (hasNoDevices) return <div>Not found.</div>;
 
   return (

@@ -3,6 +3,7 @@ import React, { useEffect, useRef } from 'react';
 import getActiveSearchParamsEntries from '@features/filters/helpers/getActiveSearchParamsEntries';
 import FilterSideBarView from '@src/features/filters/components/FilterSideBar';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+import ErrorMessageView from '@common/components/ErrorMessageView';
 import ActiveFilterListView from '@features/filters/components/ActiveFilterList/ActiveFilterListView';
 import { useTypedSelector } from '@src/common/hooks/useTypedSelector';
 import { routes } from '@src/app/Router';
@@ -14,7 +15,7 @@ import NoDevicesView from '../components/NoDevicesView';
 
 function DevicesView() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const { items, isLoading } = useGetDevices();
+  const { items, isLoading, isError } = useGetDevices();
   const { isLoadingMore, fetchMore } = useGetMoreDevices();
   const [searchParams] = useSearchParams();
   const location = useLocation();
@@ -32,6 +33,7 @@ function DevicesView() {
   }, [location.pathname]);
 
   if (hasNoDevices) return <NoDevicesView />;
+  if (isError) return <ErrorMessageView />;
 
   return (
     <Wrapper>
