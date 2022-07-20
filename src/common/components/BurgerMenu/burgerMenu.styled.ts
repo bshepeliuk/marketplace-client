@@ -16,6 +16,7 @@ export const SearchContainer = styled.div`
 
   & .search-button {
     border-radius: 0 20px 20px 0;
+    background-color: #1abc9c;
   }
 `;
 

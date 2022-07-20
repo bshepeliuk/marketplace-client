@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Link, NavLink, useLocation, useSearchParams } from 'react-router-dom';
-import styled from 'styled-components';
+import { useLocation, useSearchParams } from 'react-router-dom';
 import { BsFillGrid3X3GapFill } from 'react-icons/bs';
 import { routes } from '@src/app/Router';
 import { ICategory } from '../../types';
 import useGetCategories from '../../hooks/useGetCategories';
-import { CategoriesButton, List, ListItem, Wrap } from './dropDown.styled';
+import { CategoriesButton, CategoryLink, List, Wrap } from './dropDown.styled';
 
 function CategoriesDropDown() {
   const location = useLocation();
@@ -33,7 +32,7 @@ function DropDownList() {
   const { items } = useGetCategories();
 
   return (
-    <List>
+    <List className="custom-scrollbar">
       {items.map((item) => (
         <DropDownItem key={item.id} item={item} />
       ))}
@@ -41,31 +40,25 @@ function DropDownList() {
   );
 }
 
-export const CategoryLink = styled(NavLink)`
-  text-decoration: none;
-  color: #fff;
-  font-size: 18px;
-
-  &:hover {
-    color: #70a1ff;
-  }
-
-  & .active-category_1 {
-    color: #70a1ff;
-  }
-`;
-
 function DropDownItem({ item }: { item: ICategory }) {
+  const location = useLocation();
   const [params] = useSearchParams();
 
-  const isActive = Number(params.get('categoryId')) === item.id;
+  const isActive =
+    Number(params.get('categoryId')) === item.id &&
+    location.pathname === routes.devices;
+
+  const className = isActive ? 'active-category' : '';
 
   return (
-    <ListItem key={item.id} isActive={isActive}>
-      <Link to={{ pathname: routes.devices, search: `?categoryId=${item.id}` }}>
+    <li key={item.id}>
+      <CategoryLink
+        className={className}
+        to={{ pathname: routes.devices, search: `?categoryId=${item.id}` }}
+      >
         {item.name}
-      </Link>
-    </ListItem>
+      </CategoryLink>
+    </li>
   );
 }
 

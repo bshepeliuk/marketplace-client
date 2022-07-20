@@ -16,7 +16,7 @@ export const CategoryLink = styled(NavLink)`
     color: #70a1ff;
   }
 
-  & .active-category {
+  &.active-category {
     color: #70a1ff;
   }
 `;

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useLocation, useSearchParams } from 'react-router-dom';
 import useGetCategories from '@src/features/categories/hooks/useGetCategories';
 import { routes } from '@src/app/Router';
 import { ICategory } from '@src/features/categories/types';
@@ -18,11 +18,13 @@ function CategoryLinks() {
 }
 
 function CategoryItem({ category }: { category: ICategory }) {
+  const location = useLocation();
   const [params] = useSearchParams();
 
   const categoryId = Number(params.get('categoryId'));
-  // FIXME: activeClassName does not work;
-  const isActive = categoryId === category.id;
+
+  const isActive =
+    categoryId === category.id && location.pathname === routes.devices;
   const className = isActive ? 'active-category' : '';
 
   return (
