@@ -60,6 +60,8 @@ function SearchProvider({ children }: { children: React.ReactNode }) {
     onClear();
   };
 
+  // FIXME: handle on enter click;
+
   const fetchSuggestions = async (value: string) => {
     try {
       const { data } = await Devices.get({
