@@ -1,6 +1,5 @@
 /* eslint-disable max-len */
 import React, { useEffect, useRef } from 'react';
-import HeaderView from '@src/common/components/Header/HeaderView';
 import getActiveSearchParamsEntries from '@features/filters/helpers/getActiveSearchParamsEntries';
 import FilterSideBarView from '@src/features/filters/components/FilterSideBar';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
@@ -32,35 +31,24 @@ function DevicesView() {
     if (hasNoSearchParams) navigate('/');
   }, [location.pathname]);
 
-  if (hasNoDevices) {
-    return (
-      <>
-        <HeaderView />
-        <NoDevicesView />
-      </>
-    );
-  }
+  if (hasNoDevices) return <NoDevicesView />;
 
   return (
-    <>
-      <HeaderView />
+    <Wrapper>
+      {hasActiveFilters && <ActiveFilterListView />}
 
-      <Wrapper>
-        {hasActiveFilters && <ActiveFilterListView />}
+      <FilterSideBarView />
 
-        <FilterSideBarView />
-
-        <DeviceListContainer ref={containerRef}>
-          <DeviceListView
-            containerRef={containerRef}
-            items={items}
-            isLoading={isLoading}
-            isLoadingMore={isLoadingMore}
-            fetchMore={fetchMore}
-          />
-        </DeviceListContainer>
-      </Wrapper>
-    </>
+      <DeviceListContainer ref={containerRef}>
+        <DeviceListView
+          containerRef={containerRef}
+          items={items}
+          isLoading={isLoading}
+          isLoadingMore={isLoadingMore}
+          fetchMore={fetchMore}
+        />
+      </DeviceListContainer>
+    </Wrapper>
   );
 }
 

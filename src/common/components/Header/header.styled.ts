@@ -24,7 +24,7 @@ export const LogoLink = styled(Link)`
   text-transform: uppercase;
   font-weight: bold;
   letter-spacing: 1px;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.2s ease-in-out;
 
   &:hover {
     transform: scale(1.01);
@@ -42,4 +42,20 @@ export const LoginLink = styled(Link)`
   grid-column-start: 5;
   text-transform: uppercase;
   font-size: 14px;
+`;
+
+export const SearchWrap = styled.div`
+  width: 650px;
+
+  @media (max-width: 1440px) {
+    width: 500px;
+  }
+
+  @media (max-width: 1300px) {
+    width: 90%;
+  }
+
+  @media (max-width: 960px) {
+    display: none;
+  }
 `;

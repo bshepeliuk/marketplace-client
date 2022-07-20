@@ -1,23 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import { useLocation, useSearchParams } from 'react-router-dom';
 import { BsFillGrid3X3GapFill } from 'react-icons/bs';
-import usePrevious from '@src/common/hooks/usePrevious';
 import { routes } from '@src/app/Router';
 import { ICategory } from '../../types';
 import useGetCategories from '../../hooks/useGetCategories';
-import useGetCategoryId from '../../hooks/useGetCategoryId';
-import { CategoriesButton, List, ListItem, Wrap } from './dropDown.styled';
+import { CategoriesButton, CategoryLink, List, Wrap } from './dropDown.styled';
 
 function CategoriesDropDown() {
-  const categoryId = useGetCategoryId();
-  const prevCategoryId = usePrevious(categoryId);
+  const location = useLocation();
   const [isVisible, setIsVisible] = useState<boolean>(false);
 
   const toggleShow = () => setIsVisible((prevIsShow) => !prevIsShow);
 
   useEffect(() => {
-    if (prevCategoryId) setIsVisible(false);
-  }, [categoryId]);
+    setIsVisible(false);
+  }, [location]);
 
   return (
     <Wrap>
@@ -35,7 +32,7 @@ function DropDownList() {
   const { items } = useGetCategories();
 
   return (
-    <List>
+    <List className="custom-scrollbar">
       {items.map((item) => (
         <DropDownItem key={item.id} item={item} />
       ))}
@@ -44,15 +41,24 @@ function DropDownList() {
 }
 
 function DropDownItem({ item }: { item: ICategory }) {
+  const location = useLocation();
   const [params] = useSearchParams();
-  const pathToSelectedCategory = `${routes.devices}?categoryId=${item.id}`;
 
-  const isActive = Number(params.get('categoryId')) === item.id;
+  const isActive =
+    Number(params.get('categoryId')) === item.id &&
+    location.pathname === routes.devices;
+
+  const className = isActive ? 'active-category' : '';
 
   return (
-    <ListItem key={item.id} isActive={isActive}>
-      <Link to={pathToSelectedCategory}>{item.name}</Link>
-    </ListItem>
+    <li key={item.id}>
+      <CategoryLink
+        className={className}
+        to={{ pathname: routes.devices, search: `?categoryId=${item.id}` }}
+      >
+        {item.name}
+      </CategoryLink>
+    </li>
   );
 }
 

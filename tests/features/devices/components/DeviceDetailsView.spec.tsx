@@ -4,7 +4,7 @@ import Router from 'react-router-dom';
 import { setupServer } from 'msw/node';
 import { rest } from 'msw';
 import DeviceDetailsView from '@features/devices/pages/DeviceDetailsView';
-import { BASE_API_URL } from '@src/common/constants';
+import { BASE_API_URL, ROLES } from '@src/common/constants';
 import useMakePayment from '@features/payment/pages/hooks/useMakePayment';
 import setupAndRenderComponent from '../../../helpers/setupAndRenderComponent';
 import { mockStripe } from '../../../mocks/stripe';
@@ -58,9 +58,11 @@ const rootState = {
     images: {
       1: { id: 1, url: 'https://image.jpeg' },
     },
+    categories: {},
   },
   auth: {
     isLoggedIn: true,
+    user: { id: 1, fullName: 'John Wick', role: ROLES.BUYER },
   },
   categories: {
     items: [],

@@ -1,20 +1,8 @@
 import styled from 'styled-components';
 
 export const Wrap = styled.div`
-  width: 650px;
+  width: 100%;
   position: relative;
-
-  @media (max-width: 1440px) {
-    width: 500px;
-  }
-
-  @media (max-width: 1300px) {
-    width: 90%;
-  }
-
-  @media (max-width: 900px) {
-    display: none;
-  }
 `;
 
 export const SearchWrapper = styled.div`

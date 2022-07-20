@@ -6,7 +6,11 @@ import SearchButton from './SearchButton';
 import DeleteButton from './DeleteButton';
 import SuggestionsView from './SuggestionsView';
 
-function SearchBarView() {
+interface IProps {
+  hasSuggestions?: boolean;
+}
+
+function SearchBarView({ hasSuggestions = false }: IProps) {
   return (
     <SearchProvider>
       <Wrap>
@@ -16,7 +20,7 @@ function SearchBarView() {
           <DeleteButton />
         </SearchWrapper>
 
-        <SuggestionsView />
+        {hasSuggestions && <SuggestionsView />}
       </Wrap>
     </SearchProvider>
   );

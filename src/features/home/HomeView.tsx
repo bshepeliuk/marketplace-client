@@ -1,5 +1,4 @@
 import React, { useRef } from 'react';
-import HeaderView from '@common/components/Header/HeaderView';
 import { useTypedSelector } from '@common/hooks/useTypedSelector';
 import DeviceListView from '../devices/components/DeviceListView';
 import { DeviceListContainer } from './home.styled';
@@ -15,23 +14,19 @@ function HomeView() {
   const hasNoDevices = useTypedSelector((state) => state.devices.hasNoDevices);
 
   return (
-    <>
-      <HeaderView />
+    <DeviceListContainer ref={containerRef}>
+      <CategoriesListView />
 
-      <DeviceListContainer ref={containerRef}>
-        <CategoriesListView />
+      <DeviceListView
+        containerRef={containerRef}
+        isLoading={isLoading}
+        items={items}
+        fetchMore={fetchMore}
+        isLoadingMore={isLoadingMore}
+      />
 
-        <DeviceListView
-          containerRef={containerRef}
-          isLoading={isLoading}
-          items={items}
-          fetchMore={fetchMore}
-          isLoadingMore={isLoadingMore}
-        />
-
-        {hasNoDevices && <NoDevicesView />}
-      </DeviceListContainer>
-    </>
+      {hasNoDevices && <NoDevicesView />}
+    </DeviceListContainer>
   );
 }
 

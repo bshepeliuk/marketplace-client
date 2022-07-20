@@ -1,4 +1,3 @@
-import HeaderView from '@src/common/components/Header/HeaderView';
 import React from 'react';
 import styled from 'styled-components';
 
@@ -9,12 +8,7 @@ const Wrap = styled.div`
 `;
 
 function ForbiddenView() {
-  return (
-    <>
-      <HeaderView />
-      <Wrap>Forbidden.</Wrap>
-    </>
-  );
+  return <Wrap>Forbidden.</Wrap>;
 }
 
 export default ForbiddenView;

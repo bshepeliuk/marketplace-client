@@ -9,18 +9,10 @@ export const UserWrap = styled.div`
   display: flex;
   align-items: center;
   position: relative;
-`;
 
-export const LogoWrap = styled.div`
-  width: 50px;
-  height: 50px;
-  background-color: #ecf3f9;
-  border-radius: 50%;
-  justify-content: center;
-  align-items: center;
-  display: flex;
-  color: #34495e;
-  font-weight: bold;
+  @media (max-width: 960px) {
+    display: none;
+  }
 `;
 
 const show = keyframes`

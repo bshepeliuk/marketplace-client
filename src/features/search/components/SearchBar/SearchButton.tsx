@@ -16,7 +16,7 @@ function SearchButton() {
   const context = useSearchContext();
 
   return (
-    <Button type="button" onClick={context.onSearch}>
+    <Button className="search-button" type="button" onClick={context.onSearch}>
       <FiSearch />
     </Button>
   );

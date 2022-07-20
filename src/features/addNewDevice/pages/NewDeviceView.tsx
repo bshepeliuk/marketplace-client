@@ -1,5 +1,4 @@
 import React from 'react';
-import HeaderView from '@common/components/Header/HeaderView';
 import { Route, Routes } from 'react-router-dom';
 import NotFoundView from '@src/features/notFound/NotFoundView';
 import BrandStepView from './BrandStepView';
@@ -21,28 +20,21 @@ export const newDeviceRoutes = {
 
 function NewDeviceView() {
   return (
-    <>
-      <HeaderView />
+    <Wrap>
+      <NewDeviceProvider>
+        <StepIndicatorView />
 
-      <Wrap>
-        <NewDeviceProvider>
-          <StepIndicatorView />
+        <Routes>
+          <Route path="/" element={<BrandStepView />} />
+          <Route path="device-category" element={<CategoryStepView />} />
+          <Route path="device-base-info" element={<DeviceBaseInfoStepView />} />
+          <Route path="device-features" element={<DeviceFeatureStepView />} />
+          <Route path="device-images" element={<DeviceImagesStepView />} />
 
-          <Routes>
-            <Route path="/" element={<BrandStepView />} />
-            <Route path="device-category" element={<CategoryStepView />} />
-            <Route
-              path="device-base-info"
-              element={<DeviceBaseInfoStepView />}
-            />
-            <Route path="device-features" element={<DeviceFeatureStepView />} />
-            <Route path="device-images" element={<DeviceImagesStepView />} />
-
-            <Route path="*" element={<NotFoundView />} />
-          </Routes>
-        </NewDeviceProvider>
-      </Wrap>
-    </>
+          <Route path="*" element={<NotFoundView />} />
+        </Routes>
+      </NewDeviceProvider>
+    </Wrap>
   );
 }
 

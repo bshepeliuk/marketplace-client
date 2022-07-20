@@ -1,17 +1,13 @@
 import React from 'react';
-import HeaderView from '@src/common/components/Header/HeaderView';
 import styled from 'styled-components';
 import { FaOpencart } from 'react-icons/fa';
 
 function EmptyCartView() {
   return (
-    <>
-      <HeaderView />
-      <Wrap>
-        <EmptyCartIcon />
-        <Text>Unfortunately your cart is empty yet.</Text>
-      </Wrap>
-    </>
+    <Wrap>
+      <EmptyCartIcon />
+      <Text>Unfortunately your cart is empty yet.</Text>
+    </Wrap>
   );
 }
 

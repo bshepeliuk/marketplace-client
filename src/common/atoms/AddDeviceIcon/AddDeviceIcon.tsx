@@ -7,22 +7,13 @@ import { Link } from 'react-router-dom';
 const Wrap = styled.div`
   grid-column-start: 4;
 
-  &:hover {
-    transform: rotate(360deg);
-  }
-
-  @media (max-width: 700px) {
+  @media (max-width: 960px) {
     display: none;
   }
 `;
 
 const Icon = styled(FaPlus)`
   color: #fff;
-  transition: all 0.1s ease-out;
-
-  &:hover {
-    transform: rotate(90deg);
-  }
 `;
 
 function AddDeviceIcon() {

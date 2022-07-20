@@ -8,6 +8,7 @@ function SearchInput() {
   return (
     <Input
       type="text"
+      className="search-input"
       placeholder="Search devices here..."
       onChange={context.onChange}
       value={context.searchValue}
