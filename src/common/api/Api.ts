@@ -1,4 +1,5 @@
 import {
+  IAddCommentParams,
   ICreateDeviceParams,
   IEvaluateDeviceParams,
   IGetDevicesProps,
@@ -54,6 +55,15 @@ export const Devices = {
     }
 
     return api.post('/devices', formData);
+  },
+};
+
+export const Comments = {
+  add({ body, deviceId, parentId }: IAddCommentParams) {
+    return api.post('/comments', { body, deviceId, parentId });
+  },
+  getByDeviceId(deviceId: number) {
+    return api.post(`/comments/${deviceId}`);
   },
 };
 

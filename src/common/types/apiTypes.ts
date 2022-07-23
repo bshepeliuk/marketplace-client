@@ -46,3 +46,9 @@ export interface IEvaluateDeviceParams {
   rating: number;
   deviceId: number;
 }
+
+export interface IAddCommentParams {
+  body: string;
+  deviceId: number;
+  parentId: number | null;
+}

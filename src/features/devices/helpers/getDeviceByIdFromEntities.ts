@@ -13,6 +13,9 @@ const getDeviceByIdFromEntities = (
     ratings: device.ratings.map(
       (ratingId) => entities.ratings[ratingId as number],
     ),
+    comments: device.comments.map(
+      (commentId) => entities.comments[commentId as number],
+    ),
   };
 };
 

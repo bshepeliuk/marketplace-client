@@ -7,6 +7,7 @@ export const initialState: IEntitiesState = {
   images: {},
   info: {},
   ratings: {},
+  comments: {},
 };
 // prettier-ignore
 // eslint-disable-next-line default-param-last, max-len

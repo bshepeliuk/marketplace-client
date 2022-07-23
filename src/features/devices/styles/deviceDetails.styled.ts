@@ -158,10 +158,11 @@ export const PurchaseButton = styled.button`
 `;
 
 export const Title = styled.h1`
-  grid-column: 2 / -1;
+  grid-column: 2;
   align-self: center;
   color: #34495e;
   grid-row: 1;
+  justify-self: start;
 
   @media (max-width: 650px) {
     font-size: 25px;
