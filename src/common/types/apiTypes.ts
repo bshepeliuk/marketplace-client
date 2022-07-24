@@ -52,3 +52,8 @@ export interface IAddCommentParams {
   deviceId: number;
   parentId: number | null;
 }
+
+export interface IUpdateCommentParams {
+  body: string;
+  commentId: number;
+}

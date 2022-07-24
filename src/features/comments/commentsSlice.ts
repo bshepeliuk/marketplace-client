@@ -3,17 +3,23 @@ import { normalize } from 'normalizr';
 import * as Api from '@src/common/api/Api';
 import { IThunkAPI } from '@src/common/types/baseTypes';
 import getErrorMessage from '@src/common/utils/getErrorMessage';
-import { IAddCommentParams } from '@src/common/types/apiTypes';
-import { CommentSchema } from '@src/common/normalizeSchemas';
-import { IComment, INewCommentEntity } from './types';
-import { DeviceEntities, IDevice } from '../devices/types';
+import {
+  IAddCommentParams,
+  IUpdateCommentParams,
+} from '@src/common/types/apiTypes';
+import { CommentSchema, DeviceSchema } from '@src/common/normalizeSchemas';
+import { IComment, INewCommentEntity, IUpdateCommentEntity } from './types';
+import { DeviceEntities, IDevice, IDeviceEntityData } from '../devices/types';
 
 export const initialState = {
   isError: false,
   isLoading: false,
   isCreating: false,
   isCreatingError: false,
-  items: [] as number[],
+  isUpdating: false,
+  isUpdatingError: false,
+  isDeleting: false,
+  isDeletingError: false,
 };
 
 type State = typeof initialState;
@@ -67,7 +73,7 @@ export const addComment = createAsyncThunk<
 );
 
 export const getCommentsByDeviceId = createAsyncThunk<
-  unknown, // TODO: update types
+  { comments: IComment[] },
   { deviceId: number },
   IThunkAPI
 >('comments/fetch-by-deviceId', async ({ deviceId }, { rejectWithValue }) => {
@@ -85,6 +91,89 @@ export const getCommentsByDeviceId = createAsyncThunk<
     });
   }
 });
+
+export const updateComment = createAsyncThunk<
+  IUpdateCommentEntity,
+  IUpdateCommentParams,
+  IThunkAPI
+>(
+  'comments/update-by-commentId',
+  async ({ commentId, body }, { rejectWithValue, getState }) => {
+    const state = getState();
+
+    try {
+      const { data } = await Api.Comments.updateByCommentId({
+        commentId,
+        body,
+      });
+
+      const { result, entities } = normalize<
+        IComment,
+        Pick<DeviceEntities, 'comments'>,
+        number
+      >(data.comment, CommentSchema);
+
+      return {
+        result,
+        entities: {
+          comments: {
+            ...state.entities.comments,
+            ...entities.comments,
+          },
+        },
+      };
+    } catch (error) {
+      const message = getErrorMessage(error);
+
+      return rejectWithValue({
+        message,
+      });
+    }
+  },
+);
+
+export const deleteComment = createAsyncThunk<
+  IDeviceEntityData,
+  Pick<IUpdateCommentParams, 'commentId'>,
+  IThunkAPI
+>(
+  'comments/delete-by-commentId',
+  async ({ commentId }, { rejectWithValue, getState }) => {
+    const state = getState();
+
+    try {
+      await Api.Comments.deleteById(commentId);
+
+      const comment = state.entities.comments[commentId];
+      const device = state.entities.devices[comment.deviceId];
+
+      const updatedComments = (device.comments as Array<number>).filter(
+        (id) => commentId !== id,
+      );
+
+      const updatedDevice = {
+        ...device,
+        comments: updatedComments,
+      };
+
+      const { result, entities } = normalize<IDevice, DeviceEntities, number>(
+        updatedDevice,
+        DeviceSchema,
+      );
+
+      return {
+        result,
+        entities,
+      };
+    } catch (error) {
+      const message = getErrorMessage(error);
+
+      return rejectWithValue({
+        message,
+      });
+    }
+  },
+);
 
 const commentsSlice = createSlice({
   initialState,
@@ -114,6 +203,30 @@ const commentsSlice = createSlice({
     builder.addCase(getCommentsByDeviceId.rejected, (state: State) => {
       state.isLoading = false;
       state.isError = true;
+    });
+    // update comment
+    builder.addCase(updateComment.pending, (state: State) => {
+      state.isUpdating = true;
+      state.isUpdatingError = false;
+    });
+    builder.addCase(updateComment.fulfilled, (state: State) => {
+      state.isUpdating = false;
+    });
+    builder.addCase(updateComment.rejected, (state: State) => {
+      state.isUpdating = false;
+      state.isUpdatingError = true;
+    });
+    // delete comment
+    builder.addCase(deleteComment.pending, (state: State) => {
+      state.isDeleting = true;
+      state.isDeletingError = false;
+    });
+    builder.addCase(deleteComment.fulfilled, (state: State) => {
+      state.isDeleting = false;
+    });
+    builder.addCase(deleteComment.rejected, (state: State) => {
+      state.isDeleting = false;
+      state.isDeletingError = true;
     });
   },
 });

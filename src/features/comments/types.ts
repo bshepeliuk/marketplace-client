@@ -1,4 +1,7 @@
-import { IAddCommentParams } from '@src/common/types/apiTypes';
+import {
+  IAddCommentParams,
+  IUpdateCommentParams,
+} from '@src/common/types/apiTypes';
 import { DeviceEntities } from '../devices/types';
 
 export interface IComment {
@@ -15,5 +18,12 @@ export interface INewCommentEntity {
   result: number;
   entities: Pick<DeviceEntities, 'comments' | 'devices'>;
 }
+
+export interface IUpdateCommentEntity {
+  result: number;
+  entities: Pick<DeviceEntities, 'comments'>;
+}
+
+export type IDeleteCommentParams = Pick<IUpdateCommentParams, 'commentId'>;
 
 export type OnAddCommentType = Pick<IAddCommentParams, 'body' | 'parentId'>;

@@ -10,10 +10,17 @@ interface IComment {
 interface IProps {
   defaultValue?: string;
   handleSubmit: (text: string) => void;
+  handleCancel?: () => void;
+  hasCancel?: boolean;
 }
 
 function CommentFormView(props: IProps) {
-  const { defaultValue = '', handleSubmit } = props;
+  const {
+    handleSubmit,
+    hasCancel = false,
+    defaultValue = '',
+    handleCancel = () => {},
+  } = props;
 
   const formik = useFormik<IComment>({
     initialValues: {
@@ -28,6 +35,11 @@ function CommentFormView(props: IProps) {
   // prettier-ignore
   const isDisabled = !(formik.isValid && formik.dirty)
 
+  const onCancel = () => {
+    formik.resetForm();
+    handleCancel();
+  };
+
   return (
     <Form onSubmit={formik.handleSubmit}>
       <TextArea
@@ -38,9 +50,17 @@ function CommentFormView(props: IProps) {
         value={formik.values.body}
       />
 
-      <SendButton type="submit" disabled={isDisabled}>
-        send
-      </SendButton>
+      <InnerWrap>
+        {hasCancel && (
+          <CancelButton type="button" onClick={onCancel}>
+            cancel
+          </CancelButton>
+        )}
+
+        <SendButton type="submit" disabled={isDisabled}>
+          send
+        </SendButton>
+      </InnerWrap>
     </Form>
   );
 }
@@ -63,10 +83,16 @@ const TextArea = styled.textarea`
   }
 `;
 
+const InnerWrap = styled.div`
+  display: flex;
+  justify-content: end;
+`;
+
 const SendButton = styled.button`
   width: 150px;
   height: 40px;
-  align-self: end;
 `;
+
+const CancelButton = styled.button``;
 
 export default CommentFormView;

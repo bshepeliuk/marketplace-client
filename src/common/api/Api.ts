@@ -5,6 +5,7 @@ import {
   IGetDevicesProps,
   ILogin,
   IRegister,
+  IUpdateCommentParams,
 } from '@src/common/types/apiTypes';
 import getApiInstance from '@src/common/utils/getApiInstance';
 import { IPaymentItems } from '@src/features/payment/types';
@@ -64,6 +65,12 @@ export const Comments = {
   },
   getByDeviceId(deviceId: number) {
     return api.post(`/comments/${deviceId}`);
+  },
+  updateByCommentId({ commentId, body }: IUpdateCommentParams) {
+    return api.patch('/comments', { commentId, body });
+  },
+  deleteById(commentId: number) {
+    return api.delete(`/comments/${commentId}`);
   },
 };
 
