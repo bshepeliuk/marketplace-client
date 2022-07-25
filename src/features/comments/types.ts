@@ -19,6 +19,11 @@ export interface INewCommentEntity {
   entities: Pick<DeviceEntities, 'comments' | 'devices'>;
 }
 
+export interface ICommentEntities {
+  result: number[];
+  entities: Pick<DeviceEntities, 'comments'>;
+}
+
 export interface IUpdateCommentEntity {
   result: number;
   entities: Pick<DeviceEntities, 'comments'>;

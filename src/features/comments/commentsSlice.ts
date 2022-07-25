@@ -7,8 +7,17 @@ import {
   IAddCommentParams,
   IUpdateCommentParams,
 } from '@src/common/types/apiTypes';
-import { CommentSchema, DeviceSchema } from '@src/common/normalizeSchemas';
-import { IComment, INewCommentEntity, IUpdateCommentEntity } from './types';
+import {
+  CommentSchema,
+  CommentsSchema,
+  DeviceSchema,
+} from '@src/common/normalizeSchemas';
+import {
+  IComment,
+  ICommentEntities,
+  INewCommentEntity,
+  IUpdateCommentEntity,
+} from './types';
 import { DeviceEntities, IDevice, IDeviceEntityData } from '../devices/types';
 
 export const initialState = {
@@ -73,24 +82,48 @@ export const addComment = createAsyncThunk<
 );
 
 export const getCommentsByDeviceId = createAsyncThunk<
-  { comments: IComment[] },
+  ICommentEntities,
   { deviceId: number },
   IThunkAPI
->('comments/fetch-by-deviceId', async ({ deviceId }, { rejectWithValue }) => {
-  try {
-    const { data } = await Api.Comments.getByDeviceId(deviceId);
+>(
+  'comments/fetch-by-deviceId',
+  async ({ deviceId }, { rejectWithValue, getState }) => {
+    const state = getState();
 
-    return {
-      comments: data.comments,
-    };
-  } catch (error) {
-    const message = getErrorMessage(error);
+    try {
+      const { data } = await Api.Comments.getByDeviceId(deviceId);
 
-    return rejectWithValue({
-      message,
-    });
-  }
-});
+      const { result, entities } = normalize<
+        IComment,
+        Pick<DeviceEntities, 'comments'>,
+        number[]
+      >(data.comments, CommentsSchema);
+
+      const device = state.entities.devices[deviceId];
+      const prevComments = (device.comments as Array<number>) ?? [];
+      const updatedDevice = {
+        [deviceId]: {
+          ...device,
+          comments: prevComments.concat(result),
+        },
+      };
+
+      return {
+        result,
+        entities: {
+          ...entities,
+          devices: { ...state.entities.devices, ...updatedDevice },
+        },
+      };
+    } catch (error) {
+      const message = getErrorMessage(error);
+
+      return rejectWithValue({
+        message,
+      });
+    }
+  },
+);
 
 export const updateComment = createAsyncThunk<
   IUpdateCommentEntity,

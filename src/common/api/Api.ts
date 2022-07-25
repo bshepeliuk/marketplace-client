@@ -64,7 +64,7 @@ export const Comments = {
     return api.post('/comments', { body, deviceId, parentId });
   },
   getByDeviceId(deviceId: number) {
-    return api.post(`/comments/${deviceId}`);
+    return api.get(`/comments/${deviceId}`);
   },
   updateByCommentId({ commentId, body }: IUpdateCommentParams) {
     return api.patch('/comments', { commentId, body });

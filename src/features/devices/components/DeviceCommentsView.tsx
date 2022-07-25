@@ -1,10 +1,11 @@
 import React from 'react';
 import StarRating from '@common/components/StarRating/StarRatingView';
 import CommentForm from '@features/comments/components/CommentForm';
-import { IComment, OnAddCommentType } from '@features/comments/types';
+import { OnAddCommentType } from '@features/comments/types';
 import { useTypedSelector } from '@src/common/hooks/useTypedSelector';
 import CommentsList from '@features/comments/components/CommentsList';
 import useAddComment from '@features/comments/hooks/useAddComment';
+import useGetCommentsByDeviceId from '@features/comments/hooks/useGetComments';
 import calculateAvgRating from '../helpers/calculateAvgRating';
 import useEvaluateDevice from '../hooks/useEvaluateDevice';
 import { IDevice, IDeviceRating } from '../types';
@@ -15,12 +16,12 @@ interface IProps {
 }
 
 function DeviceCommentsView({ device }: IProps) {
+  const { isLoading, comments } = useGetCommentsByDeviceId(device.id);
   const { evaluate, isEvaluating } = useEvaluateDevice();
   const { onAdd } = useAddComment();
   const { user, isLoggedIn } = useTypedSelector((state) => state.auth);
 
   const ratings = device.ratings as IDeviceRating[];
-  const comments = device.comments as IComment[];
   const avgRating = calculateAvgRating(ratings);
 
   const hasRated = ratings.every((item) => item.userId !== user?.id);
@@ -47,7 +48,12 @@ function DeviceCommentsView({ device }: IProps) {
       <CommentForm
         handleSubmit={(body) => onAddComment({ body, parentId: null })}
       />
-      <CommentsList comments={comments} deviceId={device.id} />
+
+      {isLoading ? (
+        <div>Loading...</div>
+      ) : (
+        <CommentsList comments={comments} deviceId={device.id} />
+      )}
     </CommentsWrap>
   );
 }
