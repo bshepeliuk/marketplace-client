@@ -3,10 +3,10 @@ import { RootState } from '@src/app/store';
 
 const getEntitiesState = (state: RootState) => state.entities;
 const getCommentsState = (state: RootState) => state.comments;
-const getDeviceIdProp = (_: unknown, deviceId: number) => deviceId;
+const getCommentIdProp = (_: unknown, deviceId: number) => deviceId;
 
 export const commentsSelector = createSelector(
-  [getEntitiesState, getCommentsState, getDeviceIdProp],
+  [getEntitiesState, getCommentsState, getCommentIdProp],
   (entities, commentsState, deviceId) => {
     const { isLoading, isError } = commentsState;
 
@@ -22,6 +22,19 @@ export const commentsSelector = createSelector(
       isError,
       isLoading,
       comments,
+    };
+  },
+);
+
+export const repliesSelector = createSelector(
+  [getEntitiesState, getCommentIdProp],
+  (entities, commentId) => {
+    const replies = Object.values(entities.comments).filter(
+      (comment) => comment.parentId === commentId,
+    );
+
+    return {
+      replies,
     };
   },
 );

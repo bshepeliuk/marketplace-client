@@ -57,3 +57,9 @@ export interface IUpdateCommentParams {
   body: string;
   commentId: number;
 }
+
+export interface IGetRepliesParams {
+  commentId: number;
+  limit?: number;
+  offset?: number;
+}

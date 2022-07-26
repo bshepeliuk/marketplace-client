@@ -3,8 +3,10 @@ import sortDate from '@src/common/helpers/sortDate';
 import { IUpdateCommentParams } from '@src/common/types/apiTypes';
 import React, { Dispatch, SetStateAction, useState } from 'react';
 import styled from 'styled-components';
+import { COMMENT_ACTION_TIME_MS_LIMIT, REPLIES_LIMIT } from '../constants';
 import useAddComment from '../hooks/useAddComment';
 import useDeleteComment from '../hooks/useDeleteComment';
+import useGetRepliesByRootCommentId from '../hooks/useGetReplies';
 import useUpdateComment from '../hooks/useUpdateComment';
 import { IComment, IDeleteCommentParams, OnAddCommentType } from '../types';
 import CommentFormView from './CommentForm';
@@ -28,13 +30,6 @@ function CommentsList({ comments, deviceId }: ICommentListProps) {
     sortField: 'createdAt',
   }).filter((comment) => comment.parentId === null);
 
-  const getRepliesByParentId = (parentId: number | null) => {
-    return sortDate({
-      data: comments,
-      sortField: 'createdAt',
-    }).filter((reply) => reply.parentId === parentId);
-  };
-
   const onAddComment = ({ body, parentId }: OnAddCommentType) => {
     onAdd({ body, deviceId, parentId }).then(() => {
       setActiveComment(null);
@@ -56,13 +51,10 @@ function CommentsList({ comments, deviceId }: ICommentListProps) {
   return (
     <List>
       {rootComments.map((comment) => {
-        const replies = getRepliesByParentId(comment.id);
-
         return (
           <CommentItem
             key={comment.id}
             comment={comment}
-            replies={replies}
             activeComment={activeComment}
             setActiveComment={setActiveComment}
             onAdd={onAddComment}
@@ -95,7 +87,6 @@ interface IActiveComment {
 
 interface ICommentProps {
   comment: IComment;
-  replies?: IComment[];
   activeComment: IActiveComment | null;
   setActiveComment: Dispatch<SetStateAction<null | IActiveComment>>;
   onAdd: (params: OnAddCommentType) => void;
@@ -103,21 +94,34 @@ interface ICommentProps {
   onDelete: (params: IDeleteCommentParams) => void;
 }
 
-const COMMENT_ACTION_TIME_MS_LIMIT = 1000 * 60 * 5;
+const getRepliesCountFromTotalAmount = (repliesCount: number | undefined) => {
+  if (repliesCount === undefined) return 0;
+  return repliesCount < REPLIES_LIMIT ? repliesCount : REPLIES_LIMIT;
+};
 
 function CommentItem(props: ICommentProps) {
+  // prettier-ignore
+  const {
+    fetchReplies,
+    replies,
+    isRepliesLoading,
+    hasMoreReplies
+  } = useGetRepliesByRootCommentId(props.comment.id);
+  // prettier-ignore
   const {
     comment,
-    replies,
     activeComment,
     setActiveComment,
     onAdd,
     onEdit,
-    onDelete,
+    onDelete
   } = props;
 
   const createdAt = new Date(comment.createdAt).toLocaleDateString();
   const passedTimeInMs = Date.now() - new Date(comment.createdAt).getTime();
+
+  const repliesCount = getRepliesCountFromTotalAmount(comment.repliesCount);
+  const hasRepliesCount = repliesCount > 0;
 
   const isCurrentComment = comment.id === activeComment?.id;
   const isReplying = isCurrentComment && activeComment?.type === 'replying';
@@ -151,6 +155,10 @@ function CommentItem(props: ICommentProps) {
   };
 
   const parentId = comment.parentId ?? comment.id;
+
+  const replyBtnContent = isRepliesLoading
+    ? 'Loading...'
+    : `show ${repliesCount} replies.`;
 
   return (
     <>
@@ -200,7 +208,7 @@ function CommentItem(props: ICommentProps) {
       </Comment>
 
       <ReplyList>
-        {replies?.map((reply) => (
+        {replies.map((reply) => (
           <CommentItem
             key={reply.id}
             comment={reply}
@@ -211,6 +219,12 @@ function CommentItem(props: ICommentProps) {
             onDelete={onDelete}
           />
         ))}
+
+        {hasRepliesCount && hasMoreReplies && (
+          <ShowRepliesButton type="button" onClick={fetchReplies}>
+            {replyBtnContent}
+          </ShowRepliesButton>
+        )}
       </ReplyList>
     </>
   );
@@ -280,6 +294,18 @@ const CommentBaseButton = styled.button`
     transform: scaleX(0);
     transform-origin: center;
   }
+`;
+
+const ShowRepliesButton = styled.button`
+  white-space: nowrap;
+  width: max-content;
+  border: none;
+  background-color: rgba(149, 165, 166, 0.22);
+  border-radius: 50px;
+  padding: 2px 16px;
+  color: rgba(52, 73, 94, 1);
+  display: flex;
+  cursor: pointer;
 `;
 
 const EditButton = styled(CommentBaseButton)``;

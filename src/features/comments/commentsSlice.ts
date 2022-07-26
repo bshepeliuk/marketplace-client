@@ -5,6 +5,7 @@ import { IThunkAPI } from '@src/common/types/baseTypes';
 import getErrorMessage from '@src/common/utils/getErrorMessage';
 import {
   IAddCommentParams,
+  IGetRepliesParams,
   IUpdateCommentParams,
 } from '@src/common/types/apiTypes';
 import {
@@ -29,6 +30,8 @@ export const initialState = {
   isUpdatingError: false,
   isDeleting: false,
   isDeletingError: false,
+  isRepliesLoading: false,
+  isRepliesError: false,
 };
 
 type State = typeof initialState;
@@ -114,6 +117,40 @@ export const getCommentsByDeviceId = createAsyncThunk<
           ...entities,
           devices: { ...state.entities.devices, ...updatedDevice },
         },
+      };
+    } catch (error) {
+      const message = getErrorMessage(error);
+
+      return rejectWithValue({
+        message,
+      });
+    }
+  },
+);
+
+export const getReplies = createAsyncThunk<
+  ICommentEntities,
+  IGetRepliesParams,
+  IThunkAPI
+>(
+  'comments/get-replies-by-root-commentId',
+  async ({ commentId, offset, limit }, { rejectWithValue }) => {
+    try {
+      const { data } = await Api.Comments.getRepliesByRootCommentId({
+        commentId,
+        offset,
+        limit,
+      });
+
+      const { result, entities } = normalize<
+        IComment,
+        Pick<DeviceEntities, 'comments'>,
+        number[]
+      >(data.replies, CommentsSchema);
+
+      return {
+        result,
+        entities,
       };
     } catch (error) {
       const message = getErrorMessage(error);

@@ -3,6 +3,7 @@ import {
   ICreateDeviceParams,
   IEvaluateDeviceParams,
   IGetDevicesProps,
+  IGetRepliesParams,
   ILogin,
   IRegister,
   IUpdateCommentParams,
@@ -71,6 +72,9 @@ export const Comments = {
   },
   deleteById(commentId: number) {
     return api.delete(`/comments/${commentId}`);
+  },
+  getRepliesByRootCommentId({ commentId, offset, limit }: IGetRepliesParams) {
+    return api.get(`/replies/${commentId}?offset=${offset}&limit=${limit}`);
   },
 };
 
