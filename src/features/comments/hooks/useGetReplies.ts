@@ -39,4 +39,36 @@ const useGetRepliesByRootCommentId = (commentId: number) => {
   };
 };
 
+export const useGetReplies = () => {
+  const [isRepliesLoading, setIsRepliesLoading] = useState(false);
+  const [hasMoreReplies, setHasMoreReplies] = useState(true);
+  const dispatch = useAppDispatch();
+
+  const fetchRepliesByCommentId = ({
+    commentId,
+    limit = 20,
+    offset = 0,
+  }: any) => {
+    setIsRepliesLoading(true);
+
+    dispatch(getReplies({ commentId, offset, limit }))
+      .then((action) => {
+        if (!getReplies.fulfilled.match(action)) return action;
+
+        if (action.payload.result.length < REPLIES_LIMIT) {
+          setHasMoreReplies(false);
+        }
+      })
+      .finally(() => {
+        setIsRepliesLoading(false);
+      });
+  };
+
+  return {
+    isRepliesLoading,
+    hasMoreReplies,
+    fetchRepliesByCommentId,
+  };
+};
+
 export default useGetRepliesByRootCommentId;

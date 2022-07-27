@@ -52,7 +52,7 @@ function DeviceCommentsView({ device }: IProps) {
       {isLoading ? (
         <div>Loading...</div>
       ) : (
-        <CommentsList comments={comments} deviceId={device.id} />
+        <CommentsList deviceId={device.id} comments={comments} />
       )}
     </CommentsWrap>
   );

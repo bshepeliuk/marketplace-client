@@ -1,7 +1,16 @@
 import UserLogo from '@src/common/components/UserLogo/UserLogo';
-import sortDate from '@src/common/helpers/sortDate';
 import { IUpdateCommentParams } from '@src/common/types/apiTypes';
-import React, { Dispatch, SetStateAction, useState } from 'react';
+import { Nullable } from '@src/common/types/baseTypes';
+import React, {
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from 'react';
+import { VariableSizeList as List } from 'react-window';
 import styled from 'styled-components';
 import { COMMENT_ACTION_TIME_MS_LIMIT, REPLIES_LIMIT } from '../constants';
 import useAddComment from '../hooks/useAddComment';
@@ -11,24 +20,53 @@ import useUpdateComment from '../hooks/useUpdateComment';
 import { IComment, IDeleteCommentParams, OnAddCommentType } from '../types';
 import CommentFormView from './CommentForm';
 
+const getRepliesCountFromTotalAmount = (repliesCount: number | undefined) => {
+  if (repliesCount === undefined) return 0;
+  return repliesCount < REPLIES_LIMIT ? repliesCount : REPLIES_LIMIT;
+};
+
+export const useWindowResize = () => {
+  const [size, setSize] = useState([0, 0]);
+
+  useLayoutEffect(() => {
+    function updateSize() {
+      setSize([window.innerWidth, window.innerHeight]);
+    }
+
+    window.addEventListener('resize', updateSize);
+    updateSize();
+
+    return () => window.removeEventListener('resize', updateSize);
+  }, []);
+
+  return size;
+};
+
 interface ICommentListProps {
   comments: IComment[];
   deviceId: number;
 }
 
+interface IActiveComment {
+  id: number;
+  type: 'replying' | 'editing';
+}
+
 function CommentsList({ comments, deviceId }: ICommentListProps) {
+  const listRef = useRef<any>();
+  const [windowWidth] = useWindowResize();
+  const sizeMap = useRef<{ [index: number]: number }>({});
+  const setSize = useCallback((index: number, size: number) => {
+    sizeMap.current = { ...sizeMap.current, [index]: size };
+    listRef.current.resetAfterIndex(index);
+  }, []);
+  const getSize = (index: number) => sizeMap.current[index] || 50;
+
   const { onAdd } = useAddComment();
   const { onUpdate } = useUpdateComment();
   const { onDelete } = useDeleteComment();
-
-  const [activeComment, setActiveComment] = useState<IActiveComment | null>(
-    null,
-  );
-
-  const rootComments = sortDate({
-    data: comments,
-    sortField: 'createdAt',
-  }).filter((comment) => comment.parentId === null);
+  // prettier-ignore
+  const [activeComment, setActiveComment] = useState<Nullable<IActiveComment>>(null);
 
   const onAddComment = ({ body, parentId }: OnAddCommentType) => {
     onAdd({ body, deviceId, parentId }).then(() => {
@@ -49,90 +87,164 @@ function CommentsList({ comments, deviceId }: ICommentListProps) {
   };
 
   return (
-    <List>
-      {rootComments.map((comment) => {
-        return (
-          <CommentItem
-            key={comment.id}
-            comment={comment}
-            activeComment={activeComment}
-            setActiveComment={setActiveComment}
-            onAdd={onAddComment}
-            onEdit={onEditComment}
-            onDelete={onDeleteComment}
+    <List
+      ref={listRef}
+      height={400}
+      width="100%"
+      itemCount={comments.length}
+      itemSize={getSize}
+      itemData={{
+        comments,
+        setActiveComment,
+        activeComment,
+        setSize,
+        windowWidth,
+        onAdd: onAddComment,
+        onEdit: onEditComment,
+        onDelete: onDeleteComment,
+      }}
+    >
+      {({ data, index, style }) => (
+        <div style={style}>
+          <Row
+            data={data}
+            index={index}
+            setSize={setSize}
+            windowWidth={windowWidth}
           />
-        );
-      })}
+        </div>
+      )}
     </List>
   );
 }
 
-const List = styled.ul`
-  width: 500px;
-  margin: auto;
-`;
-
-const ReplyList = styled.ul`
-  margin-left: 50px;
-`;
-
-const FormWrapper = styled.div`
-  grid-column: 2 / -1;
-`;
-
-interface IActiveComment {
-  id: number;
-  type: 'replying' | 'editing';
-}
-
-interface ICommentProps {
-  comment: IComment;
+interface IData {
   activeComment: IActiveComment | null;
   setActiveComment: Dispatch<SetStateAction<null | IActiveComment>>;
   onAdd: (params: OnAddCommentType) => void;
   onEdit: (params: IUpdateCommentParams) => void;
   onDelete: (params: IDeleteCommentParams) => void;
+  comments: IComment[];
 }
 
-const getRepliesCountFromTotalAmount = (repliesCount: number | undefined) => {
-  if (repliesCount === undefined) return 0;
-  return repliesCount < REPLIES_LIMIT ? repliesCount : REPLIES_LIMIT;
-};
+interface IRowProps {
+  data: IData;
+  setSize: (index: number, size: number) => void;
+  index: number;
+  windowWidth: number;
+}
 
-function CommentItem(props: ICommentProps) {
+function Row({ data, index, setSize, windowWidth }: IRowProps) {
+  const rowRef = useRef<HTMLDivElement>(null);
   // prettier-ignore
   const {
     fetchReplies,
     replies,
     isRepliesLoading,
-    hasMoreReplies
-  } = useGetRepliesByRootCommentId(props.comment.id);
+  } = useGetRepliesByRootCommentId(data.comments[index].id);
+
   // prettier-ignore
   const {
-    comment,
     activeComment,
     setActiveComment,
     onAdd,
     onEdit,
-    onDelete
-  } = props;
+    onDelete,
+  } = data;
 
-  const createdAt = new Date(comment.createdAt).toLocaleDateString();
-  const passedTimeInMs = Date.now() - new Date(comment.createdAt).getTime();
+  const comment = data.comments[index];
 
   const repliesCount = getRepliesCountFromTotalAmount(comment.repliesCount);
   const hasRepliesCount = repliesCount > 0;
+
+  useEffect(() => {
+    let didMount = false;
+    if (rowRef.current === null) return;
+
+    if (!didMount) {
+      setSize(index, rowRef.current.getBoundingClientRect().height);
+    }
+
+    return () => {
+      didMount = true;
+    };
+  }, [setSize, index, windowWidth]);
+
+  const hasNoMore = repliesCount > 0 && replies.length < REPLIES_LIMIT;
+
+  const replyBtnContent = isRepliesLoading
+    ? 'Loading...'
+    : `show ${repliesCount} replies.`;
+
+  return (
+    <div ref={rowRef}>
+      <CommentView
+        key={comment.id}
+        comment={comment}
+        activeComment={activeComment}
+        setActiveComment={setActiveComment}
+        onDelete={onDelete}
+        onEdit={onEdit}
+        onAdd={onAdd}
+      />
+
+      <ReplyList>
+        {replies.map((item) => {
+          return (
+            <CommentView
+              key={`reply-${item.id}`}
+              comment={item}
+              activeComment={activeComment}
+              setActiveComment={setActiveComment}
+              onDelete={onDelete}
+              onEdit={onEdit}
+              onAdd={onAdd}
+            />
+          );
+        })}
+
+        {hasRepliesCount && hasNoMore && (
+          <ShowRepliesButton type="button" onClick={fetchReplies}>
+            {replyBtnContent}
+          </ShowRepliesButton>
+        )}
+      </ReplyList>
+    </div>
+  );
+}
+
+interface ICommentProps {
+  activeComment: IActiveComment | null;
+  setActiveComment: Dispatch<SetStateAction<null | IActiveComment>>;
+  onAdd: (params: OnAddCommentType) => void;
+  onEdit: (params: IUpdateCommentParams) => void;
+  onDelete: (params: IDeleteCommentParams) => void;
+  comment: IComment;
+}
+
+function CommentView({
+  activeComment,
+  setActiveComment,
+  onAdd,
+  onEdit,
+  onDelete,
+  comment,
+}: ICommentProps) {
+  const createdAt = new Date(comment.createdAt).toLocaleDateString();
+  const passedTimeInMs = Date.now() - new Date(comment.createdAt).getTime();
 
   const isCurrentComment = comment.id === activeComment?.id;
   const isReplying = isCurrentComment && activeComment?.type === 'replying';
   const isEditing = isCurrentComment && activeComment?.type === 'editing';
   const canDelete = passedTimeInMs < COMMENT_ACTION_TIME_MS_LIMIT;
 
+  const parentId = comment.parentId ?? comment.id;
+
   const onCancel = () => {
     setActiveComment(null);
   };
 
-  const onReply = () => {
+  const onReplyComment = () => {
     if (isReplying) {
       onCancel();
       return;
@@ -154,81 +266,62 @@ function CommentItem(props: ICommentProps) {
     onDelete({ commentId: comment.id });
   };
 
-  const parentId = comment.parentId ?? comment.id;
-
-  const replyBtnContent = isRepliesLoading
-    ? 'Loading...'
-    : `show ${repliesCount} replies.`;
-
   return (
-    <>
-      <Comment>
-        <LogoWrap>
-          <UserLogo fullName={comment.fullName} size={50} />
-        </LogoWrap>
+    <Comment key={`reply-${comment.id}`}>
+      <LogoWrap>
+        <UserLogo fullName={comment.fullName} size={50} />
+      </LogoWrap>
 
-        <FullName>{comment.fullName}</FullName>
-        <Body>{comment.body}</Body>
-        <CreatedAt>{createdAt}</CreatedAt>
+      <FullName>{comment.fullName}</FullName>
+      <Body>{comment.body}</Body>
 
-        <BtnWrap>
-          <EditButton type="button" onClick={onEditComment}>
-            edit
-          </EditButton>
-          <ReplyButton type="button" onClick={onReply}>
-            reply
-          </ReplyButton>
-          {canDelete && (
-            <DeleteButton type="button" onClick={onDeleteComment}>
-              delete
-            </DeleteButton>
-          )}
-        </BtnWrap>
+      <CreatedAt>{createdAt}</CreatedAt>
 
-        {isReplying && (
-          <FormWrapper>
-            <CommentFormView
-              handleSubmit={(body) => onAdd({ body, parentId })}
-              handleCancel={onCancel}
-              hasCancel
-            />
-          </FormWrapper>
+      <BtnWrap>
+        <EditButton type="button" onClick={onEditComment}>
+          edit
+        </EditButton>
+        <ReplyButton type="button" onClick={onReplyComment}>
+          reply
+        </ReplyButton>
+        {canDelete && (
+          <DeleteButton type="button" onClick={onDeleteComment}>
+            delete
+          </DeleteButton>
         )}
+      </BtnWrap>
 
-        {isEditing && (
-          <FormWrapper>
-            <CommentFormView
-              defaultValue={comment.body}
-              handleSubmit={(body) => onEdit({ body, commentId: comment.id })}
-              handleCancel={onCancel}
-              hasCancel
-            />
-          </FormWrapper>
-        )}
-      </Comment>
-
-      <ReplyList>
-        {replies.map((reply) => (
-          <CommentItem
-            key={reply.id}
-            comment={reply}
-            setActiveComment={setActiveComment}
-            activeComment={activeComment}
-            onAdd={onAdd}
-            onEdit={onEdit}
-            onDelete={onDelete}
+      {isReplying && (
+        <FormWrapper>
+          <CommentFormView
+            handleSubmit={(body) => onAdd({ body, parentId })}
+            handleCancel={onCancel}
+            hasCancel
           />
-        ))}
+        </FormWrapper>
+      )}
 
-        {hasRepliesCount && hasMoreReplies && (
-          <ShowRepliesButton type="button" onClick={fetchReplies}>
-            {replyBtnContent}
-          </ShowRepliesButton>
-        )}
-      </ReplyList>
-    </>
+      {isEditing && (
+        <FormWrapper>
+          <CommentFormView
+            defaultValue={comment.body}
+            handleSubmit={(body) => onEdit({ body, commentId: comment.id })}
+            handleCancel={onCancel}
+            hasCancel
+          />
+        </FormWrapper>
+      )}
+    </Comment>
   );
 }
+
+const ReplyList = styled.ul`
+  margin-left: 50px;
+`;
+
+const FormWrapper = styled.div`
+  grid-column: 2 / -1;
+`;
 
 const LogoWrap = styled.div`
   grid-area: LOGO;
@@ -242,11 +335,13 @@ const Comment = styled.li`
     'LOGO BODY BODY'
     'LOGO BTN BTN';
   grid-template-columns: 60px 150px 100px;
+  height: 100%;
 `;
 
 const BtnWrap = styled.div`
   grid-area: BTN;
   justify-self: end;
+  height: 20px;
 `;
 
 const FullName = styled.h1`

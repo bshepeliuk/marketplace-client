@@ -14,9 +14,9 @@ export const commentsSelector = createSelector(
 
     const commentIds = (device.comments as Array<number>) ?? [];
 
-    const comments = commentIds.map(
-      (commentId) => entities.comments[commentId],
-    );
+    const comments = commentIds
+      .map((commentId) => entities.comments[commentId])
+      .filter((comment) => comment.parentId === null);
 
     return {
       isError,
