@@ -134,7 +134,9 @@ export const getReplies = createAsyncThunk<
   IThunkAPI
 >(
   'comments/get-replies-by-root-commentId',
-  async ({ commentId, offset, limit }, { rejectWithValue }) => {
+  async ({ commentId, offset, limit }, { rejectWithValue, getState }) => {
+    const state = getState();
+
     try {
       const { data } = await Api.Comments.getRepliesByRootCommentId({
         commentId,
@@ -144,13 +146,29 @@ export const getReplies = createAsyncThunk<
 
       const { result, entities } = normalize<
         IComment,
-        Pick<DeviceEntities, 'comments'>,
+        Pick<DeviceEntities, 'comments' | 'devices'>,
         number[]
       >(data.replies, CommentsSchema);
 
+      const rootComment = state.entities.comments[commentId];
+      const deviceEntity = state.entities.devices[rootComment.deviceId];
+
+      const device = {
+        [deviceEntity.id]: {
+          ...deviceEntity,
+          comments: (deviceEntity.comments as Array<number>).concat(result),
+        },
+      } as Record<string, IDevice>;
+
       return {
         result,
-        entities,
+        entities: {
+          ...entities,
+          devices: {
+            ...state.entities.devices,
+            ...device,
+          },
+        },
       };
     } catch (error) {
       const message = getErrorMessage(error);

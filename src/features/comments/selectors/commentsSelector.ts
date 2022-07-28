@@ -1,5 +1,6 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { RootState } from '@src/app/store';
+import { IDevice } from '@src/features/devices/types';
 
 const getEntitiesState = (state: RootState) => state.entities;
 const getCommentsState = (state: RootState) => state.comments;
@@ -29,9 +30,12 @@ export const commentsSelector = createSelector(
 export const repliesSelector = createSelector(
   [getEntitiesState, getCommentIdProp],
   (entities, commentId) => {
-    const replies = Object.values(entities.comments).filter(
-      (comment) => comment.parentId === commentId,
-    );
+    const comment = entities.comments[commentId];
+    const device = entities.devices[comment.deviceId] as IDevice;
+
+    const replies = (device.comments as number[])
+      .map((id) => entities.comments[id])
+      .filter((item) => item.parentId === commentId);
 
     return {
       replies,
