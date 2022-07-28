@@ -1,5 +1,6 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { RootState } from '@src/app/store';
+import sortByDate from '@src/common/utils/sortByDate';
 import { IDevice } from '@src/features/devices/types';
 
 const getEntitiesState = (state: RootState) => state.entities;
@@ -19,10 +20,15 @@ export const commentsSelector = createSelector(
       .map((commentId) => entities.comments[commentId])
       .filter((comment) => comment.parentId === null);
 
+    const sortedComments = sortByDate({
+      data: comments,
+      sortField: 'createdAt',
+    });
+
     return {
       isError,
       isLoading,
-      comments,
+      comments: sortedComments,
     };
   },
 );
@@ -37,8 +43,10 @@ export const repliesSelector = createSelector(
       .map((id) => entities.comments[id])
       .filter((item) => item.parentId === commentId);
 
+    const sortedReplies = sortByDate({ data: replies, sortField: 'createdAt' });
+
     return {
-      replies,
+      replies: sortedReplies,
     };
   },
 );

@@ -12,18 +12,13 @@ import React, {
 } from 'react';
 import { VariableSizeList as List } from 'react-window';
 import styled from 'styled-components';
-import { COMMENT_ACTION_TIME_MS_LIMIT, REPLIES_LIMIT } from '../constants';
+import { COMMENT_ACTION_TIME_MS_LIMIT } from '../constants';
 import useAddComment from '../hooks/useAddComment';
 import useDeleteComment from '../hooks/useDeleteComment';
 import useGetRepliesByRootCommentId from '../hooks/useGetReplies';
 import useUpdateComment from '../hooks/useUpdateComment';
 import { IComment, IDeleteCommentParams, OnAddCommentType } from '../types';
 import CommentFormView from './CommentForm';
-
-const getRepliesCountFromTotalAmount = (repliesCount: number | undefined) => {
-  if (repliesCount === undefined) return 0;
-  return repliesCount < REPLIES_LIMIT ? repliesCount : REPLIES_LIMIT;
-};
 
 export const useWindowResize = () => {
   const [size, setSize] = useState([0, 0]);
@@ -142,7 +137,6 @@ function Row({ data, index, setSize, windowWidth }: IRowProps) {
     replies,
     isRepliesLoading,
   } = useGetRepliesByRootCommentId(data.comments[index].id);
-
   // prettier-ignore
   const {
     activeComment,
@@ -154,8 +148,9 @@ function Row({ data, index, setSize, windowWidth }: IRowProps) {
 
   const comment = data.comments[index];
 
-  const repliesCount = getRepliesCountFromTotalAmount(comment.repliesCount);
-  const hasRepliesCount = repliesCount > 0;
+  const hasRepliesCount = comment.repliesCount > 0;
+  const hasMoreReplies = comment.repliesCount > replies.length;
+  const hasReplies = hasRepliesCount && hasMoreReplies;
 
   useEffect(() => {
     let didMount = false;
@@ -170,11 +165,12 @@ function Row({ data, index, setSize, windowWidth }: IRowProps) {
     };
   }, [setSize, index, windowWidth]);
 
-  const hasNoMore = repliesCount > 0 && replies.length < REPLIES_LIMIT;
+  const count =
+    comment.repliesCount < 20
+      ? comment.repliesCount
+      : comment.repliesCount - replies.length;
 
-  const replyBtnContent = isRepliesLoading
-    ? 'Loading...'
-    : `show ${repliesCount} replies.`;
+  const replyBtnContent = isRepliesLoading ? 'Loading...' : `${count} replies`;
 
   return (
     <div ref={rowRef}>
@@ -189,21 +185,19 @@ function Row({ data, index, setSize, windowWidth }: IRowProps) {
       />
 
       <ReplyList>
-        {replies.map((item) => {
-          return (
-            <CommentView
-              key={`reply-${item.id}`}
-              comment={item}
-              activeComment={activeComment}
-              setActiveComment={setActiveComment}
-              onDelete={onDelete}
-              onEdit={onEdit}
-              onAdd={onAdd}
-            />
-          );
-        })}
+        {replies.map((item) => (
+          <CommentView
+            key={`reply-${item.id}`}
+            comment={item}
+            activeComment={activeComment}
+            setActiveComment={setActiveComment}
+            onDelete={onDelete}
+            onEdit={onEdit}
+            onAdd={onAdd}
+          />
+        ))}
 
-        {hasRepliesCount && hasNoMore && (
+        {hasReplies && (
           <ShowRepliesButton type="button" onClick={fetchReplies}>
             {replyBtnContent}
           </ShowRepliesButton>

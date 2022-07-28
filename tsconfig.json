@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "lib": ["es6", "dom", "dom.iterable", "esnext"],
-    "target": "es5",
+    "target": "es6",
     "allowJs": true,
     "useUnknownInCatchVariables": true,
     "allowSyntheticDefaultImports": true,

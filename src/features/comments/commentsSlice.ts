@@ -104,18 +104,18 @@ export const getCommentsByDeviceId = createAsyncThunk<
 
       const device = state.entities.devices[deviceId];
       const prevComments = (device.comments as Array<number>) ?? [];
-      const updatedDevice = {
-        [deviceId]: {
-          ...device,
-          comments: prevComments.concat(result),
-        },
-      };
 
       return {
         result,
         entities: {
           ...entities,
-          devices: { ...state.entities.devices, ...updatedDevice },
+          devices: {
+            ...state.entities.devices,
+            [deviceId]: {
+              ...device,
+              comments: prevComments.concat(result),
+            },
+          },
         },
       };
     } catch (error) {
@@ -153,12 +153,9 @@ export const getReplies = createAsyncThunk<
       const rootComment = state.entities.comments[commentId];
       const deviceEntity = state.entities.devices[rootComment.deviceId];
 
-      const device = {
-        [deviceEntity.id]: {
-          ...deviceEntity,
-          comments: (deviceEntity.comments as Array<number>).concat(result),
-        },
-      } as Record<string, IDevice>;
+      const comments = [
+        ...new Set((deviceEntity.comments as Array<number>).concat(result)),
+      ];
 
       return {
         result,
@@ -166,7 +163,10 @@ export const getReplies = createAsyncThunk<
           ...entities,
           devices: {
             ...state.entities.devices,
-            ...device,
+            [deviceEntity.id]: {
+              ...deviceEntity,
+              comments,
+            },
           },
         },
       };

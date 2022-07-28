@@ -10,7 +10,7 @@ export interface IComment {
   fullName: string;
   parentId: number | null;
   deviceId: number;
-  repliesCount?: number;
+  repliesCount: number;
   createdAt: Date;
   updateAt: Date;
 }

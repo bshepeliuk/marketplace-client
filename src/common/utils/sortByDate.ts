@@ -4,7 +4,7 @@ interface Params<T, K> {
   sortField: K;
 }
 
-const sortDate = <K extends keyof T, T extends Record<K, string | Date>>({
+const sortByDate = <K extends keyof T, T extends Record<K, string | Date>>({
   data,
   order = 'ASC',
   sortField,
@@ -21,4 +21,4 @@ const sortDate = <K extends keyof T, T extends Record<K, string | Date>>({
   });
 };
 
-export default sortDate;
+export default sortByDate;
