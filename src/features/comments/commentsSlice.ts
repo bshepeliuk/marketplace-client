@@ -20,6 +20,7 @@ import {
   IUpdateCommentEntity,
 } from './types';
 import { DeviceEntities, IDevice, IDeviceEntityData } from '../devices/types';
+import { repliesSelector } from './selectors/commentsSelector';
 
 export const initialState = {
   isError: false,
@@ -134,14 +135,21 @@ export const getReplies = createAsyncThunk<
   IThunkAPI
 >(
   'comments/get-replies-by-root-commentId',
-  async ({ commentId, offset, limit }, { rejectWithValue, getState }) => {
+  async ({ commentId }, { rejectWithValue, getState }) => {
     const state = getState();
+
+    const rootComment = state.entities.comments[commentId];
+    const deviceEntity = state.entities.devices[rootComment.deviceId];
+
+    const { replies } = repliesSelector(state, commentId);
+
+    const offset = replies.length ?? 0;
 
     try {
       const { data } = await Api.Comments.getRepliesByRootCommentId({
         commentId,
         offset,
-        limit,
+        limit: 20,
       });
 
       const { result, entities } = normalize<
@@ -149,9 +157,6 @@ export const getReplies = createAsyncThunk<
         Pick<DeviceEntities, 'comments' | 'devices'>,
         number[]
       >(data.replies, CommentsSchema);
-
-      const rootComment = state.entities.comments[commentId];
-      const deviceEntity = state.entities.devices[rootComment.deviceId];
 
       const comments = [
         ...new Set((deviceEntity.comments as Array<number>).concat(result)),
