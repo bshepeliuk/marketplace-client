@@ -6,7 +6,6 @@ import {
   ShowRepliesButton,
   ReplyList,
 } from '../styles/comments.styled';
-import { REPLIES_OFFSET } from '../constants';
 
 interface IRepliesProps {
   repliesCount: number;
@@ -18,17 +17,14 @@ function ReplyListView({ repliesCount, rootCommentId }: IRepliesProps) {
   const {
     fetchReplies,
     replies,
-    isRepliesLoading
+    isRepliesLoading,
   } = useGetRepliesByRootCommentId(rootCommentId);
 
   const hasRepliesCount = repliesCount > 0;
   const hasMoreReplies = repliesCount > replies.length;
   const hasReplies = hasRepliesCount && hasMoreReplies;
 
-  const count =
-    repliesCount < REPLIES_OFFSET
-      ? repliesCount
-      : repliesCount - replies.length;
+  const count = repliesCount - replies.length;
 
   const replyBtnContent = isRepliesLoading ? 'Loading...' : `${count} replies`;
 

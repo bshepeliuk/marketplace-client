@@ -7,6 +7,10 @@ const getEntitiesState = (state: RootState) => state.entities;
 const getCommentsState = (state: RootState) => state.comments;
 const getCommentIdProp = (_: unknown, deviceId: number) => deviceId;
 
+export const getCommentByIdSelector = (state: RootState, commentId: number) => {
+  return state.entities.comments[commentId];
+};
+
 export const commentsSelector = createSelector(
   [getEntitiesState, getCommentsState, getCommentIdProp],
   (entities, commentsState, deviceId) => {

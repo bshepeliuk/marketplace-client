@@ -13,6 +13,7 @@ function CommentsList() {
       ref={listRef}
       height={400}
       width="100%"
+      className="custom-scrollbar"
       itemCount={comments.length}
       itemSize={getSize}
       itemData={{ comments }}

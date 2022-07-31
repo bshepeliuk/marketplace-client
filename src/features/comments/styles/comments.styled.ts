@@ -11,6 +11,10 @@ export const ReplyList = styled.ul`
   padding-top: 20px;
 `;
 
+export const Row = styled.div`
+  padding-bottom: 20px;
+`;
+
 export const ShowRepliesButton = styled.button`
   white-space: nowrap;
   width: max-content;

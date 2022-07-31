@@ -41,12 +41,12 @@ function CommentView({ comment }: ICommentProps) {
 
   const parentId = comment.parentId ?? comment.id;
 
-  const onReply = () => {
+  const turnOnReplyMode = () => {
     if (isReplying) return clearActiveComment();
     setActiveComment({ id: comment.id, type: 'replying' });
   };
 
-  const onEdit = () => {
+  const turnOnEditMode = () => {
     if (isEditing) return clearActiveComment();
     setActiveComment({ id: comment.id, type: 'editing' });
   };
@@ -56,7 +56,6 @@ function CommentView({ comment }: ICommentProps) {
   };
 
   const onEditSubmit = (body: string) => {
-    // FIXME: attach replies to updated comment;
     onEditComment({ body, commentId: comment.id });
   };
 
@@ -77,11 +76,11 @@ function CommentView({ comment }: ICommentProps) {
       <CreatedAt>{createdAt}</CreatedAt>
 
       <BtnWrap>
-        <EditButton type="button" onClick={onEdit}>
+        <EditButton type="button" onClick={turnOnEditMode}>
           edit
         </EditButton>
 
-        <ReplyButton type="button" onClick={onReply}>
+        <ReplyButton type="button" onClick={turnOnReplyMode}>
           reply
         </ReplyButton>
 

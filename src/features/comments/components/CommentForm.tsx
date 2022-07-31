@@ -1,7 +1,13 @@
 import React from 'react';
 import { useFormik } from 'formik';
-import styled from 'styled-components';
 import { CommentSchema } from '@src/features/auth/validation/commentSchema';
+import {
+  CancelButton,
+  Form,
+  InnerWrap,
+  SendButton,
+  TextArea,
+} from '../styles/commentForm.styled';
 
 interface IComment {
   body: string;
@@ -64,35 +70,5 @@ function CommentFormView(props: IProps) {
     </Form>
   );
 }
-
-const Form = styled.form`
-  display: flex;
-  flex-flow: column wrap;
-`;
-
-const TextArea = styled.textarea`
-  height: 90px;
-  resize: none;
-  padding-bottom: 0;
-  padding: 10px;
-  border-radius: 4px;
-
-  &:focus {
-    outline: 1px solid #1abc9c;
-    border: 1px solid #1abc9c;
-  }
-`;
-
-const InnerWrap = styled.div`
-  display: flex;
-  justify-content: end;
-`;
-
-const SendButton = styled.button`
-  width: 150px;
-  height: 40px;
-`;
-
-const CancelButton = styled.button``;
 
 export default CommentFormView;

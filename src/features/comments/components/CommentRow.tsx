@@ -3,6 +3,7 @@ import { IComment } from '../types';
 import CommentView from './CommentView';
 import useCommentsContext from '../hooks/useCommentsContext';
 import ReplyListView from './ReplyListView';
+import { Row } from '../styles/comments.styled';
 
 interface IData {
   comments: IComment[];
@@ -34,14 +35,14 @@ function CommentRow({ data, index }: IRowProps) {
   }, [setSize, index, windowWidth]);
 
   return (
-    <div ref={rowRef} style={{ paddingBottom: 20 }}>
+    <Row ref={rowRef}>
       <CommentView key={comment.id} comment={comment} />
 
       <ReplyListView
         rootCommentId={comment.id}
         repliesCount={comment.repliesCount}
       />
-    </div>
+    </Row>
   );
 }
 

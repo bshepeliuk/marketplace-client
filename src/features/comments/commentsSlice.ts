@@ -20,7 +20,12 @@ import {
   IUpdateCommentEntity,
 } from './types';
 import { DeviceEntities, IDevice, IDeviceEntityData } from '../devices/types';
-import { repliesSelector } from './selectors/commentsSelector';
+import {
+  getCommentByIdSelector,
+  repliesSelector,
+} from './selectors/commentsSelector';
+import { getDeviceByIdSelector } from '../devices/selectors/deviceSelector';
+import { REPLIES_OFFSET } from './constants';
 
 export const initialState = {
   isError: false,
@@ -46,6 +51,8 @@ export const addComment = createAsyncThunk<
   async ({ deviceId, parentId, body }, { rejectWithValue, getState }) => {
     const state = getState();
 
+    const device = getDeviceByIdSelector(state, deviceId);
+
     try {
       const { data } = await Api.Comments.add({
         deviceId,
@@ -53,25 +60,36 @@ export const addComment = createAsyncThunk<
         body,
       });
 
+      const comment = getCommentByIdSelector(state, data.comment.parentId);
+      const isRootComment = comment !== undefined;
+
       const { result, entities } = normalize<
         IComment,
         Pick<DeviceEntities, 'comments'>,
         number
       >(data.comment, CommentSchema);
 
-      const deviceEntity = state.entities.devices[deviceId];
-
       const devices = {
-        [deviceEntity.id]: {
-          ...deviceEntity,
-          comments: [...deviceEntity.comments, result],
+        [device.id]: {
+          ...device,
+          comments: [...device.comments, result],
         },
       } as Record<string, IDevice>;
+
+      const comments = {
+        ...entities.comments,
+        ...(isRootComment && {
+          [comment.id]: {
+            ...comment,
+            repliesCount: comment.repliesCount + 1,
+          },
+        }),
+      };
 
       return {
         result,
         entities: {
-          ...entities,
+          comments,
           devices,
         },
       };
@@ -94,6 +112,8 @@ export const getCommentsByDeviceId = createAsyncThunk<
   async ({ deviceId }, { rejectWithValue, getState }) => {
     const state = getState();
 
+    const device = getDeviceByIdSelector(state, deviceId);
+
     try {
       const { data } = await Api.Comments.getByDeviceId(deviceId);
 
@@ -103,7 +123,6 @@ export const getCommentsByDeviceId = createAsyncThunk<
         number[]
       >(data.comments, CommentsSchema);
 
-      const device = state.entities.devices[deviceId];
       const prevComments = (device.comments as Array<number>) ?? [];
 
       return {
@@ -138,12 +157,17 @@ export const getReplies = createAsyncThunk<
   async ({ commentId }, { rejectWithValue, getState }) => {
     const state = getState();
 
-    const rootComment = state.entities.comments[commentId];
-    const deviceEntity = state.entities.devices[rootComment.deviceId];
+    const comment = getCommentByIdSelector(state, commentId);
+    const device = getDeviceByIdSelector(state, comment.deviceId);
 
     const { replies } = repliesSelector(state, commentId);
 
-    const offset = replies.length ?? 0;
+    const offsetValue =
+      replies.length % REPLIES_OFFSET === 0
+        ? replies.length
+        : replies.length - (replies.length % REPLIES_OFFSET);
+
+    const offset = offsetValue >= REPLIES_OFFSET ? offsetValue : 0;
 
     try {
       const { data } = await Api.Comments.getRepliesByRootCommentId({
@@ -159,7 +183,7 @@ export const getReplies = createAsyncThunk<
       >(data.replies, CommentsSchema);
 
       const comments = [
-        ...new Set((deviceEntity.comments as Array<number>).concat(result)),
+        ...new Set((device.comments as Array<number>).concat(result)),
       ];
 
       return {
@@ -168,8 +192,8 @@ export const getReplies = createAsyncThunk<
           ...entities,
           devices: {
             ...state.entities.devices,
-            [deviceEntity.id]: {
-              ...deviceEntity,
+            [device.id]: {
+              ...device,
               comments,
             },
           },
@@ -194,26 +218,30 @@ export const updateComment = createAsyncThunk<
   async ({ commentId, body }, { rejectWithValue, getState }) => {
     const state = getState();
 
+    const rootComment = getCommentByIdSelector(state, commentId);
+
     try {
       const { data } = await Api.Comments.updateByCommentId({
         commentId,
         body,
       });
 
+      const comment = {
+        ...data.comment,
+        ...(rootComment.repliesCount && {
+          repliesCount: rootComment.repliesCount,
+        }),
+      };
+
       const { result, entities } = normalize<
         IComment,
         Pick<DeviceEntities, 'comments'>,
         number
-      >(data.comment, CommentSchema);
+      >(comment, CommentSchema);
 
       return {
         result,
-        entities: {
-          comments: {
-            ...state.entities.comments,
-            ...entities.comments,
-          },
-        },
+        entities,
       };
     } catch (error) {
       const message = getErrorMessage(error);
@@ -234,11 +262,11 @@ export const deleteComment = createAsyncThunk<
   async ({ commentId }, { rejectWithValue, getState }) => {
     const state = getState();
 
+    const comment = getCommentByIdSelector(state, commentId);
+    const device = getDeviceByIdSelector(state, comment.deviceId);
+
     try {
       await Api.Comments.deleteById(commentId);
-
-      const comment = state.entities.comments[commentId];
-      const device = state.entities.devices[comment.deviceId];
 
       const updatedComments = (device.comments as Array<number>).filter(
         (id) => commentId !== id,

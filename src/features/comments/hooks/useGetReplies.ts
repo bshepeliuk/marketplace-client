@@ -25,7 +25,9 @@ const useGetRepliesByRootCommentId = (commentId: number) => {
 
     dispatch(getReplies({ commentId }))
       .then((action) => {
-        if (!getReplies.fulfilled.match(action)) return action;
+        if (getReplies.fulfilled.match(action)) {
+          return action;
+        }
       })
       .finally(() => {
         if (!ignore.current) {
