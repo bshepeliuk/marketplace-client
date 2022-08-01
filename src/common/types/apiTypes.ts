@@ -63,3 +63,9 @@ export interface IGetRepliesParams {
   limit?: number;
   offset?: number;
 }
+
+export interface IGetCommentsParams {
+  deviceId: number;
+  limit?: number;
+  offset?: number;
+}

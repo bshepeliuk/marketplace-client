@@ -19,8 +19,9 @@ export const commentsSelector = createSelector(
     const device = entities.devices[deviceId];
 
     const commentIds = (device.comments as Array<number>) ?? [];
+    const uniqueIds = [...new Set(commentIds)];
 
-    const comments = commentIds
+    const comments = uniqueIds
       .map((commentId) => entities.comments[commentId])
       .filter((comment) => comment.parentId === null);
 

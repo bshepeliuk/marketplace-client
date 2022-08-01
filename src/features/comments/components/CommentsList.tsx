@@ -4,9 +4,13 @@ import CommentRow from './CommentRow';
 import useCommentsContext from '../hooks/useCommentsContext';
 
 function CommentsList() {
-  const { comments, listRef, getSize, isLoading } = useCommentsContext();
+  const context = useCommentsContext();
+
+  const { comments, listRef, getSize, isLoading, hasMore } = context;
 
   if (isLoading) return <div>Loading...</div>;
+
+  const COMMENTS_COUNT = hasMore ? comments.length + 1 : comments.length;
 
   return (
     <List
@@ -14,7 +18,7 @@ function CommentsList() {
       height={400}
       width="100%"
       className="custom-scrollbar"
-      itemCount={comments.length}
+      itemCount={COMMENTS_COUNT}
       itemSize={getSize}
       itemData={{ comments }}
     >

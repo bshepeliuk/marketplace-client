@@ -60,7 +60,6 @@ function CommentView({ comment }: ICommentProps) {
   };
 
   const onReplySubmit = (body: string) => {
-    // FIXME: do not hide show more replies button when replies count equal to 1 and new reply was added.
     onAddComment({ body, parentId, deviceId: comment.deviceId });
   };
 

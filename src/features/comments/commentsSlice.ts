@@ -1,8 +1,9 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { normalize } from 'normalizr';
 import * as Api from '@src/common/api/Api';
 import { IThunkAPI } from '@src/common/types/baseTypes';
 import getErrorMessage from '@src/common/utils/getErrorMessage';
+import calculateOffsetValue from '@common/utils/calculateOffsetValue';
 import {
   IAddCommentParams,
   IGetRepliesParams,
@@ -21,11 +22,12 @@ import {
 } from './types';
 import { DeviceEntities, IDevice, IDeviceEntityData } from '../devices/types';
 import {
+  commentsSelector,
   getCommentByIdSelector,
   repliesSelector,
 } from './selectors/commentsSelector';
 import { getDeviceByIdSelector } from '../devices/selectors/deviceSelector';
-import { REPLIES_OFFSET } from './constants';
+import { COMMENTS_LIMIT, REPLIES_LIMIT } from './constants';
 
 export const initialState = {
   isError: false,
@@ -38,6 +40,7 @@ export const initialState = {
   isDeletingError: false,
   isRepliesLoading: false,
   isRepliesError: false,
+  hasMore: true,
 };
 
 type State = typeof initialState;
@@ -109,13 +112,27 @@ export const getCommentsByDeviceId = createAsyncThunk<
   IThunkAPI
 >(
   'comments/fetch-by-deviceId',
-  async ({ deviceId }, { rejectWithValue, getState }) => {
+  async ({ deviceId }, { rejectWithValue, getState, dispatch }) => {
     const state = getState();
 
     const device = getDeviceByIdSelector(state, deviceId);
+    const { comments } = commentsSelector(state, deviceId);
+
+    const offset = calculateOffsetValue({
+      amount: comments.length,
+      limit: COMMENTS_LIMIT,
+    });
 
     try {
-      const { data } = await Api.Comments.getByDeviceId(deviceId);
+      const { data } = await Api.Comments.getByDeviceId({
+        deviceId,
+        offset,
+        limit: COMMENTS_LIMIT,
+      });
+
+      if (data.comments.length < REPLIES_LIMIT) {
+        dispatch(commentsActions.setHasMore({ hasMore: false }));
+      }
 
       const { result, entities } = normalize<
         IComment,
@@ -162,12 +179,10 @@ export const getReplies = createAsyncThunk<
 
     const { replies } = repliesSelector(state, commentId);
 
-    const offsetValue =
-      replies.length % REPLIES_OFFSET === 0
-        ? replies.length
-        : replies.length - (replies.length % REPLIES_OFFSET);
-
-    const offset = offsetValue >= REPLIES_OFFSET ? offsetValue : 0;
+    const offset = calculateOffsetValue({
+      amount: replies.length,
+      limit: REPLIES_LIMIT,
+    });
 
     try {
       const { data } = await Api.Comments.getRepliesByRootCommentId({
@@ -299,7 +314,11 @@ export const deleteComment = createAsyncThunk<
 const commentsSlice = createSlice({
   initialState,
   name: 'comments',
-  reducers: {},
+  reducers: {
+    setHasMore(state: State, { payload }: PayloadAction<{ hasMore: boolean }>) {
+      state.hasMore = payload.hasMore;
+    },
+  },
   extraReducers: (builder) => {
     // create a new comment
     builder.addCase(addComment.pending, (state: State) => {
@@ -315,6 +334,7 @@ const commentsSlice = createSlice({
     });
     // get comments
     builder.addCase(getCommentsByDeviceId.pending, (state: State) => {
+      state.hasMore = true;
       state.isLoading = true;
       state.isError = false;
     });

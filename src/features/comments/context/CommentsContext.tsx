@@ -19,6 +19,7 @@ import useUpdateComment from '../hooks/useUpdateComment';
 import useWindowResize from '../hooks/useWindowResize';
 import { IComment, IDeleteCommentParams } from '../types';
 import useGetCommentsByDeviceId from '../hooks/useGetComments';
+import useGetMoreComments from '../hooks/useGetCommentsByRequest';
 
 interface IProps {
   children: React.ReactNode;
@@ -37,6 +38,8 @@ interface IContext {
   onAddComment: ({ parentId, body, deviceId }: IAddCommentParams) => void;
   onEditComment: ({ body, commentId }: IUpdateCommentParams) => void;
   onDeleteComment: ({ commentId }: IDeleteCommentParams) => void;
+  hasMore: boolean;
+  getMoreComments: () => void;
 }
 
 type ActiveCommentType = {
@@ -57,6 +60,7 @@ export function CommentsProvider({ children }: IProps) {
   const sizeMap = useRef<ISizeMap>({});
 
   const { isLoading, comments } = useGetCommentsByDeviceId(Number(deviceId));
+  const { getMoreByDeviceId, hasMore } = useGetMoreComments();
   const [windowWidth] = useWindowResize();
   const { onAdd } = useAddComment();
   const { onUpdate } = useUpdateComment();
@@ -91,6 +95,14 @@ export function CommentsProvider({ children }: IProps) {
     });
   };
 
+  const getMoreComments = () => {
+    if (deviceId !== undefined) {
+      getMoreByDeviceId(Number(deviceId)).then(() => {
+        listRef.current?.scrollToItem(comments.length);
+      });
+    }
+  };
+
   const values = {
     activeComment,
     setActiveComment,
@@ -104,6 +116,8 @@ export function CommentsProvider({ children }: IProps) {
     listRef,
     isLoading,
     comments,
+    hasMore,
+    getMoreComments,
   };
 
   return (

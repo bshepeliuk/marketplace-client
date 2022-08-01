@@ -16,9 +16,21 @@ interface IRowProps {
 
 function CommentRow({ data, index }: IRowProps) {
   const rowRef = useRef<HTMLDivElement>(null);
-  const { setSize, windowWidth } = useCommentsContext();
+  const context = useCommentsContext();
+
+  const { setSize, windowWidth, hasMore, getMoreComments } = context;
 
   const comment = data.comments[index];
+
+  if (comment === undefined && hasMore) {
+    return (
+      <div>
+        <button type="button" onClick={getMoreComments}>
+          show more comments
+        </button>
+      </div>
+    );
+  }
 
   useEffect(() => {
     let ignore = false;

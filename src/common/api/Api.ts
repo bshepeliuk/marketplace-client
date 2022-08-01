@@ -2,6 +2,7 @@ import {
   IAddCommentParams,
   ICreateDeviceParams,
   IEvaluateDeviceParams,
+  IGetCommentsParams,
   IGetDevicesProps,
   IGetRepliesParams,
   ILogin,
@@ -64,8 +65,8 @@ export const Comments = {
   add({ body, deviceId, parentId }: IAddCommentParams) {
     return api.post('/comments', { body, deviceId, parentId });
   },
-  getByDeviceId(deviceId: number) {
-    return api.get(`/comments/${deviceId}`);
+  getByDeviceId({ deviceId, limit = 20, offset = 0 }: IGetCommentsParams) {
+    return api.get(`/comments/${deviceId}?offset=${offset}&limit=${limit}`);
   },
   updateByCommentId({ commentId, body }: IUpdateCommentParams) {
     return api.patch('/comments', { commentId, body });
