@@ -8,14 +8,14 @@ function CommentsList() {
 
   const { comments, listRef, getSize, isLoading, hasMore } = context;
 
-  if (isLoading) return <div>Loading...</div>;
-
   const COMMENTS_COUNT = hasMore ? comments.length + 1 : comments.length;
+
+  if (isLoading) return <div>Loading...</div>;
 
   return (
     <List
       ref={listRef}
-      height={400}
+      height={500}
       width="100%"
       className="custom-scrollbar"
       itemCount={COMMENTS_COUNT}

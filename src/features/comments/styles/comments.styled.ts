@@ -13,6 +13,7 @@ export const ReplyList = styled.ul`
 
 export const Row = styled.div`
   padding-bottom: 20px;
+  position: relative;
 `;
 
 export const ShowRepliesButton = styled.button`
@@ -103,3 +104,12 @@ const CommentBaseButton = styled.button`
 export const EditButton = styled(CommentBaseButton)``;
 export const ReplyButton = styled(CommentBaseButton)``;
 export const DeleteButton = styled(CommentBaseButton)``;
+
+export const ShowMoreButton = styled.button`
+  cursor: pointer;
+  background-color: #95afc0;
+  border: none;
+  border-radius: 50px;
+  color: #fff;
+  padding: 5px 10px;
+`;

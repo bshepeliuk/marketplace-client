@@ -10,9 +10,14 @@ import {
 interface IRepliesProps {
   repliesCount: number;
   rootCommentId: number;
+  isRepliesVisible: boolean;
 }
 
-function ReplyListView({ repliesCount, rootCommentId }: IRepliesProps) {
+function ReplyListView({
+  repliesCount,
+  rootCommentId,
+  isRepliesVisible,
+}: IRepliesProps) {
   // prettier-ignore
   const {
     fetchReplies,
@@ -30,7 +35,7 @@ function ReplyListView({ repliesCount, rootCommentId }: IRepliesProps) {
 
   return (
     <>
-      {replies.length > 0 && (
+      {replies.length > 0 && !isRepliesVisible && (
         <ReplyList>
           {replies.map((item) => (
             <CommentView key={`reply-${item.id}`} comment={item} />
@@ -38,7 +43,7 @@ function ReplyListView({ repliesCount, rootCommentId }: IRepliesProps) {
         </ReplyList>
       )}
 
-      {hasReplies && (
+      {hasReplies && !isRepliesVisible && (
         <LoadMoreWrap>
           <ShowRepliesButton type="button" onClick={fetchReplies}>
             {replyBtnContent}

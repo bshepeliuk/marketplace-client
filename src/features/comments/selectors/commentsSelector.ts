@@ -41,6 +41,8 @@ export const commentsSelector = createSelector(
 export const repliesSelector = createSelector(
   [getEntitiesState, getCommentIdProp],
   (entities, commentId) => {
+    if (commentId === undefined) return { replies: [] };
+
     const comment = entities.comments[commentId];
     const device = entities.devices[comment.deviceId] as IDevice;
 

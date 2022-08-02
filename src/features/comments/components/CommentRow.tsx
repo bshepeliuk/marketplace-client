@@ -1,9 +1,14 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
+import { useTypedSelector } from '@src/common/hooks/useTypedSelector';
 import { IComment } from '../types';
 import CommentView from './CommentView';
 import useCommentsContext from '../hooks/useCommentsContext';
 import ReplyListView from './ReplyListView';
 import { Row } from '../styles/comments.styled';
+import useDynamicCommentRowHeight from '../hooks/useDynamicCommentRowHeight';
+import { repliesSelector } from '../selectors/commentsSelector';
+import LoadMoreButton from '../atoms/LoadMoreButton';
+import RepliesVisibilityButton from '../atoms/RepliesVisibilityButton';
 
 interface IData {
   comments: IComment[];
@@ -15,42 +20,35 @@ interface IRowProps {
 }
 
 function CommentRow({ data, index }: IRowProps) {
-  const rowRef = useRef<HTMLDivElement>(null);
-  const context = useCommentsContext();
-
-  const { setSize, windowWidth, hasMore, getMoreComments } = context;
-
   const comment = data.comments[index];
 
-  if (comment === undefined && hasMore) {
-    return (
-      <div>
-        <button type="button" onClick={getMoreComments}>
-          show more comments
-        </button>
-      </div>
-    );
-  }
+  const rowRef = useRef<HTMLDivElement>(null);
+  const { hasMore, checkIsRepliesVisible } = useCommentsContext();
+  const { replies } = useTypedSelector((state) => {
+    return repliesSelector(state, comment?.id);
+  });
 
-  useEffect(() => {
-    let ignore = false;
+  useDynamicCommentRowHeight({
+    rowRef,
+    rowIndex: index,
+  });
 
-    if (rowRef.current === null) return;
+  const hasLoadMoreButton = comment === undefined && hasMore;
+  const isRepliesVisible = checkIsRepliesVisible(comment?.id);
+  const hasReplies = replies.length > 0;
 
-    if (!ignore) {
-      setSize(index, rowRef.current.getBoundingClientRect().height);
-    }
-
-    return () => {
-      ignore = true;
-    };
-  }, [setSize, index, windowWidth]);
+  if (hasLoadMoreButton) return <LoadMoreButton />;
 
   return (
     <Row ref={rowRef}>
       <CommentView key={comment.id} comment={comment} />
 
+      {hasReplies && comment && (
+        <RepliesVisibilityButton commentId={comment.id} />
+      )}
+
       <ReplyListView
+        isRepliesVisible={isRepliesVisible}
         rootCommentId={comment.id}
         repliesCount={comment.repliesCount}
       />

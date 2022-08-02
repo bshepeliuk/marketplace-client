@@ -40,6 +40,8 @@ interface IContext {
   onDeleteComment: ({ commentId }: IDeleteCommentParams) => void;
   hasMore: boolean;
   getMoreComments: () => void;
+  toggleRepliesVisibility: (commentId: number) => void;
+  checkIsRepliesVisible: (commentId: number) => boolean;
 }
 
 type ActiveCommentType = {
@@ -58,6 +60,7 @@ export function CommentsProvider({ children }: IProps) {
   const [activeComment, setActiveComment] = useState<ActiveCommentType>(null);
   const listRef = useRef<VariableSizeList | null>(null);
   const sizeMap = useRef<ISizeMap>({});
+  const [hiddenReplies, setHiddenReplies] = useState<number[]>([]);
 
   const { isLoading, comments } = useGetCommentsByDeviceId(Number(deviceId));
   const { getMoreByDeviceId, hasMore } = useGetMoreComments();
@@ -71,7 +74,22 @@ export function CommentsProvider({ children }: IProps) {
     listRef.current?.resetAfterIndex(index);
   }, []);
 
-  const getSize = (index: number) => sizeMap.current[index] || 50;
+  const getSize = (index: number) => sizeMap.current[index] || 100;
+
+  const toggleRepliesVisibility = (commentId: number | undefined) => {
+    if (commentId === undefined) return;
+
+    if (checkIsRepliesVisible(commentId)) {
+      setHiddenReplies((prev) => prev.filter((id) => id !== commentId));
+    } else {
+      setHiddenReplies((prev) => prev.concat(commentId));
+    }
+  };
+
+  const checkIsRepliesVisible = (commentId: number | undefined) => {
+    if (commentId === undefined) return false;
+    return hiddenReplies.includes(commentId);
+  };
 
   const clearActiveComment = () => {
     setActiveComment(null);
@@ -118,6 +136,8 @@ export function CommentsProvider({ children }: IProps) {
     comments,
     hasMore,
     getMoreComments,
+    toggleRepliesVisibility,
+    checkIsRepliesVisible,
   };
 
   return (
