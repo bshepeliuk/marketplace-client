@@ -71,6 +71,7 @@ export const Body = styled.p`
   grid-area: BODY;
   margin: 0;
   justify-self: start;
+  white-space: pre-wrap;
 `;
 
 export const CreatedAt = styled.div`
