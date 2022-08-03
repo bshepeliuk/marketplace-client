@@ -42,6 +42,7 @@ interface IContext {
   getMoreComments: () => void;
   toggleRepliesVisibility: (commentId: number) => void;
   checkIsRepliesVisible: (commentId: number) => boolean;
+  getAvgRowHeight: () => number;
 }
 
 type ActiveCommentType = {
@@ -74,7 +75,7 @@ export function CommentsProvider({ children }: IProps) {
     listRef.current?.resetAfterIndex(index);
   }, []);
 
-  const getSize = (index: number) => sizeMap.current[index] || 100;
+  const getSize = (index: number) => sizeMap.current[index] || 30;
 
   const toggleRepliesVisibility = (commentId: number | undefined) => {
     if (commentId === undefined) return;
@@ -121,6 +122,17 @@ export function CommentsProvider({ children }: IProps) {
     }
   };
 
+  const getAvgRowHeight = () => {
+    const sizeList = Object.values(sizeMap.current);
+
+    if (sizeList.length === 0) return 0;
+
+    const totalHeight = sizeList.reduce((acc, height) => acc + height, 0);
+    const avgHeight = totalHeight / sizeList.length;
+
+    return Math.floor(avgHeight);
+  };
+
   const values = {
     activeComment,
     setActiveComment,
@@ -138,6 +150,7 @@ export function CommentsProvider({ children }: IProps) {
     getMoreComments,
     toggleRepliesVisibility,
     checkIsRepliesVisible,
+    getAvgRowHeight,
   };
 
   return (

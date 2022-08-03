@@ -72,6 +72,7 @@ export const Body = styled.p`
   margin: 0;
   justify-self: start;
   white-space: pre-wrap;
+  text-align: left;
 `;
 
 export const CreatedAt = styled.div`
@@ -113,4 +114,15 @@ export const ShowMoreButton = styled.button`
   border-radius: 50px;
   color: #fff;
   padding: 5px 10px;
+`;
+
+export const ScrollTopButton = styled.button`
+  position: fixed;
+  right: 30px;
+  bottom: 30px;
+  background-color: #34495e;
+  color: #fff;
+  border: none;
+  padding: 5px 8px;
+  border-radius: 4px;
 `;
