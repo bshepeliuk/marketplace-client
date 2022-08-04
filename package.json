@@ -82,7 +82,6 @@
     "formik": "^2.2.9",
     "immer": "^9.0.15",
     "normalizr": "^3.6.1",
-    "query-string": "^7.1.1",
     "react": "^17.0.2",
     "react-content-loader": "^6.1.0",
     "react-dom": "^17.0.2",

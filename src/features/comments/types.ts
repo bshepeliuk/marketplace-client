@@ -17,7 +17,7 @@ export interface IComment {
 
 export interface INewCommentEntity {
   result: number;
-  entities: Pick<DeviceEntities, 'comments' | 'devices'>;
+  entities: Pick<DeviceEntities, 'comments'>;
 }
 
 export interface ICommentEntities {

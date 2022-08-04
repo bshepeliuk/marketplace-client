@@ -42,8 +42,8 @@ export const repliesSelector = createSelector(
   [getEntitiesState, getCommentIdProp],
   (entities, commentId) => {
     if (commentId === undefined) return { replies: [] };
-
     const comment = entities.comments[commentId];
+
     const device = entities.devices[comment.deviceId] as IDevice;
 
     const replies = (device.comments as number[])
@@ -54,6 +54,7 @@ export const repliesSelector = createSelector(
 
     return {
       replies: sortedReplies,
+      rootComment: comment,
     };
   },
 );
