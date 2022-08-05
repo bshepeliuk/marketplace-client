@@ -47,7 +47,7 @@ function DeviceDetailsView() {
 
         <Title>{device.name}</Title>
 
-        <AvgRatingView avgRating={avgRating} />
+        <AvgRatingView avgRating={avgRating} amount={ratings.length} />
 
         <DeviceNavigation deviceId={device.id} />
 

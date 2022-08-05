@@ -1,6 +1,7 @@
 import React from 'react';
-import { useTypedSelector } from '@common/hooks/useTypedSelector';
 import { formatDistanceToNow } from 'date-fns';
+import { useTypedSelector } from '@common/hooks/useTypedSelector';
+import notifications from '@src/common/utils/notifications';
 import UserLogo from '@src/common/components/UserLogo/UserLogo';
 import { COMMENT_ACTION_TIME_MS_LIMIT } from '../constants';
 import useCommentsContext from '../hooks/useCommentsContext';
@@ -47,12 +48,16 @@ function CommentView({ comment }: ICommentProps) {
   const parentId = comment.parentId ?? comment.id;
 
   const turnOnReplyMode = () => {
+    if (!isLoggedIn) return notifications.info('Unauthorized!');
     if (isReplying) return clearActiveComment();
+
     setActiveComment({ id: comment.id, type: 'replying' });
   };
 
   const turnOnEditMode = () => {
+    if (!isLoggedIn) return notifications.info('Unauthorized!');
     if (isEditing) return clearActiveComment();
+
     setActiveComment({ id: comment.id, type: 'editing' });
   };
 

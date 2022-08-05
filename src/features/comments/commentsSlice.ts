@@ -4,6 +4,7 @@ import * as Api from '@src/common/api/Api';
 import { IThunkAPI } from '@src/common/types/baseTypes';
 import getErrorMessage from '@src/common/utils/getErrorMessage';
 import calculateOffsetValue from '@common/utils/calculateOffsetValue';
+import notifications from '@common/utils/notifications';
 import {
   IAddCommentParams,
   IGetRepliesParams,
@@ -84,6 +85,8 @@ export const addComment = createAsyncThunk<
       };
     } catch (error) {
       const message = getErrorMessage(error);
+
+      notifications.error(message);
 
       return rejectWithValue({
         message,
@@ -219,6 +222,8 @@ export const updateComment = createAsyncThunk<
     } catch (error) {
       const message = getErrorMessage(error);
 
+      notifications.error(message);
+
       return rejectWithValue({
         message,
       });
@@ -261,6 +266,8 @@ export const deleteComment = createAsyncThunk<
       };
     } catch (error) {
       const message = getErrorMessage(error);
+
+      notifications.error(message);
 
       return rejectWithValue({
         message,

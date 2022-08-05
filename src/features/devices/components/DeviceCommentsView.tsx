@@ -12,6 +12,7 @@ import { IDevice, IDeviceRating } from '../types';
 import {
   CommentFormContainer,
   CommentsWrap,
+  RatingMessage,
 } from '../styles/deviceDetails.styled';
 
 interface IProps {
@@ -54,6 +55,12 @@ function DeviceCommentsView({ device }: IProps) {
           onChange={onChangeRating}
           isInteractive={hasRated && isLoggedIn && !isEvaluating}
         />
+
+        {!hasRated && isLoggedIn && (
+          <RatingMessage>
+            * You have already evaluated this device.
+          </RatingMessage>
+        )}
       </CommentFormContainer>
     </CommentsWrap>
   );

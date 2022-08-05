@@ -23,22 +23,22 @@ export const ImageWrapper = styled.div`
 
 export const InnerWrap = styled.div`
   display: grid;
-  grid-template-columns: 60px 440px 1fr 80px;
+  grid-template-columns: 60px 440px 1fr 100px;
   grid-template-rows: 50px 50px 50px 1fr;
   margin-top: -40px;
   row-gap: 15px;
 
   @media (max-width: 1060px) {
-    grid-template-columns: 60px 350px 1fr 80px;
+    grid-template-columns: 60px 350px 1fr 100px;
   }
 
   @media (max-width: 968px) {
-    grid-template-columns: 60px 1fr 1fr 60px;
+    grid-template-columns: 60px 1fr 1fr 100px;
     grid-template-rows: 50px 50px 450px 50px 1fr;
   }
 
   @media (max-width: 420px) {
-    grid-template-columns: 60px 1fr 1fr 60px;
+    grid-template-columns: 60px 1fr 1fr 100px;
   }
 `;
 
@@ -245,4 +245,15 @@ export const CommentFormContainer = styled.div`
   @media (max-width: 380px) {
     width: 320px;
   }
+`;
+
+export const RatingMessage = styled.p`
+  margin: 0;
+  font-size: 14px;
+  color: #1abc9c;
+`;
+
+export const RatingAmount = styled.span`
+  margin-left: 5px;
+  color: #95afc0;
 `;
