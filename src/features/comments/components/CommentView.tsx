@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTypedSelector } from '@common/hooks/useTypedSelector';
 import { formatDistanceToNow } from 'date-fns';
 import UserLogo from '@src/common/components/UserLogo/UserLogo';
 import { COMMENT_ACTION_TIME_MS_LIMIT } from '../constants';
@@ -23,6 +24,7 @@ interface ICommentProps {
 }
 
 function CommentView({ comment }: ICommentProps) {
+  const { isLoggedIn } = useTypedSelector((state) => state.auth);
   const {
     activeComment,
     setActiveComment,
@@ -86,14 +88,14 @@ function CommentView({ comment }: ICommentProps) {
           reply
         </ReplyButton>
 
-        {canDelete && (
+        {canDelete && isLoggedIn && (
           <DeleteButton type="button" onClick={onDelete}>
             delete
           </DeleteButton>
         )}
       </BtnWrap>
 
-      {isReplying && (
+      {isReplying && isLoggedIn && (
         <FormWrapper>
           <CommentFormView
             handleSubmit={onReplySubmit}
@@ -103,7 +105,7 @@ function CommentView({ comment }: ICommentProps) {
         </FormWrapper>
       )}
 
-      {isEditing && (
+      {isEditing && isLoggedIn && (
         <FormWrapper>
           <CommentFormView
             defaultValue={comment.body}
