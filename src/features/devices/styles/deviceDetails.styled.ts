@@ -65,6 +65,16 @@ export const NavWrap = styled.div`
 
 export const CommentsWrap = styled.div`
   grid-column: 1 / -1;
+  height: max-content;
+  margin-top: 50px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-items: center;
+
+  @media (max-width: 968px) {
+    grid-template-columns: 1fr;
+    grid-template-rows: 220px 1fr;
+  }
 `;
 
 export const MenuLink = styled(NavLink)`
@@ -219,4 +229,20 @@ export const FeatureDescription = styled.p`
 export const FeatureTitle = styled.h3`
   margin: 0;
   font-weight: 300;
+`;
+
+export const CommentFormContainer = styled.div`
+  width: 400px;
+
+  @media (max-width: 1060px) {
+    width: 350px;
+  }
+
+  @media (max-width: 968px) {
+    grid-row: 1;
+  }
+
+  @media (max-width: 380px) {
+    width: 320px;
+  }
 `;

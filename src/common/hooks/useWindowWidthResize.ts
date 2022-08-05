@@ -6,7 +6,7 @@ const useWindowWidthResize = () => {
   };
 
   const [size, setSize] = useState(initialState);
-  // TODO: optimization
+
   const handleWidthResize = (evt: Event) => {
     const target = evt.target as Window;
 

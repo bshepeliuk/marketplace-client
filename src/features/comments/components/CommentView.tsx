@@ -1,4 +1,5 @@
 import React from 'react';
+import { formatDistanceToNow } from 'date-fns';
 import UserLogo from '@src/common/components/UserLogo/UserLogo';
 import { COMMENT_ACTION_TIME_MS_LIMIT } from '../constants';
 import useCommentsContext from '../hooks/useCommentsContext';
@@ -31,7 +32,9 @@ function CommentView({ comment }: ICommentProps) {
     onAddComment,
   } = useCommentsContext();
 
-  const createdAt = new Date(comment.createdAt).toLocaleDateString();
+  const createdAt = formatDistanceToNow(new Date(comment.createdAt).getTime(), {
+    addSuffix: true,
+  });
   const passedTimeInMs = Date.now() - new Date(comment.createdAt).getTime();
 
   const isCurrentComment = comment.id === activeComment?.id;

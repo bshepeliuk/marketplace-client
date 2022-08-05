@@ -50,6 +50,7 @@ function CommentFormView(props: IProps) {
     <Form onSubmit={formik.handleSubmit}>
       <TextArea
         className="custom-scrollbar"
+        placeholder="Please enter your message here..."
         name="body"
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}

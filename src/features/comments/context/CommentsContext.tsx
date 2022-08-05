@@ -43,6 +43,9 @@ interface IContext {
   toggleRepliesVisibility: (commentId: number) => void;
   checkIsRepliesVisible: (commentId: number) => boolean;
   getAvgRowHeight: () => number;
+  onListScroll: (evt: { scrollOffset: number }) => void;
+  goToTop: () => void;
+  isGoTopBtnVisible: boolean;
 }
 
 type ActiveCommentType = {
@@ -59,6 +62,7 @@ export const CommentsContext = createContext<IContext | undefined>(undefined);
 export function CommentsProvider({ children }: IProps) {
   const { deviceId } = useParams();
   const [activeComment, setActiveComment] = useState<ActiveCommentType>(null);
+  const [isGoTopBtnVisible, setIsGoTopBtnVisible] = useState(false);
   const listRef = useRef<VariableSizeList | null>(null);
   const sizeMap = useRef<ISizeMap>({});
   const [hiddenReplies, setHiddenReplies] = useState<number[]>([]);
@@ -122,6 +126,17 @@ export function CommentsProvider({ children }: IProps) {
     }
   };
 
+  const onListScroll = (evt: { scrollOffset: number }) => {
+    const avgRowHeight = getAvgRowHeight();
+    const ROW_AMOUNT = 5;
+
+    if (evt.scrollOffset > avgRowHeight * ROW_AMOUNT) {
+      setIsGoTopBtnVisible(true);
+    } else {
+      setIsGoTopBtnVisible(false);
+    }
+  };
+
   const getAvgRowHeight = () => {
     const sizeList = Object.values(sizeMap.current);
 
@@ -132,6 +147,8 @@ export function CommentsProvider({ children }: IProps) {
 
     return Math.floor(avgHeight);
   };
+
+  const goToTop = () => listRef.current?.scrollToItem(0);
 
   const values = {
     activeComment,
@@ -151,6 +168,9 @@ export function CommentsProvider({ children }: IProps) {
     toggleRepliesVisibility,
     checkIsRepliesVisible,
     getAvgRowHeight,
+    onListScroll,
+    goToTop,
+    isGoTopBtnVisible,
   };
 
   return (

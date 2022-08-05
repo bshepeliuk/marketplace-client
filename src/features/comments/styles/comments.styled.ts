@@ -1,18 +1,41 @@
 import styled from 'styled-components';
+import { VariableSizeList } from 'react-window';
+
+export const StyledList = styled(VariableSizeList)``;
 
 export const LoadMoreWrap = styled.div`
   width: 310px;
   display: flex;
   justify-content: center;
+  position: absolute;
+  bottom: 20px;
+
+  @media (max-width: 500px) {
+    width: 230px;
+  }
+
+  @media (max-width: 400px) {
+    width: 200px;
+  }
+`;
+
+export const RowContainer = styled.div`
+  padding-left: 20px;
+
+  @media (max-width: 500px) {
+    padding-left: 0;
+  }
 `;
 
 export const ReplyList = styled.ul`
   margin-left: 50px;
-  padding-top: 20px;
+
+  @media (max-width: 500px) {
+    margin-left: 10px;
+  }
 `;
 
 export const Row = styled.div`
-  padding-bottom: 20px;
   position: relative;
 `;
 
@@ -44,8 +67,17 @@ export const Comment = styled.li`
     'LOGO FULL-NAME CREATED-AT'
     'LOGO BODY BODY'
     'LOGO BTN BTN';
-  grid-template-columns: 60px 150px 100px;
+  grid-template-columns: 60px 200px 150px;
   height: 100%;
+  padding-bottom: 20px;
+
+  @media (max-width: 570px) {
+    grid-template-columns: 60px 150px 100px;
+  }
+
+  @media (max-width: 450px) {
+    grid-template-columns: 60px 140px 70px;
+  }
 `;
 
 export const BtnWrap = styled.div`
@@ -73,11 +105,20 @@ export const Body = styled.p`
   justify-self: start;
   white-space: pre-wrap;
   text-align: left;
+  padding: 10px 0;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 100%;
 `;
 
 export const CreatedAt = styled.div`
   grid-area: CREATED-AT;
   justify-self: end;
+  color: #7f8c8d;
+
+  @media (max-width: 550px) {
+    font-size: 12px;
+  }
 `;
 
 const CommentBaseButton = styled.button`
@@ -85,6 +126,8 @@ const CommentBaseButton = styled.button`
   border: none;
   background-color: transparent;
   color: #2c3e50;
+  padding: 0;
+  padding-left: 15px;
 
   &::after {
     content: '';

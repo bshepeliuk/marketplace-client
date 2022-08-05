@@ -1,12 +1,17 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { VariableSizeList as List } from 'react-window';
 import CommentRow from './CommentRow';
 import useCommentsContext from '../hooks/useCommentsContext';
-import { ScrollTopButton } from '../styles/comments.styled';
+import { RowContainer, ScrollTopButton } from '../styles/comments.styled';
+import calculateCommentListWidthBySize from '../helpers/calculateCommentListWidthBySize';
 
-function CommentsList() {
-  const [isGoTopBtnVisible, setIsGoTopBtnVisible] = useState(false);
+interface IProps {
+  size: { width: number };
+}
+
+function CommentsList({ size }: IProps) {
   const context = useCommentsContext();
+  const width = calculateCommentListWidthBySize(size);
   // prettier-ignore
   const {
     comments,
@@ -14,42 +19,35 @@ function CommentsList() {
     getSize,
     isLoading,
     hasMore,
-    getAvgRowHeight
+    onListScroll,
+    goToTop,
+    isGoTopBtnVisible,
   } = context;
 
   const COMMENTS_COUNT = hasMore ? comments.length + 1 : comments.length;
 
-  const onScroll = (evt: { scrollOffset: number }) => {
-    const avgRowHeight = getAvgRowHeight();
-    const ROW_AMOUNT = 5;
-
-    if (evt.scrollOffset > avgRowHeight * ROW_AMOUNT) {
-      setIsGoTopBtnVisible(true);
-    } else {
-      setIsGoTopBtnVisible(false);
-    }
-  };
-
-  const goToTop = () => listRef.current?.scrollToItem(0);
-
   if (isLoading) return <div>Loading...</div>;
+
+  if (!hasMore && comments.length === 0) {
+    return <div>No comments yet.</div>;
+  }
 
   return (
     <>
       <List
         ref={listRef}
-        height={500}
-        width="100%"
-        className="custom-scrollbar"
-        onScroll={onScroll}
+        height={600}
+        width={width}
+        className="custom-scrollbar scroll-smooth"
+        onScroll={onListScroll}
         itemCount={COMMENTS_COUNT}
         itemSize={getSize}
         itemData={{ comments }}
       >
         {({ data, index, style }) => (
-          <div style={style}>
+          <RowContainer style={style}>
             <CommentRow data={data} index={index} />
-          </div>
+          </RowContainer>
         )}
       </List>
 
