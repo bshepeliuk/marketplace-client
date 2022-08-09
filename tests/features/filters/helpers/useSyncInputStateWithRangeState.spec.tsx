@@ -17,7 +17,16 @@ describe('[HOOK]: useSyncInputStateWithRangeState', () => {
   let store: any;
 
   beforeEach(() => {
-    store = mockStore({});
+    store = mockStore({
+      filters: {
+        options: {
+          isError: false,
+          isLoading: false,
+          items: [],
+          prices: {},
+        },
+      },
+    });
   });
 
   afterEach(() => {
@@ -84,7 +93,7 @@ describe('[HOOK]: useSyncInputStateWithRangeState', () => {
     );
   });
 
-  test('values and range should be syncronized with global state prices on mount.', async () => {
+  test('values and range should be synchronized with global state prices on mount.', async () => {
     const rangeHookRes = renderHook(useHandleRangePrice);
     const minMaxInputHookRes = renderHook(useHandleInputsPrice);
 

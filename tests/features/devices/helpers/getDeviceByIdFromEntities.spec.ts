@@ -43,7 +43,7 @@ const devices = [
         updatedAt: new Date().toISOString(),
       },
     ],
-
+    comments: [],
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   },

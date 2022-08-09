@@ -1,6 +1,5 @@
 import { useAppDispatch } from '@src/common/hooks/useAppDispatch';
 import { useTypedSelector } from '@src/common/hooks/useTypedSelector';
-import { updateCommentIdsForDevice } from '@src/features/entities/entitiesReducer';
 import { addComment } from '../commentsSlice';
 
 interface IAddProps {
@@ -15,14 +14,8 @@ const useAddComment = () => {
     (state) => state.comments,
   );
 
-  const onAdd = async ({ body, deviceId, parentId }: IAddProps) => {
-    const action = await dispatch(addComment({ body, deviceId, parentId }));
-
-    if (addComment.fulfilled.match(action)) {
-      dispatch(
-        updateCommentIdsForDevice({ deviceId, ids: [action.payload.result] }),
-      );
-    }
+  const onAdd = ({ body, deviceId, parentId }: IAddProps) => {
+    return dispatch(addComment({ body, deviceId, parentId }));
   };
 
   return {

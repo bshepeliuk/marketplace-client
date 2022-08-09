@@ -11,6 +11,7 @@ module.exports = {
     '<rootDir>/tests/mocks/',
     '.styled.ts',
   ],
+  // silent: true,
   setupFilesAfterEnv: ['<rootDir>/jest-setup.js'],
   testEnvironment: 'jsdom',
 };

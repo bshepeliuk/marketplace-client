@@ -18,6 +18,7 @@ const rootState = {
     devices: { 1: { id: 1, images: [1], info: [], ratings: [] } },
     images: { 1: { id: 1, url: 'https://image.jpeg' } },
     ratings: {},
+    comments: {},
   },
   devices: {
     device: {
@@ -48,6 +49,7 @@ describe('useGetDeviceById hook', () => {
       info: [],
       images: [{ id: 1, url: 'https://image.jpeg' }],
       ratings: [],
+      comments: [],
     });
 
     expect(dispatch).toHaveBeenCalledTimes(0);

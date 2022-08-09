@@ -1,4 +1,6 @@
+import { MutableRefObject } from 'react';
 import { ParamKeyValuePair } from 'react-router-dom';
+import { VariableSizeList } from 'react-window';
 
 export const mockOptions = [
   {
@@ -40,6 +42,41 @@ export const mockOptions = [
   },
 ];
 
+export const commentMock = {
+  id: 1,
+  body: 'test comment!',
+  parentId: null,
+  deviceId: 2,
+  createdAt: '2022-01-05T16:57:37.787Z',
+  updatedAt: '2022-01-05T16:57:37.787Z',
+};
+
+export const replyMock = {
+  id: 11,
+  body: 'test reply!',
+  parentId: commentMock.id,
+  deviceId: 2,
+  createdAt: '2022-01-05T16:57:37.787Z',
+  updatedAt: '2022-01-05T16:57:37.787Z',
+};
+
+export const deviceMock = {
+  id: 2,
+  name: 'HP Pavillion 15 eh1021-ua',
+  price: 33448,
+  brandId: 2,
+  typeId: 1,
+  userId: 1,
+  quantity: 1,
+  images: [],
+  info: [],
+  ratings: [],
+  comments: [commentMock.id, replyMock.id],
+  count: 1,
+  createdAt: '2022-01-05T16:57:37.787Z',
+  updatedAt: '2022-01-05T16:57:37.787Z',
+};
+
 export const goods = [
   {
     id: 2,
@@ -52,6 +89,7 @@ export const goods = [
     images: [],
     info: [],
     ratings: [],
+    comments: [],
     count: 1,
     createdAt: '2022-01-05T16:57:37.787Z',
     updatedAt: '2022-01-05T16:57:37.787Z',
@@ -67,6 +105,7 @@ export const goods = [
     images: [],
     info: [],
     ratings: [],
+    comments: [],
     count: 1,
     createdAt: '2021-07-10T10:29:45.277Z',
     updatedAt: '2021-07-10T10:29:45.277Z',
@@ -114,6 +153,29 @@ export const newDeviceContextValuesMock = {
     features: [],
   },
   isCreating: false,
+};
+
+export const commentsContextValuesMock = {
+  listRef: { current: {} } as MutableRefObject<VariableSizeList | null>,
+  windowWidth: 500,
+  activeComment: null,
+  comments: [],
+  isLoading: false,
+  setActiveComment: jest.fn(),
+  clearActiveComment: jest.fn(),
+  setSize: jest.fn(),
+  getSize: jest.fn(),
+  onAddComment: jest.fn(),
+  onEditComment: jest.fn(),
+  onDeleteComment: jest.fn(),
+  hasMore: true,
+  getMoreComments: jest.fn(),
+  toggleRepliesVisibility: jest.fn(),
+  checkIsRepliesVisible: jest.fn(),
+  getAvgRowHeight: jest.fn(),
+  onListScroll: jest.fn(),
+  goToTop: jest.fn(),
+  isGoTopBtnVisible: false,
 };
 
 export const categories = [

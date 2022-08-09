@@ -18,8 +18,8 @@ import useDeleteComment from '../hooks/useDeleteComment';
 import useUpdateComment from '../hooks/useUpdateComment';
 import useWindowResize from '../hooks/useWindowResize';
 import { IComment, IDeleteCommentParams } from '../types';
-import useGetCommentsByDeviceId from '../hooks/useGetComments';
-import useGetMoreComments from '../hooks/useGetCommentsByRequest';
+import useGetCommentsByDeviceId from '../hooks/useGetCommentsByDeviceId';
+import useGetMoreComments from '../hooks/useGetMoreComments';
 
 interface IProps {
   children: React.ReactNode;

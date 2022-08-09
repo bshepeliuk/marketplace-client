@@ -30,6 +30,7 @@ import {
 import { getDeviceByIdSelector } from '../devices/selectors/deviceSelector';
 import { COMMENTS_LIMIT, REPLIES_LIMIT } from './constants';
 import { incrementCommentRepliesCount } from '../entities/entitiesReducer';
+import updateCommentIdsForDevice from './helpers/updateCommentIdsForDevice';
 
 export const initialState = {
   isError: false,
@@ -79,9 +80,18 @@ export const addComment = createAsyncThunk<
         dispatch(incrementCommentRepliesCount({ commentId: comment.id }));
       }
 
+      const nextDeviceState = updateCommentIdsForDevice({
+        deviceId,
+        devices: state.entities.devices,
+        ids: [result],
+      });
+
       return {
         result,
-        entities,
+        entities: {
+          ...entities,
+          devices: nextDeviceState,
+        },
       };
     } catch (error) {
       const message = getErrorMessage(error);
@@ -128,9 +138,18 @@ export const getCommentsByDeviceId = createAsyncThunk<
         number[]
       >(data.comments, CommentsSchema);
 
+      const nextDeviceState = updateCommentIdsForDevice({
+        deviceId,
+        devices: state.entities.devices,
+        ids: result,
+      });
+
       return {
         result,
-        entities,
+        entities: {
+          ...entities,
+          devices: nextDeviceState,
+        },
       };
     } catch (error) {
       const message = getErrorMessage(error);
@@ -152,6 +171,7 @@ export const getReplies = createAsyncThunk<
     const state = getState();
 
     const { replies } = repliesSelector(state, commentId);
+    const rootComment = getCommentByIdSelector(state, commentId);
 
     const offset = calculateOffsetValue({
       amount: replies.length,
@@ -171,9 +191,18 @@ export const getReplies = createAsyncThunk<
         number[]
       >(data.replies, CommentsSchema);
 
+      const nextDeviceState = updateCommentIdsForDevice({
+        deviceId: rootComment.deviceId,
+        devices: state.entities.devices,
+        ids: result,
+      });
+
       return {
         result,
-        entities,
+        entities: {
+          ...entities,
+          devices: nextDeviceState,
+        },
       };
     } catch (error) {
       const message = getErrorMessage(error);

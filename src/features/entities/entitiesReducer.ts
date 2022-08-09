@@ -10,11 +10,6 @@ export const initialState: IEntitiesState = {
   comments: {},
 };
 
-export const updateCommentIdsForDevice = createAction<{
-  ids: number[];
-  deviceId: number;
-}>('entities/update-comments-field');
-
 export const incrementCommentRepliesCount = createAction<{ commentId: number }>(
   'entities/increment-replies-count',
 );
@@ -24,20 +19,16 @@ const isActionWithEntities = (action: AnyAction) => {
 };
 
 const entitiesReducer = createReducer(initialState, (builder) => {
-  builder.addCase(updateCommentIdsForDevice, (state, { payload }) => {
-    const device = state.devices[payload.deviceId];
-    const prevComments = (device.comments as number[]) || [];
-
-    device.comments = [...new Set(prevComments.concat(payload.ids))];
-  });
-
   builder.addCase(incrementCommentRepliesCount, (state, { payload }) => {
     state.comments[payload.commentId].repliesCount += 1;
   });
 
   builder.addMatcher(isActionWithEntities, (state, action) => {
     (Object.keys(action.payload.entities) as EntityKeys[]).forEach((key) => {
-      state[key] = { ...state[key], ...action.payload.entities[key] };
+      state[key] = {
+        ...state[key],
+        ...action.payload.entities[key],
+      };
     });
   });
   builder.addDefaultCase((state) => state);
