@@ -32,7 +32,7 @@ import { COMMENTS_LIMIT, REPLIES_LIMIT } from './constants';
 import { incrementCommentRepliesCount } from '../entities/entitiesReducer';
 import updateCommentIdsForDevice from './helpers/updateCommentIdsForDevice';
 
-export const initialState = {
+export const commentsInitialState = {
   isError: false,
   isLoading: false,
   isCreating: false,
@@ -46,7 +46,7 @@ export const initialState = {
   hasMore: true,
 };
 
-type State = typeof initialState;
+type State = typeof commentsInitialState;
 
 export const addComment = createAsyncThunk<
   INewCommentEntity,
@@ -68,7 +68,7 @@ export const addComment = createAsyncThunk<
       });
 
       const comment = getCommentByIdSelector(state, data.comment.parentId);
-      const isRootComment = comment !== undefined;
+      const hasRootComment = comment !== undefined;
 
       const { result, entities } = normalize<
         IComment,
@@ -76,7 +76,7 @@ export const addComment = createAsyncThunk<
         number
       >(data.comment, CommentSchema);
 
-      if (isRootComment) {
+      if (hasRootComment) {
         dispatch(incrementCommentRepliesCount({ commentId: comment.id }));
       }
 
@@ -306,7 +306,7 @@ export const deleteComment = createAsyncThunk<
 );
 
 const commentsSlice = createSlice({
-  initialState,
+  initialState: commentsInitialState,
   name: 'comments',
   reducers: {
     setHasMore(state: State, { payload }: PayloadAction<{ hasMore: boolean }>) {

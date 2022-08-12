@@ -1,26 +1,9 @@
 import { ROLES } from '@src/common/constants';
-import { CommentSchema, DeviceSchema } from '@src/common/normalizeSchemas';
-import { IComment } from '@src/features/comments/types';
-import { DeviceEntities, IDevice } from '@src/features/devices/types';
-import { normalize } from 'normalizr';
-import { commentMock, deviceMock, replyMock } from './data';
-
-const deviceEntityMock = normalize<IDevice, DeviceEntities, number>(
-  deviceMock,
-  DeviceSchema,
-);
-
-const commentEntityMock = normalize<
-  IComment,
-  Pick<DeviceEntities, 'comments'>,
-  number
->(commentMock, CommentSchema);
-
-const replyEntityMock = normalize<
-  IComment,
-  Pick<DeviceEntities, 'comments'>,
-  number
->(replyMock, CommentSchema);
+import {
+  commentEntityMock,
+  deviceEntityMock,
+  replyEntityMock,
+} from './entitiesMock';
 
 export const rootStateMock = {
   entities: {

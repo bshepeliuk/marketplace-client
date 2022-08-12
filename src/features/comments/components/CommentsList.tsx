@@ -9,6 +9,8 @@ interface IProps {
   size: { width: number };
 }
 
+const HEIGHT = 600;
+
 function CommentsList({ size }: IProps) {
   const context = useCommentsContext();
   const width = calculateCommentListWidthBySize(size);
@@ -36,7 +38,7 @@ function CommentsList({ size }: IProps) {
     <>
       <List
         ref={listRef}
-        height={600}
+        height={HEIGHT}
         width={width}
         className="custom-scrollbar scroll-smooth"
         onScroll={onListScroll}

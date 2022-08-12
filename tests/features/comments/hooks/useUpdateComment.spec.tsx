@@ -4,10 +4,8 @@ import * as ReactRedux from 'react-redux';
 import { act, renderHook } from '@testing-library/react-hooks';
 import useUpdateComment from '@features/comments/hooks/useUpdateComment';
 import { updateComment } from '@features/comments/commentsSlice';
-import useGetRepliesByRootCommentId from '@features/comments/hooks/useGetReplies';
 import { Wrapper } from '../../../wrapper';
 import { rootStateMock } from '../../../mocks/stateMock';
-import { commentMock } from '../../../mocks/data';
 
 const useDispatchMock = jest.spyOn(ReactRedux, 'useDispatch');
 
