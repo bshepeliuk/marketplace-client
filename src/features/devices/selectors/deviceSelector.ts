@@ -10,6 +10,10 @@ const getCategoryIdProps = (_: unknown, categoryId: string | null) => {
   return categoryId;
 };
 
+export const getDeviceByIdSelector = (state: RootState, deviceId: number) => {
+  return state.entities.devices[deviceId];
+};
+
 export const deviceSelector = createSelector(
   [getEntitiesState, getDevicesState, getDeviceIdProp],
   (entities, deviceState, deviceId) => {

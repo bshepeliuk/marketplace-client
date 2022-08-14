@@ -1,9 +1,13 @@
 import {
+  IAddCommentParams,
   ICreateDeviceParams,
   IEvaluateDeviceParams,
+  IGetCommentsParams,
   IGetDevicesProps,
+  IGetRepliesParams,
   ILogin,
   IRegister,
+  IUpdateCommentParams,
 } from '@src/common/types/apiTypes';
 import getApiInstance from '@src/common/utils/getApiInstance';
 import { IPaymentItems } from '@src/features/payment/types';
@@ -54,6 +58,24 @@ export const Devices = {
     }
 
     return api.post('/devices', formData);
+  },
+};
+
+export const Comments = {
+  add({ body, deviceId, parentId }: IAddCommentParams) {
+    return api.post('/comments', { body, deviceId, parentId });
+  },
+  getByDeviceId({ deviceId, limit = 20, offset = 0 }: IGetCommentsParams) {
+    return api.get(`/comments/${deviceId}?offset=${offset}&limit=${limit}`);
+  },
+  updateByCommentId({ commentId, body }: IUpdateCommentParams) {
+    return api.patch('/comments', { commentId, body });
+  },
+  deleteById(commentId: number) {
+    return api.delete(`/comments/${commentId}`);
+  },
+  getRepliesByRootCommentId({ commentId, offset, limit }: IGetRepliesParams) {
+    return api.get(`/replies/${commentId}?offset=${offset}&limit=${limit}`);
   },
 };
 

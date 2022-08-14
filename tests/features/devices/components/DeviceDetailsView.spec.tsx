@@ -79,6 +79,9 @@ const rootState = {
   cart: {
     items: [],
   },
+  comments: {
+    isCreating: false,
+  },
 };
 
 describe('[PAGES]: DeviceDetailsView', () => {

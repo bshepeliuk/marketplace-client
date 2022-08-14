@@ -105,7 +105,7 @@ function DeviceListView({
     };
   };
 
-  const getOwnRefSetter = (ref: any) => (node: Grid) => {
+  const getOwnRefSetter = (ref: (n: Grid) => void) => (node: Grid) => {
     if (typeof ref === 'function') ref(node);
     gridRef.current = node;
   };

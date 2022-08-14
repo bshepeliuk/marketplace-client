@@ -46,3 +46,26 @@ export interface IEvaluateDeviceParams {
   rating: number;
   deviceId: number;
 }
+
+export interface IAddCommentParams {
+  body: string;
+  deviceId: number;
+  parentId: number | null;
+}
+
+export interface IUpdateCommentParams {
+  body: string;
+  commentId: number;
+}
+
+export interface IGetRepliesParams {
+  commentId: number;
+  limit?: number;
+  offset?: number;
+}
+
+export interface IGetCommentsParams {
+  deviceId: number;
+  limit?: number;
+  offset?: number;
+}

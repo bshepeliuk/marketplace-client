@@ -23,22 +23,22 @@ export const ImageWrapper = styled.div`
 
 export const InnerWrap = styled.div`
   display: grid;
-  grid-template-columns: 60px 440px 1fr 80px;
+  grid-template-columns: 60px 440px 1fr 100px;
   grid-template-rows: 50px 50px 50px 1fr;
   margin-top: -40px;
   row-gap: 15px;
 
   @media (max-width: 1060px) {
-    grid-template-columns: 60px 350px 1fr 80px;
+    grid-template-columns: 60px 350px 1fr 100px;
   }
 
   @media (max-width: 968px) {
-    grid-template-columns: 60px 1fr 1fr 60px;
+    grid-template-columns: 60px 1fr 1fr 100px;
     grid-template-rows: 50px 50px 450px 50px 1fr;
   }
 
   @media (max-width: 420px) {
-    grid-template-columns: 60px 1fr 1fr 60px;
+    grid-template-columns: 60px 1fr 1fr 100px;
   }
 `;
 
@@ -65,6 +65,16 @@ export const NavWrap = styled.div`
 
 export const CommentsWrap = styled.div`
   grid-column: 1 / -1;
+  height: max-content;
+  margin-top: 50px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-items: center;
+
+  @media (max-width: 968px) {
+    grid-template-columns: 1fr;
+    grid-template-rows: 220px 1fr;
+  }
 `;
 
 export const MenuLink = styled(NavLink)`
@@ -158,10 +168,11 @@ export const PurchaseButton = styled.button`
 `;
 
 export const Title = styled.h1`
-  grid-column: 2 / -1;
+  grid-column: 2;
   align-self: center;
   color: #34495e;
   grid-row: 1;
+  justify-self: start;
 
   @media (max-width: 650px) {
     font-size: 25px;
@@ -218,4 +229,31 @@ export const FeatureDescription = styled.p`
 export const FeatureTitle = styled.h3`
   margin: 0;
   font-weight: 300;
+`;
+
+export const CommentFormContainer = styled.div`
+  width: 400px;
+
+  @media (max-width: 1060px) {
+    width: 350px;
+  }
+
+  @media (max-width: 968px) {
+    grid-row: 1;
+  }
+
+  @media (max-width: 380px) {
+    width: 320px;
+  }
+`;
+
+export const RatingMessage = styled.p`
+  margin: 0;
+  font-size: 14px;
+  color: #1abc9c;
+`;
+
+export const RatingAmount = styled.span`
+  margin-left: 5px;
+  color: #95afc0;
 `;

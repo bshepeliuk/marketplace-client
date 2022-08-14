@@ -1,5 +1,6 @@
 import { IFilterOptions } from '@src/common/types/apiTypes';
 import { CSSProperties } from 'styled-components';
+import { IComment } from '../comments/types';
 
 export interface IDeviceImage {
   id: number;
@@ -38,6 +39,7 @@ export interface IDevice {
   images: IDeviceImage[] | number[];
   info: IDeviceInfo[] | number[];
   ratings: IDeviceRating[] | number[];
+  comments: IComment[] | number[];
 }
 
 export interface IDeviceData {
@@ -53,6 +55,7 @@ export type DeviceEntities = {
   images: Record<string, IDeviceImage>;
   info: Record<string, IDeviceInfo>;
   ratings: Record<string, IDeviceRating>;
+  comments: Record<string, IComment>;
 };
 
 export interface IDeviceRatingEntity {

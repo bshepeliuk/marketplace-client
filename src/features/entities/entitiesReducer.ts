@@ -1,4 +1,4 @@
-import { AnyAction } from '@reduxjs/toolkit';
+import { AnyAction, createAction, createReducer } from '@reduxjs/toolkit';
 import { EntityKeys, IEntitiesState } from './types';
 
 export const initialState: IEntitiesState = {
@@ -7,30 +7,31 @@ export const initialState: IEntitiesState = {
   images: {},
   info: {},
   ratings: {},
+  comments: {},
 };
-// prettier-ignore
-// eslint-disable-next-line default-param-last, max-len
-function entitiesReducer(state = initialState, action: AnyAction): IEntitiesState {
-  const { payload } = action;
 
-  if (payload?.entities) {
-    return Object.keys(payload.entities).reduce(
-      (prevState, field) => {
-        const key = field as EntityKeys;
+export const incrementCommentRepliesCount = createAction<{ commentId: number }>(
+  'entities/increment-replies-count',
+);
 
-        return {
-          ...prevState,
-          [key]: {
-            ...prevState[key],
-            ...payload.entities[key],
-          },
-        };
-      },
-      { ...state }
-    );
-  }
+const isActionWithEntities = (action: AnyAction) => {
+  return action?.payload && Object.hasOwn(action.payload, 'entities');
+};
 
-  return state;
-}
+const entitiesReducer = createReducer(initialState, (builder) => {
+  builder.addCase(incrementCommentRepliesCount, (state, { payload }) => {
+    state.comments[payload.commentId].repliesCount += 1;
+  });
+
+  builder.addMatcher(isActionWithEntities, (state, action) => {
+    (Object.keys(action.payload.entities) as EntityKeys[]).forEach((key) => {
+      state[key] = {
+        ...state[key],
+        ...action.payload.entities[key],
+      };
+    });
+  });
+  builder.addDefaultCase((state) => state);
+});
 
 export default entitiesReducer;

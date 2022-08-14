@@ -10,10 +10,25 @@ import setupAndRenderComponent from '../../../helpers/setupAndRenderComponent';
 
 jest.mock('@features/devices/hooks/useEvaluateDevice');
 
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useParams: () => ({ deviceId: 2 }),
+}));
+
 const server = setupServer();
 
 const rootState = {
-  devices: { isEvaluating: false, isEvaluatingError: false },
+  entities: {
+    devices: { 2: { id: 2, name: 'HP Pavillion 15 eh1021-ua', comments: [] } },
+    comments: {},
+  },
+  devices: {
+    isEvaluating: false,
+    isEvaluatingError: false,
+  },
+  comments: {
+    isCreating: false,
+  },
   auth: {
     user: { id: 22, fullName: 'Tony Stark', role: 'BUYER' },
     isLoggedIn: true,
@@ -56,7 +71,7 @@ const device = {
       updatedAt: new Date().toISOString(),
     },
   ],
-
+  comments: [],
   createdAt: new Date().toISOString(),
   updatedAt: new Date().toISOString(),
 };
@@ -81,6 +96,17 @@ describe('[COMPONENTS]: DeviceCommentsView', () => {
   });
 
   test('should render star rating correctly.', async () => {
+    server.use(
+      rest.get(`${BASE_API_URL}/comments/:deviceId`, (req, res, ctx) => {
+        return res(
+          ctx.status(200),
+          ctx.json({
+            comments: [],
+          }),
+        );
+      }),
+    );
+
     const { container } = setupAndRenderComponent({
       state: rootState,
       component: DeviceCommentsView,
@@ -97,6 +123,17 @@ describe('[COMPONENTS]: DeviceCommentsView', () => {
   });
 
   test('rating component for device should has 5 available stars for selection.', async () => {
+    server.use(
+      rest.get(`${BASE_API_URL}/comments/:deviceId`, (req, res, ctx) => {
+        return res(
+          ctx.status(200),
+          ctx.json({
+            comments: [],
+          }),
+        );
+      }),
+    );
+
     const { container } = setupAndRenderComponent({
       state: rootState,
       component: DeviceCommentsView,
@@ -127,6 +164,17 @@ describe('[COMPONENTS]: DeviceCommentsView', () => {
       right: 251,
       bottom: 290,
     });
+
+    server.use(
+      rest.get(`${BASE_API_URL}/comments/:deviceId`, (req, res, ctx) => {
+        return res(
+          ctx.status(200),
+          ctx.json({
+            comments: [],
+          }),
+        );
+      }),
+    );
 
     server.use(
       rest.post(`${BASE_API_URL}/ratings`, (req, res, ctx) => {
