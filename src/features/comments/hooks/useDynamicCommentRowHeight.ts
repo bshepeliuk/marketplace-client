@@ -17,7 +17,7 @@ const useDynamicCommentRowHeight = ({
   useEffect(() => {
     let ignore = false;
 
-    if (rowRef.current === null) return;
+    if (rowRef?.current === null) return;
 
     if (!ignore) {
       setSize(rowIndex, rowRef.current.getBoundingClientRect().height);

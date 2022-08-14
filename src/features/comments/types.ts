@@ -11,8 +11,8 @@ export interface IComment {
   parentId: number | null;
   deviceId: number;
   repliesCount: number;
-  createdAt: Date;
-  updateAt: Date;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface INewCommentEntity {

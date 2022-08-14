@@ -407,7 +407,7 @@ describe('[THUNKS]: Comments', () => {
   describe('update comment', () => {
     test('should update comment successfully', async () => {
       const commentResponse = {
-        ...deviceMock,
+        ...commentMock,
         body: 'updated comment!',
       };
 

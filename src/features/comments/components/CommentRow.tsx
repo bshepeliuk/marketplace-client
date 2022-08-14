@@ -23,7 +23,7 @@ function CommentRow({ data, index }: IRowProps) {
   const comment = data.comments[index];
 
   const rowRef = useRef<HTMLDivElement>(null);
-  const { hasMore, checkIsRepliesVisible } = useCommentsContext();
+  const { hasMore, checkAreRepliesVisible } = useCommentsContext();
   const { replies } = useTypedSelector((state) => {
     return repliesSelector(state, comment?.id);
   });
@@ -34,7 +34,7 @@ function CommentRow({ data, index }: IRowProps) {
   });
 
   const hasLoadMoreButton = comment === undefined && hasMore;
-  const isRepliesVisible = checkIsRepliesVisible(comment?.id);
+  const isRepliesVisible = checkAreRepliesVisible(comment?.id);
   const hasReplies = replies.length > 0;
 
   if (hasLoadMoreButton) return <LoadMoreButton />;

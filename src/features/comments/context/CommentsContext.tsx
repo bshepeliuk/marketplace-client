@@ -41,7 +41,7 @@ interface IContext {
   hasMore: boolean;
   getMoreComments: () => void;
   toggleRepliesVisibility: (commentId: number) => void;
-  checkIsRepliesVisible: (commentId: number) => boolean;
+  checkAreRepliesVisible: (commentId: number) => boolean;
   getAvgRowHeight: () => number;
   onListScroll: (evt: { scrollOffset: number }) => void;
   goToTop: () => void;
@@ -61,6 +61,7 @@ export const CommentsContext = createContext<IContext | undefined>(undefined);
 
 export function CommentsProvider({ children }: IProps) {
   const { deviceId } = useParams();
+
   const [activeComment, setActiveComment] = useState<ActiveCommentType>(null);
   const [isGoTopBtnVisible, setIsGoTopBtnVisible] = useState(false);
   const listRef = useRef<VariableSizeList | null>(null);
@@ -81,18 +82,15 @@ export function CommentsProvider({ children }: IProps) {
 
   const getSize = (index: number) => sizeMap.current[index] || 30;
 
-  const toggleRepliesVisibility = (commentId: number | undefined) => {
-    if (commentId === undefined) return;
-
-    if (checkIsRepliesVisible(commentId)) {
+  const toggleRepliesVisibility = (commentId: number) => {
+    if (checkAreRepliesVisible(commentId)) {
       setHiddenReplies((prev) => prev.filter((id) => id !== commentId));
     } else {
       setHiddenReplies((prev) => prev.concat(commentId));
     }
   };
 
-  const checkIsRepliesVisible = (commentId: number | undefined) => {
-    if (commentId === undefined) return false;
+  const checkAreRepliesVisible = (commentId: number) => {
     return hiddenReplies.includes(commentId);
   };
 
@@ -119,11 +117,9 @@ export function CommentsProvider({ children }: IProps) {
   };
 
   const getMoreComments = () => {
-    if (deviceId !== undefined) {
-      getMoreByDeviceId(Number(deviceId)).then(() => {
-        listRef.current?.scrollToItem(comments.length);
-      });
-    }
+    getMoreByDeviceId(Number(deviceId)).then(() => {
+      listRef.current?.scrollToItem(comments.length);
+    });
   };
 
   const onListScroll = (evt: { scrollOffset: number }) => {
@@ -166,7 +162,7 @@ export function CommentsProvider({ children }: IProps) {
     hasMore,
     getMoreComments,
     toggleRepliesVisibility,
-    checkIsRepliesVisible,
+    checkAreRepliesVisible,
     getAvgRowHeight,
     onListScroll,
     goToTop,

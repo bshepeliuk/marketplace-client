@@ -50,6 +50,8 @@ describe('[HOOKS]: useDynamicCommentRowHeight', () => {
   });
 
   test('should not call setSize method when rowRef is equal to null.', () => {
+    jest.spyOn(console, 'error').mockImplementation(() => {});
+
     const rowRef = null as unknown as MutableRefObject<null>;
 
     renderHook(() => useDynamicCommentRowHeight({ rowRef, rowIndex: 1 }), {

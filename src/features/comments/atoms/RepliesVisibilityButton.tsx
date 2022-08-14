@@ -8,9 +8,9 @@ interface IProps {
 
 function RepliesVisibilityButton({ commentId }: IProps) {
   // prettier-ignore
-  const { toggleRepliesVisibility, checkIsRepliesVisible } = useCommentsContext();
+  const { toggleRepliesVisibility, checkAreRepliesVisible } = useCommentsContext();
 
-  const isRepliesVisible = checkIsRepliesVisible(commentId);
+  const isRepliesVisible = checkAreRepliesVisible(commentId);
 
   return (
     <Wrap>

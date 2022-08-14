@@ -15,7 +15,7 @@ describe('[ATOMS]: RepliesVisibilityButton', () => {
       <CommentsContext.Provider
         value={{
           ...commentsContextValuesMock,
-          checkIsRepliesVisible: () => true,
+          checkAreRepliesVisible: () => true,
           toggleRepliesVisibility: toggleRepliesVisibilityMock,
         }}
       >
@@ -46,7 +46,7 @@ describe('[ATOMS]: RepliesVisibilityButton', () => {
       <CommentsContext.Provider
         value={{
           ...commentsContextValuesMock,
-          checkIsRepliesVisible: () => false,
+          checkAreRepliesVisible: () => false,
           toggleRepliesVisibility: toggleRepliesVisibilityMock,
         }}
       >
