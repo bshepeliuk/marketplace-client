@@ -12,7 +12,7 @@ const updateCommentIdsForDevice = ({ devices, deviceId, ids }: IProps) => {
     const prevComments = draft[deviceId].comments as number[];
 
     if (prevComments !== undefined) {
-      prevComments.push(...ids);
+      draft[deviceId].comments = [...new Set([...prevComments, ...ids])];
     } else {
       draft[deviceId].comments = ids;
     }
