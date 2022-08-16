@@ -16,6 +16,7 @@ function AddToCartButton({ inCart, onClick = () => {} }: Props) {
 
   return (
     <CartButton
+      data-add-to-cart
       type="button"
       onClick={onClick}
       inCart={inCart}

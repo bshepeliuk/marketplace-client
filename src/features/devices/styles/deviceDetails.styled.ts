@@ -8,17 +8,16 @@ export const Image = styled.img`
 `;
 
 export const ImageWrapper = styled.div`
-  grid-column: 1 / 3;
   justify-self: center;
   border: 1px solid #ecf0f1;
-  padding: 10px;
+  padding: 10px 45px;
   border-radius: 4px;
-  grid-row: 3 / 5;
-
-  @media (max-width: 968px) {
-    grid-column: 1 / -1;
-    grid-row: 3 / 4;
-  }
+  height: 350px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
 `;
 
 export const InnerWrap = styled.div`
@@ -218,6 +217,7 @@ export const InfoList = styled.ul`
 export const InfoItem = styled.li`
   display: grid;
   grid-template-columns: 170px 1fr;
+  justify-items: self-start;
 `;
 
 export const FeatureDescription = styled.p`
