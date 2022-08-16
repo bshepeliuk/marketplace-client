@@ -1,5 +1,8 @@
 import React from 'react';
 import { fireEvent, render, waitFor } from '@testing-library/react';
+import { setupServer } from 'msw/node';
+import { rest } from 'msw';
+import { BASE_API_URL } from '@src/common/constants';
 import {
   CommentsContext,
   CommentsProvider,
@@ -10,7 +13,24 @@ import { Wrapper } from '../../../wrapper';
 import { commentMock, commentsContextValuesMock } from '../../../mocks/data';
 import { rootStateMock } from '../../../mocks/stateMock';
 
+const server = setupServer(
+  rest.get(`${BASE_API_URL}/comments/:deviceId`, (req, res, ctx) => {
+    return res(ctx.json({ comments: [] }));
+  }),
+);
+
 describe('[COMPONENTS]: CommentView', () => {
+  beforeAll(() => {
+    server.listen();
+  });
+
+  afterAll(() => server.close());
+
+  afterEach(() => {
+    server.resetHandlers();
+    jest.clearAllMocks();
+  });
+
   it('should render comment.', () => {
     const UI = (
       <CommentsProvider>

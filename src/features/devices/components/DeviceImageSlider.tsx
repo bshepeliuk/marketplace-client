@@ -25,7 +25,7 @@ function DeviceImageSlider(props: ISliderProps) {
     onLeftClick,
     onRightClick,
     slideDirection
-  } = useSlider({ startIdx: 0, lastIdx: urls.length - 1 });
+  } = useSlider({ startIdx: 0, lastIdx: urls.length - 1 , delay: 600 });
 
   const greaterThanOne = urls.length > 1;
 
@@ -47,7 +47,7 @@ function DeviceImageSlider(props: ISliderProps) {
       </ImageWrapper>
 
       {greaterThanOne && (
-        <DotsList>
+        <DotsList className="custom-scrollbar-horizontal">
           {urls.map((url, idx) => (
             <DotImage
               key={url}

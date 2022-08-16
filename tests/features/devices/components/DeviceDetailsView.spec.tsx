@@ -3,11 +3,13 @@ import { fireEvent, screen } from '@testing-library/react';
 import Router from 'react-router-dom';
 import { setupServer } from 'msw/node';
 import { rest } from 'msw';
+import { BASE_API_URL } from '@src/common/constants';
 import DeviceDetailsView from '@features/devices/pages/DeviceDetailsView';
-import { BASE_API_URL, ROLES } from '@src/common/constants';
 import useMakePayment from '@features/payment/pages/hooks/useMakePayment';
 import setupAndRenderComponent from '../../../helpers/setupAndRenderComponent';
 import { mockStripe } from '../../../mocks/stripe';
+import { rootStateMock } from '../../../mocks/stateMock';
+import { deviceMock } from '../../../mocks/data';
 
 const server = setupServer(
   rest.get(`${BASE_API_URL}/devices/:deviceId`, (req, res, ctx) => {
@@ -41,49 +43,6 @@ jest.mock('@stripe/react-stripe-js', () => ({
 
 jest.mock('@features/payment/pages/hooks/useMakePayment');
 
-const device = {
-  id: 1,
-  images: [1],
-  name: 'HP Pavillion - test',
-  price: 1234,
-  info: [],
-  ratings: [],
-};
-
-const rootState = {
-  entities: {
-    devices: {
-      1: device,
-    },
-    images: {
-      1: { id: 1, url: 'https://image.jpeg' },
-    },
-    categories: {},
-  },
-  auth: {
-    isLoggedIn: true,
-    user: { id: 1, fullName: 'John Wick', role: ROLES.BUYER },
-  },
-  categories: {
-    items: [],
-    isError: false,
-    isLoading: false,
-  },
-  devices: {
-    isLoading: false,
-    items: [1],
-    device: {
-      isLoading: false,
-    },
-  },
-  cart: {
-    items: [],
-  },
-  comments: {
-    isCreating: false,
-  },
-};
-
 describe('[PAGES]: DeviceDetailsView', () => {
   const payMethodMock = jest.fn();
 
@@ -105,17 +64,16 @@ describe('[PAGES]: DeviceDetailsView', () => {
   test('should find and render device.', async () => {
     jest
       .spyOn(Router, 'useParams')
-      .mockReturnValue({ deviceId: device.id.toString() });
+      .mockReturnValue({ deviceId: deviceMock.id.toString() });
 
-    const { getByText, getByAltText, getByTestId } = setupAndRenderComponent({
-      state: rootState,
+    const { getByText, getByTestId } = setupAndRenderComponent({
+      state: rootStateMock,
       component: DeviceDetailsView,
     });
 
-    const deviceTitle = getByText(device.name);
-    const deviceImg = getByAltText(device.name);
+    const deviceTitle = getByText(deviceMock.name);
     const purchaseBtn = getByText(/purchase/i);
-    const priceField = getByText(/1234/i);
+    const priceField = getByText(deviceMock.price, { exact: false });
     const goBackBtn = getByTestId('back-btn');
 
     fireEvent.click(goBackBtn);
@@ -128,7 +86,6 @@ describe('[PAGES]: DeviceDetailsView', () => {
 
     expect(priceField).toBeInTheDocument();
     expect(purchaseBtn).toBeInTheDocument();
-    expect(deviceImg).toBeInTheDocument();
     expect(deviceTitle).toBeInTheDocument();
 
     const PurchaseBtn = getByText(/purchase/i) as HTMLButtonElement;
@@ -146,10 +103,10 @@ describe('[PAGES]: DeviceDetailsView', () => {
 
     jest
       .spyOn(Router, 'useParams')
-      .mockReturnValue({ deviceId: device.id.toString() });
+      .mockReturnValue({ deviceId: deviceMock.id.toString() });
 
     const { getByText } = setupAndRenderComponent({
-      state: rootState,
+      state: rootStateMock,
       component: DeviceDetailsView,
     });
 
@@ -174,7 +131,7 @@ describe('[PAGES]: DeviceDetailsView', () => {
     jest.spyOn(Router, 'useParams').mockReturnValue({ deviceId: '999' });
 
     const { findByText } = setupAndRenderComponent({
-      state: rootState,
+      state: rootStateMock,
       component: DeviceDetailsView,
     });
 
@@ -185,9 +142,9 @@ describe('[PAGES]: DeviceDetailsView', () => {
 
   test('should render loader.', () => {
     const state = {
-      ...rootState,
+      ...rootStateMock,
       devices: {
-        ...rootState.devices,
+        ...rootStateMock.devices,
         device: {
           isLoading: true,
         },

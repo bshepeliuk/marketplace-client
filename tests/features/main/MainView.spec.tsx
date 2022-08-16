@@ -1,16 +1,34 @@
-import { ROLES } from '@src/common/constants';
+import { setupServer } from 'msw/node';
+import { rest } from 'msw';
+import { BASE_API_URL, ROLES } from '@src/common/constants';
 import MainView from '@src/features/main/MainView';
 import setupAndRenderComponent from '../../helpers/setupAndRenderComponent';
 
+const server = setupServer(
+  rest.get(`${BASE_API_URL}/types`, (req, res, ctx) => {
+    return res(ctx.json({ comments: [] }));
+  }),
+  rest.get(`${BASE_API_URL}/devices`, (req, res, ctx) => {
+    return res(ctx.json({ devices: [] }));
+  }),
+);
+
+const userMock = {
+  id: 2,
+  fullName: 'Leam Neeson',
+  role: ROLES.BUYER,
+  email: 'leam@neeson.io',
+};
+
 describe('[ROUTER]: MainView', () => {
-  const user = {
-    id: 2,
-    fullName: 'Leam Neeson',
-    role: ROLES.BUYER,
-    email: 'leam@neeson.io',
-  };
+  beforeAll(() => {
+    server.listen();
+  });
+
+  afterAll(() => server.close());
 
   afterEach(() => {
+    server.resetHandlers();
     jest.clearAllMocks();
   });
 
@@ -21,7 +39,7 @@ describe('[ROUTER]: MainView', () => {
         items: [],
       },
       auth: {
-        user,
+        user: userMock,
         isLoggedIn: true,
       },
       cart: {

@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 interface ISliderProps {
   startIdx?: number;
   lastIdx: number;
+  delay?: number;
 }
 
 export const SlideDirection = {
@@ -14,9 +15,7 @@ export const SlideDirection = {
 export type SliderDirectionKeys = keyof typeof SlideDirection;
 export type SliderDirectionValues = typeof SlideDirection[SliderDirectionKeys];
 
-const ANIMATION_TIME_MS = 590;
-
-const useSlider = ({ startIdx = 0, lastIdx }: ISliderProps) => {
+const useSlider = ({ startIdx = 0, lastIdx, delay = 0 }: ISliderProps) => {
   const timeoutId = useRef<ReturnType<typeof setTimeout>>();
   const [slideDirection, setSlideDirection] = useState<SliderDirectionValues>(
     SlideDirection.None,
@@ -25,13 +24,13 @@ const useSlider = ({ startIdx = 0, lastIdx }: ISliderProps) => {
 
   useEffect(() => {
     setSlideDirection(SlideDirection.None);
+
+    if (timeoutId.current) {
+      clearTimeout(timeoutId.current);
+    }
   }, [activeIdx]);
 
   const onLeftClick = () => {
-    if (timeoutId.current !== undefined) {
-      clearTimeout(timeoutId.current);
-    }
-
     setSlideDirection(SlideDirection.Left);
 
     timeoutId.current = setTimeout(() => {
@@ -40,14 +39,10 @@ const useSlider = ({ startIdx = 0, lastIdx }: ISliderProps) => {
       } else {
         setActiveIdx(lastIdx);
       }
-    }, ANIMATION_TIME_MS);
+    }, delay);
   };
 
   const onRightClick = () => {
-    if (timeoutId.current !== undefined) {
-      clearTimeout(timeoutId.current);
-    }
-
     setSlideDirection(SlideDirection.Right);
 
     timeoutId.current = setTimeout(() => {
@@ -56,7 +51,7 @@ const useSlider = ({ startIdx = 0, lastIdx }: ISliderProps) => {
       } else {
         setActiveIdx(0);
       }
-    }, ANIMATION_TIME_MS);
+    }, delay);
   };
 
   return {

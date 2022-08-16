@@ -12,6 +12,11 @@ export const DotImage = styled.img`
   border-radius: 4px;
   user-select: none;
   cursor: pointer;
+
+  &:hover {
+    border: 1px solid #1abc9c;
+    transition: all 0.5s ease-out;
+  }
 `;
 
 export const DotsList = styled.ul`
@@ -19,6 +24,7 @@ export const DotsList = styled.ul`
   justify-content: space-between;
   margin-top: 10px;
   overflow-y: auto;
+  padding-bottom: 10px;
 `;
 
 export const SliderWrap = styled.div`
@@ -29,6 +35,17 @@ export const SliderWrap = styled.div`
     grid-column: 1 / -1;
     grid-row: 3 / 4;
   }
+`;
+
+export const DevicePlaceholder = styled.div`
+  grid-column: 1 / 3;
+  grid-row: 3 / -1;
+  height: 350px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 4px;
+  border: 1px solid #bdc3c7;
+  display: flex;
 `;
 
 export const LeftArrow = styled(AiOutlineLeftCircle)`
@@ -42,6 +59,7 @@ export const LeftArrow = styled(AiOutlineLeftCircle)`
 
   &:hover {
     transform: scale(1.1);
+    color: #1abc9c;
   }
 `;
 export const RightArrow = styled(AiOutlineRightCircle)`
@@ -55,6 +73,7 @@ export const RightArrow = styled(AiOutlineRightCircle)`
 
   &:hover {
     transform: scale(1.1);
+    color: #1abc9c;
   }
 `;
 

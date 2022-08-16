@@ -41,3 +41,17 @@ ul {
 .scroll-smooth {
   scroll-behavior: smooth;
 }
+
+.custom-scrollbar-horizontal::-webkit-scrollbar {
+  height: 6px;
+  width: 6px;
+  border: 1px solid #d5d5d5;
+}
+
+.custom-scrollbar-horizontal::-webkit-scrollbar-track {
+  background-color: rgba(236, 240, 241, 0.5);
+}
+
+.custom-scrollbar-horizontal::-webkit-scrollbar-thumb {
+  background-color: rgba(52, 73, 94, 0.1);
+}
