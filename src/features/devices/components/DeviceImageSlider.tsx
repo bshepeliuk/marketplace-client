@@ -25,7 +25,7 @@ function DeviceImageSlider(props: ISliderProps) {
     onLeftClick,
     onRightClick,
     slideDirection
-  } = useSlider({ startIdx: 0, lastIdx: urls.length - 1 , delay: 600 });
+  } = useSlider({ startIdx: 0, lastIdx: urls.length - 1 , delay: 590 });
 
   const greaterThanOne = urls.length > 1;
 

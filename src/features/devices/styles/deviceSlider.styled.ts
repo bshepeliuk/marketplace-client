@@ -6,12 +6,17 @@ import { AiOutlineLeftCircle, AiOutlineRightCircle } from 'react-icons/ai';
 import styled, { css, keyframes } from 'styled-components';
 
 export const DotImage = styled.img`
-  height: 60px;
+  height: 90px;
   border: 1px solid #ecf0f1;
   padding: 5px;
   border-radius: 4px;
   user-select: none;
   cursor: pointer;
+  margin-right: 9px;
+
+  &:last-child {
+    margin-right: 0;
+  }
 
   &:hover {
     border: 1px solid #1abc9c;
@@ -21,7 +26,6 @@ export const DotImage = styled.img`
 
 export const DotsList = styled.ul`
   display: flex;
-  justify-content: space-between;
   margin-top: 10px;
   overflow-y: auto;
   padding-bottom: 10px;
