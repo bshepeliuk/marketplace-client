@@ -109,7 +109,7 @@ export const slideRight = keyframes`
   }
 `;
 
-export const ImageWrapper = styled.div`
+export const InnerWrapper = styled.div`
   justify-self: center;
   border: 1px solid #ecf0f1;
   padding: 10px 45px;
