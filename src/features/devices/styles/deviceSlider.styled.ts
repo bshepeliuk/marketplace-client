@@ -109,17 +109,17 @@ export const slideRight = keyframes`
   }
 `;
 
-export const ImageWrapper = styled.div`
+export const InnerWrapper = styled.div`
   justify-self: center;
   border: 1px solid #ecf0f1;
   padding: 10px 45px;
   border-radius: 4px;
-  height: 350px;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
   overflow: hidden;
+  height: 100%;
 `;
 
 export const SliderImage = styled.img<{
@@ -128,7 +128,6 @@ export const SliderImage = styled.img<{
   max-width: 100%;
   max-height: 100%;
   user-select: none;
-  transition: all 1s ease-out;
 
   animation: ${({ slideDirection }) => {
     if (slideDirection === SlideDirection.Left) {
@@ -139,4 +138,8 @@ export const SliderImage = styled.img<{
       return css`0.6s ${slideRight} ease-in backwards`;
     }
   }};
+
+  @media (max-width: 968px) {
+    max-height: 400px;
+  }
 `;

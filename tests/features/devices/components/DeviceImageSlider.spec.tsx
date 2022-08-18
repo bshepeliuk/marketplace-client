@@ -1,5 +1,6 @@
 import { fireEvent } from '@testing-library/react';
-import DeviceImageSlider from '@features/devices/components/DeviceImageSlider';
+// eslint-disable-next-line max-len
+import DeviceImageSlider from '@features/devices/components/DeviceSlider/DeviceImageSlider';
 import useSlider, { SlideDirection } from '@src/common/hooks/useSlider';
 
 import setupAndRenderComponent from '../../../helpers/setupAndRenderComponent';
