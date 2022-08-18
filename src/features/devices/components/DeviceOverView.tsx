@@ -8,7 +8,7 @@ import {
   PurchaseWrap,
 } from '../styles/deviceDetails.styled';
 import DeviceFeatureList from './DeviceFeatureList';
-import DeviceImageSlider from './DeviceImageSlider';
+import DeviceImageSlider from './DeviceSlider/DeviceImageSlider';
 import { DevicePlaceholder } from '../styles/deviceSlider.styled';
 
 interface IProps {

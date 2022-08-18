@@ -29,25 +29,16 @@ const useZoomImageOnMouseEvt = () => {
       return;
     }
 
-    let x = 0;
-    let y = 0;
+    let position = { x: 0, y: 0 };
 
-    const position = getCursorPosition(evt);
+    position = getCursorPosition(evt);
+    position = calculateLensPosition(position);
+    position = preventLensOutside(position);
 
-    const defaultPosition = calculateLensPosition(position);
+    const ratio = calculateLensAndOutputRatio();
 
-    x = defaultPosition.x;
-    y = defaultPosition.y;
-
-    const savedPosition = preventLensOutside({ x, y });
-
-    y = savedPosition.y;
-    x = savedPosition.x;
-
-    const ratio = calculateLensAndOutputRation();
-
-    setLensPosition({ x, y });
-    setLensOutput({ x, y, ratio });
+    setLensPosition(position);
+    setLensOutput({ x: position.x, y: position.y, ratio });
   };
 
   const onMouseLeave = () => {
@@ -88,7 +79,6 @@ const useZoomImageOnMouseEvt = () => {
     if (position.y > imgRef.current.height - lensRef.current.offsetHeight) {
       position.y = imgRef.current.height - lensRef.current.offsetHeight;
     }
-
     if (position.y < 0) position.y = 0;
 
     return position;
@@ -109,7 +99,7 @@ const useZoomImageOnMouseEvt = () => {
     lensOutputRef.current.style.backgroundSize = backgroundSize;
   };
 
-  const calculateLensAndOutputRation = () => {
+  const calculateLensAndOutputRatio = () => {
     if (lensOutputRef.current === null || lensRef.current === null) {
       return { cx: 0, cy: 0 };
     }
@@ -145,6 +135,7 @@ const useZoomImageOnMouseEvt = () => {
     onMouseLeave,
     onMouseEnter,
     isLensActive,
+    setIsLensActive,
   };
 };
 
