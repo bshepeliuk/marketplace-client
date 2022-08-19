@@ -2,7 +2,11 @@ import React from 'react';
 import { generatePath, useNavigate } from 'react-router-dom';
 import { routes } from '@src/app/Router';
 import useSearchContext from '../../hooks/useSearchContext';
-import { FoundListItem, List } from '../../styles/searchBar.styled';
+import {
+  FoundListItem,
+  List,
+  StyledHighlighter,
+} from '../../styles/searchBar.styled';
 
 function SuggestionList() {
   const context = useSearchContext();
@@ -18,7 +22,10 @@ function SuggestionList() {
       {context.suggestions.map((item) => {
         return (
           <FoundListItem key={item.id} onClick={() => onItemClick(item.id)}>
-            {item.name}
+            <StyledHighlighter
+              searchWords={[context.searchValue]}
+              textToHighlight={item.name}
+            />
           </FoundListItem>
         );
       })}

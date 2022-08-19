@@ -1,3 +1,4 @@
+import Highlighter from 'react-highlight-words';
 import styled from 'styled-components';
 
 export const Wrap = styled.div`
@@ -54,4 +55,11 @@ export const Overlay = styled.div`
   height: calc(100vh - 80px); // header height 80px;
   z-index: 5;
   left: 0;
+`;
+
+export const StyledHighlighter = styled(Highlighter)`
+  & mark {
+    padding: 2px 0;
+    border-radius: 4px;
+  }
 `;
