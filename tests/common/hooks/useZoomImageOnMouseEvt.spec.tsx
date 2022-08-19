@@ -138,6 +138,8 @@ describe('[HOOK]:  useZoomImageOnMouseEvt', () => {
       } as any);
     });
 
+    expect(result.current.isLensActive).toBeTruthy();
+
     expect(getByText(/lens output/i).style.backgroundImage).toBe(
       `url(${imgSrc}/)`,
     );

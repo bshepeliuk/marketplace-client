@@ -19,17 +19,10 @@ const useZoomImageOnMouseEvt = () => {
   const lensOutputRef = useRef<HTMLDivElement>(null);
 
   const onMouseMove = (evt: MouseEvent<HTMLElement>) => {
-    evt.preventDefault();
-
-    if (
-      lensRef.current === null ||
-      lensOutputRef.current === null ||
-      imgRef.current === null
-    ) {
-      return;
-    }
-
-    let position = { x: 0, y: 0 };
+    let position = {
+      x: 0,
+      y: 0,
+    };
 
     position = getCursorPosition(evt);
     position = calculateLensPosition(position);
@@ -39,6 +32,8 @@ const useZoomImageOnMouseEvt = () => {
 
     setLensPosition(position);
     setLensOutput({ x: position.x, y: position.y, ratio });
+
+    setIsLensActive(true);
   };
 
   const onMouseLeave = () => {
@@ -79,6 +74,7 @@ const useZoomImageOnMouseEvt = () => {
     if (position.y > imgRef.current.height - lensRef.current.offsetHeight) {
       position.y = imgRef.current.height - lensRef.current.offsetHeight;
     }
+
     if (position.y < 0) position.y = 0;
 
     return position;
