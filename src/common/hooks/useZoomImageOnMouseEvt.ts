@@ -40,10 +40,6 @@ const useZoomImageOnMouseEvt = () => {
     setIsLensActive(false);
   };
 
-  const onMouseEnter = () => {
-    setIsLensActive(true);
-  };
-
   const calculateLensPosition = (position: IPosition) => {
     if (lensRef.current === null) return position;
 
@@ -129,7 +125,6 @@ const useZoomImageOnMouseEvt = () => {
     lensOutputRef,
     onMouseMove,
     onMouseLeave,
-    onMouseEnter,
     isLensActive,
     setIsLensActive,
   };

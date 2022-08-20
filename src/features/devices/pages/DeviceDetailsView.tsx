@@ -1,8 +1,9 @@
 import React from 'react';
 import { useParams, Route, Routes } from 'react-router-dom';
 import { Container } from '@common/styles/base.styled';
-// eslint-disable-next-line max-len
 import useSlowDownLoaderIndicator from '@common/hooks/useSlowDownLoaderIndicator';
+// eslint-disable-next-line max-len
+import useAddToRecentlyViewed from '@features/recentlyViewed/hooks/useAddToRecentlyViewed';
 import useGetDeviceById from '../hooks/useGetDeviceById';
 import { BackBtn, InnerWrap, Title } from '../styles/deviceDetails.styled';
 import LoadingDeviceDetailsView from '../components/LoadingDeviceDetailsView';
@@ -28,6 +29,7 @@ function DeviceDetailsView() {
     isLoading,
     duration: 1000,
   });
+  useAddToRecentlyViewed(device);
 
   const ratings = device?.ratings ?? [];
   const avgRating = calculateAvgRating(ratings);

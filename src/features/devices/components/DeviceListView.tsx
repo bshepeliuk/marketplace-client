@@ -22,17 +22,17 @@ type OnItemsRendered = (props: ListOnItemsRenderedProps) => any;
 
 interface Props {
   containerRef: RefObject<HTMLElement>;
-  isLoading: boolean;
-  isLoadingMore: boolean;
+  isLoading?: boolean;
+  isLoadingMore?: boolean;
   items: IDevice[];
-  fetchMore: () => void;
+  fetchMore?: () => void;
 }
 
 function DeviceListView({
   items = [],
-  isLoadingMore,
-  isLoading,
-  fetchMore,
+  isLoadingMore = false,
+  isLoading = false,
+  fetchMore = () => {},
   containerRef,
 }: Props) {
   const gridRef = useRef<Grid | null>();

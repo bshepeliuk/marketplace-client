@@ -1,6 +1,8 @@
 /* eslint-disable max-len */
 import React, { useEffect, useRef, useState } from 'react';
 import { MdArrowBackIosNew, MdArrowForwardIos } from 'react-icons/md';
+import { routes } from '@src/app/Router';
+import { Link } from 'react-router-dom';
 import useHandleScrollBySideBtnClick from '@src/common/hooks/useHandleScrollBySideBtnClick';
 import useGetCategories from '../hooks/useGetCategories';
 import {
@@ -52,6 +54,10 @@ function CategoriesListView() {
 
       <List ref={scrollWrapRef}>
         {isLoading && <div>Loading...</div>}
+
+        <ListItem>
+          <Link to={routes.recentlyViewed}>Recently viewed</Link>
+        </ListItem>
 
         <ListItem>
           <GetAllDevicesButton active={active} onAllClick={onAllClick} />

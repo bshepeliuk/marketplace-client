@@ -18,6 +18,7 @@ export const routes = {
   checkoutCancel: '/checkout-cancel',
   forbidden: '/forbidden',
   searchResult: '/search-result',
+  recentlyViewed: '/recently-viewed',
 };
 
 function Router() {

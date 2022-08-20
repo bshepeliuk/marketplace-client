@@ -29,7 +29,6 @@ function DeviceImageSlider(props: ISliderProps) {
     slideDirection
   } = useSlider({ startIdx: 0, lastIdx: urls.length - 1 , delay: 590 });
   const {
-    onMouseEnter,
     onMouseLeave,
     onMouseMove,
     imgRef,
@@ -56,7 +55,6 @@ function DeviceImageSlider(props: ISliderProps) {
               alt={alt}
               slideDirection={slideDirection}
               onMouseMove={onMouseMove}
-              onMouseEnter={onMouseEnter}
               onMouseLeave={onMouseLeave}
             />
 
