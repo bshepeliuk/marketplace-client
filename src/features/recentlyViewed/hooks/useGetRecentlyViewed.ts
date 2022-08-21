@@ -1,12 +1,11 @@
 import useLocalStorage from '@src/common/hooks/useLocalStorage';
 import { IDevice } from '@src/features/devices/types';
+import { RECENTLY_VIEWED_STORAGE_KEY } from '../constants';
 
 const useGetRecentlyViewed = () => {
   const { getItem } = useLocalStorage();
 
-  const STORAGE_KEY = 'recentlyViewed';
-
-  return getItem<IDevice>(STORAGE_KEY);
+  return getItem<IDevice>(RECENTLY_VIEWED_STORAGE_KEY);
 };
 
 export default useGetRecentlyViewed;

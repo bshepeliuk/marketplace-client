@@ -1,34 +1,30 @@
 import React, { useRef } from 'react';
-import { useTypedSelector } from '@common/hooks/useTypedSelector';
-import ErrorMessageView from '@common/components/ErrorMessageView';
-import DeviceListView from '../devices/components/DeviceListView';
+import { Route, Routes } from 'react-router-dom';
+import { routes } from '@src/app/Router';
 import { DeviceListContainer } from './home.styled';
-import CategoriesListView from '../categories/components/CategoriesListView';
-import useGetDevices from '../devices/hooks/useGetDevices';
-import useGetMoreDevices from '../devices/hooks/useGetMoreDevices';
-import NoDevicesView from '../devices/components/NoDevicesView';
+// eslint-disable-next-line max-len
+import CategoriesListView from '../categories/components/CategoriesList/CategoriesListView';
+import RecentlyViewedDevices from '../recentlyViewed/pages/RecentlyViewed';
+import HomeDeviceList from './components/HomeDeviceList';
 
 function HomeView() {
   const containerRef = useRef(null);
-  const { isLoading, isError, items } = useGetDevices();
-  const { fetchMore, isLoadingMore } = useGetMoreDevices();
-  const hasNoDevices = useTypedSelector((state) => state.devices.hasNoDevices);
-
-  if (isError) return <ErrorMessageView />;
 
   return (
     <DeviceListContainer ref={containerRef}>
       <CategoriesListView />
 
-      <DeviceListView
-        containerRef={containerRef}
-        isLoading={isLoading}
-        items={items}
-        fetchMore={fetchMore}
-        isLoadingMore={isLoadingMore}
-      />
-
-      {hasNoDevices && <NoDevicesView />}
+      <Routes>
+        <Route
+          path="/*"
+          element={<HomeDeviceList containerRef={containerRef} />}
+        />
+        <Route
+          path={routes.recentlyViewed}
+          element={<RecentlyViewedDevices />}
+        />
+        <Route path="*" element={<div>Not Found.</div>} />
+      </Routes>
     </DeviceListContainer>
   );
 }

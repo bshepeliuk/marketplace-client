@@ -16,7 +16,6 @@ import AccountView from '../account/pages/AccountView';
 import ForbiddenView from '../forbidden/ForbiddenView';
 import NotFoundView from '../notFound/NotFoundView';
 import NewDeviceView from '../addNewDevice/pages/NewDeviceView';
-import RecentlyViewedDevices from '../recentlyViewed/pages/RecentlyViewed';
 
 function MainView() {
   const { user } = useTypedSelector((state) => state.auth);
@@ -26,11 +25,7 @@ function MainView() {
       <HeaderView />
 
       <Routes>
-        <Route path={routes.home} element={<HomeView />} />
-        <Route
-          path={routes.recentlyViewed}
-          element={<RecentlyViewedDevices />}
-        />
+        <Route path={`${routes.home}*`} element={<HomeView />} />
         <Route path={`${routes.device}/*`} element={<DeviceDetailsView />} />
         <Route path={routes.devices} element={<DevicesView />} />
         <Route path={routes.cart} element={<CartView />} />

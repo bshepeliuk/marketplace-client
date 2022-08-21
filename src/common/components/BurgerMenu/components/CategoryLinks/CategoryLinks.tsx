@@ -22,9 +22,8 @@ function CategoryItem({ category }: { category: ICategory }) {
   const [params] = useSearchParams();
 
   const categoryId = Number(params.get('categoryId'));
-
-  const isActive =
-    categoryId === category.id && location.pathname === routes.devices;
+  // prettier-ignore
+  const isActive = categoryId === category.id && location.pathname === routes.devices;
   const className = isActive ? 'active-category' : '';
 
   return (
