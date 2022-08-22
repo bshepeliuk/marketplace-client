@@ -12,6 +12,7 @@ import useGetCategoryId from '../../hooks/useGetCategoryId';
 import AllDevicesLink from './AllDevicesListItem';
 import CategoryItemView from './CategoryItemView';
 import RecentlyViewedLink from './RecentlyViewedListItem';
+import Loader from './Loader';
 
 function CategoriesListView() {
   const scrollWrapRef = useRef(null);
@@ -60,14 +61,6 @@ function CategoriesListView() {
       >
         <MdArrowForwardIos />
       </RightArrowButton>
-    </Wrap>
-  );
-}
-
-function Loader() {
-  return (
-    <Wrap>
-      <div>Loading...</div>
     </Wrap>
   );
 }

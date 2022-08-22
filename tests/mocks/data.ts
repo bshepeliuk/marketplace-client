@@ -65,7 +65,7 @@ export const replyMock = {
 
 export const deviceMock = {
   id: 2,
-  name: 'HP Pavillion 15 eh1021-ua',
+  name: 'HP Pavillion 15 eh1021-ua (test)',
   price: 33448,
   brandId: 2,
   typeId: 1,

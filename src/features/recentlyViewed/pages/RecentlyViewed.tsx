@@ -1,17 +1,19 @@
 import React, { useRef } from 'react';
-import styled from 'styled-components';
+import { convertDayToMs } from '@common/utils/convertDayToMs';
 import DeviceListView from '@src/features/devices/components/DeviceListView';
 import useGetRecentlyViewed from '../hooks/useGetRecentlyViewed';
-
-const Container = styled.div`
-  max-width: 1200px;
-  margin: 0 auto;
-  height: calc(100vh - 80px - 80px);
-`;
+import useDeleteViewedOnTTLExpired from '../hooks/useDeleteViewedOnTTLExpired';
+import { Container, Empty } from '../styles/recentlyViewed.styled';
 
 function RecentlyViewedDevices() {
   const containerRef = useRef<HTMLDivElement>(null);
   const recentlyViewed = useGetRecentlyViewed();
+
+  useDeleteViewedOnTTLExpired({ ttlInMs: convertDayToMs(5) });
+
+  if (recentlyViewed.length === 0) {
+    return <Empty>You have not viewed any devices yet.</Empty>;
+  }
 
   return (
     <Container ref={containerRef}>

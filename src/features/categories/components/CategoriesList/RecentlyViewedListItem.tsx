@@ -3,7 +3,7 @@ import { routes } from '@src/app/Router';
 // eslint-disable-next-line max-len
 import useCheckRecentlyViewed from '@features/recentlyViewed/hooks/useCheckRecentlyViewed';
 import {
-  ListItem,
+  RecentlyListItem,
   StyledRecentlyLink,
 } from '../../styles/categoriesList.styled';
 
@@ -15,11 +15,11 @@ function RecentlyViewedListItem() {
   if (hasNoAnyViewedItems) return null;
 
   return (
-    <ListItem>
+    <RecentlyListItem>
       <StyledRecentlyLink to={routes.recentlyViewed}>
         Recently viewed
       </StyledRecentlyLink>
-    </ListItem>
+    </RecentlyListItem>
   );
 }
 

@@ -29,7 +29,7 @@ function DeviceDetailsView() {
     isLoading,
     duration: 1000,
   });
-  useAddToRecentlyViewed(device);
+  useAddToRecentlyViewed({ device, viewedAt: new Date() });
 
   const ratings = device?.ratings ?? [];
   const avgRating = calculateAvgRating(ratings);

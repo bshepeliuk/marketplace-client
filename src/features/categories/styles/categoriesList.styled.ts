@@ -26,6 +26,21 @@ export const ListItem = styled.li`
   user-select: none;
 `;
 
+export const RecentlyListItem = styled(ListItem)`
+  margin-right: 30px;
+  position: relative;
+
+  &:after {
+    content: '';
+    width: 1px;
+    height: 40px;
+    position: absolute;
+    background-color: #bdc3c7;
+    top: -8px;
+    right: -15px;
+  }
+`;
+
 export const StyledLink = styled(NavLink)`
   border: 1px solid #e0e0e0;
   font-size: 10px;
