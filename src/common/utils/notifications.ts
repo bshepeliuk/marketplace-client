@@ -22,7 +22,6 @@ const notifications = {
   success(message: string) {
     toast.success(message, {
       ...this._options,
-      className: 'success-notification',
       autoClose: 2000,
     });
   },
