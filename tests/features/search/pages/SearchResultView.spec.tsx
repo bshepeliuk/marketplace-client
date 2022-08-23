@@ -1,8 +1,8 @@
 import SearchResultView from '@src/features/search/page/SearchResultView';
 import { AutoSizerProps } from 'react-virtualized-auto-sizer';
-import { normalize } from 'normalizr';
-import { DevicesSchema } from '@src/common/normalizeSchemas';
 import setupAndRenderComponent from '../../../helpers/setupAndRenderComponent';
+import { rootStateMock } from '../../../mocks/stateMock';
+import { deviceMock } from '../../../mocks/data';
 
 jest.mock('react-virtualized-auto-sizer', () => {
   return ({ children }: AutoSizerProps) => {
@@ -11,54 +11,67 @@ jest.mock('react-virtualized-auto-sizer', () => {
   };
 });
 
-const device = {
-  id: 1,
-  name: 'HP Pavillion 15 eh1021-ua',
-  price: 33448,
-  brandId: 2,
-  typeId: 1,
-  userId: 1,
-  quantity: 1,
-  images: [{ id: 1, url: 'https://image.jpeg' }],
-  info: [],
-  ratings: [],
-  count: 1,
-  createdAt: '2022-01-05T16:57:37.787Z',
-  updatedAt: '2022-01-05T16:57:37.787Z',
-};
-
-const { result, entities } = normalize([device], DevicesSchema);
-
-const rootState = {
-  entities,
-  auth: {
-    isLoggedIn: true,
-  },
-  devices: {
-    isLoading: false,
-    items: result,
-  },
-  cart: { items: [] },
-};
-
 describe('[PAGES]:SearchResultView', () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
 
-  test('should render found list.', async () => {
+  test('should render found list.', () => {
     const { getByText } = setupAndRenderComponent({
       component: SearchResultView,
       props: {
         containerRef: { current: {} },
-        items: [device],
+        items: [deviceMock],
         isLoading: false,
         isLoadingMore: false,
         fetchMore: () => {},
       },
-      state: rootState,
+      state: rootStateMock,
     });
 
-    expect(getByText(device.name, { exact: false })).toBeInTheDocument();
+    expect(getByText(deviceMock.name, { exact: false })).toBeInTheDocument();
+  });
+
+  test('should render error when something went wrong.', () => {
+    const { getByText } = setupAndRenderComponent({
+      component: SearchResultView,
+      props: {
+        containerRef: { current: {} },
+        items: [deviceMock],
+        isLoading: false,
+        isLoadingMore: false,
+        fetchMore: () => {},
+      },
+      state: {
+        ...rootStateMock,
+        devices: { ...rootStateMock.devices, isError: true },
+      },
+    });
+
+    expect(
+      getByText(/Unfortunately something went wrong. Kindly try again later./i),
+    ).toBeInTheDocument();
+  });
+
+  test('should render "not found" message when devices were not found.', () => {
+    const { getByText } = setupAndRenderComponent({
+      component: SearchResultView,
+      props: {
+        containerRef: { current: {} },
+        items: [deviceMock],
+        isLoading: false,
+        isLoadingMore: false,
+        fetchMore: () => {},
+      },
+      state: {
+        ...rootStateMock,
+        devices: {
+          ...rootStateMock.devices,
+          hasNoDevices: true,
+        },
+      },
+    });
+
+    expect(getByText(/Not found./i)).toBeInTheDocument();
   });
 });

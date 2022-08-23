@@ -1,8 +1,12 @@
-import { CommentSchema, DeviceSchema } from '@src/common/normalizeSchemas';
+import {
+  CategoriesSchema,
+  CommentSchema,
+  DeviceSchema,
+} from '@src/common/normalizeSchemas';
 import { IComment } from '@src/features/comments/types';
 import { DeviceEntities, IDevice } from '@src/features/devices/types';
 import { normalize } from 'normalizr';
-import { commentMock, deviceMock, replyMock } from './data';
+import { categories, commentMock, deviceMock, replyMock } from './data';
 
 export const deviceEntityMock = normalize<IDevice, DeviceEntities, number>(
   deviceMock,
@@ -20,3 +24,5 @@ export const replyEntityMock = normalize<
   Pick<DeviceEntities, 'comments'>,
   number
 >(replyMock, CommentSchema);
+
+export const categoriesEntityMock = normalize(categories, CategoriesSchema);

@@ -25,7 +25,7 @@ function MainView() {
       <HeaderView />
 
       <Routes>
-        <Route path={routes.home} element={<HomeView />} />
+        <Route path={`${routes.home}*`} element={<HomeView />} />
         <Route path={`${routes.device}/*`} element={<DeviceDetailsView />} />
         <Route path={routes.devices} element={<DevicesView />} />
         <Route path={routes.cart} element={<CartView />} />

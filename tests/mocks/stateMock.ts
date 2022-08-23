@@ -1,5 +1,6 @@
 import { ROLES } from '@src/common/constants';
 import {
+  categoriesEntityMock,
   commentEntityMock,
   deviceEntityMock,
   replyEntityMock,
@@ -12,8 +13,8 @@ export const rootStateMock = {
       ...commentEntityMock.entities.comments,
       ...replyEntityMock.entities.comments,
     },
+    categories: categoriesEntityMock.entities.categories,
     images: {},
-    categories: {},
   },
   auth: {
     isLoggedIn: true,
@@ -24,7 +25,7 @@ export const rootStateMock = {
     },
   },
   categories: {
-    items: [],
+    items: categoriesEntityMock.result,
     isError: false,
     isLoading: false,
   },

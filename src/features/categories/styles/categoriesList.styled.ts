@@ -1,3 +1,4 @@
+import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 
 export const Wrap = styled.div`
@@ -25,29 +26,68 @@ export const ListItem = styled.li`
   user-select: none;
 `;
 
-export const CategoryButton = styled.button<{ isActive: boolean }>`
+export const RecentlyListItem = styled(ListItem)`
+  margin-right: 30px;
+  position: relative;
+
+  &:after {
+    content: '';
+    width: 1px;
+    height: 40px;
+    position: absolute;
+    background-color: #bdc3c7;
+    top: -8px;
+    right: -15px;
+  }
+`;
+
+export const StyledLink = styled(NavLink)`
+  border: 1px solid #e0e0e0;
   font-size: 10px;
   line-height: 16px;
   white-space: nowrap;
-  color: #303030;
+  color: #bdc3c7;
   background: #fff;
   border-radius: 4px;
-  padding: 7px 15px;
+  padding: 12px 20px;
   text-transform: uppercase;
   letter-spacing: 1px;
   transition: all 0.2s ease-out;
-
-  border: ${({ isActive }) => {
-    return isActive ? '1px solid #e31837' : '1px solid #e0e0e0';
-  }};
-
-  color: ${({ isActive }) => {
-    return isActive ? '#e31837' : '#303030';
-  }};
+  text-decoration: none;
 
   &:hover {
     color: #e31837;
     box-shadow: 0 0 5px rgb(0 0 5 / 20%);
+  }
+
+  &.active-category {
+    border: 1px solid #e31837;
+    color: #e31837;
+  }
+`;
+
+export const StyledRecentlyLink = styled(NavLink)`
+  border: 1px solid #e0e0e0;
+  font-size: 10px;
+  line-height: 16px;
+  white-space: nowrap;
+  color: #bdc3c7;
+  background: #fff;
+  border-radius: 4px;
+  padding: 12px 20px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.2s ease-out;
+  text-decoration: none;
+
+  &:hover {
+    color: #1abc9c;
+    box-shadow: 0 0 5px rgb(0 0 5 / 20%);
+  }
+
+  &.active {
+    border: 1px solid #1abc9c;
+    color: #1abc9c;
   }
 `;
 

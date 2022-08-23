@@ -1,25 +1,23 @@
-/* eslint-disable max-len */
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { MdArrowBackIosNew, MdArrowForwardIos } from 'react-icons/md';
-import useHandleScrollBySideBtnClick from '@src/common/hooks/useHandleScrollBySideBtnClick';
-import useGetCategories from '../hooks/useGetCategories';
+import useHandleScrollBySideBtnClick from '@common/hooks/useHandleScrollBySideBtnClick';
+import useGetCategories from '../../hooks/useGetCategories';
 import {
   List,
   Wrap,
-  ListItem,
   LeftArrowButton,
   RightArrowButton,
-} from '../styles/categoriesList.styled';
-import { ICategory } from '../types';
-import useGetCategoryId from '../hooks/useGetCategoryId';
-import GetAllDevicesButton from '../atoms/GetAllDevicesButton';
+} from '../../styles/categoriesList.styled';
+import useGetCategoryId from '../../hooks/useGetCategoryId';
+import AllDevicesLink from './AllDevicesListItem';
 import CategoryItemView from './CategoryItemView';
+import RecentlyViewedLink from './RecentlyViewedListItem';
+import Loader from './Loader';
 
 function CategoriesListView() {
   const scrollWrapRef = useRef(null);
   const categoryId = useGetCategoryId();
   const { items, isLoading } = useGetCategories();
-  const [active, setActive] = useState<null | string>(null);
   // prettier-ignore
   const {
     isLeftVisible,
@@ -28,17 +26,9 @@ function CategoriesListView() {
     onRightClick
   } = useHandleScrollBySideBtnClick(scrollWrapRef, items.length);
 
-  useEffect(() => {
-    const category = items.find((item) => item.id === categoryId);
+  const active = items.find((item) => item.id === categoryId);
 
-    if (category) setActive(category.name);
-  }, [items]);
-
-  const handleClick = (category: ICategory) => {
-    setActive(category.name);
-  };
-
-  const onAllClick = () => setActive(null);
+  if (isLoading) return <Loader />;
 
   return (
     <Wrap>
@@ -51,19 +41,15 @@ function CategoriesListView() {
       </LeftArrowButton>
 
       <List ref={scrollWrapRef}>
-        {isLoading && <div>Loading...</div>}
+        <RecentlyViewedLink />
 
-        <ListItem>
-          <GetAllDevicesButton active={active} onAllClick={onAllClick} />
-        </ListItem>
+        <AllDevicesLink />
 
         {items.map((item) => (
           <CategoryItemView
             key={item.id}
             category={item}
-            currentCategoryId={categoryId}
-            onClick={handleClick}
-            active={active}
+            active={active?.name}
           />
         ))}
       </List>

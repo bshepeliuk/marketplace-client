@@ -15,6 +15,12 @@ const originalOffsetWidth = Object.getOwnPropertyDescriptor(
   'offsetWidth',
 ) as PropertyDescriptor;
 
+const mouseMoveEvtMock = {
+  pageX: 0,
+  pageY: 0,
+  preventDefault: jest.fn(),
+} as any;
+
 describe('[HOOK]:  useZoomImageOnMouseEvt', () => {
   afterEach(() => {
     jest.clearAllMocks();
@@ -57,7 +63,6 @@ describe('[HOOK]:  useZoomImageOnMouseEvt', () => {
   test('should have init methods and values.', () => {
     const { result } = renderHook(() => useZoomImageOnMouseEvt());
 
-    expect(typeof result.current.onMouseEnter).toBe('function');
     expect(typeof result.current.onMouseLeave).toBe('function');
     expect(typeof result.current.onMouseMove).toBe('function');
     expect(typeof result.current.setIsLensActive).toBe('function');
@@ -68,13 +73,13 @@ describe('[HOOK]:  useZoomImageOnMouseEvt', () => {
     expect(result.current.lensOutputRef).toEqual({ current: null });
   });
 
-  test('isLensActive should be equal to true onMouseEnter event.', async () => {
+  test('isLensActive should be equal to true on mouse move event.', async () => {
     const { result } = renderHook(() => {
       return useZoomImageOnMouseEvt();
     });
 
     act(() => {
-      result.current.onMouseEnter();
+      result.current.onMouseMove(mouseMoveEvtMock);
     });
 
     await waitFor(() => {
@@ -88,7 +93,7 @@ describe('[HOOK]:  useZoomImageOnMouseEvt', () => {
     });
 
     act(() => {
-      result.current.onMouseEnter();
+      result.current.onMouseMove(mouseMoveEvtMock);
     });
 
     await waitFor(() => {
@@ -173,11 +178,7 @@ describe('[HOOK]:  useZoomImageOnMouseEvt', () => {
     );
 
     act(() => {
-      result.current.onMouseMove({
-        pageX: 0,
-        pageY: 0,
-        preventDefault: jest.fn(),
-      } as any);
+      result.current.onMouseMove(mouseMoveEvtMock);
     });
 
     expect(getByText(/lens output/i).style.backgroundImage).toBe('');
