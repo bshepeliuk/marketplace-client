@@ -1,3 +1,5 @@
+import React from 'react';
+import { FaBalanceScale } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import { CartBtnState, CART_BTN_STATE } from '../hooks/useHandleCartButton';
@@ -19,8 +21,23 @@ export const ListItem = styled.li`
   grid-template-areas:
     'IMAGE IMAGE'
     'TITLE TITLE'
-    'RATING BUTTON'
+    'RATING BALANCE-SCALE'
     'PRICE BUTTON';
+
+  grid-template-columns: repeat(2, 1fr);
+  row-gap: 10px;
+`;
+
+export const BalanceScaleIcon = styled(
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  ({ isUnique, ...props }) => <FaBalanceScale {...props} />,
+)`
+  cursor: pointer;
+  font-size: 20px;
+  grid-area: BALANCE-SCALE;
+  justify-self: end;
+  align-self: center;
+  color: ${(props) => (props.isUnique ? '#5285cc' : '#bdc3c7')};
 `;
 
 export const DeviceTitleLink = styled(Link)`
@@ -50,7 +67,7 @@ export const Image = styled.img`
 `;
 
 export const ImageWrapper = styled.div`
-  height: 270px;
+  height: 250px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -72,6 +89,7 @@ export const ImagePlaceholder = styled.div`
 export const Price = styled.p`
   grid-area: PRICE;
   margin: 0;
+  align-self: center;
 `;
 
 export const RatingWrapper = styled.div`
@@ -97,6 +115,7 @@ export const CartButton = styled.button<{
   btnState: CartBtnState;
   inCart: boolean;
 }>`
+  cursor: pointer;
   border: none;
   border-radius: 4px;
   display: flex;

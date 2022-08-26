@@ -10,7 +10,7 @@ interface IProps {
 
 const BurgerIcon = styled(GiHamburgerMenu)<Pick<IProps, 'size' | 'color'>>`
   display: none;
-  grid-column: 5;
+  grid-column: 6;
   transition: transform 0.3s ease-in-out;
 
   &:hover {
@@ -19,7 +19,6 @@ const BurgerIcon = styled(GiHamburgerMenu)<Pick<IProps, 'size' | 'color'>>`
 
   @media (max-width: 960px) {
     display: block;
-    grid-column: 5;
   }
 `;
 

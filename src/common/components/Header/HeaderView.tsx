@@ -2,10 +2,11 @@ import React from 'react';
 // eslint-disable-next-line max-len
 import CategoriesDropDown from '@features/categories/atoms/CategoriesDropDown/CategoriesDropDown';
 import { useTypedSelector } from '@src/common/hooks/useTypedSelector';
-import CartIconView from '@src/common/atoms/CartIcon/CartIconView';
 import { routes } from '@src/app/Router';
-import AddDeviceIcon from '@common/atoms/AddDeviceIcon/AddDeviceIcon';
-import SearchBarView from '@src/features/search/components/SearchBar/SearchBar';
+import CartLink from '@common/atoms/CartLink/CartLink';
+import AddDeviceLink from '@common/atoms/AddDeviceLink/AddDeviceLink';
+import SearchBarView from '@features/search/components/SearchBar/SearchBar';
+import ComparisonLink from '@common/atoms/ComparisonLink/ComparisonLink';
 import useCheckUserRole from '@common/hooks/useCheckUserRole';
 import UserInfoView from '../UserInfo/UserInfoView';
 import { Header, LoginLink, LogoLink, SearchWrap } from './header.styled';
@@ -27,8 +28,10 @@ function HeaderView() {
         <SearchBarView hasSuggestions />
       </SearchWrap>
 
-      {isBuyer && <CartIconView />}
-      {isSeller && <AddDeviceIcon />}
+      {isBuyer && <CartLink />}
+      {isSeller && <AddDeviceLink />}
+
+      <ComparisonLink />
 
       <UserInfoView />
 

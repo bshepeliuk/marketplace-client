@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { VscAccount } from 'react-icons/vsc';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
+import { FaBalanceScale } from 'react-icons/fa';
 import SearchBarView from '@features/search/components/SearchBar/SearchBar';
 import { routes } from '@src/app/Router';
 import { MdOutlineLibraryAdd } from 'react-icons/md';
@@ -61,6 +62,11 @@ function BurgerMenu() {
               create a new device
             </MenuLink>
           )}
+
+          <MenuLink to={routes.comparison}>
+            <FaBalanceScale />
+            comparison
+          </MenuLink>
         </MainLinksContainer>
 
         <MenuTitle>categories</MenuTitle>

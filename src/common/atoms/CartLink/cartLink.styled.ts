@@ -1,4 +1,4 @@
-import styled, { css, keyframes } from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 
 export const CartIcon = styled(AiOutlineShoppingCart)`
@@ -7,7 +7,7 @@ export const CartIcon = styled(AiOutlineShoppingCart)`
 `;
 
 export const Wrap = styled.div`
-  grid-column-start: 4;
+  grid-column-start: 5;
   position: relative;
 
   @media (max-width: 960px) {
@@ -27,7 +27,7 @@ const count = keyframes`
   };
 `;
 
-export const CartCounter = styled.div`
+export const Counter = styled.div`
   display: flex;
   font-size: 12px;
   align-items: center;
@@ -44,10 +44,7 @@ export const CartCounter = styled.div`
   right: -12px;
 `;
 
-export const Text = styled.p<{ hasIncremented: boolean }>`
+export const Text = styled.p`
   margin: 0;
-  animation: ${(props) => {
-    if (!props.hasIncremented) return '';
-    return css`0.3s ${count} ease-in-out both`;
-  }};
+  animation: 0.3s ${count} ease-in-out both;
 `;

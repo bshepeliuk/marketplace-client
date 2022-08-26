@@ -5,7 +5,7 @@ import { TiArrowSortedDown } from 'react-icons/ti';
 import { MdExitToApp } from 'react-icons/md';
 
 export const UserWrap = styled.div`
-  grid-column-start: 5;
+  grid-column-start: 6;
   display: flex;
   align-items: center;
   position: relative;

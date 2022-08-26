@@ -10,7 +10,7 @@ export const Header = styled.header`
   background-color: #303030;
   margin-bottom: 80px;
   display: grid;
-  grid-template-columns: 200px 200px 1fr 50px 180px;
+  grid-template-columns: 200px 200px 1fr 50px 50px 180px;
   justify-items: center;
 
   @media (max-width: 700px) {
@@ -39,7 +39,7 @@ export const LogoLink = styled(Link)`
 export const LoginLink = styled(Link)`
   text-decoration: none;
   color: #fff;
-  grid-column-start: 5;
+  grid-column-start: 6;
   text-transform: uppercase;
   font-size: 14px;
 `;

@@ -19,6 +19,7 @@ export const routes = {
   forbidden: '/forbidden',
   searchResult: '/search-result',
   recentlyViewed: '/recently-viewed',
+  comparison: '/comparison',
 };
 
 function Router() {
