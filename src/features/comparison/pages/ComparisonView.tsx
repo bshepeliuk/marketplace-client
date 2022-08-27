@@ -159,7 +159,6 @@ const ListItem = styled.li`
   color: #34495e;
 
   &:hover {
-    background-color: #f1f2f6;
     cursor: pointer;
   }
 `;
@@ -214,9 +213,26 @@ const List = styled.ul<{ columns: number }>`
   }
 
   &:hover {
-    border: 1px solid #1abc9c;
+    border: 1px solid #3498db;
     z-index: 2;
     background-color: #f5f6fa;
+  }
+
+  &:hover:after {
+    content: '';
+    width: 6px;
+    background-color: #3498db;
+    position: absolute;
+    right: 0;
+    left: 0;
+    top: 0;
+    bottom: 0;
+  }
+
+  &:hover li {
+    z-index: 2;
+    color: #3498db;
+    background-color: transparent;
   }
 `;
 
