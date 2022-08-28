@@ -6,7 +6,7 @@ import { IDevice } from '@src/features/devices/types';
 import { comparisonActions } from '../comparisonSlice';
 import { COMPARISON_STORAGE_KEY } from '../constants';
 
-const useGetComparisonList = () => {
+const useGetDevicesForComparison = () => {
   const dispatch = useAppDispatch();
   const { getItem } = useLocalStorage();
   const items = useTypedSelector((state) => state.comparison.items);
@@ -24,4 +24,4 @@ const useGetComparisonList = () => {
   };
 };
 
-export default useGetComparisonList;
+export default useGetDevicesForComparison;

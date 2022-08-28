@@ -1,9 +1,8 @@
 import React from 'react';
 import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
-
 import { NewBrandSchema } from '@src/features/auth/validation/brandSchema';
-import { useTypedSelector } from '@common/hooks/useTypedSelector';
+import useGetBrands from '@features/brands/hooks/useGetBrands';
 import useNewDeviceContext from '../../hooks/useNewDeviceContext';
 import { newDeviceRoutes } from '../../pages/NewDeviceView';
 import { FormFooter, NextButton } from '../../styles/deviceForm.styled';
@@ -16,13 +15,13 @@ const initialValues = {
 function BrandFormView() {
   const context = useNewDeviceContext();
   const navigate = useNavigate();
-  const brands = useTypedSelector((state) => state.brands.items);
+  const { items } = useGetBrands();
 
   const formik = useFormik<{ name: string }>({
     initialValues,
     validationSchema: NewBrandSchema,
     onSubmit: ({ name }) => {
-      const brand = brands.find(
+      const brand = items.find(
         (i) => i.name.toLowerCase() === name.toLocaleLowerCase(),
       );
 
