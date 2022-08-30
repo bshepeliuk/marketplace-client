@@ -25,21 +25,8 @@ function LoginFormView() {
 
   return (
     <LoginForm onSubmit={formik.handleSubmit}>
-      <CustomInput
-        id="email"
-        label="Email"
-        fieldName="email"
-        type="text"
-        {...formik}
-      />
-
-      <CustomInput
-        id="password"
-        label="Password"
-        fieldName="password"
-        type="password"
-        {...formik}
-      />
+      <CustomInput id="email" label="Email" fieldName="email" type="text" {...formik} />
+      <CustomInput id="password" label="Password" fieldName="password" type="password" {...formik} />
 
       <LoginButton type="submit" disabled={isDisabled}>
         {isLoading ? 'Processing...' : 'Login'}

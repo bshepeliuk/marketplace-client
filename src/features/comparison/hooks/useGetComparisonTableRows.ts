@@ -1,12 +1,18 @@
+import { useAppDispatch } from '@src/common/hooks/useAppDispatch';
+import { useTypedSelector } from '@src/common/hooks/useTypedSelector';
+import { useEffect } from 'react';
+import { comparisonActions } from '../comparisonSlice';
 import { TableCellTypes } from '../constants';
 import { HeaderCellType } from '../types';
 import useGetComparisonOptionsList from './useGetComparisonOptionsList';
 import useGetDevicesForComparison from './useGetDevicesForComparison';
 
 const useGetComparisonTableRows = () => {
+  const dispatch = useAppDispatch();
   const { items } = useGetDevicesForComparison();
   const options = useGetComparisonOptionsList(items);
-
+  const table = useTypedSelector((state) => state.comparison.table);
+  // TODO: move to slice??? getTable action based on items in state.
   const bodyList = options.map(([key, values]) => [
     { type: TableCellTypes.FeatureKey, value: key },
     ...values.map((value) => ({ type: TableCellTypes.FeatureValue, value })),
@@ -25,9 +31,14 @@ const useGetComparisonTableRows = () => {
     ...devices,
   ];
 
+  useEffect(() => {
+    dispatch(comparisonActions.setTable({ header: headerList, body: bodyList }));
+  }, [items]);
+
   return {
     headerList,
     bodyList,
+    table,
     hasNoItemsForComparison: items.length === 0,
   };
 };

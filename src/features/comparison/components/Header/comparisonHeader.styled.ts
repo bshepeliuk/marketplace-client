@@ -21,6 +21,7 @@ export const HeaderList = styled.ul<{ columns: number }>`
 `;
 
 export const HeaderListItem = styled.li`
+  cursor: move;
   display: grid;
   grid-template-rows: 200px 1fr 1fr;
   grid-template-columns: repeat(2, 1fr);
@@ -38,6 +39,7 @@ export const Img = styled.img`
   grid-column: 1 / -1;
   grid-row: 1;
   user-select: none;
+  pointer-events: none;
 `;
 
 export const DeleteIcon = styled(AiFillCloseCircle)`

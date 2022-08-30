@@ -7,9 +7,10 @@ export const BodyListItem = styled.li`
   justify-content: center;
   align-items: center;
   color: #34495e;
+  cursor: move;
 
   &:hover {
-    cursor: pointer;
+    cursor: move;
   }
 `;
 
@@ -24,7 +25,7 @@ export const BodyHeaderItem = styled.li`
   font-weight: bold;
 
   &:hover {
-    cursor: pointer;
+    cursor: move;
   }
 `;
 

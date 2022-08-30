@@ -7,22 +7,28 @@ import HeaderItemView from './HeaderItemView';
 
 interface IProps {
   headerList: Array<HeaderCellType>;
+  onDragEndColumn: (evt: React.MouseEvent) => void;
+  onDragEnterColumn: (evt: React.MouseEvent) => void;
+  onDragLeaveColumn: (evt: React.MouseEvent) => void;
 }
 
-function ComparisonHeaderView({ headerList }: IProps) {
+function ComparisonHeaderView({ headerList, onDragEndColumn, onDragEnterColumn, onDragLeaveColumn }: IProps) {
   return (
     <HeaderList columns={headerList.length}>
-      {headerList.map((item) => {
+      {headerList.map((item, idx) => {
         if (item.type === TableCellTypes.HeaderInfo) {
-          return (
-            <HeaderInfoItem key={`header-${item.value}`}>
-              {item.value}
-            </HeaderInfoItem>
-          );
+          return <HeaderInfoItem key={`header-${item.value}`}>{item.value}</HeaderInfoItem>;
         }
 
         return (
-          <HeaderItemView key={`header-${item.id}`} device={item as IDevice} />
+          <HeaderItemView
+            columnId={idx}
+            onDragEndColumn={onDragEndColumn}
+            onDragEnterColumn={onDragEnterColumn}
+            onDragLeaveColumn={onDragLeaveColumn}
+            key={`header-${item.id}`}
+            device={item as IDevice}
+          />
         );
       })}
     </HeaderList>

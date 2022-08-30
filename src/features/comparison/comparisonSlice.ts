@@ -3,6 +3,10 @@ import { IDevice } from '../devices/types';
 
 export const initialState = {
   items: [] as IDevice[],
+  table: {
+    header: [],
+    body: [],
+  },
 };
 
 type State = typeof initialState;
@@ -19,6 +23,10 @@ const comparisonSlice = createSlice({
     },
     populate(state: State, { payload }: PayloadAction<{ items: IDevice[] }>) {
       state.items = payload.items;
+    },
+    setTable(state: State, { payload }: PayloadAction<any>) {
+      state.table.header = payload.header;
+      state.table.body = payload.body;
     },
   },
 });
