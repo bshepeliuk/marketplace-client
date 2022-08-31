@@ -1,15 +1,25 @@
 /* eslint-disable react/jsx-no-constructed-context-values */
 import React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react';
-import {
-  NewDeviceContext,
-  NewDeviceProvider,
-} from '@src/features/addNewDevice/context/NewDeviceContext';
+import { NewDeviceContext, NewDeviceProvider } from '@src/features/addNewDevice/context/NewDeviceContext';
+import { setupServer } from 'msw/node';
+import { rest } from 'msw';
+import { BASE_API_URL } from '@src/common/constants';
 // eslint-disable-next-line max-len
 import BrandFormView from '@features/addNewDevice/components/BrandForm/BrandFormView';
 import selectEvent from 'react-select-event';
 import { Wrapper } from '../../../../wrapper';
 import { brands, newDeviceContextValuesMock } from '../../../../mocks/data';
+
+const server = setupServer(
+  rest.get(`${BASE_API_URL}/brands`, (req, res, ctx) => {
+    return res(
+      ctx.json({
+        brands: [],
+      }),
+    );
+  }),
+);
 
 const state = {
   devices: { isCreating: false, items: [] },
@@ -27,7 +37,11 @@ jest.mock('react-router-dom', () => ({
 }));
 
 describe('[COMPONENTS]: BrandForm', () => {
+  beforeAll(() => server.listen());
+  afterAll(() => server.close());
+
   afterEach(() => {
+    server.resetHandlers();
     jest.clearAllMocks();
   });
 
@@ -99,9 +113,7 @@ describe('[COMPONENTS]: BrandForm', () => {
           addBrand: addBrandMock,
         }}
       >
-        <NewDeviceContext.Consumer>
-          {() => <BrandFormView />}
-        </NewDeviceContext.Consumer>
+        <NewDeviceContext.Consumer>{() => <BrandFormView />}</NewDeviceContext.Consumer>
       </NewDeviceContext.Provider>,
       {
         wrapper: (props: { children: React.ReactNode }) => {
