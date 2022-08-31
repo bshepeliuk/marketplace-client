@@ -1,10 +1,5 @@
 import { ROLES } from '@src/common/constants';
-import {
-  categoriesEntityMock,
-  commentEntityMock,
-  deviceEntityMock,
-  replyEntityMock,
-} from './entitiesMock';
+import { categoriesEntityMock, commentEntityMock, deviceEntityMock, replyEntityMock } from './entitiesMock';
 
 export const rootStateMock = {
   entities: {
@@ -38,6 +33,21 @@ export const rootStateMock = {
   },
   cart: {
     items: [],
+  },
+  comparison: {
+    items: [],
+    table: {
+      header: [],
+      body: [],
+    },
+  },
+  filters: {
+    options: {
+      isError: false,
+      isLoading: false,
+      items: [],
+      prices: {},
+    },
   },
   comments: {
     isError: false,

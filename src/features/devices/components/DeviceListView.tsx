@@ -5,12 +5,7 @@ import InfiniteLoader from 'react-window-infinite-loader';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import useContainerDimensions from '@src/common/hooks/useContainerDimensions';
 import DeviceItemView from './DeviceItemView';
-import {
-  COLUMN_WIDTH,
-  GUTTER_SIZE,
-  LOADER_ITEMS_COUNT,
-  ROW_HEIGHT,
-} from '../constants';
+import { COLUMN_WIDTH, GUTTER_SIZE, LOADER_ITEMS_COUNT, ROW_HEIGHT } from '../constants';
 import { GoToTopButton, GoToTopIcon } from '../styles/deviceList.styled';
 import { IDevice, IOnItemsRenderedParams } from '../types';
 import useSaveListScrollPosition from '../hooks/useSaveListScrollPosition';
@@ -87,14 +82,10 @@ function DeviceListView({
         visibleColumnStopIndex,
       } = props;
 
-      const overscanStartIndex =
-        overscanRowStartIndex * COLUMN_COUNT + overscanColumnStartIndex;
-      const overscanStopIndex =
-        overscanRowStopIndex * COLUMN_COUNT + overscanColumnStopIndex;
-      const visibleStartIndex =
-        visibleRowStartIndex * COLUMN_COUNT + visibleColumnStartIndex;
-      const visibleStopIndex =
-        visibleRowStopIndex * COLUMN_COUNT + visibleColumnStopIndex;
+      const overscanStartIndex = overscanRowStartIndex * COLUMN_COUNT + overscanColumnStartIndex;
+      const overscanStopIndex = overscanRowStopIndex * COLUMN_COUNT + overscanColumnStopIndex;
+      const visibleStartIndex = visibleRowStartIndex * COLUMN_COUNT + visibleColumnStartIndex;
+      const visibleStopIndex = visibleRowStopIndex * COLUMN_COUNT + visibleColumnStopIndex;
 
       onItemsRendered({
         overscanStartIndex,

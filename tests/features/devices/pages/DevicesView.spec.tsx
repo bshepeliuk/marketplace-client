@@ -1,12 +1,11 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
-import { normalize } from 'normalizr';
 import DevicesView from '@features/devices/pages/DevicesView';
 import { FilterProvider } from '@features/filters/context/FilterContext';
-import { DevicesSchema } from '@src/common/normalizeSchemas';
 import { AutoSizerProps } from 'react-virtualized-auto-sizer';
 import setupAndRenderComponent from '../../../helpers/setupAndRenderComponent';
-import { goods } from '../../../mocks/data';
+import { deviceMock } from '../../../mocks/data';
+import { rootStateMock } from '../../../mocks/stateMock';
 
 jest.mock('react-virtualized-auto-sizer', () => {
   return ({ children }: AutoSizerProps) => {
@@ -23,32 +22,6 @@ jest.mock('react-router-dom', () => ({
   useNavigate: () => mockNavigate,
 }));
 
-const { result, entities } = normalize(goods, DevicesSchema);
-
-const rootState = {
-  entities,
-  auth: {
-    isLoggedIn: true,
-  },
-  devices: {
-    isLoading: false,
-    items: result,
-  },
-  categories: {
-    isLoading: false,
-    items: [],
-  },
-  filters: {
-    options: {
-      items: [],
-      prices: {},
-    },
-  },
-  cart: {
-    items: [],
-  },
-};
-
 describe('[PAGES]: DevicesView', () => {
   afterEach(() => {
     jest.clearAllMocks();
@@ -61,12 +34,10 @@ describe('[PAGES]: DevicesView', () => {
           <DevicesView />
         </FilterProvider>
       ),
-      state: rootState,
+      state: rootStateMock,
     });
 
-    for (const device of goods) {
-      expect(getByText(device.name)).toBeInTheDocument();
-    }
+    expect(getByText(deviceMock.name)).toBeInTheDocument();
   });
 
   test('should redirect to home page when search params is empty.', () => {
@@ -81,7 +52,7 @@ describe('[PAGES]: DevicesView', () => {
           <DevicesView />
         </FilterProvider>
       ),
-      state: rootState,
+      state: rootStateMock,
     });
 
     expect(mockNavigate).toBeCalledWith('/');
@@ -95,8 +66,8 @@ describe('[PAGES]: DevicesView', () => {
         </FilterProvider>
       ),
       state: {
-        ...rootState,
-        devices: { ...rootState.devices, hasNoDevices: true },
+        ...rootStateMock,
+        devices: { ...rootStateMock.devices, hasNoDevices: true },
       },
     });
 

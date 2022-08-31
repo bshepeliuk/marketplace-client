@@ -29,26 +29,25 @@ export const initialState = {
 
 type State = typeof initialState;
 
-export const getFilterOptionsByCategoryId = createAsyncThunk<
-  IFilterData,
-  IFilterOptionsParams,
-  IThunkAPI
->('filters/get-options', async ({ categoryId }, { rejectWithValue }) => {
-  try {
-    const { data } = await Api.Filters.getByCategoryId(categoryId);
+export const getFilterOptionsByCategoryId = createAsyncThunk<IFilterData, IFilterOptionsParams, IThunkAPI>(
+  'filters/get-options',
+  async ({ categoryId }, { rejectWithValue }) => {
+    try {
+      const { data } = await Api.Filters.getByCategoryId(categoryId);
 
-    return {
-      options: data.options,
-      prices: data.prices,
-    };
-  } catch (error) {
-    const message = getErrorMessage(error);
+      return {
+        options: data.options,
+        prices: data.prices,
+      };
+    } catch (error) {
+      const message = getErrorMessage(error);
 
-    return rejectWithValue({
-      message,
-    });
-  }
-});
+      return rejectWithValue({
+        message,
+      });
+    }
+  },
+);
 
 const filtersSlice = createSlice({
   initialState,
@@ -59,14 +58,11 @@ const filtersSlice = createSlice({
       state.options.isLoading = true;
       state.options.isError = false;
     });
-    builder.addCase(
-      getFilterOptionsByCategoryId.fulfilled,
-      (state: State, { payload }: PayloadAction<IFilterData>) => {
-        state.options.isLoading = false;
-        state.options.prices = payload.prices;
-        state.options.items = payload.options;
-      },
-    );
+    builder.addCase(getFilterOptionsByCategoryId.fulfilled, (state: State, { payload }: PayloadAction<IFilterData>) => {
+      state.options.isLoading = false;
+      state.options.prices = payload.prices;
+      state.options.items = payload.options;
+    });
     builder.addCase(getFilterOptionsByCategoryId.rejected, (state: State) => {
       state.options.isLoading = false;
       state.options.isError = true;

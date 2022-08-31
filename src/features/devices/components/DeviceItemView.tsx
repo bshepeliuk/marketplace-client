@@ -78,13 +78,7 @@ function DeviceItemView(props: IListItemProps) {
       <ComparisonButton device={device} />
 
       <RatingWrapper>
-        <StarRating
-          totalStars={5}
-          size={16}
-          precision={0.5}
-          initRating={avgRating}
-          isInteractive={false}
-        />
+        <StarRating totalStars={5} size={16} precision={0.5} initRating={avgRating} isInteractive={false} />
         <RatingTitle>{avgRating}</RatingTitle>
       </RatingWrapper>
 
@@ -110,9 +104,7 @@ function ComparisonButton({ device }: { device: IDevice }) {
     }
   };
 
-  return (
-    <BalanceScaleIcon isUnique={isUniqueDevice} onClick={handleComparison} />
-  );
+  return <BalanceScaleIcon isUnique={isUniqueDevice} onClick={handleComparison} />;
 }
 
 export default DeviceItemView;

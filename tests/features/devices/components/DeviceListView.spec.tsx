@@ -1,42 +1,8 @@
 import DeviceListView from '@src/features/devices/components/DeviceListView';
 import { AutoSizerProps } from 'react-virtualized-auto-sizer';
-import generateDevicesByCount from '../../../helpers/generateDevicesByCount';
+import { deviceMock } from '../../../mocks/data';
+import { rootStateMock } from '../../../mocks/stateMock';
 import setupAndRenderComponent from '../../../helpers/setupAndRenderComponent';
-
-const devices = generateDevicesByCount(20);
-const devicesEntity = devices.reduce(
-  (acc, current) => ({
-    ...acc,
-    [current.id]: current,
-  }),
-  {},
-);
-
-const deviceIds = devices.map((item) => item.id);
-
-const rootState = {
-  entities: {
-    devices: devicesEntity,
-    categories: {},
-    images: {
-      1: {
-        id: 1,
-        url: 'https://image.jpeg',
-      },
-    },
-    info: {},
-  },
-  auth: {
-    isLoggedIn: true,
-  },
-  devices: {
-    isLoading: false,
-    items: deviceIds,
-  },
-  cart: {
-    items: [],
-  },
-};
 
 jest.mock('react-virtualized-auto-sizer', () => {
   return ({ children }: AutoSizerProps) => {
@@ -59,21 +25,19 @@ describe('DeviceListView', () => {
   });
 
   test('should render device list.', async () => {
-    const { findAllByAltText } = setupAndRenderComponent({
+    const { getByText } = setupAndRenderComponent({
       component: DeviceListView,
       props: {
         containerRef: { current: {} },
-        items: devices,
+        items: [deviceMock],
         isLoading: false,
         isLoadingMore: false,
         fetchMore: () => {},
       },
-      state: rootState,
+      state: rootStateMock,
     });
 
-    const deviceList = await findAllByAltText(/Test Device - [0-9]/i);
-
-    expect(deviceList).toHaveLength(devices.length);
+    expect(getByText(deviceMock.name, { exact: false })).toBeInTheDocument();
   });
 
   test('should render loader.', async () => {
@@ -87,9 +51,9 @@ describe('DeviceListView', () => {
         fetchMore: () => {},
       },
       state: {
-        ...rootState,
+        ...rootStateMock,
         devices: {
-          ...rootState.devices,
+          ...rootStateMock.devices,
           isLoading: true,
         },
       },
@@ -97,6 +61,8 @@ describe('DeviceListView', () => {
 
     const loaderItems = getAllByText(/Loading.../i);
 
-    expect(loaderItems).toHaveLength(devices.length - 1);
+    const AMOUNT_OF_LOADER_ITEMS = 20;
+
+    expect(loaderItems).toHaveLength(AMOUNT_OF_LOADER_ITEMS);
   });
 });

@@ -1,8 +1,9 @@
 import { setupServer } from 'msw/node';
 import { rest } from 'msw';
-import { BASE_API_URL, ROLES } from '@src/common/constants';
+import { BASE_API_URL } from '@src/common/constants';
 import MainView from '@src/features/main/MainView';
 import setupAndRenderComponent from '../../helpers/setupAndRenderComponent';
+import { rootStateMock } from '../../mocks/stateMock';
 
 const server = setupServer(
   rest.get(`${BASE_API_URL}/types`, (req, res, ctx) => {
@@ -12,13 +13,6 @@ const server = setupServer(
     return res(ctx.json({ devices: [] }));
   }),
 );
-
-const userMock = {
-  id: 2,
-  fullName: 'Leam Neeson',
-  role: ROLES.BUYER,
-  email: 'leam@neeson.io',
-};
 
 describe('[ROUTER]: MainView', () => {
   beforeAll(() => {
@@ -34,19 +28,9 @@ describe('[ROUTER]: MainView', () => {
 
   test('should render header for all main routes.', () => {
     const state = {
-      entities: { categories: {}, devices: {} },
-      categories: {
-        items: [],
-      },
-      auth: {
-        user: userMock,
-        isLoggedIn: true,
-      },
+      ...rootStateMock,
       cart: {
         items: [1, 2, 3, 4, 5],
-      },
-      devices: {
-        items: [],
       },
     };
 
