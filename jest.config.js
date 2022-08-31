@@ -1,6 +1,6 @@
 module.exports = {
   collectCoverage: true,
-  coverageReporters: ['text', 'cobertura'],
+  coverageReporters: ['text', 'cobertura', 'clover'],
   moduleNameMapper: {
     '@src/(.*)$': '<rootDir>/src/$1',
     '@common/(.*)$': '<rootDir>/src/common/$1',
