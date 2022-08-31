@@ -6,9 +6,7 @@ interface IProps {
 }
 
 const findDeviceInfoByKey = ({ infoList, key }: IProps) => {
-  return infoList.find(
-    (item) => item.title.toLowerCase() === key.toLowerCase(),
-  );
+  return infoList.find((item) => item.title.toLowerCase() === key.toLowerCase());
 };
 
 export default findDeviceInfoByKey;

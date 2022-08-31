@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const FoundListContainer = styled.div`
   max-width: 1200px;
-  height: calc(100vh - 80px - 80px);
+  height: var(--default-height);
   margin: 0 auto;
 
   @media (max-width: 1600px) {

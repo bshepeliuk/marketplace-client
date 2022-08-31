@@ -1,33 +1,30 @@
 import React from 'react';
-import { IDevice } from '@src/features/devices/types';
-import { TableCellTypes } from '../../constants';
-import { HeaderCellType } from '../../types';
 import { HeaderInfoItem, HeaderList } from './comparisonHeader.styled';
 import HeaderItemView from './HeaderItemView';
+import useGetComparisonTable from '../../hooks/useGetComparisonTable';
+import useDraggableColumnComparisonTable from '../../hooks/useDraggableColumnComparisonTable';
+import useCheckTypeOfComparisonCell from '../../hooks/useCheckTypeOfComparisonCell';
 
-interface IProps {
-  headerList: Array<HeaderCellType>;
-  onDragEndColumn: (evt: React.MouseEvent) => void;
-  onDragEnterColumn: (evt: React.MouseEvent) => void;
-  onDragLeaveColumn: (evt: React.MouseEvent) => void;
-}
+function ComparisonHeaderView() {
+  const { table } = useGetComparisonTable();
+  const { onDragEnd, onDragEnter, onDragLeave } = useDraggableColumnComparisonTable();
+  const { isHeaderInfoCell } = useCheckTypeOfComparisonCell();
 
-function ComparisonHeaderView({ headerList, onDragEndColumn, onDragEnterColumn, onDragLeaveColumn }: IProps) {
   return (
-    <HeaderList columns={headerList.length}>
-      {headerList.map((item, idx) => {
-        if (item.type === TableCellTypes.HeaderInfo) {
+    <HeaderList columns={table.header.length}>
+      {table.header.map((item, idx) => {
+        if (isHeaderInfoCell(item)) {
           return <HeaderInfoItem key={`header-${item.value}`}>{item.value}</HeaderInfoItem>;
         }
 
         return (
           <HeaderItemView
-            columnId={idx}
-            onDragEndColumn={onDragEndColumn}
-            onDragEnterColumn={onDragEnterColumn}
-            onDragLeaveColumn={onDragLeaveColumn}
             key={`header-${item.id}`}
-            device={item as IDevice}
+            columnId={idx}
+            device={item}
+            onDragEnd={onDragEnd}
+            onDragEnter={onDragEnter}
+            onDragLeave={onDragLeave}
           />
         );
       })}

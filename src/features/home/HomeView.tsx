@@ -15,14 +15,8 @@ function HomeView() {
       <CategoriesListView />
 
       <Routes>
-        <Route
-          path="/*"
-          element={<HomeDeviceList containerRef={containerRef} />}
-        />
-        <Route
-          path={routes.recentlyViewed}
-          element={<RecentlyViewedDevices />}
-        />
+        <Route path="/*" element={<HomeDeviceList containerRef={containerRef} />} />
+        <Route path={routes.recentlyViewed} element={<RecentlyViewedDevices />} />
         <Route path="*" element={<div>Not Found.</div>} />
       </Routes>
     </DeviceListContainer>

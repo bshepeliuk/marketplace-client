@@ -1,34 +1,21 @@
+import '../styles/draggable.css';
 import React from 'react';
-import useGetComparisonTableRows from '../hooks/useGetComparisonTableRows';
+import useGetComparisonTable from '../hooks/useGetComparisonTable';
 import ComparisonHeaderView from '../components/Header/ComparisonHeaderView';
 import ComparisonBodyView from '../components/Body/ComparisonBodyView';
-import { ComparisonTable } from '../styles/comparisonTable.styled';
-import useDraggableColumnComparisonTable from '../hooks/useDraggableColumnComparisonTable';
-import useDraggableRowsComparisonTable from '../hooks/useDraggableRowsComparisonTable';
+import { ComparisonTable, InfoContainer } from '../styles/comparisonTable.styled';
 
 function ComparisonView() {
-  const { table, hasNoItemsForComparison } = useGetComparisonTableRows();
-  const { onDragEndColumn, onDragEnterColumn, onDragLeaveColumn } = useDraggableColumnComparisonTable();
-  const { onDragEndRow, onDragEnterRow, onDragLeaveRow } = useDraggableRowsComparisonTable();
+  const { hasNoItemsForComparison } = useGetComparisonTable();
 
   if (hasNoItemsForComparison) {
-    return <ComparisonTable>You have not added devices for comparison yet.</ComparisonTable>;
+    return <InfoContainer>You have not added devices for comparison yet.</InfoContainer>;
   }
 
   return (
     <ComparisonTable>
-      <ComparisonHeaderView
-        headerList={table.header}
-        onDragEndColumn={onDragEndColumn}
-        onDragEnterColumn={onDragEnterColumn}
-        onDragLeaveColumn={onDragLeaveColumn}
-      />
-      <ComparisonBodyView
-        bodyList={table.body}
-        onDragEndRow={onDragEndRow}
-        onDragLeaveRow={onDragLeaveRow}
-        onDragEnterRow={onDragEnterRow}
-      />
+      <ComparisonHeaderView />
+      <ComparisonBodyView />
     </ComparisonTable>
   );
 }

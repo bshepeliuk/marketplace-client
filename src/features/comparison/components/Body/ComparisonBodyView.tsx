@@ -1,36 +1,30 @@
 /* eslint-disable react/no-array-index-key */
 import React from 'react';
-import { TableCellTypes } from '../../constants';
+import useCheckTypeOfComparisonCell from '../../hooks/useCheckTypeOfComparisonCell';
+import useDraggableRowsComparisonTable from '../../hooks/useDraggableRowsComparisonTable';
+import useGetComparisonTable from '../../hooks/useGetComparisonTable';
 import { BodyHeaderItem, BodyList, BodyListItem } from './comparisonBody.styled';
 
-interface IBodyListItem {
-  type: typeof TableCellTypes.FeatureKey | typeof TableCellTypes.FeatureValue;
-  value: string;
-}
+function ComparisonBodyView() {
+  const { table } = useGetComparisonTable();
+  const { onDragEnd, onDragEnter, onDragLeave } = useDraggableRowsComparisonTable();
+  const { isBodyFeatureKeyCell } = useCheckTypeOfComparisonCell();
 
-interface IBodyList {
-  bodyList: Array<IBodyListItem[]>;
-  onDragEndRow: (evt: React.MouseEvent) => void;
-  onDragEnterRow: (evt: React.MouseEvent) => void;
-  onDragLeaveRow: (evt: React.MouseEvent) => void;
-}
-
-function ComparisonBodyView({ bodyList, onDragEndRow, onDragEnterRow, onDragLeaveRow }: IBodyList) {
   return (
     <>
-      {bodyList.map((rowList, rowIdx) => {
+      {table.body.map((rowList, rowIdx) => {
         return (
           <BodyList key={rowIdx} columns={rowList.length}>
             {rowList.map((item, colIdx) => {
-              if (item.type === TableCellTypes.FeatureKey) {
+              if (isBodyFeatureKeyCell(item)) {
                 return (
                   <BodyHeaderItem
                     draggable
-                    data-row-id={rowIdx}
-                    onDragEnd={onDragEndRow}
-                    onDragEnter={onDragEnterRow}
-                    onDragLeave={onDragLeaveRow}
                     key={`${rowIdx}-${colIdx}`}
+                    data-row-id={rowIdx}
+                    onDragEnd={onDragEnd}
+                    onDragEnter={onDragEnter}
+                    onDragLeave={onDragLeave}
                   >
                     {item.value}
                   </BodyHeaderItem>
@@ -38,14 +32,7 @@ function ComparisonBodyView({ bodyList, onDragEndRow, onDragEnterRow, onDragLeav
               }
 
               return (
-                <BodyListItem
-                  draggable
-                  data-row-id={rowIdx}
-                  onDragEnd={onDragEndRow}
-                  onDragEnter={onDragEnterRow}
-                  onDragLeave={onDragLeaveRow}
-                  key={`${rowIdx}-${colIdx}`}
-                >
+                <BodyListItem data-row-id={rowIdx} key={`${rowIdx}-${colIdx}`}>
                   {item.value}
                 </BodyListItem>
               );

@@ -11,3 +11,15 @@ export interface IHeaderInfo {
 }
 
 export type HeaderCellType = IHeaderDevice | IHeaderInfo;
+
+export interface IBodyFeatureKey {
+  type: typeof TableCellTypes.FeatureKey;
+  value: string;
+}
+
+export interface IBodyFeatureValue {
+  type: typeof TableCellTypes.FeatureValue;
+  value: string;
+}
+
+export type BodyCellType = IBodyFeatureKey | IBodyFeatureValue;

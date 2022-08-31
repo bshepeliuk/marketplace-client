@@ -10,7 +10,7 @@ const useDraggableRowsComparisonTable = () => {
 
   const toRowIdxRef = useRef<number | null>(null);
 
-  const onDragEnterRow = (evt: MouseEvent) => {
+  const onDragEnter = (evt: MouseEvent) => {
     evt.preventDefault();
 
     const target = evt.currentTarget as HTMLElement;
@@ -20,7 +20,7 @@ const useDraggableRowsComparisonTable = () => {
     toRowIdxRef.current = Number(target.dataset.rowId);
   };
 
-  const onDragEndRow = (evt: MouseEvent) => {
+  const onDragEnd = (evt: MouseEvent) => {
     evt.preventDefault();
 
     const target = evt.currentTarget as HTMLElement;
@@ -35,18 +35,18 @@ const useDraggableRowsComparisonTable = () => {
       toIndex: toRowIdxRef.current as number,
     });
 
-    dispatch(comparisonActions.setTable({ header: table.header, body }));
+    dispatch(comparisonActions.setComparisonTable({ header: table.header, body }));
   };
 
-  const onDragLeaveRow = (evt: MouseEvent) => {
+  const onDragLeave = (evt: MouseEvent) => {
     const target = evt.currentTarget as HTMLElement;
     target.classList.remove('draggable-row');
   };
 
   return {
-    onDragEnterRow,
-    onDragEndRow,
-    onDragLeaveRow,
+    onDragEnter,
+    onDragEnd,
+    onDragLeave,
   };
 };
 

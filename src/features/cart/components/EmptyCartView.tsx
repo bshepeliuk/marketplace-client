@@ -12,8 +12,7 @@ function EmptyCartView() {
 }
 
 const Wrap = styled.div`
-  // 80px - header; 80px - margin-bottom;
-  height: calc(100vh - 80px - 80px);
+  height: var(--default-height);
   width: 100%;
   display: flex;
   flex-flow: column wrap;

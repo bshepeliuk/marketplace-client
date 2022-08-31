@@ -24,16 +24,12 @@ describe('[PAGES]: RecentlyViewedDevices', () => {
       state: rootStateMock,
     });
 
-    expect(
-      getByText(/You have not viewed any devices yet./i),
-    ).toBeInTheDocument();
+    expect(getByText(/You have not viewed any devices yet./i)).toBeInTheDocument();
   });
 
   test('should render recently viewed devices from local storage.', () => {
     const viewedAt = new Date();
-    const recentlyViewedMockString = JSON.stringify([
-      { ...deviceMock, viewedAt },
-    ]);
+    const recentlyViewedMockString = JSON.stringify([{ ...deviceMock, viewedAt }]);
 
     localStorage.setItem(RECENTLY_VIEWED_STORAGE_KEY, recentlyViewedMockString);
 

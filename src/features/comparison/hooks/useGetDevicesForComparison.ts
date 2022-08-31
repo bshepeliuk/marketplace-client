@@ -14,7 +14,9 @@ const useGetDevicesForComparison = () => {
   useEffect(() => {
     const prevItems = getItem<IDevice>(COMPARISON_STORAGE_KEY);
 
-    if (prevItems?.length > 0) {
+    const hasPrevItems = prevItems?.length > 0;
+
+    if (hasPrevItems) {
       dispatch(comparisonActions.populate({ items: prevItems }));
     }
   }, []);

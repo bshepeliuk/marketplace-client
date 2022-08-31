@@ -1,6 +1,6 @@
 import { IDevice, IDeviceInfo } from '@src/features/devices/types';
 
-export const getPossibleOptionsListFromDevices = (devices: IDevice[]) => {
+const getPossibleOptionsListFromDevices = (devices: IDevice[]) => {
   const options = new Map<string, string[]>([]);
 
   for (const device of devices) {

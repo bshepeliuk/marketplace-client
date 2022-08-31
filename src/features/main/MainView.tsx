@@ -1,8 +1,7 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import HeaderView from '@src/common/components/Header/HeaderView';
-import { useTypedSelector } from '@src/common/hooks/useTypedSelector';
-import { ROLES } from '@src/common/constants';
+import useCheckUserRole from '@src/common/hooks/useCheckUserRole';
 import PrivateRoute from '@src/app/PrivateRoute';
 import { routes } from '@src/app/Router';
 import HomeView from '../home/HomeView';
@@ -19,7 +18,7 @@ import NewDeviceView from '../addNewDevice/pages/NewDeviceView';
 import ComparisonView from '../comparison/pages/ComparisonView';
 
 function MainView() {
-  const { user } = useTypedSelector((state) => state.auth);
+  const { isSeller } = useCheckUserRole();
 
   return (
     <>
@@ -32,14 +31,8 @@ function MainView() {
         <Route path={routes.devices} element={<DevicesView />} />
         <Route path={routes.cart} element={<CartView />} />
         <Route path={routes.searchResult} element={<SearchResultView />} />
-        <Route
-          path={routes.checkoutCancel}
-          element={<PaymentCheckoutCancel />}
-        />
-        <Route
-          path={routes.checkoutSuccess}
-          element={<PaymentCheckoutSuccess />}
-        />
+        <Route path={routes.checkoutCancel} element={<PaymentCheckoutCancel />} />
+        <Route path={routes.checkoutSuccess} element={<PaymentCheckoutSuccess />} />
         <Route
           path={routes.account}
           element={
@@ -51,7 +44,7 @@ function MainView() {
         <Route
           path={`${routes.newDevice}/*`}
           element={
-            <PrivateRoute isAllowed={ROLES.SELLER === user?.role}>
+            <PrivateRoute isAllowed={isSeller}>
               <NewDeviceView />
             </PrivateRoute>
           }

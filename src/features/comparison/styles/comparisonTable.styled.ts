@@ -20,3 +20,10 @@ export const ComparisonTable = styled.div`
     background-color: rgba(52, 73, 94, 0.1);
   }
 `;
+
+export const InfoContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: var(--default-height);
+`;

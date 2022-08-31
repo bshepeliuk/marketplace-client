@@ -1,11 +1,15 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IDevice } from '../devices/types';
+import addTypesForHeaderAndBodyCells from './helpers/addTypesForHeaderAndBodyCells';
+import fillOptionsListByDevices from './helpers/fillOptionsListByDevices';
+import getPossibleOptionsListFromDevices from './helpers/getPossibleOptionsListFromDevices';
+import { BodyCellType, HeaderCellType } from './types';
 
 export const initialState = {
   items: [] as IDevice[],
   table: {
-    header: [],
-    body: [],
+    header: [] as HeaderCellType[],
+    body: [] as Array<BodyCellType[]>,
   },
 };
 
@@ -24,9 +28,20 @@ const comparisonSlice = createSlice({
     populate(state: State, { payload }: PayloadAction<{ items: IDevice[] }>) {
       state.items = payload.items;
     },
-    setTable(state: State, { payload }: PayloadAction<any>) {
+    setComparisonTable(state: State, { payload }: PayloadAction<any>) {
       state.table.header = payload.header;
       state.table.body = payload.body;
+    },
+    getComparisonTable(state: State) {
+      const emptyOptionsList = getPossibleOptionsListFromDevices(state.items);
+      const filledInOptionsList = fillOptionsListByDevices({
+        list: emptyOptionsList,
+        devices: state.items,
+      });
+      const { header, body } = addTypesForHeaderAndBodyCells({ header: state.items, body: filledInOptionsList });
+
+      state.table.header = header;
+      state.table.body = body;
     },
   },
 });

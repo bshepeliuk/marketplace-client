@@ -2,6 +2,7 @@ import useLocalStorage from '@src/common/hooks/useLocalStorage';
 import { useTypedSelector } from '@src/common/hooks/useTypedSelector';
 import { IDevice } from '@src/features/devices/types';
 import { COMPARISON_STORAGE_KEY } from '../constants';
+import isNotInStorage from '../helpers/isNotInStorage';
 
 const useCheckComparison = () => {
   const { items } = useTypedSelector((state) => state.comparison);
@@ -23,10 +24,6 @@ const useCheckComparison = () => {
   return {
     isUnique,
   };
-};
-
-const isNotInStorage = ({ data, id }: { data: IDevice[]; id: number }) => {
-  return data.every((item) => item.id !== id);
 };
 
 export default useCheckComparison;

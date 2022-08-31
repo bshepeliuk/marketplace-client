@@ -7,11 +7,6 @@ export const BodyListItem = styled.li`
   justify-content: center;
   align-items: center;
   color: #34495e;
-  cursor: move;
-
-  &:hover {
-    cursor: move;
-  }
 `;
 
 export const BodyHeaderItem = styled.li`

@@ -10,23 +10,27 @@ import { DeleteIcon, DeviceLink, HeaderListItem, Img, PayButton, Price } from '.
 interface IProps {
   device: IDevice;
   columnId: number;
-  onDragEndColumn: (evt: React.MouseEvent) => void;
-  onDragLeaveColumn: (evt: React.MouseEvent) => void;
-  onDragEnterColumn: (evt: React.MouseEvent) => void;
+  onDragEnd: (evt: React.MouseEvent) => void;
+  onDragLeave: (evt: React.MouseEvent) => void;
+  onDragEnter: (evt: React.MouseEvent) => void;
 }
 
-function HeaderItemView({ device, columnId, onDragEndColumn, onDragLeaveColumn, onDragEnterColumn }: IProps) {
+function HeaderItemView({ device, columnId, onDragEnd, onDragEnter, onDragLeave }: IProps) {
   const location = useLocation();
   const { pay, isPending } = useMakePayment([{ ...device, count: 1 }] as IDeviceWithCount[]);
   const { deleteById } = useDeleteFromComparison();
+
+  const onDelete = () => {
+    deleteById(device.id);
+  };
 
   return (
     <HeaderListItem
       draggable
       data-column-id={columnId}
-      onDragEnter={onDragEnterColumn}
-      onDragEnd={onDragEndColumn}
-      onDragLeave={onDragLeaveColumn}
+      onDragEnter={onDragEnter}
+      onDragEnd={onDragEnd}
+      onDragLeave={onDragLeave}
       key={`header-${device.name}`}
     >
       <Img src={(device.images[0] as IDeviceImage).url} alt={device.name} />
@@ -45,7 +49,7 @@ function HeaderItemView({ device, columnId, onDragEndColumn, onDragLeaveColumn, 
         {device.name}
       </DeviceLink>
 
-      <DeleteIcon onClick={() => deleteById(device.id)} />
+      <DeleteIcon onClick={onDelete} />
 
       <Price>{device.price} $</Price>
       <PayButton onClick={pay} disabled={isPending}>

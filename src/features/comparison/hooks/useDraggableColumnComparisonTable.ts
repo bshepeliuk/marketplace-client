@@ -10,7 +10,7 @@ export const useDraggableColumnComparisonTable = () => {
 
   const toColumnIdxRef = useRef<number | null>(null);
 
-  const onDragEnterColumn = (evt: MouseEvent) => {
+  const onDragEnter = (evt: MouseEvent) => {
     const target = evt.currentTarget as HTMLElement;
 
     target.classList.add('draggable-column');
@@ -18,7 +18,7 @@ export const useDraggableColumnComparisonTable = () => {
     toColumnIdxRef.current = Number(target.dataset.columnId);
   };
 
-  const onDragEndColumn = (evt: MouseEvent) => {
+  const onDragEnd = (evt: MouseEvent) => {
     const target = evt.currentTarget as HTMLElement;
     const fromColumnIdx = Number(target.dataset.columnId);
 
@@ -38,18 +38,18 @@ export const useDraggableColumnComparisonTable = () => {
       });
     });
 
-    dispatch(comparisonActions.setTable({ header, body }));
+    dispatch(comparisonActions.setComparisonTable({ header, body }));
   };
 
-  const onDragLeaveColumn = (evt: MouseEvent) => {
+  const onDragLeave = (evt: MouseEvent) => {
     const target = evt.currentTarget as HTMLElement;
     target.classList.remove('draggable-column');
   };
 
   return {
-    onDragEnterColumn,
-    onDragEndColumn,
-    onDragLeaveColumn,
+    onDragEnter,
+    onDragEnd,
+    onDragLeave,
   };
 };
 
