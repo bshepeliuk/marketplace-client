@@ -31,6 +31,6 @@ COPY --from=builder /app/build ./build
 
 COPY ./static-server.js ./static-server.js
 # Open desired port
-EXPOSE 5000
+EXPOSE 8080
 
 CMD ["npm", "start"]
