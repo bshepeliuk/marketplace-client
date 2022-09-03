@@ -24,8 +24,7 @@ jobs:
             npm run test -- --coverage
       - store_test_results:
           path: ./coverage
-      - codecov/upload:
-          file: './coverage/cobertura-coverage.xml'
+      - codecov/upload
 
 workflows:
   sample:
