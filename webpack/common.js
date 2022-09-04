@@ -59,9 +59,7 @@ module.exports = {
 
     new ESLintPlugin(),
 
-    new Dotenv({
-      path: path.resolve(process.cwd(), '.env'),
-    }),
+    new Dotenv(),
 
     new HtmlWebpackPlugin({
       template: './public/index.html',

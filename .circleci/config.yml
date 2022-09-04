@@ -3,12 +3,15 @@ version: 2.1
 orbs:
   codecov: codecov/codecov@3
 
-jobs:
-  build-and-test:
+executors:
+  app:
+    working_directory: ~/app
     docker:
-      - image: cimg/node:16.10
+      - image: cimg/node:16.17
+
+commands:
+  install_dependencies:
     steps:
-      - checkout
       - restore_cache:
           key: dependency-cache-{{ checksum "package-lock.json" }}
       - run:
@@ -18,15 +21,65 @@ jobs:
           key: dependency-cache-{{ checksum "package-lock.json" }}
           paths:
             - ./node_modules
+
+  run_tests:
+    steps:
       - run:
           name: Test application
           command: |
             npm run test -- --coverage
       - store_test_results:
           path: ./coverage
+
+  update_codecov_coverage:
+    steps:
       - codecov/upload
 
+  install_flyctl:
+    steps:
+      - run:
+          name: Install Flyctl
+          command: |
+            curl -L https://fly.io/install.sh | sh -s "latest"
+            /home/circleci/.fly/bin/flyctl auth token ${FLY_ACCESS_TOKEN}
+  deploy_to_fly_platform:
+    steps:
+      - run:
+          name: Deploy to fly.io
+          command: |
+            "/home/circleci/.fly/bin/flyctl" --app ${FLY_APP_NAME} deploy \
+              --access-token "${FLY_ACCESS_TOKEN}" \
+              --local-only
+jobs:
+  build:
+    executor: app
+    steps:
+      - checkout
+      - install_dependencies
+  test:
+    executor: app
+    steps:
+      - checkout
+      - install_dependencies
+      - run_tests
+      - update_codecov_coverage
+  deploy:
+    machine:
+      image: ubuntu-2204:2022.04.2
+      docker_layer_caching: true
+    steps:
+      - checkout
+      - install_flyctl
+      - deploy_to_fly_platform
+
 workflows:
-  sample:
+  build_test_deploy:
     jobs:
-      - build-and-test
+      - build
+      - test
+      # - deploy:
+      #     requires:
+      #       - test
+      #     filters:
+      #       branches:
+      #         only: main
