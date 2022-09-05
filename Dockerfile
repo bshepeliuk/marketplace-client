@@ -10,6 +10,9 @@ WORKDIR /app
 COPY package*.json ./
 # Install all dependencies
 RUN npm install
+# https://community.fly.io/t/fly-secrets-not-populated-during-build/659
+ARG STRIPE_PUBLISH_KEY
+ENV STRIPE_PUBLISH_KEY=${STRIPE_PUBLISH_KEY}
 # Copy the rest of the code
 COPY . .
 

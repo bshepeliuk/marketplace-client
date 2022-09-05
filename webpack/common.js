@@ -59,7 +59,7 @@ module.exports = {
 
     new ESLintPlugin(),
 
-    new Dotenv(),
+    new Dotenv({ systemvars: true }),
 
     new HtmlWebpackPlugin({
       template: './public/index.html',
