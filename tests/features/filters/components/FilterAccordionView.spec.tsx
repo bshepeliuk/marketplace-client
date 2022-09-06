@@ -1,32 +1,13 @@
 import React from 'react';
 import { setupServer } from 'msw/node';
 import { FilterProvider } from '@features/filters/context/FilterContext';
+import { waitFor } from '@testing-library/dom';
 import FilterAccordionView from '@features/filters/components/Accordion/AccordionView';
 import setupAndRenderComponent from '../../../helpers/setupAndRenderComponent';
 import { mockOptions } from '../../../mocks/data';
+import { rootStateMock } from '../../../mocks/stateMock';
 
 const server = setupServer();
-
-const rootState = {
-  entities: {},
-  auth: {
-    isLoggedIn: true,
-  },
-  categories: {
-    items: [],
-    isError: false,
-    isLoading: false,
-  },
-  filters: {
-    options: {
-      prices: {
-        min: 1000,
-        max: 5000,
-      },
-      items: mockOptions,
-    },
-  },
-};
 
 describe('[COMPONENTS]: FilterAccordionView', () => {
   beforeAll(() => server.listen());
@@ -36,9 +17,20 @@ describe('[COMPONENTS]: FilterAccordionView', () => {
     jest.clearAllMocks();
   });
 
-  test('should render accordion with options from state.', () => {
+  test('should render accordion with options from state.', async () => {
     const { getByText } = setupAndRenderComponent({
-      state: rootState,
+      state: {
+        ...rootStateMock,
+        filters: {
+          options: {
+            prices: {
+              min: 1000,
+              max: 5000,
+            },
+            items: mockOptions,
+          },
+        },
+      },
       component: () => (
         <FilterProvider>
           <FilterAccordionView />
@@ -46,9 +38,14 @@ describe('[COMPONENTS]: FilterAccordionView', () => {
       ),
     });
 
-    for (const option of mockOptions) {
-      expect(getByText(option.title.toLowerCase())).toBeInTheDocument();
-      expect(getByText(option.description)).toBeInTheDocument();
-    }
+    await waitFor(
+      () => {
+        for (const option of mockOptions) {
+          expect(getByText(option.title.toLowerCase())).toBeInTheDocument();
+          expect(getByText(option.description)).toBeInTheDocument();
+        }
+      },
+      { timeout: 2000 },
+    );
   });
 });

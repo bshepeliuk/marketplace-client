@@ -62,9 +62,7 @@ describe('[PAGES]: DeviceDetailsView', () => {
   });
 
   test('should find and render device.', async () => {
-    jest
-      .spyOn(Router, 'useParams')
-      .mockReturnValue({ deviceId: deviceMock.id.toString() });
+    jest.spyOn(Router, 'useParams').mockReturnValue({ deviceId: deviceMock.id.toString() });
 
     const { getByText, getByTestId } = setupAndRenderComponent({
       state: rootStateMock,
@@ -79,10 +77,7 @@ describe('[PAGES]: DeviceDetailsView', () => {
     fireEvent.click(goBackBtn);
 
     expect(goBackBtn).toBeInTheDocument();
-    expect(mockedNavigate).toBeCalledWith(
-      { pathname: '/', search: undefined },
-      { state: { rowIndex: 1 } },
-    );
+    expect(mockedNavigate).toBeCalledWith({ pathname: '/', search: undefined }, { state: { rowIndex: 1 } });
 
     expect(priceField).toBeInTheDocument();
     expect(purchaseBtn).toBeInTheDocument();
@@ -101,9 +96,7 @@ describe('[PAGES]: DeviceDetailsView', () => {
       isPending: true,
     });
 
-    jest
-      .spyOn(Router, 'useParams')
-      .mockReturnValue({ deviceId: deviceMock.id.toString() });
+    jest.spyOn(Router, 'useParams').mockReturnValue({ deviceId: deviceMock.id.toString() });
 
     const { getByText } = setupAndRenderComponent({
       state: rootStateMock,
@@ -121,10 +114,7 @@ describe('[PAGES]: DeviceDetailsView', () => {
   test('when device ID is not correct, should render message that such device not found', async () => {
     server.use(
       rest.get(`${BASE_API_URL}/devices/999`, (req, res, ctx) => {
-        return res(
-          ctx.status(500),
-          ctx.json({ message: 'Something went wrong!' }),
-        );
+        return res(ctx.status(500), ctx.json({ message: 'Something went wrong!' }));
       }),
     );
 

@@ -24,9 +24,7 @@ function PriceInfoView({ infoStatus }: IProps) {
 
   useSyncInputStateWithRangeState({ values, setRange, setValues });
 
-  const isNotInitStateValues = !values.every(
-    (value) => Object.values(options.prices).includes(value) || value === 0,
-  );
+  const isNotInitStateValues = !values.every((value) => Object.values(options.prices).includes(value) || value === 0);
 
   useEffect(() => {
     if (isNotInitStateValues && wrapRef.current) {
@@ -42,7 +40,9 @@ function PriceInfoView({ infoStatus }: IProps) {
       context.setPrices(values);
     }, 500);
 
-    return () => clearTimeout(timeoutId);
+    return () => {
+      clearTimeout(timeoutId);
+    };
   }, [values]);
 
   const onRangeChange = (value: number[]) => {
@@ -74,27 +74,12 @@ function PriceInfoView({ infoStatus }: IProps) {
   return (
     <Wrap ref={wrapRef} infoStatus={infoStatus} height={size.height}>
       <InputWrapper>
-        <Input
-          name="min"
-          type="text"
-          value={values[0]}
-          onChange={onInputChange}
-        />
+        <Input name="min" type="text" value={values[0]} onChange={onInputChange} />
 
-        <Input
-          name="max"
-          type="text"
-          value={values[1]}
-          onChange={onInputChange}
-        />
+        <Input name="max" type="text" value={values[1]} onChange={onInputChange} />
       </InputWrapper>
 
-      <RangeInput
-        min={options.prices.min}
-        max={options.prices.max}
-        values={range}
-        onChange={onRangeChange}
-      />
+      <RangeInput min={options.prices.min} max={options.prices.max} values={range} onChange={onRangeChange} />
     </Wrap>
   );
 }

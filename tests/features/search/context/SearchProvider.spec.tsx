@@ -3,9 +3,7 @@ import { fireEvent, render, waitFor } from '@testing-library/react';
 import { setupServer } from 'msw/node';
 import { rest } from 'msw';
 import { BASE_API_URL } from '@src/common/constants';
-import SearchProvider, {
-  SearchContext,
-} from '@src/features/search/context/SearchContext';
+import SearchProvider, { SearchContext } from '@src/features/search/context/SearchContext';
 import { routes } from '@src/app/Router';
 import { Wrapper } from '../../../wrapper';
 
@@ -14,9 +12,7 @@ const mockNavigate = jest.fn();
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
   __esModule: true,
-  useSearchParams: jest
-    .fn()
-    .mockImplementation(() => [new URLSearchParams(), jest.fn()]),
+  useSearchParams: jest.fn().mockImplementation(() => [new URLSearchParams(), jest.fn()]),
   useNavigate: () => mockNavigate,
 }));
 
@@ -81,12 +77,7 @@ describe('[CONTEXT]: SearchProvider', () => {
             return (
               <label htmlFor="search">
                 Search
-                <input
-                  id="search"
-                  type="text"
-                  value={value.searchValue}
-                  onChange={value.onChange}
-                />
+                <input id="search" type="text" value={value.searchValue} onChange={value.onChange} />
               </label>
             );
           }}
@@ -117,12 +108,7 @@ describe('[CONTEXT]: SearchProvider', () => {
               <>
                 <label htmlFor="search">
                   Search
-                  <input
-                    id="search"
-                    type="text"
-                    value={value.searchValue}
-                    onChange={value.onChange}
-                  />
+                  <input id="search" type="text" value={value.searchValue} onChange={value.onChange} />
                 </label>
                 <button type="button" onClick={value.onClear}>
                   clear
@@ -161,17 +147,10 @@ describe('[CONTEXT]: SearchProvider', () => {
               <>
                 <label htmlFor="search">
                   Search
-                  <input
-                    id="search"
-                    type="text"
-                    value={value.searchValue}
-                    onChange={value.onChange}
-                  />
+                  <input id="search" type="text" value={value.searchValue} onChange={value.onChange} />
                 </label>
 
-                {value.isVisible && (
-                  <span>Some suggestions list should be here.</span>
-                )}
+                {value.isVisible && <span>Some suggestions list should be here.</span>}
               </>
             );
           }}
@@ -189,9 +168,7 @@ describe('[CONTEXT]: SearchProvider', () => {
     fireEvent.change(searchInput, { target: { value } });
 
     expect(searchInput.value).toBe(value);
-    expect(
-      getByText(/Some suggestions list should be here./i),
-    ).toBeInTheDocument();
+    expect(getByText(/Some suggestions list should be here./i)).toBeInTheDocument();
 
     fireEvent.change(searchInput, { target: { value: '' } });
 
@@ -209,12 +186,7 @@ describe('[CONTEXT]: SearchProvider', () => {
               <>
                 <label htmlFor="search">
                   Search
-                  <input
-                    id="search"
-                    type="text"
-                    value={value.searchValue}
-                    onChange={value.onChange}
-                  />
+                  <input id="search" type="text" value={value.searchValue} onChange={value.onChange} />
                 </label>
                 <button type="button" onClick={value.onSearch}>
                   search devices
@@ -286,12 +258,7 @@ describe('[CONTEXT]: SearchProvider', () => {
               <>
                 <label htmlFor="search">
                   Search
-                  <input
-                    id="search"
-                    type="text"
-                    value={value.searchValue}
-                    onChange={value.onChange}
-                  />
+                  <input id="search" type="text" value={value.searchValue} onChange={value.onChange} />
                 </label>
 
                 <ul>
@@ -341,12 +308,7 @@ describe('[CONTEXT]: SearchProvider', () => {
               <>
                 <label htmlFor="search">
                   Search
-                  <input
-                    id="search"
-                    type="text"
-                    value={value.searchValue}
-                    onChange={value.onChange}
-                  />
+                  <input id="search" type="text" value={value.searchValue} onChange={value.onChange} />
                 </label>
 
                 {value.isEmpty && <span>Not found.</span>}
@@ -392,19 +354,10 @@ describe('[CONTEXT]: SearchProvider', () => {
               <>
                 <label htmlFor="search">
                   Search
-                  <input
-                    id="search"
-                    type="text"
-                    value={value.searchValue}
-                    onChange={value.onChange}
-                  />
+                  <input id="search" type="text" value={value.searchValue} onChange={value.onChange} />
                 </label>
 
-                {value.isEmpty && (
-                  <span>
-                    Unfortunately we don't have devices with such name.
-                  </span>
-                )}
+                {value.isEmpty && <span>Unfortunately we don't have devices with such name.</span>}
               </>
             );
           }}
@@ -419,9 +372,7 @@ describe('[CONTEXT]: SearchProvider', () => {
 
     await waitFor(
       () => {
-        expect(
-          getByText(/Unfortunately we don't have devices with such name./i),
-        ).toBeInTheDocument();
+        expect(getByText(/Unfortunately we don't have devices with such name./i)).toBeInTheDocument();
       },
       { timeout: 3000 },
     );

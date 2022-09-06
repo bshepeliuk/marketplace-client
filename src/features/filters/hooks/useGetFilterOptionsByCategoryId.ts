@@ -6,7 +6,7 @@ import groupBy from '@src/common/utils/groupBy';
 
 const useGetFilterOptionsByCategoryId = (categoryId: number | undefined) => {
   const dispatch = useAppDispatch();
-  const { items } = useTypedSelector((state) => state.filters.options);
+  const { items, isLoading } = useTypedSelector((state) => state.filters.options);
 
   const fetchOptions = () => {
     if (categoryId === undefined) return;
@@ -18,6 +18,7 @@ const useGetFilterOptionsByCategoryId = (categoryId: number | undefined) => {
   }, [categoryId]);
 
   return {
+    isLoading,
     items: groupBy(items, 'title'),
   };
 };

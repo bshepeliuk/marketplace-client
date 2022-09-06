@@ -1,10 +1,4 @@
-import React, {
-  useState,
-  createContext,
-  Dispatch,
-  SetStateAction,
-  useEffect,
-} from 'react';
+import React, { useState, createContext, Dispatch, SetStateAction, useEffect } from 'react';
 import { useSearchParams, ParamKeyValuePair } from 'react-router-dom';
 import { IDeviceInfo } from '@src/features/devices/types';
 import isInArray from '@src/common/utils/isInArray';
@@ -134,7 +128,5 @@ export function FilterProvider({ children }: { children: React.ReactNode }) {
     setShouldBeInitial,
   };
 
-  return (
-    <FilterContext.Provider value={values}>{children}</FilterContext.Provider>
-  );
+  return <FilterContext.Provider value={values}>{children}</FilterContext.Provider>;
 }

@@ -9,11 +9,7 @@ interface IProps {
   setValues: Dispatch<SetStateAction<number[]>>;
 }
 
-const useSyncInputStateWithRangeState = ({
-  values,
-  setRange,
-  setValues,
-}: IProps) => {
+const useSyncInputStateWithRangeState = ({ values, setRange, setValues }: IProps) => {
   const context = useFilterContext();
   const options = useTypedSelector((state) => state.filters.options);
 
@@ -38,7 +34,7 @@ const useSyncInputStateWithRangeState = ({
   }, []);
 
   useEffect(() => {
-    if (prices.length === 0 && haveMinMaxValues) {
+    if (haveMinMaxValues) {
       setRange([options.prices.min, options.prices.max]);
       setValues([options.prices.min, options.prices.max]);
     }

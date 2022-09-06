@@ -1,10 +1,7 @@
 /* eslint-disable react/jsx-no-constructed-context-values */
 import React from 'react';
 import { fireEvent } from '@testing-library/react';
-import {
-  FilterContext,
-  FilterProvider,
-} from '@features/filters/context/FilterContext';
+import { FilterContext, FilterProvider } from '@features/filters/context/FilterContext';
 import AccordionItemView from '@features/filters/components/Accordion/AccordionItemView';
 import setupAndRenderComponent from '../../../helpers/setupAndRenderComponent';
 import { mockOptions, filterContextValuesMock } from '../../../mocks/data';
@@ -66,10 +63,7 @@ describe('[COMPONENTS]: AccordionItemView', () => {
       state: rootState,
       component: () => (
         <FilterProvider>
-          <AccordionItemView
-            title="Microprocessor"
-            info={microprocessorsInfo}
-          />
+          <AccordionItemView title="Microprocessor" info={microprocessorsInfo} />
         </FilterProvider>
       ),
     });
@@ -93,10 +87,7 @@ describe('[COMPONENTS]: AccordionItemView', () => {
           }}
         >
           <div style={{ height: '100%', width: '100%' }}>
-            <AccordionItemView
-              title="Microprocessor"
-              info={microprocessorsInfo}
-            />
+            <AccordionItemView title="Microprocessor" info={microprocessorsInfo} />
           </div>
         </FilterContext.Provider>
       ),

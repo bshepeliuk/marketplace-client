@@ -28,11 +28,7 @@ function InteractionWithFilterView() {
   }, [hasSelectedItems]);
 
   return (
-    <Wrap
-      btnOffsetY={btnOffsetY}
-      shouldShow={isShownApplyBtn}
-      prevOffset={prevOffset}
-    >
+    <Wrap btnOffsetY={btnOffsetY} shouldShow={isShownApplyBtn} prevOffset={prevOffset}>
       <ClearFilterButton />
       <ApplyFilterButton />
     </Wrap>

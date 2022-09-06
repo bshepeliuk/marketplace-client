@@ -25,7 +25,7 @@ function DevicesView() {
   const activeFilters = getActiveSearchParamsEntries(searchParams);
 
   const hasActiveFilters = activeFilters.length > 0;
-  // prettier-ignore
+
   const hasNoSearchParams = location.pathname === routes.devices && location.search === '';
 
   useEffect(() => {
