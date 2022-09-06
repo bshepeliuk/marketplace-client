@@ -1,5 +1,3 @@
 coverage:
-  round: up
-  precision: 0
   status:
     patch: off

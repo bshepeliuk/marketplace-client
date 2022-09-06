@@ -38,7 +38,7 @@ function DevicesView() {
   return (
     <Wrapper>
       {hasActiveFilters && <ActiveFilterListView />}
-      {items.length > 0 && <FilterSideBarView />}
+      <FilterSideBarView />
 
       <DeviceListContainer ref={containerRef}>
         <DeviceListView
