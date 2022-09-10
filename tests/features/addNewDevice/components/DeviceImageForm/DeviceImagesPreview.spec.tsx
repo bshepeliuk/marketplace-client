@@ -1,12 +1,9 @@
 /* eslint-disable react/jsx-no-constructed-context-values */
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
-import {
-  NewDeviceContext,
-  NewDeviceProvider,
-} from '@src/features/addNewDevice/context/NewDeviceContext';
+import { NewDeviceContext, NewDeviceProvider } from '@src/features/addNewDevice/context/NewDeviceContext';
 import useGetImgURLsByFiles from '@src/common/hooks/useGetImgURLsByFiles';
-// eslint-disable-next-line max-len
+
 import DeviceImagesPreview from '@features/addNewDevice/components/ImageForm/DeviceImagesPreview';
 import { Wrapper } from '../../../../wrapper';
 import { newDeviceContextValuesMock } from '../../../../mocks/data';
@@ -55,9 +52,7 @@ describe('[COMPONENTS]: DeviceImagesPreview', () => {
           deleteImgById: deleteImgByIdMock,
         }}
       >
-        <NewDeviceContext.Consumer>
-          {() => <DeviceImagesPreview />}
-        </NewDeviceContext.Consumer>
+        <NewDeviceContext.Consumer>{() => <DeviceImagesPreview />}</NewDeviceContext.Consumer>
       </NewDeviceContext.Provider>,
       {
         wrapper: Wrapper,

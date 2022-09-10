@@ -2,12 +2,7 @@ import configureMockStore from 'redux-mock-store';
 import { setupServer } from 'msw/node';
 import { rest } from 'msw';
 
-import {
-  login,
-  authActions,
-  logout,
-  register,
-} from '@src/features/auth/authSlice';
+import { login, authActions, logout, register } from '@src/features/auth/authSlice';
 import { BASE_API_URL, ROLES } from '@src/common/constants';
 import thunk from 'redux-thunk';
 import getActionTypesAndPayload from '../../helpers/getActionTypesAndPayload';
@@ -127,7 +122,7 @@ describe('AUTH THUNKS', () => {
 
       expect(getActionTypesAndPayload(actualActions)).toEqual(expectedActions);
     });
-    // eslint-disable-next-line max-len
+
     test('- should return error when user can not logout from account.', async () => {
       const logoutResponseError = {
         message: '[LOGOUT] Something went wrong!!!',

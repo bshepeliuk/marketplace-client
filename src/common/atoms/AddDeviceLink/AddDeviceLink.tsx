@@ -1,14 +1,13 @@
 import React from 'react';
 import { routes } from '@src/app/Router';
-import { Link } from 'react-router-dom';
-import { Icon, Wrap } from './addDeviceLink.styled';
+import { CustomLink, Icon, Wrap } from './addDeviceLink.styled';
 
 function AddDeviceLink() {
   return (
     <Wrap>
-      <Link to={routes.newDevice}>
+      <CustomLink to={routes.newDevice}>
         <Icon />
-      </Link>
+      </CustomLink>
     </Wrap>
   );
 }

@@ -1,6 +1,6 @@
 import { renderHook } from '@testing-library/react-hooks';
 import { useLocation } from 'react-router-dom';
-// eslint-disable-next-line max-len
+
 import useSaveListScrollPosition from '@features/devices/hooks/useSaveListScrollPosition';
 import { Wrapper } from '../../../wrapper';
 

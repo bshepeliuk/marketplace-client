@@ -39,7 +39,9 @@ export const DefaultListItem = styled.li`
   cursor: pointer;
 `;
 
-export const FoundListItem = styled(DefaultListItem)`
+export const SuggestionListItem = styled(DefaultListItem)`
+  transition: all 0.3s ease-out;
+
   &:hover {
     background-color: rgba(200, 214, 229, 0.6);
     color: #4b6584;

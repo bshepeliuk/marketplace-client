@@ -1,5 +1,5 @@
 import { renderHook } from '@testing-library/react-hooks';
-// eslint-disable-next-line max-len
+
 import useGetRecentlyViewed from '@features/recentlyViewed/hooks/useGetRecentlyViewed';
 import { RECENTLY_VIEWED_STORAGE_KEY } from '@src/features/recentlyViewed/constants';
 import { Wrapper } from '../../../wrapper';
@@ -20,8 +20,6 @@ describe('[HOOK]: useGetRecentlyViewed', () => {
       wrapper: Wrapper,
     });
 
-    expect(localStorage.getItem(RECENTLY_VIEWED_STORAGE_KEY)).toEqual(
-      recentlyViewedMockString,
-    );
+    expect(localStorage.getItem(RECENTLY_VIEWED_STORAGE_KEY)).toEqual(recentlyViewedMockString);
   });
 });

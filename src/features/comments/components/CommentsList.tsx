@@ -4,9 +4,12 @@ import CommentRow from './CommentRow';
 import useCommentsContext from '../hooks/useCommentsContext';
 import { RowContainer, ScrollTopButton } from '../styles/comments.styled';
 import calculateCommentListWidthBySize from '../helpers/calculateCommentListWidthBySize';
+import CommentsListLoader from './CommentsListLoader';
 
 interface IProps {
-  size: { width: number };
+  size: {
+    width: number;
+  };
 }
 
 const HEIGHT = 600;
@@ -14,21 +17,12 @@ const HEIGHT = 600;
 function CommentsList({ size }: IProps) {
   const context = useCommentsContext();
   const width = calculateCommentListWidthBySize(size);
-  // prettier-ignore
-  const {
-    comments,
-    listRef,
-    getSize,
-    isLoading,
-    hasMore,
-    onListScroll,
-    goToTop,
-    isGoTopBtnVisible,
-  } = context;
+
+  const { comments, listRef, getSize, isLoading, hasMore, onListScroll, goToTop, isGoTopBtnVisible } = context;
 
   const COMMENTS_COUNT = hasMore ? comments.length + 1 : comments.length;
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <CommentsListLoader />;
 
   if (!hasMore && comments.length === 0) {
     return <div>No comments yet.</div>;

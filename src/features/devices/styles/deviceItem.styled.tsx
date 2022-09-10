@@ -3,11 +3,7 @@ import { FaBalanceScale } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import { CartBtnState, CART_BTN_STATE } from '../hooks/useHandleCartButton';
-import {
-  hideCartBtnTitle,
-  showCartBtnTitle,
-  showDeviceAnimation,
-} from './animation.styled';
+import { hideCartBtnTitle, showCartBtnTitle, showDeviceAnimation } from './animation.styled';
 
 export const ListItem = styled.li`
   list-style-type: none;
@@ -37,7 +33,12 @@ export const BalanceScaleIcon = styled(
   grid-area: BALANCE-SCALE;
   justify-self: end;
   align-self: center;
-  color: ${(props) => (props.isUnique ? '#5285cc' : '#bdc3c7')};
+  transition: color 0.3s ease-out;
+  color: ${(props) => (props.isUnique ? 'rgba(52, 172, 224, 0.6)' : 'rgba(200, 214, 229,1.0)')};
+
+  &:hover {
+    color: ${(props) => (props.isUnique ? 'rgba(52, 172, 224, 1.0)' : 'rgba(131, 149, 167,1.0)')};
+  }
 `;
 
 export const DeviceTitleLink = styled(Link)`
@@ -122,6 +123,10 @@ export const CartButton = styled.button<{
   align-items: center;
   padding: 5px;
   transition: all 0.4s ease-in-out;
+
+  &:hover {
+    background-color: #f97988;
+  }
 
   background-color: ${(props) => {
     return props.inCart ? '#f2f2f2' : '#e31837';

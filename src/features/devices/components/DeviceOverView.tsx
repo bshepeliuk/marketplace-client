@@ -1,12 +1,7 @@
 import React from 'react';
 import useMakePayment from '@features/payment/pages/hooks/useMakePayment';
 import { IDevice, IDeviceImage, IDeviceInfo, IDeviceWithCount } from '../types';
-import {
-  InfoWrap,
-  Price,
-  PurchaseButton,
-  PurchaseWrap,
-} from '../styles/deviceDetails.styled';
+import { InfoWrap, Price, PurchaseButton, PurchaseWrap } from '../styles/deviceDetails.styled';
 import DeviceFeatureList from './DeviceFeatureList';
 import DeviceImageSlider from './DeviceSlider/DeviceImageSlider';
 import { DevicePlaceholder } from '../styles/deviceSlider.styled';
@@ -16,9 +11,7 @@ interface IProps {
 }
 
 function DeviceOverView({ device }: IProps) {
-  const { pay, isPending } = useMakePayment([
-    { ...device, count: 1 },
-  ] as IDeviceWithCount[]);
+  const { pay, isPending } = useMakePayment([{ ...device, count: 1 }] as IDeviceWithCount[]);
 
   const hasDeviceImages = device && device.images.length > 0;
   const hasNoDeviceImages = !hasDeviceImages;
@@ -30,10 +23,7 @@ function DeviceOverView({ device }: IProps) {
   return (
     <>
       {hasDeviceImages && <DeviceImageSlider urls={urls} alt={device.name} />}
-
-      {hasNoDeviceImages && (
-        <DevicePlaceholder>No images yet.</DevicePlaceholder>
-      )}
+      {hasNoDeviceImages && <DevicePlaceholder>No images yet.</DevicePlaceholder>}
 
       <PurchaseWrap>
         <PurchaseButton type="button" onClick={pay} disabled={isPending}>

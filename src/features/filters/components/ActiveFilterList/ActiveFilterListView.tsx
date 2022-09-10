@@ -56,11 +56,7 @@ function ActiveFilterListView() {
 
   return (
     <Wrap>
-      <LeftArrowButton
-        type="button"
-        onClick={onLeftClick}
-        isLeftVisible={isLeftVisible}
-      >
+      <LeftArrowButton type="button" onClick={onLeftClick} isLeftVisible={isLeftVisible}>
         <MdArrowBackIosNew />
       </LeftArrowButton>
 
@@ -78,11 +74,7 @@ function ActiveFilterListView() {
         )}
       </ScrollContainer>
 
-      <RightArrowButton
-        type="button"
-        onClick={onRightClick}
-        isRightVisible={isRightVisible}
-      >
+      <RightArrowButton type="button" onClick={onRightClick} isRightVisible={isRightVisible}>
         <MdArrowForwardIos />
       </RightArrowButton>
     </Wrap>

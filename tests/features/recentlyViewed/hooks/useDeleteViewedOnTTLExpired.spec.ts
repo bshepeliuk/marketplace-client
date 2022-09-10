@@ -1,5 +1,5 @@
 import { renderHook } from '@testing-library/react-hooks';
-// eslint-disable-next-line max-len
+
 import useDeleteViewedOnTTLExpired from '@features/recentlyViewed/hooks/useDeleteViewedOnTTLExpired';
 import { convertDayToMs } from '@common/utils/convertDayToMs';
 import { RECENTLY_VIEWED_STORAGE_KEY } from '@src/features/recentlyViewed/constants';
@@ -18,30 +18,19 @@ describe('[HOOK]: useDeleteViewedOnTTLExpired', () => {
       wrapper: Wrapper,
     });
 
-    expect(localStorageSetItemMock).toBeCalledWith(
-      RECENTLY_VIEWED_STORAGE_KEY,
-      '[]',
-    );
+    expect(localStorageSetItemMock).toBeCalledWith(RECENTLY_VIEWED_STORAGE_KEY, '[]');
   });
 
   test('should not delete recently viewed device if TTL has not expired.', async () => {
     const viewedAt = new Date();
-    const recentlyViewedMockString = JSON.stringify([
-      { ...deviceMock, viewedAt },
-    ]);
+    const recentlyViewedMockString = JSON.stringify([{ ...deviceMock, viewedAt }]);
 
     localStorage.setItem(RECENTLY_VIEWED_STORAGE_KEY, recentlyViewedMockString);
 
-    renderHook(
-      () => useDeleteViewedOnTTLExpired({ ttlInMs: convertDayToMs(1) }),
-      {
-        wrapper: Wrapper,
-      },
-    );
+    renderHook(() => useDeleteViewedOnTTLExpired({ ttlInMs: convertDayToMs(1) }), {
+      wrapper: Wrapper,
+    });
 
-    expect(localStorageSetItemMock).toBeCalledWith(
-      RECENTLY_VIEWED_STORAGE_KEY,
-      recentlyViewedMockString,
-    );
+    expect(localStorageSetItemMock).toBeCalledWith(RECENTLY_VIEWED_STORAGE_KEY, recentlyViewedMockString);
   });
 });

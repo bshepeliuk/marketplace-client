@@ -4,10 +4,7 @@ import { MemoryRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 
 import useCheckStep from '@features/addNewDevice/hooks/useCheckStep';
-import {
-  NewDeviceContext,
-  NewDeviceProvider,
-} from '@features/addNewDevice/context/NewDeviceContext';
+import { NewDeviceContext, NewDeviceProvider } from '@features/addNewDevice/context/NewDeviceContext';
 import { renderHook } from '@testing-library/react-hooks';
 import store from '@src/app/store';
 import mockFile from '../../../helpers/mockFile';
@@ -41,7 +38,7 @@ describe('[HOOK]: useCheckStep', () => {
     expect(hasValidFourthStep).toBeFalsy();
     expect(hasValidFifthStep).toBeFalsy();
   });
-  // eslint-disable-next-line max-len
+
   test('in case details about all steps were added to state, all steps should be valid.', () => {
     const testImgFile = mockFile({
       name: 'device_new.jpg',
@@ -66,9 +63,7 @@ describe('[HOOK]: useCheckStep', () => {
       wrapper: (props: { children: React.ReactNode }) => (
         <Provider store={store}>
           <MemoryRouter>
-            <NewDeviceContext.Provider
-              value={{ ...newDeviceContextValuesMock, formState }}
-            >
+            <NewDeviceContext.Provider value={{ ...newDeviceContextValuesMock, formState }}>
               {props.children}
             </NewDeviceContext.Provider>
           </MemoryRouter>

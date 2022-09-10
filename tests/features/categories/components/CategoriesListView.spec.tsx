@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 import React from 'react';
 import CategoriesListView from '@features/categories/components/CategoriesList/CategoriesListView';
 import setupAndRenderComponent from '../../../helpers/setupAndRenderComponent';
@@ -35,7 +34,7 @@ describe('[COMPONENTS]: CategoriesListView', () => {
   });
 
   test('should render loader when isLoading equals to true.', () => {
-    const { getByText } = setupAndRenderComponent({
+    const { getAllByText } = setupAndRenderComponent({
       state: {
         ...rootStateMock,
         categories: {
@@ -46,6 +45,6 @@ describe('[COMPONENTS]: CategoriesListView', () => {
       component: () => <CategoriesListView />,
     });
 
-    expect(getByText(/Loading.../i)).toBeInTheDocument();
+    expect(getAllByText(/Loading.../i).length).toBeGreaterThan(1);
   });
 });

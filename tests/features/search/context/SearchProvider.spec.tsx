@@ -135,7 +135,7 @@ describe('[CONTEXT]: SearchProvider', () => {
 
     expect(searchInput.value).toBe('');
   });
-  // eslint-disable-next-line max-len
+
   it('should show suggestion list on typing and hide it when value was removed.', async () => {
     const { getByLabelText, getByText, queryByText } = render(
       <SearchProvider>
@@ -285,7 +285,7 @@ describe('[CONTEXT]: SearchProvider', () => {
       { timeout: 3000 },
     );
   });
-  // eslint-disable-next-line max-len
+
   it('should show "not found" message when something went wrong', async () => {
     server.use(
       rest.get(`${BASE_API_URL}/devices`, (req, res, ctx) => {

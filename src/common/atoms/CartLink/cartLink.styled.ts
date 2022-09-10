@@ -1,5 +1,6 @@
 import styled, { keyframes } from 'styled-components';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
+import { Link } from 'react-router-dom';
 
 export const CartIcon = styled(AiOutlineShoppingCart)`
   font-size: 25px;
@@ -27,6 +28,17 @@ const count = keyframes`
   };
 `;
 
+export const CustomLink = styled(Link)`
+  display: flex;
+  padding: 10px;
+  transition: all 0.3s ease-out;
+
+  &:hover {
+    background-color: #565656;
+    border-radius: 3px;
+  }
+`;
+
 export const Counter = styled.div`
   display: flex;
   font-size: 12px;
@@ -40,8 +52,8 @@ export const Counter = styled.div`
   color: #fff;
   justify-content: center;
   position: absolute;
-  top: -10px;
-  right: -12px;
+  top: -5px;
+  right: -6px;
 `;
 
 export const Text = styled.p`

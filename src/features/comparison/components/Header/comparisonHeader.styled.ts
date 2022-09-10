@@ -43,13 +43,17 @@ export const Img = styled.img`
 `;
 
 export const DeleteIcon = styled(AiFillCloseCircle)`
-  color: rgb(52, 73, 94);
   position: absolute;
   right: 5px;
   top: 5px;
   font-size: 25px;
   color: rgba(52, 73, 94, 1);
   cursor: pointer;
+  transition: background-color 0.3s ease-out;
+
+  &:hover {
+    color: rgba(60, 99, 130, 1);
+  }
 `;
 
 export const HeaderInfoItem = styled.li`
@@ -100,4 +104,9 @@ export const PayButton = styled.button`
   grid-row: 3;
   grid-column: 2;
   justify-self: end;
+  transition: background-color 0.3s ease-out;
+
+  &:hover {
+    background-color: #f97988;
+  }
 `;

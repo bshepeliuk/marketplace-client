@@ -16,7 +16,11 @@ export const SearchContainer = styled.div`
 
   & .search-button {
     border-radius: 0 20px 20px 0;
-    background-color: #1abc9c;
+    background-color: rgba(26, 188, 156, 1);
+  }
+
+  & .search-button:hover {
+    background-color: rgba(26, 188, 156, 0.7);
   }
 `;
 

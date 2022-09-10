@@ -1,5 +1,5 @@
 import { renderHook } from '@testing-library/react-hooks';
-// eslint-disable-next-line max-len
+
 import useDynamicCommentRowHeight from '@features/comments/hooks/useDynamicCommentRowHeight';
 import React, { MutableRefObject } from 'react';
 import { Provider } from 'react-redux';
@@ -38,9 +38,7 @@ describe('[HOOKS]: useDynamicCommentRowHeight', () => {
       wrapper: (props: { children: React.ReactNode }) => (
         <Provider store={store}>
           <MemoryRouter>
-            <CommentsContext.Provider value={commentsContextValuesMock}>
-              {props.children}
-            </CommentsContext.Provider>
+            <CommentsContext.Provider value={commentsContextValuesMock}>{props.children}</CommentsContext.Provider>
           </MemoryRouter>
         </Provider>
       ),
@@ -58,9 +56,7 @@ describe('[HOOKS]: useDynamicCommentRowHeight', () => {
       wrapper: (props: { children: React.ReactNode }) => (
         <Provider store={store}>
           <MemoryRouter>
-            <CommentsContext.Provider value={commentsContextValuesMock}>
-              {props.children}
-            </CommentsContext.Provider>
+            <CommentsContext.Provider value={commentsContextValuesMock}>{props.children}</CommentsContext.Provider>
           </MemoryRouter>
         </Provider>
       ),

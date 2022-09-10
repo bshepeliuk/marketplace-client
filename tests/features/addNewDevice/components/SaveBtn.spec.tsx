@@ -2,10 +2,7 @@
 import React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 
-import {
-  NewDeviceContext,
-  NewDeviceProvider,
-} from '@src/features/addNewDevice/context/NewDeviceContext';
+import { NewDeviceContext, NewDeviceProvider } from '@src/features/addNewDevice/context/NewDeviceContext';
 import SaveBtn from '@features/addNewDevice/components/SaveBtn';
 
 import { Wrapper } from '../../../wrapper';
@@ -43,7 +40,7 @@ describe('[COMPONENTS]: SaveBtn (save a new device)', () => {
     expect(saveBtn).toBeInTheDocument();
     expect(saveBtn.disabled).toBeTruthy();
   });
-  // eslint-disable-next-line max-len
+
   test('should save a new device successfully and redirect to created device.', async () => {
     const imgFile = mockFile({
       name: 'test_img_1.jpg',
@@ -91,14 +88,10 @@ describe('[COMPONENTS]: SaveBtn (save a new device)', () => {
           },
         }}
       >
-        <NewDeviceContext.Consumer>
-          {() => <SaveBtn />}
-        </NewDeviceContext.Consumer>
+        <NewDeviceContext.Consumer>{() => <SaveBtn />}</NewDeviceContext.Consumer>
       </NewDeviceContext.Provider>,
       {
-        wrapper: (props: { children: React.ReactNode }) => (
-          <Wrapper {...props} state={state} />
-        ),
+        wrapper: (props: { children: React.ReactNode }) => <Wrapper {...props} state={state} />,
       },
     );
 

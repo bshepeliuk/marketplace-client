@@ -1,16 +1,15 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { useTypedSelector } from '@src/common/hooks/useTypedSelector';
 import { routes } from '@src/app/Router';
-import { CartIcon, Counter, Text, Wrap } from './cartLink.styled';
+import { CartIcon, Counter, CustomLink, Text, Wrap } from './cartLink.styled';
 
 function CartLink() {
   return (
     <Wrap>
-      <Link to={routes.cart}>
+      <CustomLink to={routes.cart}>
         <CartIcon />
         <CartCounter />
-      </Link>
+      </CustomLink>
     </Wrap>
   );
 }

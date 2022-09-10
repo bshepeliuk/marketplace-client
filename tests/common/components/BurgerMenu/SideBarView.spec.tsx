@@ -1,7 +1,7 @@
 import React from 'react';
 import { fireEvent } from '@testing-library/dom';
 import { normalize } from 'normalizr';
-// eslint-disable-next-line max-len
+
 import CategoryLinks from '@common/components/BurgerMenu/components/CategoryLinks/CategoryLinks';
 import { CategoryEntities, ICategory } from '@src/features/categories/types';
 import { routes } from '@src/app/Router';
@@ -10,10 +10,7 @@ import SideBarView from '@src/common/components/BurgerMenu/components/SideBarVie
 import setupAndRenderComponent from '../../../helpers/setupAndRenderComponent';
 import { categories } from '../../../mocks/data';
 
-const { result, entities } = normalize<ICategory, CategoryEntities, number[]>(
-  categories,
-  CategoriesSchema,
-);
+const { result, entities } = normalize<ICategory, CategoryEntities, number[]>(categories, CategoriesSchema);
 
 describe('[COMPONENTS]: SideBarView', () => {
   afterEach(() => {
@@ -41,9 +38,7 @@ describe('[COMPONENTS]: SideBarView', () => {
       const link = getByText(category.name, { exact: false });
 
       expect(link).toBeInTheDocument();
-      expect(link.getAttribute('href')).toBe(
-        `${routes.devices}?categoryId=${category.id}`,
-      );
+      expect(link.getAttribute('href')).toBe(`${routes.devices}?categoryId=${category.id}`);
     }
   });
 

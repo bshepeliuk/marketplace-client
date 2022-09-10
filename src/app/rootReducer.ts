@@ -39,10 +39,7 @@ const baseReducer = combineReducers({
 
 type AppState = ReturnType<typeof baseReducer>;
 
-export function rootReducer(
-  state: AppState | undefined,
-  action: AnyAction,
-): AppState {
+export function rootReducer(state: AppState | undefined, action: AnyAction): AppState {
   if (logout.fulfilled?.match(action)) return baseReducer(undefined, action);
   return baseReducer(state, action);
 }

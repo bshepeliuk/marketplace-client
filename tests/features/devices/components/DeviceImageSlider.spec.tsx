@@ -1,5 +1,5 @@
 import { fireEvent } from '@testing-library/react';
-// eslint-disable-next-line max-len
+
 import DeviceImageSlider from '@features/devices/components/DeviceSlider/DeviceImageSlider';
 import useSlider, { SlideDirection } from '@src/common/hooks/useSlider';
 
@@ -60,7 +60,7 @@ describe('[COMPONENTS]: DeviceImageSlider', () => {
 
     expect(getAllByAltText(/asus 17/i)).toHaveLength(urlsMock.length);
   });
-  // eslint-disable-next-line max-len
+
   test('should call setActiveIdx method with the corresponding index on image click.', () => {
     const urlsMock = ['https://img1.jpeg', 'https://img2.jpeg'];
 
@@ -73,9 +73,7 @@ describe('[COMPONENTS]: DeviceImageSlider', () => {
       },
     });
 
-    const DeviceImg = container.querySelector(
-      `img[src="${urlsMock[1]}"]`,
-    ) as Element;
+    const DeviceImg = container.querySelector(`img[src="${urlsMock[1]}"]`) as Element;
 
     expect(DeviceImg).toBeInTheDocument();
 

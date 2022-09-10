@@ -4,10 +4,12 @@ import { IoIosArrowForward } from 'react-icons/io';
 import { hideByHeight, showByHeight } from './filterAnimation.styled';
 import { InfoStatus, InfoStatusUnion } from '../types';
 
-export const Wrap = styled.div<{
+interface IWrapProps {
   infoStatus: InfoStatusUnion | null;
   height: number | null;
-}>`
+}
+
+export const Wrap = styled.div<IWrapProps>`
   padding: 20px 50px 20px 0;
   transition: all 0.2s ease-in-out;
   overflow: hidden;
@@ -83,10 +85,11 @@ export const AccordionInfo = styled.div`
     margin-bottom: 13px;
   }
 `;
-
-export const ArrowIcon = styled(({ isItVisible, ...props }) => (
-  <IoIosArrowForward {...props} />
-))<{ isItVisible: boolean; props: unknown }>`
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const ArrowIcon = styled(({ isItVisible, ...props }) => <IoIosArrowForward {...props} />)<{
+  isItVisible: boolean;
+  props: unknown;
+}>`
   margin-right: 10px;
   transform: ${({ isItVisible }) => {
     return isItVisible ? 'rotate(90deg)' : 'rotate(0deg)';

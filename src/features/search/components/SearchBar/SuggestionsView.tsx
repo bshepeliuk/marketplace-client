@@ -44,9 +44,7 @@ function LoaderList() {
 function EmptyList() {
   return (
     <List>
-      <DefaultListItem>
-        Unfortunately we don't have devices with such name.
-      </DefaultListItem>
+      <DefaultListItem>Unfortunately we don't have devices with such name.</DefaultListItem>
     </List>
   );
 }

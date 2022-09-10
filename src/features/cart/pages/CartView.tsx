@@ -6,12 +6,8 @@ import useMakePayment from '@features/payment/pages/hooks/useMakePayment';
 import { Container, ListWrap } from '../styles/cartList.styled';
 import EmptyCartView from '../components/EmptyCartView';
 import CartItemView from '../components/CartItemView';
-// eslint-disable-next-line max-len
 import useGetCartListWidthByContainerRef from '../hooks/useGetCartListWidthByContainerRef';
-import cartCalcReducer, {
-  cartCalcActions,
-  cartCalcInitState,
-} from '../modules/cartCalcModule';
+import cartCalcReducer, { cartCalcActions, cartCalcInitState } from '../modules/cartCalcModule';
 import { PayButton, PayWrapper, TotalPrice } from '../styles/cartView.styled';
 
 interface ILocationStateProps {

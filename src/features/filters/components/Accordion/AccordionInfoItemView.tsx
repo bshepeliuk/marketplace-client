@@ -10,8 +10,7 @@ interface IProps {
 function AccordionInfoItemView({ item }: IProps) {
   const wrapRef = useRef<HTMLDivElement>(null);
   const context = useFilterContext();
-  // prettier-ignore
-  // eslint-disable-next-line max-len
+
   const { setBtnOffsetY, onSelectOption, setIsShownApplyBtn, selected } = context;
   const { id, description, title } = item;
 
@@ -28,12 +27,7 @@ function AccordionInfoItemView({ item }: IProps) {
   return (
     <AccordionInfo ref={wrapRef}>
       <Label htmlFor={item.description}>
-        <CheckBox
-          id={item.description}
-          type="checkbox"
-          checked={hasChecked(item.id)}
-          onChange={handleChange}
-        />
+        <CheckBox id={item.description} type="checkbox" checked={hasChecked(item.id)} onChange={handleChange} />
         <span className="checkmark" />
       </Label>
 

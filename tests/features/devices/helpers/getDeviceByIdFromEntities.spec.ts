@@ -1,4 +1,4 @@
-// eslint-disable-next-line max-len
+//
 import getDeviceByIdFromEntities from '@features/devices/helpers/getDeviceByIdFromEntities';
 import { DevicesSchema } from '@src/common/normalizeSchemas';
 import { DeviceEntities, IDevice } from '@src/features/devices/types';
@@ -49,15 +49,10 @@ const devices = [
   },
 ];
 
-const { entities } = normalize<IDevice, DeviceEntities, number[]>(
-  devices,
-  DevicesSchema,
-);
+const { entities } = normalize<IDevice, DeviceEntities, number[]>(devices, DevicesSchema);
 
 describe('[HELPERS]: getDeviceByIdFromEntities', () => {
   test('should return device with all options from entities state correctly.', () => {
-    expect(
-      getDeviceByIdFromEntities(deviceId, { ...entities, categories: {} }),
-    ).toEqual(devices[0]);
+    expect(getDeviceByIdFromEntities(deviceId, { ...entities, categories: {} })).toEqual(devices[0]);
   });
 });

@@ -5,7 +5,7 @@ import { NewDeviceContext, NewDeviceProvider } from '@src/features/addNewDevice/
 import { setupServer } from 'msw/node';
 import { rest } from 'msw';
 import { BASE_API_URL } from '@src/common/constants';
-// eslint-disable-next-line max-len
+
 import BrandFormView from '@features/addNewDevice/components/BrandForm/BrandFormView';
 import selectEvent from 'react-select-event';
 import { Wrapper } from '../../../../wrapper';
@@ -61,7 +61,7 @@ describe('[COMPONENTS]: BrandForm', () => {
 
     expect(NextBtn.disabled).toBeTruthy();
   });
-  // eslint-disable-next-line max-len
+
   test('next button should be available when brands was selected. Also should navigate to next page.', async () => {
     const updatedState = {
       ...state,

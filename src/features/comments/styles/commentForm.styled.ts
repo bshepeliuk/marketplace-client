@@ -32,6 +32,11 @@ export const SendButton = styled.button`
   color: #fff;
   border: none;
   border-radius: 4px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgba(130, 204, 221, 1);
+  }
 
   &:disabled {
     color: #3498db;

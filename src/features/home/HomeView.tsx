@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { routes } from '@src/app/Router';
 import { DeviceListContainer } from './home.styled';
-// eslint-disable-next-line max-len
+
 import CategoriesListView from '../categories/components/CategoriesList/CategoriesListView';
 import RecentlyViewedDevices from '../recentlyViewed/pages/RecentlyViewed';
 import HomeDeviceList from './components/HomeDeviceList';

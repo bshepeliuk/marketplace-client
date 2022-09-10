@@ -3,7 +3,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 
 import { NewDeviceProvider } from '@src/features/addNewDevice/context/NewDeviceContext';
-// eslint-disable-next-line max-len
+
 import StepIndicatorView from '@features/addNewDevice/components/StepIndicator/StepIndicatorView';
 import { STEP_LIST } from '@features/addNewDevice/components/StepIndicator/steps';
 

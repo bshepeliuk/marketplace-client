@@ -1,17 +1,10 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import {
-  CommentsContext,
-  CommentsProvider,
-} from '@features/comments/context/CommentsContext';
+import { CommentsContext, CommentsProvider } from '@features/comments/context/CommentsContext';
 import CommentsList from '@features/comments/components/CommentsList';
 
 import { Wrapper } from '../../../wrapper';
-import {
-  commentMock,
-  commentsContextValuesMock,
-  deviceMock,
-} from '../../../mocks/data';
+import { commentMock, commentsContextValuesMock, deviceMock } from '../../../mocks/data';
 import { rootStateMock } from '../../../mocks/stateMock';
 
 const mockDeviceId = deviceMock.id;
@@ -38,18 +31,16 @@ describe('[COMPONENTS]: CommentsList', () => {
 
   it('should render loader', () => {
     const UI = (
-      <CommentsContext.Provider
-        value={{ ...commentsContextValuesMock, isLoading: true }}
-      >
+      <CommentsContext.Provider value={{ ...commentsContextValuesMock, isLoading: true }}>
         <CommentsList size={{ width: 500 }} />
       </CommentsContext.Provider>
     );
 
-    const { getByText } = render(UI, {
+    const { getAllByText } = render(UI, {
       wrapper: (props) => <Wrapper {...props} state={rootStateMock} />,
     });
 
-    expect(getByText(/loading.../i)).toBeInTheDocument();
+    expect(getAllByText(/loading.../i).length).toBeGreaterThan(1);
   });
 
   it('should render info message when device does not have comments yet.', () => {

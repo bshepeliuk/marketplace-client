@@ -26,6 +26,7 @@ interface ICommentProps {
 
 function CommentView({ comment }: ICommentProps) {
   const { isLoggedIn } = useTypedSelector((state) => state.auth);
+  // prettier-ignore
   const {
     activeComment,
     setActiveComment,
@@ -102,11 +103,7 @@ function CommentView({ comment }: ICommentProps) {
 
       {isReplying && isLoggedIn && (
         <FormWrapper>
-          <CommentFormView
-            handleSubmit={onReplySubmit}
-            handleCancel={clearActiveComment}
-            hasCancel
-          />
+          <CommentFormView handleSubmit={onReplySubmit} handleCancel={clearActiveComment} hasCancel />
         </FormWrapper>
       )}
 

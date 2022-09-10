@@ -43,9 +43,7 @@ function CommentRow({ data, index }: IRowProps) {
     <Row ref={rowRef}>
       <CommentView key={comment.id} comment={comment} />
 
-      {hasReplies && comment && (
-        <RepliesVisibilityButton commentId={comment.id} />
-      )}
+      {hasReplies && comment && <RepliesVisibilityButton commentId={comment.id} />}
 
       <ReplyListView
         isRepliesVisible={isRepliesVisible}

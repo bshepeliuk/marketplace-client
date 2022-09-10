@@ -17,7 +17,7 @@ describe('[PAGES]: RecentlyViewedDevices', () => {
     jest.clearAllMocks();
     localStorage.clear();
   });
-  // eslint-disable-next-line max-len
+
   test('in case user does not have recently viewed devices, should render message about it.', () => {
     const { getByText } = setupAndRenderComponent({
       component: RecentlyViewedDevices,

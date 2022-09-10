@@ -1,11 +1,8 @@
 /* eslint-disable react/jsx-no-constructed-context-values */
 import React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react';
-import {
-  NewDeviceContext,
-  NewDeviceProvider,
-} from '@src/features/addNewDevice/context/NewDeviceContext';
-// eslint-disable-next-line max-len
+import { NewDeviceContext, NewDeviceProvider } from '@src/features/addNewDevice/context/NewDeviceContext';
+
 import BaseInfoFormView from '@features/addNewDevice/components/BaseInfoForm/BaseInfoFormView';
 import { Wrapper } from '../../../../wrapper';
 import { newDeviceContextValuesMock } from '../../../../mocks/data';
@@ -101,9 +98,7 @@ describe('[COMPONENTS]: BaseInfoFormView', () => {
           },
         }}
       >
-        <NewDeviceContext.Consumer>
-          {() => <BaseInfoFormView />}
-        </NewDeviceContext.Consumer>
+        <NewDeviceContext.Consumer>{() => <BaseInfoFormView />}</NewDeviceContext.Consumer>
       </NewDeviceContext.Provider>,
       {
         wrapper: Wrapper,
@@ -133,9 +128,7 @@ describe('[COMPONENTS]: BaseInfoFormView', () => {
           addBaseInfo: addBaseInfoMock,
         }}
       >
-        <NewDeviceContext.Consumer>
-          {() => <BaseInfoFormView />}
-        </NewDeviceContext.Consumer>
+        <NewDeviceContext.Consumer>{() => <BaseInfoFormView />}</NewDeviceContext.Consumer>
       </NewDeviceContext.Provider>,
       {
         wrapper: Wrapper,

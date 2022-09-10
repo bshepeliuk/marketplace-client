@@ -12,6 +12,7 @@ export const Header = styled.header`
   display: grid;
   grid-template-columns: 200px 200px 1fr 50px 50px 180px;
   justify-items: center;
+  column-gap: 5px;
 
   @media (max-width: 700px) {
     grid-template-columns: repeat(2, 1fr);

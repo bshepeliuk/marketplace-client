@@ -5,7 +5,7 @@ export const Wrap = styled.div`
   grid-row-start: 1;
   grid-column-start: 1;
   z-index: 1;
-  grid-column-end: 3;
+  grid-column-end: -1;
   margin-top: -75px;
   display: flex;
   height: max-content;
@@ -123,7 +123,7 @@ export const LeftArrowButton = styled(ScrollArrowButton)<{
     width: 30px;
     position: absolute;
     display: block;
-    left: 28px;
+    left: 26px;
   }
 `;
 export const RightArrowButton = styled(ScrollArrowButton)<{
@@ -140,6 +140,6 @@ export const RightArrowButton = styled(ScrollArrowButton)<{
     width: 30px;
     display: block;
     position: absolute;
-    right: 28px;
+    right: 26px;
   }
 `;

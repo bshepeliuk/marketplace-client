@@ -1,5 +1,5 @@
 import React from 'react';
-// eslint-disable-next-line max-len
+
 import AllDevicesListItem from '@features/categories/components/CategoriesList/AllDevicesListItem';
 import setupAndRenderComponent from '../../../helpers/setupAndRenderComponent';
 

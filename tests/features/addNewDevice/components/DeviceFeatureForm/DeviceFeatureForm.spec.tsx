@@ -1,11 +1,8 @@
 /* eslint-disable react/jsx-no-constructed-context-values */
 import React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react';
-import {
-  NewDeviceContext,
-  NewDeviceProvider,
-} from '@src/features/addNewDevice/context/NewDeviceContext';
-// eslint-disable-next-line max-len
+import { NewDeviceContext, NewDeviceProvider } from '@src/features/addNewDevice/context/NewDeviceContext';
+
 import DeviceFeatureFormView from '@features/addNewDevice/components/DeviceFeatureForm/DeviceFeatureFormView';
 import { Wrapper } from '../../../../wrapper';
 import { newDeviceContextValuesMock } from '../../../../mocks/data';
@@ -106,9 +103,7 @@ describe('[COMPONENTS]: DeviceFeatureForm', () => {
           },
         }}
       >
-        <NewDeviceContext.Consumer>
-          {() => <DeviceFeatureFormView />}
-        </NewDeviceContext.Consumer>
+        <NewDeviceContext.Consumer>{() => <DeviceFeatureFormView />}</NewDeviceContext.Consumer>
       </NewDeviceContext.Provider>,
       {
         wrapper: Wrapper,
@@ -122,7 +117,7 @@ describe('[COMPONENTS]: DeviceFeatureForm', () => {
 
     expect(mockedNavigate).toBeCalledWith('/new/device-images');
   });
-  // eslint-disable-next-line max-len
+
   test('should not add feature to state in case feature with the same title was added earlier.', async () => {
     const addFeatureDetailsMock = jest.fn();
 
@@ -137,9 +132,7 @@ describe('[COMPONENTS]: DeviceFeatureForm', () => {
           },
         }}
       >
-        <NewDeviceContext.Consumer>
-          {() => <DeviceFeatureFormView />}
-        </NewDeviceContext.Consumer>
+        <NewDeviceContext.Consumer>{() => <DeviceFeatureFormView />}</NewDeviceContext.Consumer>
       </NewDeviceContext.Provider>,
       {
         wrapper: Wrapper,
@@ -175,9 +168,7 @@ describe('[COMPONENTS]: DeviceFeatureForm', () => {
           addFeatureDetails: addFeatureDetailsMock,
         }}
       >
-        <NewDeviceContext.Consumer>
-          {() => <DeviceFeatureFormView />}
-        </NewDeviceContext.Consumer>
+        <NewDeviceContext.Consumer>{() => <DeviceFeatureFormView />}</NewDeviceContext.Consumer>
       </NewDeviceContext.Provider>,
       {
         wrapper: Wrapper,

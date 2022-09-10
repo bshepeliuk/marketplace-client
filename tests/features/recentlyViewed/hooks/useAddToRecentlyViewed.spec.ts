@@ -1,5 +1,5 @@
 import { renderHook } from '@testing-library/react-hooks';
-// eslint-disable-next-line max-len
+
 import useAddToRecentlyViewed from '@features/recentlyViewed/hooks/useAddToRecentlyViewed';
 import { RECENTLY_VIEWED_STORAGE_KEY } from '@src/features/recentlyViewed/constants';
 import { Wrapper } from '../../../wrapper';
@@ -29,12 +29,9 @@ describe('[HOOK]: useAddToRecentlyViewed', () => {
   test('should not add the same device.', () => {
     const viewedAt = new Date();
 
-    const { rerender } = renderHook(
-      () => useAddToRecentlyViewed({ device: deviceMock, viewedAt }),
-      {
-        wrapper: Wrapper,
-      },
-    );
+    const { rerender } = renderHook(() => useAddToRecentlyViewed({ device: deviceMock, viewedAt }), {
+      wrapper: Wrapper,
+    });
 
     rerender();
     rerender();

@@ -32,14 +32,9 @@ describe('[HOOK]: useGetCommentsByDeviceId', () => {
       draft.entities.devices[deviceMock.id].comments = [];
     });
 
-    const { result } = renderHook(
-      () => useGetCommentsByDeviceId(deviceMock.id),
-      {
-        wrapper: (props: { children: ReactNode }) => (
-          <Wrapper {...props} state={state} />
-        ),
-      },
-    );
+    const { result } = renderHook(() => useGetCommentsByDeviceId(deviceMock.id), {
+      wrapper: (props: { children: ReactNode }) => <Wrapper {...props} state={state} />,
+    });
 
     expect(result.current.isLoading).toBeFalsy();
     expect(result.current.isError).toBeFalsy();
@@ -52,20 +47,16 @@ describe('[HOOK]: useGetCommentsByDeviceId', () => {
     });
 
     renderHook(() => useGetCommentsByDeviceId(deviceMock.id), {
-      wrapper: (props: { children: ReactNode }) => (
-        <Wrapper {...props} state={state} />
-      ),
+      wrapper: (props: { children: ReactNode }) => <Wrapper {...props} state={state} />,
     });
 
     expect(getCommentsByDeviceId).toBeCalledWith({ deviceId: deviceMock.id });
     expect(dispatch).toBeCalledTimes(1);
   });
-  // eslint-disable-next-line max-len
+
   test('In case comments were previously fetched, should return comments from cache.', () => {
     renderHook(() => useGetCommentsByDeviceId(deviceMock.id), {
-      wrapper: (props: { children: ReactNode }) => (
-        <Wrapper {...props} state={rootStateMock} />
-      ),
+      wrapper: (props: { children: ReactNode }) => <Wrapper {...props} state={rootStateMock} />,
     });
 
     expect(getCommentsByDeviceId).not.toBeCalled();

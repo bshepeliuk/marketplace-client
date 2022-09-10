@@ -10,17 +10,9 @@ import {
   getMoreDevices,
   initialState,
 } from '@features/devices/devicesSlice';
-import {
-  DeviceEntities,
-  IDevice,
-  IDeviceRating,
-} from '@src/features/devices/types';
+import { DeviceEntities, IDevice, IDeviceRating } from '@src/features/devices/types';
 import { BASE_API_URL } from '@src/common/constants';
-import {
-  DeviceSchema,
-  DevicesSchema,
-  RatingSchema,
-} from '@src/common/normalizeSchemas';
+import { DeviceSchema, DevicesSchema, RatingSchema } from '@src/common/normalizeSchemas';
 import { normalize } from 'normalizr';
 import thunk from 'redux-thunk';
 import getActionTypesAndPayload from '../../helpers/getActionTypesAndPayload';
@@ -96,14 +88,11 @@ describe('DEVICES THUNKS', () => {
 
       expect(getActionTypesAndPayload(actualActions)).toEqual(expectedActions);
     });
-    // eslint-disable-next-line max-len
+
     test('action.payload should have error from server when something went wrong', async () => {
       server.use(
         rest.get(`${BASE_API_URL}/devices`, (req, res, ctx) => {
-          return res(
-            ctx.status(500),
-            ctx.json({ message: 'Something went wrong!' }),
-          );
+          return res(ctx.status(500), ctx.json({ message: 'Something went wrong!' }));
         }),
       );
 
@@ -167,16 +156,13 @@ describe('DEVICES THUNKS', () => {
 
       expect(getActionTypesAndPayload(actualActions)).toEqual(expectedActions);
     });
-    // eslint-disable-next-line max-len
+
     test('should return error message when server responded with error status', async () => {
       const deviceId = 2;
 
       server.use(
         rest.get(`${BASE_API_URL}/devices/${deviceId}`, (req, res, ctx) => {
-          return res(
-            ctx.status(500),
-            ctx.json({ message: 'Please try again later!' }),
-          );
+          return res(ctx.status(500), ctx.json({ message: 'Please try again later!' }));
         }),
       );
 
@@ -215,7 +201,7 @@ describe('DEVICES THUNKS', () => {
 
       expect(getActionTypesAndPayload(actualActions)).toEqual(expectedActions);
     });
-    // eslint-disable-next-line max-len
+
     test('should return devices and change hasMore to false when received devices length less than DEVICES_OFFSET=20', async () => {
       const devices = [
         {
@@ -266,7 +252,6 @@ describe('DEVICES THUNKS', () => {
       expect(getActionTypesAndPayload(actualActions)).toEqual(expectedActions);
     });
 
-    // eslint-disable-next-line max-len
     test('should return devices and keep hasMore=true while received devices length equal DEVICES_OFFSET=20', async () => {
       const devices = generateDevicesByCount(20);
 
@@ -302,7 +287,7 @@ describe('DEVICES THUNKS', () => {
 
       expect(getActionTypesAndPayload(actualActions)).toEqual(expectedActions);
     });
-    // eslint-disable-next-line max-len
+
     test('should return error message when server responded with error status ', async () => {
       server.use(
         rest.get(`${BASE_API_URL}/devices`, (req, res, ctx) => {
@@ -434,10 +419,7 @@ describe('DEVICES THUNKS', () => {
       updatedAt: new Date().toISOString(),
     };
 
-    const { entities } = normalize<IDevice, DeviceEntities, number[]>(
-      [device],
-      DevicesSchema,
-    );
+    const { entities } = normalize<IDevice, DeviceEntities, number[]>([device], DevicesSchema);
 
     beforeEach(() => {
       store = mockStore({
@@ -464,11 +446,7 @@ describe('DEVICES THUNKS', () => {
         }),
       );
 
-      const ratingEntity = normalize<
-        IDeviceRating,
-        Pick<DeviceEntities, 'ratings'>,
-        number
-      >(rating, RatingSchema);
+      const ratingEntity = normalize<IDeviceRating, Pick<DeviceEntities, 'ratings'>, number>(rating, RatingSchema);
 
       await store.dispatch(evaluateDevice({ rating: 4, deviceId: device.id }));
 

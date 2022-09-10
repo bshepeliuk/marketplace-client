@@ -5,7 +5,7 @@ export const Layout = styled.div<{ isOpen: boolean }>`
   background: rgba(0, 0, 0, 0.3);
   height: 100%;
   position: fixed;
-  z-index: 5;
+  z-index: 15;
   inset: 0;
 
   ${({ isOpen }) => {

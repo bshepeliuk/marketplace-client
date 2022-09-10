@@ -1,11 +1,8 @@
 /* eslint-disable react/jsx-no-constructed-context-values */
 import React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react';
-import {
-  NewDeviceContext,
-  NewDeviceProvider,
-} from '@src/features/addNewDevice/context/NewDeviceContext';
-// eslint-disable-next-line max-len
+import { NewDeviceContext, NewDeviceProvider } from '@src/features/addNewDevice/context/NewDeviceContext';
+
 import ImageFileInput from '@features/addNewDevice/components/ImageForm/ImageFileInput';
 import { Wrapper } from '../../../../wrapper';
 import { newDeviceContextValuesMock } from '../../../../mocks/data';
@@ -71,9 +68,7 @@ describe('[COMPONENTS]: ImageFileInput', () => {
           addImage: addImageMock,
         }}
       >
-        <NewDeviceContext.Consumer>
-          {() => <ImageFileInput />}
-        </NewDeviceContext.Consumer>
+        <NewDeviceContext.Consumer>{() => <ImageFileInput />}</NewDeviceContext.Consumer>
       </NewDeviceContext.Provider>,
       {
         wrapper: Wrapper,
@@ -110,7 +105,7 @@ describe('[COMPONENTS]: ImageFileInput', () => {
       }
     });
   });
-  // eslint-disable-next-line max-len
+
   test('should not add files to state when user selects more than 5 images.', async () => {
     const addImageMock = jest.fn();
 
@@ -121,9 +116,7 @@ describe('[COMPONENTS]: ImageFileInput', () => {
           addImage: addImageMock,
         }}
       >
-        <NewDeviceContext.Consumer>
-          {() => <ImageFileInput />}
-        </NewDeviceContext.Consumer>
+        <NewDeviceContext.Consumer>{() => <ImageFileInput />}</NewDeviceContext.Consumer>
       </NewDeviceContext.Provider>,
       {
         wrapper: Wrapper,
@@ -169,9 +162,7 @@ describe('[COMPONENTS]: ImageFileInput', () => {
           addImage: addImageMock,
         }}
       >
-        <NewDeviceContext.Consumer>
-          {() => <ImageFileInput />}
-        </NewDeviceContext.Consumer>
+        <NewDeviceContext.Consumer>{() => <ImageFileInput />}</NewDeviceContext.Consumer>
       </NewDeviceContext.Provider>,
       {
         wrapper: Wrapper,

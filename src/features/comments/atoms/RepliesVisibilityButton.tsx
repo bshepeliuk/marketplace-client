@@ -7,7 +7,6 @@ interface IProps {
 }
 
 function RepliesVisibilityButton({ commentId }: IProps) {
-  // prettier-ignore
   const { toggleRepliesVisibility, checkAreRepliesVisible } = useCommentsContext();
 
   const isRepliesVisible = checkAreRepliesVisible(commentId);
@@ -37,6 +36,11 @@ const Button = styled.button`
   padding: 2px 30px;
   color: rgba(34, 166, 179, 0.9);
   border: none;
+  transition: background-color 0.3s ease-out;
+
+  &:hover {
+    background-color: rgba(199, 236, 238, 0.2);
+  }
 `;
 
 export default RepliesVisibilityButton;

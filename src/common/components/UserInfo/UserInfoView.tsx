@@ -2,15 +2,7 @@ import React, { useState } from 'react';
 import useLogout from '@features/auth/hooks/useLogout';
 import { useTypedSelector } from '@src/common/hooks/useTypedSelector';
 import { routes } from '@src/app/Router';
-import {
-  AccountLink,
-  ArrowIcon,
-  Email,
-  InfoWrap,
-  Logout,
-  Role,
-  UserWrap,
-} from './userInfo.styled';
+import { AccountLink, ArrowIcon, Email, InfoWrap, Logout, Role, UserWrap } from './userInfo.styled';
 import UserLogo from '../UserLogo/UserLogo';
 
 function UserInfoView() {
@@ -19,6 +11,7 @@ function UserInfoView() {
   const { isLoggedIn, user } = useTypedSelector((state) => state.auth);
 
   const toggleVisibility = () => setIsVisible(!isVisible);
+  const onMouseLeave = () => setIsVisible(false);
 
   if (!user || !isLoggedIn) return null;
 
@@ -28,7 +21,7 @@ function UserInfoView() {
       <ArrowIcon onClick={toggleVisibility} isOpen={isVisible} />
 
       {isVisible && (
-        <InfoWrap>
+        <InfoWrap onMouseLeave={onMouseLeave}>
           <div>
             <AccountLink to={routes.account}>{user.fullName}</AccountLink>
             <Email>{user.email}</Email>

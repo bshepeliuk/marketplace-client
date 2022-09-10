@@ -10,8 +10,6 @@ interface Props {
 }
 
 function AddToCartButton({ inCart, onClick = () => {} }: Props) {
-  // prettier-ignore
-  // eslint-disable-next-line max-len
   const { onMouseEnter, onMouseLeave, btnState } = useHandleCartBtnState();
 
   return (
@@ -26,11 +24,7 @@ function AddToCartButton({ inCart, onClick = () => {} }: Props) {
     >
       <div className="cart-btn-title">{inCart ? 'remove' : 'add'}</div>
 
-      {inCart ? (
-        <BsCartCheck size="35px" color="#1abc9c" />
-      ) : (
-        <AiOutlineShoppingCart size="35px" color="#fff" />
-      )}
+      {inCart ? <BsCartCheck size="35px" color="#1abc9c" /> : <AiOutlineShoppingCart size="35px" color="#fff" />}
     </CartButton>
   );
 }

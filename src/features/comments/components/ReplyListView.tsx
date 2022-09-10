@@ -1,11 +1,7 @@
 import React from 'react';
 import useGetRepliesByRootCommentId from '../hooks/useGetReplies';
 import CommentView from './CommentView';
-import {
-  LoadMoreWrap,
-  ShowRepliesButton,
-  ReplyList,
-} from '../styles/comments.styled';
+import { LoadMoreWrap, ShowRepliesButton, ReplyList } from '../styles/comments.styled';
 
 interface IRepliesProps {
   repliesCount: number;
@@ -13,17 +9,8 @@ interface IRepliesProps {
   isRepliesVisible: boolean;
 }
 
-function ReplyListView({
-  repliesCount,
-  rootCommentId,
-  isRepliesVisible,
-}: IRepliesProps) {
-  // prettier-ignore
-  const {
-    fetchReplies,
-    replies,
-    isRepliesLoading,
-  } = useGetRepliesByRootCommentId(rootCommentId);
+function ReplyListView({ repliesCount, rootCommentId, isRepliesVisible }: IRepliesProps) {
+  const { fetchReplies, replies, isRepliesLoading } = useGetRepliesByRootCommentId(rootCommentId);
 
   const hasRepliesCount = repliesCount > 0;
   const hasMoreReplies = repliesCount > replies.length;

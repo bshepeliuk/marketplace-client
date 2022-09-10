@@ -153,7 +153,7 @@ describe('[HOOK]: useServeCategorySelect', () => {
       value: 'NEW_CATEGORY',
     });
   });
-  // eslint-disable-next-line max-len
+
   test('isDisabled and isLoading should be true when categories are loading', async () => {
     const state = {
       entities: {

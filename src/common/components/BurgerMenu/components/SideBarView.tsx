@@ -1,10 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import {
-  CloseIcon,
-  Layout,
-  SideBarContainer,
-  SideBarContent,
-} from './sidebar.styled';
+import { CloseIcon, Layout, SideBarContainer, SideBarContent } from './sidebar.styled';
 
 interface IProps {
   onClose: () => void;
@@ -40,12 +35,7 @@ function SideBarView(props: IProps) {
 
   return (
     <Layout isOpen={isOpen}>
-      <SideBarContainer
-        ref={sideBarRef}
-        width={width}
-        isOpen={isOpen}
-        color={color}
-      >
+      <SideBarContainer ref={sideBarRef} width={width} isOpen={isOpen} color={color}>
         <CloseIcon onClick={onClose} color="#fff" />
         <SideBarContent>{children}</SideBarContent>
       </SideBarContainer>

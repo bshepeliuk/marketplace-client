@@ -29,9 +29,14 @@ export const PayButton = styled.button`
   font-size: 12px;
   text-transform: uppercase;
   font-weight: 700;
+  transition: background-color 0.3s ease-out;
 
   &:disabled {
     background-color: #bdc3c7;
+  }
+
+  &:hover {
+    background-color: #f97988;
   }
 `;
 

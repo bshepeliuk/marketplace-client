@@ -74,6 +74,11 @@ export const IncrementBtn = styled.button`
   border-radius: 50%;
   height: 25px;
   width: 25px;
+  transition: background-color 0.3s ease-out;
+
+  &:hover {
+    background-color: rgba(60, 99, 130, 1);
+  }
 `;
 
 export const DecrementBtn = styled.button`
@@ -83,6 +88,11 @@ export const DecrementBtn = styled.button`
   border-radius: 50%;
   height: 25px;
   width: 25px;
+  transition: background-color 0.3s ease-out;
+
+  &:hover {
+    background-color: rgba(60, 99, 130, 1);
+  }
 `;
 
 export const Counter = styled.span`
@@ -116,4 +126,8 @@ export const CounterWrap = styled.div`
 export const DeviceLink = styled(Link)`
   text-decoration: none;
   grid-column-start: 2;
+
+  &:hover {
+    text-decoration: underline;
+  }
 `;

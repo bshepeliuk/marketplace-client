@@ -1,11 +1,8 @@
 import React from 'react';
 import { routes } from '@src/app/Router';
-// eslint-disable-next-line max-len
 import useCheckRecentlyViewed from '@features/recentlyViewed/hooks/useCheckRecentlyViewed';
-import {
-  RecentlyListItem,
-  StyledRecentlyLink,
-} from '../../styles/categoriesList.styled';
+import { RecentlyListItem, StyledRecentlyLink } from '../../styles/categoriesList.styled';
+import RecentlyViewedCounter from '../../atoms/RecentlyViewedCounter';
 
 function RecentlyViewedListItem() {
   const { hasAnyViewedItems } = useCheckRecentlyViewed();
@@ -16,9 +13,8 @@ function RecentlyViewedListItem() {
 
   return (
     <RecentlyListItem>
-      <StyledRecentlyLink to={routes.recentlyViewed}>
-        Recently viewed
-      </StyledRecentlyLink>
+      <StyledRecentlyLink to={routes.recentlyViewed}>Recently viewed</StyledRecentlyLink>
+      <RecentlyViewedCounter />
     </RecentlyListItem>
   );
 }

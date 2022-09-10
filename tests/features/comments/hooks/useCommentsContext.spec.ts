@@ -9,8 +9,6 @@ describe('[HOOKS]: useCommentsContext', () => {
   test('should return error when hooks was not wrapped in CommentsProvider', () => {
     const { result } = renderHook(useCommentsContext);
 
-    expect(result.error?.message).toBe(
-      'useCommentsContext must be used within a CommentsProvider.',
-    );
+    expect(result.error?.message).toBe('useCommentsContext must be used within a CommentsProvider.');
   });
 });

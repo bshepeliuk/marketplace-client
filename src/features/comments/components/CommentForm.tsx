@@ -1,13 +1,7 @@
 import React from 'react';
 import { useFormik } from 'formik';
 import { CommentSchema } from '@src/features/auth/validation/commentSchema';
-import {
-  CancelButton,
-  Form,
-  InnerWrap,
-  SendButton,
-  TextArea,
-} from '../styles/commentForm.styled';
+import { CancelButton, Form, InnerWrap, SendButton, TextArea } from '../styles/commentForm.styled';
 
 interface IComment {
   body: string;
@@ -21,12 +15,7 @@ interface IProps {
 }
 
 function CommentFormView(props: IProps) {
-  const {
-    handleSubmit,
-    hasCancel = false,
-    defaultValue = '',
-    handleCancel = () => {},
-  } = props;
+  const { handleSubmit, hasCancel = false, defaultValue = '', handleCancel = () => {} } = props;
 
   const formik = useFormik<IComment>({
     initialValues: {
@@ -38,8 +27,8 @@ function CommentFormView(props: IProps) {
       resetForm();
     },
   });
-  // prettier-ignore
-  const isDisabled = !(formik.isValid && formik.dirty)
+
+  const isDisabled = !(formik.isValid && formik.dirty);
 
   const onCancel = () => {
     formik.resetForm();

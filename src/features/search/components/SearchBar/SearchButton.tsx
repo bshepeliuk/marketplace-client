@@ -10,6 +10,11 @@ const Button = styled.button`
   border-radius: 0 4px 4px 0;
   font-size: 20px;
   color: #fff;
+  transition: background-color 0.3s ease-out;
+
+  &:hover {
+    background-color: #f97988;
+  }
 `;
 
 function SearchButton() {

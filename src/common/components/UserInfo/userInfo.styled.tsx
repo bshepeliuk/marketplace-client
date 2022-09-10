@@ -43,24 +43,26 @@ export const InfoWrap = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: -10px 0px 20px -7px rgb(189 195 199 / 50%),
-    10px 0px 20px -7px rgb(189 195 199 / 50%),
+  box-shadow: -10px 0px 20px -7px rgb(189 195 199 / 50%), 10px 0px 20px -7px rgb(189 195 199 / 50%),
     5px 5px 9px -8px rgb(189 195 199 / 80%);
   border: 1px solid rgba(236, 240, 241, 1);
   overflow: hidden;
   animation: 0.2s ${show} ease-in backwards;
 `;
-
-export const ArrowIcon = styled(({ isOpen, ...props }) => (
-  <TiArrowSortedDown {...props} />
-))`
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const ArrowIcon = styled(({ isOpen, ...props }) => <TiArrowSortedDown {...props} />)`
   color: #fff;
-  margin-left: 10px;
+  margin-left: 7px;
+  font-size: 19px;
+  transition: all 0.3s ease-in-out;
   transform: ${({ isOpen }) => {
     return isOpen ? 'rotate(180deg)' : 'rotate(0deg)';
   }};
 
-  transition: all 0.3s ease-in-out;
+  &:hover {
+    background-color: #565656;
+    border-radius: 3px;
+  }
 `;
 
 export const AccountLink = styled(Link)`
@@ -69,6 +71,10 @@ export const AccountLink = styled(Link)`
   text-decoration: none;
   font-weight: bold;
   text-transform: uppercase;
+
+  &:hover {
+    text-decoration: underline;
+  }
 `;
 
 export const Email = styled.p`
@@ -85,4 +91,9 @@ export const Logout = styled(MdExitToApp)`
   font-size: 20px;
   align-self: flex-start;
   margin-top: 10px;
+  cursor: pointer;
+
+  &:hover {
+    color: rgba(10, 61, 98, 1);
+  }
 `;

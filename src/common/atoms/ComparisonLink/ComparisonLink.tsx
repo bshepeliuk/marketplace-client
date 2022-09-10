@@ -1,16 +1,15 @@
 import React from 'react';
 import { routes } from '@src/app/Router';
 import useGetComparisonList from '@features/comparison/hooks/useGetDevicesForComparison';
-import { Link } from 'react-router-dom';
-import { Counter, CounterText, Icon, Wrap } from './comparison.styled';
+import { Counter, CounterText, CustomLink, Icon, Wrap } from './comparison.styled';
 
 function ComparisonLink() {
   return (
     <Wrap>
-      <Link to={routes.comparison}>
+      <CustomLink to={routes.comparison}>
         <Icon />
         <ComparisonCounter />
-      </Link>
+      </CustomLink>
     </Wrap>
   );
 }

@@ -3,7 +3,7 @@ import { OnChangeValue, SingleValue } from 'react-select';
 import { useTypedSelector } from '@src/common/hooks/useTypedSelector';
 import createOption from '@src/common/utils/createSelectOption';
 import useCreateCategory from '@src/features/categories/hooks/useCreateCategory';
-// eslint-disable-next-line max-len
+
 import useCreateCategoryOptions from '@features/categories/hooks/useCreateCategoryOptions';
 import useFetchCategories from '@src/features/categories/hooks/useFetchCategories';
 import { categoriesSelector } from '@features/categories/selectors/categoriesSelector';
@@ -64,10 +64,7 @@ const useServeCategorySelect = () => {
     }));
   };
 
-  const loadOptions = (
-    value: string,
-    callback: (options: Array<Option>) => void,
-  ) => {
+  const loadOptions = (value: string, callback: (options: Array<Option>) => void) => {
     clearTimeout(timeoutId.current as ReturnType<typeof setTimeout>);
 
     timeoutId.current = setTimeout(async () => {
@@ -79,10 +76,7 @@ const useServeCategorySelect = () => {
     }, 1500);
   };
 
-  const handleChange = (
-    newValue: OnChangeValue<Option, false>,
-    actionMeta: { action: SelectActionTypes },
-  ) => {
+  const handleChange = (newValue: OnChangeValue<Option, false>, actionMeta: { action: SelectActionTypes }) => {
     if (actionMeta.action === 'clear') {
       setOption(null);
       setShouldClear(true);

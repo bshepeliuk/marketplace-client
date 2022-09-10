@@ -2,7 +2,7 @@ import React from 'react';
 import { useParams, Route, Routes } from 'react-router-dom';
 import { Container } from '@common/styles/base.styled';
 import useSlowDownLoaderIndicator from '@common/hooks/useSlowDownLoaderIndicator';
-// eslint-disable-next-line max-len
+
 import useAddToRecentlyViewed from '@features/recentlyViewed/hooks/useAddToRecentlyViewed';
 import useGetDeviceById from '../hooks/useGetDeviceById';
 import { BackBtn, InnerWrap, Title } from '../styles/deviceDetails.styled';
@@ -18,17 +18,10 @@ import DeviceNavigation from '../components/DeviceNavigation';
 function DeviceDetailsView() {
   const { deviceId } = useParams();
   const { goBack } = useGoTo();
-  // prettier-ignore
-  const {
-    device,
-    isLoading,
-    hasNoDevice,
-    hasNoFound
-  } = useGetDeviceById(Number(deviceId));
-  const isLoadingSlow = useSlowDownLoaderIndicator({
-    isLoading,
-    duration: 1000,
-  });
+
+  const { device, isLoading, hasNoDevice, hasNoFound } = useGetDeviceById(Number(deviceId));
+  const isLoadingSlow = useSlowDownLoaderIndicator({ isLoading, duration: 1000 });
+
   useAddToRecentlyViewed({ device, viewedAt: new Date() });
 
   const ratings = device?.ratings ?? [];
@@ -55,10 +48,7 @@ function DeviceDetailsView() {
 
         <Routes>
           <Route path="/" element={<DeviceOverView device={device} />} />
-          <Route
-            path="/comments"
-            element={<DeviceCommentsView device={device} />}
-          />
+          <Route path="/comments" element={<DeviceCommentsView device={device} />} />
           <Route path="*" element={<div>Not Found....</div>} />
         </Routes>
       </InnerWrap>

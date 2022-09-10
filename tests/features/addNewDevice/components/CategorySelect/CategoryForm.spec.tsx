@@ -1,11 +1,8 @@
 /* eslint-disable react/jsx-no-constructed-context-values */
 import React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react';
-import {
-  NewDeviceContext,
-  NewDeviceProvider,
-} from '@src/features/addNewDevice/context/NewDeviceContext';
-// eslint-disable-next-line max-len
+import { NewDeviceContext, NewDeviceProvider } from '@src/features/addNewDevice/context/NewDeviceContext';
+
 import CategoryFormView from '@features/addNewDevice/components/CategoryForm/CategoryFormView';
 import { normalize } from 'normalizr';
 import { CategoriesSchema } from '@src/common/normalizeSchemas';
@@ -158,9 +155,7 @@ describe('[COMPONENTS]: CategoryForm', () => {
           addCategory: addCategoryMock,
         }}
       >
-        <NewDeviceContext.Consumer>
-          {() => <CategoryFormView />}
-        </NewDeviceContext.Consumer>
+        <NewDeviceContext.Consumer>{() => <CategoryFormView />}</NewDeviceContext.Consumer>
       </NewDeviceContext.Provider>,
       {
         wrapper: (props: { children: React.ReactNode }) => {

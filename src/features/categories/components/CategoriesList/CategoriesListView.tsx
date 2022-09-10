@@ -2,17 +2,12 @@ import React, { useRef } from 'react';
 import { MdArrowBackIosNew, MdArrowForwardIos } from 'react-icons/md';
 import useHandleScrollBySideBtnClick from '@common/hooks/useHandleScrollBySideBtnClick';
 import useGetCategories from '../../hooks/useGetCategories';
-import {
-  List,
-  Wrap,
-  LeftArrowButton,
-  RightArrowButton,
-} from '../../styles/categoriesList.styled';
+import { List, Wrap, LeftArrowButton, RightArrowButton } from '../../styles/categoriesList.styled';
 import useGetCategoryId from '../../hooks/useGetCategoryId';
 import AllDevicesLink from './AllDevicesListItem';
 import CategoryItemView from './CategoryItemView';
 import RecentlyViewedLink from './RecentlyViewedListItem';
-import Loader from './Loader';
+import CategoriesListLoader from './CategoriesListLoader';
 
 function CategoriesListView() {
   const scrollWrapRef = useRef(null);
@@ -28,15 +23,11 @@ function CategoriesListView() {
 
   const active = items.find((item) => item.id === categoryId);
 
-  if (isLoading) return <Loader />;
+  if (isLoading) return <CategoriesListLoader />;
 
   return (
     <Wrap>
-      <LeftArrowButton
-        type="button"
-        onClick={onLeftClick}
-        isLeftVisible={isLeftVisible}
-      >
+      <LeftArrowButton type="button" onClick={onLeftClick} isLeftVisible={isLeftVisible}>
         <MdArrowBackIosNew />
       </LeftArrowButton>
 
@@ -46,19 +37,11 @@ function CategoriesListView() {
         <AllDevicesLink />
 
         {items.map((item) => (
-          <CategoryItemView
-            key={item.id}
-            category={item}
-            active={active?.name}
-          />
+          <CategoryItemView key={item.id} category={item} active={active?.name} />
         ))}
       </List>
 
-      <RightArrowButton
-        type="button"
-        onClick={onRightClick}
-        isRightVisible={isRightVisible}
-      >
+      <RightArrowButton type="button" onClick={onRightClick} isRightVisible={isRightVisible}>
         <MdArrowForwardIos />
       </RightArrowButton>
     </Wrap>

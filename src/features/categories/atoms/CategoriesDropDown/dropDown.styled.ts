@@ -35,6 +35,11 @@ export const CategoriesButton = styled.button`
   display: flex;
   justify-content: space-evenly;
   align-items: center;
+  transition: background-color 0.3s ease-out;
+
+  &:hover {
+    background-color: #f97988;
+  }
 `;
 
 export const CategoryLink = styled(NavLink)`

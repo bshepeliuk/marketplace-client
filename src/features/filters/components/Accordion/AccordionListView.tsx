@@ -1,6 +1,6 @@
 import React from 'react';
 import useGetCategoryId from '@features/categories/hooks/useGetCategoryId';
-// eslint-disable-next-line max-len
+
 import useGetFilterOptionsByCategoryId from '../../hooks/useGetFilterOptionsByCategoryId';
 import AccordionItemView from './AccordionItemView';
 import PriceFilterView from '../PriceFilter/PriceFilterView';

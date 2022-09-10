@@ -9,10 +9,15 @@ const Button = styled.button`
   border: none;
   background-color: transparent;
   font-size: 30px;
-  color: #2f3542;
+  color: rgba(131, 149, 167, 1);
   top: 50%;
   transform: translateY(-50%);
   height: 30px;
+  transition: color 0.3s ease-out;
+
+  &:hover {
+    color: rgba(87, 101, 116, 1);
+  }
 `;
 
 function DeleteButton() {

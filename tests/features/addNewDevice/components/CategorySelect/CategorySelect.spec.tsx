@@ -1,12 +1,9 @@
 /* eslint-disable react/jsx-no-constructed-context-values */
 import React from 'react';
 import { render } from '@testing-library/react';
-// eslint-disable-next-line max-len
+
 import CategorySelect from '@features/addNewDevice/components/CategoryForm/CategorySelect';
-import {
-  NewDeviceContext,
-  NewDeviceProvider,
-} from '@src/features/addNewDevice/context/NewDeviceContext';
+import { NewDeviceContext, NewDeviceProvider } from '@src/features/addNewDevice/context/NewDeviceContext';
 import { normalize } from 'normalizr';
 import { CategoriesSchema } from '@src/common/normalizeSchemas';
 import selectEvent from 'react-select-event';
@@ -94,9 +91,7 @@ describe('[COMPONENTS]: CategorySelect', () => {
           },
         }}
       >
-        <NewDeviceContext.Consumer>
-          {() => <CategorySelect formik={formikPropsMock} />}
-        </NewDeviceContext.Consumer>
+        <NewDeviceContext.Consumer>{() => <CategorySelect formik={formikPropsMock} />}</NewDeviceContext.Consumer>
       </NewDeviceContext.Provider>,
       { wrapper: Wrapper },
     );

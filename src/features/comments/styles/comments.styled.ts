@@ -49,6 +49,11 @@ export const ShowRepliesButton = styled.button`
   color: rgba(52, 73, 94, 1);
   display: flex;
   cursor: pointer;
+  transition: background-color 0.3s ease-out;
+
+  &:hover {
+    background-color: rgba(149, 165, 166, 0.4);
+  }
 `;
 
 export const FormWrapper = styled.div`

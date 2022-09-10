@@ -1,4 +1,3 @@
-// eslint-disable-next-line max-len
 import UserBlockView from '@common/components/BurgerMenu/components/UserBlock/UserBlockView';
 import { ROLES } from '@common/constants';
 import setupAndRenderComponent from '../../../helpers/setupAndRenderComponent';

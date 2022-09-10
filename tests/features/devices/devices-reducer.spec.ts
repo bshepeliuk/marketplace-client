@@ -52,7 +52,7 @@ describe('DEVICES REDUCER', () => {
       isError: true,
     });
   });
-  // eslint-disable-next-line max-len
+
   test('device.isLoading should be true when client starts to fetch device', () => {
     const action = {
       type: getDeviceById.pending.type,
@@ -95,7 +95,7 @@ describe('DEVICES REDUCER', () => {
       },
     });
   });
-  // eslint-disable-next-line max-len
+
   test('isLoadingMore should be true when client starts to fetch more devices', () => {
     const action = {
       type: getMoreDevices.pending.type,
@@ -106,7 +106,7 @@ describe('DEVICES REDUCER', () => {
       isLoadingMore: true,
     });
   });
-  // eslint-disable-next-line max-len
+
   test('isLoadingMore should be false when client received more devices', () => {
     const action = {
       type: getMoreDevices.fulfilled.type,
@@ -206,7 +206,7 @@ describe('DEVICES REDUCER', () => {
       isCreatingError: false,
     });
   });
-  // eslint-disable-next-line max-len
+
   test('isEvaluating should be false when evaluation process fulfilled without errors.', () => {
     const action = {
       type: evaluateDevice.fulfilled.type,
@@ -218,7 +218,7 @@ describe('DEVICES REDUCER', () => {
       isEvaluating: false,
     });
   });
-  // eslint-disable-next-line max-len
+
   test('isEvaluatingError should be true when during evaluation process something went wrong.', () => {
     const action = {
       type: evaluateDevice.rejected.type,
