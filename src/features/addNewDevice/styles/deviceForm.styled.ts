@@ -10,6 +10,7 @@ export const Wrap = styled.div`
   position: relative;
   flex-flow: column wrap;
   align-items: center;
+  margin-top: 100px;
 `;
 
 export const FormWrap = styled.div`

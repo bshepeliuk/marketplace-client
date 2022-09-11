@@ -3,7 +3,6 @@ import styled from 'styled-components';
 
 export const Wrap = styled.div`
   height: 50px;
-  margin-top: -60px;
   margin-bottom: 10px;
   display: flex;
   align-items: center;

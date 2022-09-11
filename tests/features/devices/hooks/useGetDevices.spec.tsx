@@ -4,6 +4,7 @@ import { renderHook } from '@testing-library/react-hooks';
 import { getDevices } from '@src/features/devices/devicesSlice';
 import useGetDevices from '@src/features/devices/hooks/useGetDevices';
 import { Wrapper } from '../../../wrapper';
+import { rootStateMock } from '../../../mocks/stateMock';
 
 jest.mock('@src/features/devices/devicesSlice', () => ({
   ...jest.requireActual('@src/features/devices/devicesSlice'),
@@ -13,70 +14,38 @@ jest.mock('@src/features/devices/devicesSlice', () => ({
 
 const useDispatchMock = jest.spyOn(ReactRedux, 'useDispatch');
 
-const rootState = {
-  entities: {
-    devices: {
-      1: {
-        id: 1,
-        images: [1],
-        info: [],
-        ratings: [],
-      },
-    },
-
-    images: {
-      1: {
-        id: 1,
-        url: 'https://image.jpeg',
-      },
-    },
-  },
-  devices: {
-    device: {
-      isLoading: false,
-    },
-    isLoading: false,
-    items: [1],
-  },
-};
-
-describe('useGetDevices hook', () => {
+describe('[HOOK]: useGetDevices', () => {
   const dispatch = jest.fn();
 
   beforeEach(() => {
     useDispatchMock.mockReturnValue(dispatch);
+    jest.clearAllMocks();
   });
 
-  test('should return devices from state', () => {
+  test('should fetch devices', () => {
     const { result } = renderHook(() => useGetDevices(), {
-      wrapper: (props: { children: React.ReactNode }) => (
-        <Wrapper {...props} state={rootState} />
-      ),
+      wrapper: (props: { children: React.ReactNode }) => <Wrapper {...props} state={rootStateMock} />,
     });
 
     expect(result.current.items).toHaveLength(1);
-    expect(dispatch).toBeCalledTimes(0);
-    expect(getDevices).toBeCalledTimes(0);
+    expect(getDevices).toBeCalledTimes(1);
   });
 
   test('should fetch devices when state is empty', () => {
     const newState = {
+      ...rootStateMock,
       entities: {
+        ...rootStateMock.entities,
         devices: {},
       },
       devices: {
-        device: {
-          isLoading: false,
-        },
-        isLoading: false,
+        ...rootStateMock.devices,
         items: [],
       },
     };
 
     const { result } = renderHook(() => useGetDevices(), {
-      wrapper: (props: { children: React.ReactNode }) => (
-        <Wrapper {...props} state={newState} />
-      ),
+      wrapper: (props: { children: React.ReactNode }) => <Wrapper {...props} state={newState} />,
     });
 
     expect(result.current.items).toHaveLength(0);

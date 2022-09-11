@@ -1,6 +1,5 @@
 :root {
-  // 80px = header; 80px = margin;
-  --default-height: calc(100vh - 80px - 80px);
+  --default-height: calc(100vh - 80px - 10px);
 }
 
 body {

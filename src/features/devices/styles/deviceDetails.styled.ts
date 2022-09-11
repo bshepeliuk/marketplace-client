@@ -24,7 +24,7 @@ export const InnerWrap = styled.div`
   display: grid;
   grid-template-columns: 60px 440px 1fr 100px;
   grid-template-rows: 50px 50px 50px 1fr;
-  margin-top: -40px;
+  margin-top: 50px;
   row-gap: 15px;
 
   @media (max-width: 1060px) {

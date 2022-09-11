@@ -1,11 +1,24 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
-import DevicesView from '@features/devices/pages/DevicesView';
+import { setupServer } from 'msw/node';
+import { rest } from 'msw';
+import { BASE_API_URL } from '@src/common/constants';
+import DevicesByCategoryView from '@src/features/devices/pages/DevicesByCategoryView';
 import { FilterProvider } from '@features/filters/context/FilterContext';
 import { AutoSizerProps } from 'react-virtualized-auto-sizer';
 import setupAndRenderComponent from '../../../helpers/setupAndRenderComponent';
 import { deviceMock } from '../../../mocks/data';
 import { rootStateMock } from '../../../mocks/stateMock';
+
+const server = setupServer(
+  rest.get(`${BASE_API_URL}/devices`, (req, res, ctx) => {
+    return res(
+      ctx.json({
+        devices: [],
+      }),
+    );
+  }),
+);
 
 jest.mock('react-virtualized-auto-sizer', () => {
   return ({ children }: AutoSizerProps) => {
@@ -23,7 +36,11 @@ jest.mock('react-router-dom', () => ({
 }));
 
 describe('[PAGES]: DevicesView', () => {
+  beforeAll(() => server.listen());
+  afterAll(() => server.close());
+
   afterEach(() => {
+    server.resetHandlers();
     jest.clearAllMocks();
   });
 
@@ -31,7 +48,7 @@ describe('[PAGES]: DevicesView', () => {
     const { getByText } = setupAndRenderComponent({
       component: () => (
         <FilterProvider>
-          <DevicesView />
+          <DevicesByCategoryView />
         </FilterProvider>
       ),
       state: rootStateMock,
@@ -49,7 +66,7 @@ describe('[PAGES]: DevicesView', () => {
     setupAndRenderComponent({
       component: () => (
         <FilterProvider>
-          <DevicesView />
+          <DevicesByCategoryView />
         </FilterProvider>
       ),
       state: rootStateMock,
@@ -62,7 +79,7 @@ describe('[PAGES]: DevicesView', () => {
     const { getByText } = setupAndRenderComponent({
       component: () => (
         <FilterProvider>
-          <DevicesView />
+          <DevicesByCategoryView />
         </FilterProvider>
       ),
       state: {

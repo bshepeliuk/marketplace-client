@@ -9,13 +9,8 @@ import { Wrap } from '../styles/InteractionWithFilter.styled';
 function InteractionWithFilterView() {
   const categoryId = useGetCategoryId();
   const context = useFilterContext();
-  // prettier-ignore
-  const {
-    setIsShownApplyBtn,
-    hasSelectedItems,
-    btnOffsetY,
-    isShownApplyBtn,
-  } = context;
+
+  const { setIsShownApplyBtn, hasSelectedItems, btnOffsetY, isShownApplyBtn } = context;
 
   const prevOffset = usePrevious(btnOffsetY);
 

@@ -6,20 +6,18 @@ import useFilterContext from './useFilterContext';
 const useGetCountOfDevices = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [count, setCount] = useState(0);
-
   const context = useFilterContext();
-  // prettier-ignore
-  const { getFilterParams, prices, selected, isInitPrice, hasSelectedItems } = context;
+
+  const { getFilterParams, prices, selected, hasInitFilterState } = context;
 
   useEffect(() => {
-    if (!hasSelectedItems && isInitPrice) return;
+    if (hasInitFilterState) return;
 
     const params = getFilterParams();
 
     setIsLoading(true);
 
-    const callback = () => getCountByParams(params);
-    const timeoutId = setTimeout(callback, 1000);
+    const timeoutId = setTimeout(() => getCountByParams(params), 1000);
 
     return () => {
       clearTimeout(timeoutId);

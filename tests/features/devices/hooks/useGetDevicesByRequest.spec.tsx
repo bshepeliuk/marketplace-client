@@ -16,9 +16,7 @@ const mockNavigate = jest.fn();
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
   __esModule: true,
-  useSearchParams: jest
-    .fn()
-    .mockImplementation(() => [new URLSearchParams(), jest.fn()]),
+  useSearchParams: jest.fn().mockImplementation(() => [new URLSearchParams(), jest.fn()]),
   useNavigate: () => mockNavigate,
 }));
 
@@ -36,10 +34,7 @@ describe('useGetDevicesByRequest hook', () => {
   });
 
   test('should get devices by request and then navigate to HomePage', () => {
-    (useSearchParams as jest.Mock).mockReturnValue([
-      new URLSearchParams('?categoryId=1'),
-      jest.fn(),
-    ]);
+    (useSearchParams as jest.Mock).mockReturnValue([new URLSearchParams('?categoryId=1'), jest.fn()]);
 
     const { result } = renderHook(() => useGetDevicesByRequest(), {
       wrapper: Wrapper,
@@ -54,10 +49,7 @@ describe('useGetDevicesByRequest hook', () => {
   });
 
   test('should not fetch devices by request when categoryId was not provided.', () => {
-    (useSearchParams as jest.Mock).mockReturnValue([
-      new URLSearchParams(),
-      jest.fn(),
-    ]);
+    (useSearchParams as jest.Mock).mockReturnValue([new URLSearchParams(), jest.fn()]);
 
     const { result } = renderHook(() => useGetDevicesByRequest(), {
       wrapper: Wrapper,

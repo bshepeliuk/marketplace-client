@@ -1,45 +1,49 @@
 import { useEffect, useRef, useState, RefObject } from 'react';
 
-const useHandleScrollOnMouseEvents = (
-  scrollWrapRef: RefObject<HTMLDivElement | null>,
-) => {
+interface IProps<T> {
+  ref: RefObject<HTMLDivElement | null>;
+  deps: T[];
+}
+
+const useHandleScrollOnMouseEvents = <T>({ ref, deps = [] }: IProps<T>) => {
   const position = useRef({ x: 0, left: 0 });
   const [isScrolling, setIsScrolling] = useState(false);
 
   useEffect(() => {
-    scrollWrapRef.current?.addEventListener('mousedown', onDownHandler);
+    ref.current?.addEventListener('mousedown', onDownHandler);
 
     return () => {
-      scrollWrapRef.current?.removeEventListener('mousedown', onDownHandler);
+      ref.current?.removeEventListener('mousedown', onDownHandler);
     };
-  }, []);
+  }, deps);
 
   function onDownHandler(evt: MouseEvent) {
-    if (!scrollWrapRef.current) return;
+    if (!ref.current) return;
 
     setIsScrolling(true);
 
     position.current.x = evt.clientX;
-    position.current.left = scrollWrapRef.current.scrollLeft;
+    position.current.left = ref.current.scrollLeft;
 
-    scrollWrapRef.current.addEventListener('mousemove', onMoveHandler);
+    ref.current.addEventListener('mousemove', onMoveHandler);
     document.addEventListener('mouseup', onUpHandler);
   }
 
   function onUpHandler() {
-    if (!scrollWrapRef.current) return;
+    if (!ref.current) return;
 
     setIsScrolling(false);
-    scrollWrapRef.current.removeEventListener('mousemove', onMoveHandler);
+
+    ref.current.removeEventListener('mousemove', onMoveHandler);
     document.removeEventListener('mouseup', onUpHandler);
   }
 
   function onMoveHandler(evt: MouseEvent) {
-    if (!scrollWrapRef.current) return;
+    if (!ref.current) return;
 
     const dx = evt.clientX - position.current.x;
 
-    scrollWrapRef.current.scrollLeft = position.current.left - dx;
+    ref.current.scrollLeft = position.current.left - dx;
   }
 
   return {

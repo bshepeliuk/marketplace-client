@@ -1,10 +1,4 @@
-import React, {
-  ChangeEvent,
-  createContext,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import React, { ChangeEvent, createContext, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Devices } from '@src/common/api/Api';
 import { IDevice } from '@src/features/devices/types';
@@ -117,9 +111,7 @@ function SearchProvider({ children }: { children: React.ReactNode }) {
     onEnterPress,
   };
 
-  return (
-    <SearchContext.Provider value={values}>{children}</SearchContext.Provider>
-  );
+  return <SearchContext.Provider value={values}>{children}</SearchContext.Provider>;
 }
 
 export default SearchProvider;

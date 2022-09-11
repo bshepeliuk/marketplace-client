@@ -17,9 +17,7 @@ export const getDeviceByIdSelector = (state: RootState, deviceId: number) => {
 export const deviceSelector = createSelector(
   [getEntitiesState, getDevicesState, getDeviceIdProp],
   (entities, deviceState, deviceId) => {
-    const device = entities.devices[deviceId]
-      ? getDeviceByIdFromEntities(Number(deviceId), entities)
-      : undefined;
+    const device = entities.devices[deviceId] ? getDeviceByIdFromEntities(Number(deviceId), entities) : undefined;
 
     return {
       device,
@@ -41,6 +39,7 @@ export const devicesSelector = createSelector(
 
     return {
       items,
+      total: state.total,
       isLoading: state.isLoading,
       isError: state.isError,
       hasNoDevices: state.hasNoDevices,

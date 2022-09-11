@@ -1,5 +1,4 @@
 import React from 'react';
-//
 import CategoriesDropDown from '@features/categories/atoms/CategoriesDropDown/CategoriesDropDown';
 import { useTypedSelector } from '@src/common/hooks/useTypedSelector';
 import { routes } from '@src/app/Router';

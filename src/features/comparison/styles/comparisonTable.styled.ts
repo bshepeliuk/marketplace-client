@@ -3,9 +3,8 @@ import styled from 'styled-components';
 export const ComparisonTable = styled.div`
   max-width: 1300px;
   margin: 0 auto;
-  padding: 5px 10px;
   overflow-x: auto;
-  padding: 0 10px 15px 10px;
+  padding: 50px 10px 15px 10px;
 
   &::-webkit-scrollbar {
     height: 15px;

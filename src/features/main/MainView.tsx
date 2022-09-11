@@ -6,7 +6,7 @@ import PrivateRoute from '@src/app/PrivateRoute';
 import { routes } from '@src/app/Router';
 import HomeView from '../home/HomeView';
 import DeviceDetailsView from '../devices/pages/DeviceDetailsView';
-import DevicesView from '../devices/pages/DevicesView';
+import DevicesByCategoryView from '../devices/pages/DevicesByCategoryView';
 import CartView from '../cart/pages/CartView';
 import SearchResultView from '../search/page/SearchResultView';
 import PaymentCheckoutCancel from '../payment/pages/PaymentCheckoutCancel';
@@ -28,7 +28,7 @@ function MainView() {
         <Route path={`${routes.home}*`} element={<HomeView />} />
         <Route path={`${routes.device}/*`} element={<DeviceDetailsView />} />
         <Route path={routes.comparison} element={<ComparisonView />} />
-        <Route path={routes.devices} element={<DevicesView />} />
+        <Route path={routes.devices} element={<DevicesByCategoryView />} />
         <Route path={routes.cart} element={<CartView />} />
         <Route path={routes.searchResult} element={<SearchResultView />} />
         <Route path={routes.checkoutCancel} element={<PaymentCheckoutCancel />} />

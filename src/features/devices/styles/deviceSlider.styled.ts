@@ -1,7 +1,4 @@
-import {
-  SlideDirection,
-  SliderDirectionValues,
-} from '@src/common/hooks/useSlider';
+import { SlideDirection, SliderDirectionValues } from '@src/common/hooks/useSlider';
 import { AiOutlineLeftCircle, AiOutlineRightCircle } from 'react-icons/ai';
 import styled, { css, keyframes } from 'styled-components';
 

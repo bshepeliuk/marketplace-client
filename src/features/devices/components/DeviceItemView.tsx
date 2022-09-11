@@ -3,13 +3,9 @@ import { generatePath, useLocation } from 'react-router-dom';
 import { routes } from '@src/app/Router';
 import useCartBtnClick from '@src/features/cart/hooks/useCartBtnClick';
 import StarRating from '@common/components/StarRating/StarRatingView';
-import useAddToComparison from '@features/comparison/hooks/useAddToComparison';
-import useCheckComparison from '@features/comparison/hooks/useCheckComparison';
-import useDeleteFromComparison from '@features/comparison/hooks/useDeleteFromComparison';
 import ImageView from '../atoms/ImageView';
 import { GUTTER_SIZE } from '../constants';
 import {
-  BalanceScaleIcon,
   CartBtnWrapper,
   DeviceTitleLink,
   ListItem,
@@ -17,10 +13,11 @@ import {
   RatingTitle,
   RatingWrapper,
 } from '../styles/deviceItem.styled';
-import { IDevice, IDeviceRating, IListItemProps } from '../types';
+import { IDeviceRating, IListItemProps } from '../types';
 import DeviceLoaderView from './DeviceLoaderView';
 import AddToCartButton from '../atoms/AddToCartButton';
 import calculateAvgRating from '../helpers/calculateAvgRating';
+import ComparisonButton from '../atoms/ComparisonButton';
 
 function DeviceItemView(props: IListItemProps) {
   const location = useLocation();
@@ -87,24 +84,6 @@ function DeviceItemView(props: IListItemProps) {
       </CartBtnWrapper>
     </ListItem>
   );
-}
-
-function ComparisonButton({ device }: { device: IDevice }) {
-  const { addToComparison } = useAddToComparison();
-  const { deleteById } = useDeleteFromComparison();
-  const { isUnique } = useCheckComparison();
-
-  const isUniqueDevice = isUnique(device);
-
-  const handleComparison = () => {
-    if (isUniqueDevice) {
-      addToComparison(device);
-    } else {
-      deleteById(device.id);
-    }
-  };
-
-  return <BalanceScaleIcon isUnique={isUniqueDevice} onClick={handleComparison} />;
 }
 
 export default DeviceItemView;

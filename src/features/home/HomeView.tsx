@@ -13,7 +13,6 @@ function HomeView() {
   return (
     <DeviceListContainer ref={containerRef}>
       <CategoriesListView />
-
       <Routes>
         <Route path="/*" element={<HomeDeviceList containerRef={containerRef} />} />
         <Route path={routes.recentlyViewed} element={<RecentlyViewedDevices />} />

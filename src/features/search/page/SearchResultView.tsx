@@ -16,7 +16,6 @@ function SearchResultView() {
   const { fetchMore, isLoadingMore } = useGetMoreDevices();
 
   const selector = (state: RootState) => devicesSelector(state, null);
-  // prettier-ignore
   const { items, isLoading, isError, hasNoDevices } = useTypedSelector(selector);
 
   const searchNameValue = params.get('name');

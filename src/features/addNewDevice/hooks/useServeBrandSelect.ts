@@ -43,10 +43,7 @@ const useServeBrandSelect = () => {
     }));
   };
 
-  const handleChange = (
-    newValue: OnChangeValue<Option, false>,
-    actionMeta: { action: SelectActionTypes },
-  ) => {
+  const handleChange = (newValue: OnChangeValue<Option, false>, actionMeta: { action: SelectActionTypes }) => {
     if (actionMeta.action === 'clear') {
       setOption(null);
       setShouldClear(true);
@@ -56,10 +53,7 @@ const useServeBrandSelect = () => {
     setOption(newValue);
   };
 
-  const loadOptions = (
-    value: string,
-    callback: (options: Array<Option>) => void,
-  ) => {
+  const loadOptions = (value: string, callback: (options: Array<Option>) => void) => {
     clearTimeout(timeoutId.current as ReturnType<typeof setTimeout>);
 
     timeoutId.current = setTimeout(async () => {

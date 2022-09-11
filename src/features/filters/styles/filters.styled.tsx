@@ -38,12 +38,11 @@ export const Wrap = styled.div<IWrapProps>`
 export const SideBar = styled.div`
   border: 1px solid rgba(189, 195, 199, 0.4);
   padding: 20px 15px;
-  overflow: auto;
-  overflow-x: hidden;
   position: relative;
   border-radius: 5px;
   grid-column: 1 / 2;
   grid-row-start: 1;
+  height: max-content;
 
   &::-webkit-scrollbar {
     width: 6px;

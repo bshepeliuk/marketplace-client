@@ -27,6 +27,7 @@ interface IContext {
   isInitPrice: boolean;
   setShouldBeInitial: Dispatch<SetStateAction<boolean>>;
   getFilterParams: () => ParamKeyValuePair[];
+  hasInitFilterState: boolean;
 }
 
 export const FilterContext = createContext<IContext | undefined>(undefined);
@@ -44,9 +45,11 @@ export function FilterProvider({ children }: { children: React.ReactNode }) {
   const options = useTypedSelector((state) => state.filters.options);
 
   const hasSelectedItems = selected.length > 0;
+
   const isInitPrice = Object.values(options.prices).every((price) => {
     return prices.includes(price);
   });
+  const hasInitFilterState = (selected.length === 0 && prices.length === 0) || (selected.length === 0 && isInitPrice);
   const hasChangedPrice = prices.length > 0;
 
   useEffect(() => {
@@ -126,6 +129,7 @@ export function FilterProvider({ children }: { children: React.ReactNode }) {
     isInitPrice,
     getFilterParams,
     setShouldBeInitial,
+    hasInitFilterState,
   };
 
   return <FilterContext.Provider value={values}>{children}</FilterContext.Provider>;

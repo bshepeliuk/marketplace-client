@@ -8,6 +8,8 @@
     "node": true
   },
   "rules": {
+    "react/no-array-index-key": 0,
+    "react/no-unused-prop-types": 0,
     "no-restricted-syntax": ["error", "ForInStatement", "LabeledStatement", "WithStatement"],
     "arrow-body-style": 0,
     "no-shadow": 0,

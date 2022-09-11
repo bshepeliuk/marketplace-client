@@ -66,6 +66,7 @@ export interface IDeviceRatingEntity {
 export interface IDevicesData {
   result: number[];
   entities: DeviceEntities;
+  total?: number;
 }
 
 export interface IDeviceEntityData {
@@ -87,6 +88,8 @@ interface IListData {
 
 export interface IGetMoreDevicesParams {
   filters: IFilterOptions;
+  limit?: number;
+  offset?: number;
 }
 
 export interface IListItemProps {

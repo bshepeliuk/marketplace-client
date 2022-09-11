@@ -29,7 +29,8 @@ export const initialState = {
     isError: false,
     error: null,
   },
-  items: [] as number[], // device ids
+  items: [] as number[],
+  total: 0,
   hasNoDevices: false,
   isCreating: false,
   isCreatingError: false,
@@ -61,6 +62,7 @@ export const getDevices = createAsyncThunk<IDevicesData, IGetDevicesProps, IThun
       return {
         entities,
         result,
+        total: data.count,
       };
     } catch (error) {
       const message = getErrorMessage(error);
@@ -74,14 +76,14 @@ export const getDevices = createAsyncThunk<IDevicesData, IGetDevicesProps, IThun
 
 export const getMoreDevices = createAsyncThunk<IDevicesData, IGetMoreDevicesParams, IThunkAPI>(
   'devices/get-more-devices',
-  async ({ filters }, { rejectWithValue, dispatch, getState }) => {
+  async ({ filters, offset, limit = 20 }, { rejectWithValue, dispatch, getState }) => {
     const { items } = getState().devices;
 
     try {
       const { data } = await Api.Devices.get({
         filters,
-        offset: items.length,
-        limit: 20,
+        limit,
+        offset: offset ?? items.length,
       });
 
       const { result, entities } = normalize<IDevice, DeviceEntities, number[]>(data.devices, DevicesSchema);
@@ -221,15 +223,22 @@ const devicesSlice = createSlice({
       state.isLoading = true;
       state.isError = false;
     });
-    builder.addCase(getDevices.fulfilled, (state: State, { payload }: PayloadAction<{ result: number[] }>) => {
-      if (payload.result.length === 0) {
-        state.hasNoDevices = true;
-        state.hasMore = false;
-      }
+    builder.addCase(
+      getDevices.fulfilled,
+      (state: State, { payload }: PayloadAction<{ result: number[]; total?: number }>) => {
+        if (payload.result.length === 0) {
+          state.hasNoDevices = true;
+          state.hasMore = false;
+        }
 
-      state.isLoading = false;
-      state.items = payload.result;
-    });
+        if (payload.total !== undefined) {
+          state.total = payload.total;
+        }
+
+        state.isLoading = false;
+        state.items = payload.result;
+      },
+    );
     builder.addCase(getDevices.rejected, (state: State) => {
       state.isLoading = false;
       state.hasNoDevices = false;

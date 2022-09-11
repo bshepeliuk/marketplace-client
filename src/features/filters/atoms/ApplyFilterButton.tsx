@@ -10,11 +10,7 @@ function ApplyFilterButton() {
 
   const { apply } = context;
 
-  const content = isLoading ? (
-    <LoaderView size={10} color="#3498db" strokeWidth={1} />
-  ) : (
-    count
-  );
+  const content = isLoading ? <LoaderView size={10} color="#3498db" strokeWidth={1} /> : count;
 
   return (
     <ApplyButton type="button" onClick={apply} disabled={isLoading}>

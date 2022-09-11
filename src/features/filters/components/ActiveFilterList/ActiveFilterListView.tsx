@@ -26,7 +26,7 @@ function ActiveFilterListView() {
 
   const [activeItems, setActiveItems] = useState<Array<string[]>>([]);
   const [searchParams, setSearchParams] = useSearchParams();
-  const { isScrolling } = useHandleScrollOnMouseEvents(scrollWrapRef);
+  const { isScrolling } = useHandleScrollOnMouseEvents({ ref: scrollWrapRef, deps: activeItems });
   // prettier-ignore
   const {
     isLeftVisible,
@@ -53,6 +53,8 @@ function ActiveFilterListView() {
   const items = joinMinMaxPricesInEntries(activeItems);
 
   const hasActiveItems = items.length > 0;
+
+  if (activeItems.length === 0) return null;
 
   return (
     <Wrap>
@@ -91,6 +93,7 @@ export function ActiveListItemView(props: { item: string[] }) {
 
   useEffect(() => {
     if (!liRef.current) return;
+
     setWidth(liRef.current.clientWidth);
   }, []);
 
@@ -109,6 +112,7 @@ export function ActiveListItemView(props: { item: string[] }) {
   return (
     <ListItem ref={liRef} isMounted={isMounted} width={width}>
       {value}
+
       <DeleteButton data-delete-item-btn type="button" onClick={handleRemove}>
         X
       </DeleteButton>

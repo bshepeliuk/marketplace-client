@@ -7,8 +7,8 @@ export const Header = styled.header`
   align-items: center;
   padding: 10px 20px;
   display: flex;
+  margin-bottom: 10px;
   background-color: #303030;
-  margin-bottom: 80px;
   display: grid;
   grid-template-columns: 200px 200px 1fr 50px 50px 180px;
   justify-items: center;

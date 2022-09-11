@@ -10,7 +10,7 @@ jest.mock('react', () => ({
 }));
 
 describe('[HOOK]: useHandleScrollOnMouseEvents', () => {
-  test('isScrolling should be true on mousedown and mousemove. isScrolling shoulb be false on mouseup.', async () => {
+  test('isScrolling should be true on mousedown and mousemove. isScrolling should be false on mouseup.', async () => {
     const div = document.createElement('div');
 
     (useRef as jest.Mock).mockReturnValueOnce({
@@ -18,7 +18,7 @@ describe('[HOOK]: useHandleScrollOnMouseEvents', () => {
     } as RefObject<{ x: number; y: number }>);
 
     const { result } = renderHook(() => {
-      return useHandleScrollOnMouseEvents({ current: div });
+      return useHandleScrollOnMouseEvents({ ref: { current: div }, deps: [] });
     });
 
     div.scrollLeft = 10;

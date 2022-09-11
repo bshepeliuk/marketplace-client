@@ -2,11 +2,8 @@ import styled, { css } from 'styled-components';
 import { removeFilterItem, showFilterItem } from './filterAnimation.styled';
 
 export const Wrap = styled.div`
-  grid-row-start: 1;
-  grid-column-start: 1;
+  grid-column: 1 / -1;
   z-index: 1;
-  grid-column-end: -1;
-  margin-top: -75px;
   display: flex;
   height: max-content;
   align-items: center;
@@ -14,15 +11,14 @@ export const Wrap = styled.div`
 
 export const ScrollContainer = styled.div<{ isScrolling: boolean }>`
   height: max-content;
-
   width: 100%;
   overflow-x: hidden;
   white-space: nowrap;
   display: flex;
-  padding: 10px;
+  padding: 10px 0;
 
   cursor: ${({ isScrolling }) => {
-    return isScrolling ? css`grabbing` : css`pointer`;
+    return isScrolling ? css`grabbing` : css`grab`;
   }};
 
   &::-webkit-scrollbar {
