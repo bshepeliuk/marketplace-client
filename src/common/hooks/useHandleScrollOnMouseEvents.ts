@@ -5,7 +5,7 @@ interface IProps<T> {
   deps: T[];
 }
 
-const useHandleScrollOnMouseEvents = <T>({ ref, deps = [] }: IProps<T>) => {
+const useHandleScrollOnMouseEvents = <T>({ ref, deps }: IProps<T>) => {
   const position = useRef({ x: 0, left: 0 });
   const [isScrolling, setIsScrolling] = useState(false);
 
@@ -15,7 +15,7 @@ const useHandleScrollOnMouseEvents = <T>({ ref, deps = [] }: IProps<T>) => {
     return () => {
       ref.current?.removeEventListener('mousedown', onDownHandler);
     };
-  }, deps);
+  }, [deps]);
 
   function onDownHandler(evt: MouseEvent) {
     if (!ref.current) return;

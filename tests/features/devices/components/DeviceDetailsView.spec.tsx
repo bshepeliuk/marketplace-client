@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 import { fireEvent, screen } from '@testing-library/react';
 import Router from 'react-router-dom';
 import { setupServer } from 'msw/node';

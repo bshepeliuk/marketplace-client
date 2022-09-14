@@ -6,7 +6,7 @@ import { Counter, CounterText, CustomLink, Icon, Wrap } from './comparison.style
 function ComparisonLink() {
   return (
     <Wrap>
-      <CustomLink to={routes.comparison}>
+      <CustomLink data-link="comparison" to={routes.comparison}>
         <Icon />
         <ComparisonCounter />
       </CustomLink>

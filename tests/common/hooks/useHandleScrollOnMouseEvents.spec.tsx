@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 import { renderHook, act } from '@testing-library/react-hooks';
 import useHandleScrollOnMouseEvents from '@src/common/hooks/useHandleScrollOnMouseEvents';
 import { RefObject, useRef } from 'react';

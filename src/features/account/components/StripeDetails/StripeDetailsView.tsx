@@ -1,18 +1,12 @@
 import React from 'react';
 import useActivateStripeSellerAccount from '@common/hooks/useActivateStripeSellerAccount';
 import { useTypedSelector } from '@src/common/hooks/useTypedSelector';
-import {
-  ActivateButton,
-  Disabled,
-  Enabled,
-  StripeWrap,
-  Title,
-} from '../../styles/stripeDetails.styled';
+import { ActivateButton, Disabled, Enabled, StripeWrap, Title } from '../../styles/stripeDetails.styled';
 
 function StripeDetailsView() {
   const { stripeAccount } = useTypedSelector((state) => state.auth);
   const { activate, isProcessing } = useActivateStripeSellerAccount();
-  // prettier-ignore
+
   const hasActiveStripeAccount = stripeAccount !== null && stripeAccount.isActive;
 
   return (
@@ -21,11 +15,7 @@ function StripeDetailsView() {
       <StripeAccountStatus isActive={hasActiveStripeAccount} />
 
       {!hasActiveStripeAccount && (
-        <ActivateButton
-          type="button"
-          onClick={activate}
-          disabled={isProcessing}
-        >
+        <ActivateButton type="button" onClick={activate} disabled={isProcessing}>
           activate
         </ActivateButton>
       )}
@@ -33,7 +23,11 @@ function StripeDetailsView() {
   );
 }
 
-function StripeAccountStatus({ isActive }: { isActive: boolean }) {
+interface IStatusProps {
+  isActive: boolean;
+}
+
+function StripeAccountStatus({ isActive }: IStatusProps) {
   return isActive ? <Enabled>enabled</Enabled> : <Disabled>disabled</Disabled>;
 }
 

@@ -40,13 +40,9 @@ describe('[COMPONENTS]: FilterSideBarView', () => {
 
     await waitFor(
       () => {
-        const MaxInput = container.querySelector(
-          `input[name="max"]`,
-        ) as HTMLInputElement;
+        const MaxInput = container.querySelector(`input[name="max"]`) as HTMLInputElement;
 
-        const MinInput = container.querySelector(
-          `input[name="min"]`,
-        ) as HTMLInputElement;
+        const MinInput = container.querySelector(`input[name="min"]`) as HTMLInputElement;
 
         expect(+MinInput.value).toEqual(prices.min);
         expect(+MaxInput.value).toEqual(prices.max);

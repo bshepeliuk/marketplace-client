@@ -6,7 +6,7 @@ import { CartIcon, Counter, CustomLink, Text, Wrap } from './cartLink.styled';
 function CartLink() {
   return (
     <Wrap>
-      <CustomLink to={routes.cart}>
+      <CustomLink data-link="cart" to={routes.cart}>
         <CartIcon />
         <CartCounter />
       </CustomLink>

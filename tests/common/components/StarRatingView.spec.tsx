@@ -42,15 +42,11 @@ describe('[COMPONENTS]: StarRatingView', () => {
       },
     });
 
-    const Star = container.querySelector(
-      '[data-star-id="5"]',
-    ) as HTMLDivElement;
+    const Star = container.querySelector('[data-star-id="5"]') as HTMLDivElement;
 
     fireEvent.mouseOver(Star, { clientX });
 
-    const filledStars = container.querySelectorAll(
-      '[data-star-state="filled"]',
-    );
+    const filledStars = container.querySelectorAll('[data-star-state="filled"]');
 
     expect(filledStars).toHaveLength(numberOfStars);
   });
@@ -88,15 +84,11 @@ describe('[COMPONENTS]: StarRatingView', () => {
       },
     });
 
-    const Star = container.querySelector(
-      '[data-star-id="5"]',
-    ) as HTMLDivElement;
+    const Star = container.querySelector('[data-star-id="5"]') as HTMLDivElement;
 
     fireEvent.mouseMove(Star, { clientX });
 
-    const filledStars = container.querySelectorAll(
-      '[data-star-state="filled"]',
-    );
+    const filledStars = container.querySelectorAll('[data-star-state="filled"]');
 
     expect(filledStars).toHaveLength(numberOfStars);
   });
@@ -132,15 +124,11 @@ describe('[COMPONENTS]: StarRatingView', () => {
       },
     });
 
-    const Star = container.querySelector(
-      '[data-star-id="5"]',
-    ) as HTMLDivElement;
+    const Star = container.querySelector('[data-star-id="5"]') as HTMLDivElement;
 
     fireEvent.mouseLeave(Star, { clientX });
 
-    const filledStars = container.querySelectorAll(
-      '[data-star-state="filled"]',
-    );
+    const filledStars = container.querySelectorAll('[data-star-state="filled"]');
 
     expect(filledStars).toHaveLength(0);
   });
@@ -178,15 +166,11 @@ describe('[COMPONENTS]: StarRatingView', () => {
       },
     });
 
-    const Star = container.querySelector(
-      '[data-star-id="5"]',
-    ) as HTMLDivElement;
+    const Star = container.querySelector('[data-star-id="5"]') as HTMLDivElement;
 
     fireEvent.click(Star, { clientX });
 
-    const filledStars = container.querySelectorAll(
-      '[data-star-state="filled"]',
-    );
+    const filledStars = container.querySelectorAll('[data-star-state="filled"]');
 
     expect(filledStars).toHaveLength(numberOfStars);
     expect(onChangeStarMock).toBeCalledTimes(1);

@@ -3,11 +3,7 @@ import { IBrand } from '@src/features/brands/types';
 import { ICategory } from '@src/features/categories/types';
 import React, { createContext, useReducer } from 'react';
 import useCreateDevice from '../hooks/useCreateDevice';
-import newDeviceReducer, {
-  newDeviceActions,
-  newDeviceInitState,
-  NewDeviceState,
-} from '../modules/newDeviceModule';
+import newDeviceReducer, { newDeviceActions, newDeviceInitState, NewDeviceState } from '../modules/newDeviceModule';
 import { INewDeviceFeature, INewDeviceInfo } from '../modules/newDeviceTypes';
 
 interface IContext {
@@ -64,9 +60,7 @@ export function NewDeviceProvider({ children }: { children: React.ReactNode }) {
   const checkIfNewFeatureUniqueByTitle = (title: string) => {
     if (state.features.length === 0) return true;
 
-    return !state.features.some(
-      (i) => i.title.toLowerCase() === title.toLowerCase(),
-    );
+    return !state.features.some((i) => i.title.toLowerCase() === title.toLowerCase());
   };
 
   const deleteFeatureDetails = (feature: INewDeviceFeature) => {
@@ -119,9 +113,5 @@ export function NewDeviceProvider({ children }: { children: React.ReactNode }) {
     formState: state,
   };
 
-  return (
-    <NewDeviceContext.Provider value={values}>
-      {children}
-    </NewDeviceContext.Provider>
-  );
+  return <NewDeviceContext.Provider value={values}>{children}</NewDeviceContext.Provider>;
 }

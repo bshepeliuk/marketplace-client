@@ -71,9 +71,7 @@ describe('[COMPONENTS]: DeviceItemView', () => {
 
     const deviceTitle = getByText(deviceMock.name);
 
-    const addToCartBtn = container.querySelector(
-      '[data-add-to-cart]',
-    ) as HTMLButtonElement;
+    const addToCartBtn = container.querySelector('[data-add-to-cart]') as HTMLButtonElement;
 
     fireEvent.click(addToCartBtn);
 

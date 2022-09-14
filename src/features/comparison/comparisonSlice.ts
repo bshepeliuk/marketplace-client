@@ -28,7 +28,10 @@ const comparisonSlice = createSlice({
     populate(state: State, { payload }: PayloadAction<{ items: IDevice[] }>) {
       state.items = payload.items;
     },
-    setComparisonTable(state: State, { payload }: PayloadAction<any>) {
+    setComparisonTable(
+      state: State,
+      { payload }: PayloadAction<{ header: HeaderCellType[]; body: Array<BodyCellType[]> }>,
+    ) {
       state.table.header = payload.header;
       state.table.body = payload.body;
     },

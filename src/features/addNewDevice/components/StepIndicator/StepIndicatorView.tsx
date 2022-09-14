@@ -7,7 +7,7 @@ import { STEP_LIST } from './steps';
 const MAX_WIDTH_IN_PERCENT = 99;
 const ONE_STEP_WIDTH = MAX_WIDTH_IN_PERCENT / (STEP_LIST.length - 1);
 
-const STEPS_PATHNAME: Record<string, number> = {
+export const STEPS_PATHNAME: Record<string, number> = {
   '/new': 1,
   '/new/device-category': 2,
   '/new/device-base-info': 3,
@@ -22,7 +22,7 @@ function StepIndicatorView() {
 
   useEffect(() => {
     setActiveStepId(STEPS_PATHNAME[location.pathname]);
-    // prettier-ignore
+
     const CURRENT_PROGRESS_WIDTH = ONE_STEP_WIDTH * STEPS_PATHNAME[location.pathname];
     const NEXT_PROGRESS_WIDTH = CURRENT_PROGRESS_WIDTH - ONE_STEP_WIDTH;
 

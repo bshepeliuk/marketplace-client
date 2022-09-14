@@ -20,8 +20,6 @@ describe('[COMPONENTS]: DeviceFeatureList', () => {
     });
 
     expect(getByText(featureMock.title, { exact: false })).toBeInTheDocument();
-    expect(
-      getByText(featureMock.description, { exact: false }),
-    ).toBeInTheDocument();
+    expect(getByText(featureMock.description, { exact: false })).toBeInTheDocument();
   });
 });

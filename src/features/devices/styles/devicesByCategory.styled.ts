@@ -3,7 +3,7 @@ import { showDeviceAnimation } from './animation.styled';
 
 export const Container = styled.div`
   display: grid;
-  grid-template-columns: 380px 1180px;
+  grid-template-columns: 390px 1180px;
   justify-content: center;
   column-gap: 10px;
   padding: 0 10px 15px 15px;

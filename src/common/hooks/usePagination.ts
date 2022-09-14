@@ -7,7 +7,7 @@ export interface IPaginationProps {
   siblingCount?: number;
 }
 
-const DOTS = '...';
+export const DOTS = '...';
 
 export const isItDots = (step: number | string) => step === DOTS;
 

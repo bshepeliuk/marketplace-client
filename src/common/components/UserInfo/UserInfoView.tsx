@@ -18,7 +18,7 @@ function UserInfoView() {
   return (
     <UserWrap>
       <UserLogo fullName={user.fullName} size={50} />
-      <ArrowIcon onClick={toggleVisibility} isOpen={isVisible} />
+      <ArrowIcon data-button="user-info" onClick={toggleVisibility} isOpen={isVisible} />
 
       {isVisible && (
         <InfoWrap onMouseLeave={onMouseLeave}>

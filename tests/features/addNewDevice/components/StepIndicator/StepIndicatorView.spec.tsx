@@ -1,12 +1,9 @@
 /* eslint-disable react/jsx-no-constructed-context-values */
 import React from 'react';
 import { render } from '@testing-library/react';
-
 import { NewDeviceProvider } from '@src/features/addNewDevice/context/NewDeviceContext';
-
 import StepIndicatorView from '@features/addNewDevice/components/StepIndicator/StepIndicatorView';
 import { STEP_LIST } from '@features/addNewDevice/components/StepIndicator/steps';
-
 import { Wrapper } from '../../../../wrapper';
 
 jest.mock('react-router-dom', () => ({

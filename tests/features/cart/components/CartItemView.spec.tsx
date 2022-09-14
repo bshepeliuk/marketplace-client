@@ -2,21 +2,7 @@ import React from 'react';
 import { fireEvent } from '@testing-library/react';
 import CartItemView from '@features/cart/components/CartItemView';
 import setupAndRenderComponent from '../../../helpers/setupAndRenderComponent';
-
-const device = {
-  id: 2,
-  name: 'HP Pavillion 15 eh1021-ua',
-  price: 33448,
-  brandId: 2,
-  typeId: 1,
-  userId: 1,
-  quantity: 1,
-  images: [],
-  info: [],
-  count: 1,
-  createdAt: '2022-01-05T16:57:37.787Z',
-  updatedAt: '2022-01-05T16:57:37.787Z',
-};
+import { deviceMock } from '../../../mocks/data';
 
 describe('[COMPONENTS]: CartItemView', () => {
   afterEach(() => {
@@ -29,7 +15,7 @@ describe('[COMPONENTS]: CartItemView', () => {
         <CartItemView
           data={{
             updateCountById: jest.fn(),
-            items: [device],
+            items: [deviceMock],
           }}
           index={0}
           style={{ width: 300, height: 80, top: 10 }}
@@ -38,16 +24,10 @@ describe('[COMPONENTS]: CartItemView', () => {
       state: {},
     });
 
-    expect(getByText(device.name)).toBeInTheDocument();
-    expect(
-      getByText((content) => content.startsWith(String(device.price))),
-    ).toBeInTheDocument();
-    expect(
-      container.querySelector('[data-increment-count-btn]'),
-    ).toBeInTheDocument();
-    expect(
-      container.querySelector('[data-decrease-count-btn]'),
-    ).toBeInTheDocument();
+    expect(getByText(deviceMock.name)).toBeInTheDocument();
+    expect(getByText((content) => content.startsWith(String(deviceMock.price)))).toBeInTheDocument();
+    expect(container.querySelector('[data-increment-count-btn]')).toBeInTheDocument();
+    expect(container.querySelector('[data-decrease-count-btn]')).toBeInTheDocument();
   });
 
   test('should update count of devices on +/- btn click and change sum.', async () => {
@@ -58,7 +38,7 @@ describe('[COMPONENTS]: CartItemView', () => {
         <CartItemView
           data={{
             updateCountById: updateCountMock,
-            items: [device],
+            items: [deviceMock],
           }}
           index={0}
           style={{ width: 300, height: 80, top: 10 }}
@@ -67,9 +47,7 @@ describe('[COMPONENTS]: CartItemView', () => {
       state: {},
     });
 
-    const IncrementBtn = container.querySelector(
-      '[data-increment-count-btn]',
-    ) as HTMLButtonElement;
+    const IncrementBtn = container.querySelector('[data-increment-count-btn]') as HTMLButtonElement;
 
     expect(updateCountMock).toBeCalledWith({ id: 2, count: 1 });
     expect(IncrementBtn).toBeInTheDocument();
@@ -88,15 +66,11 @@ describe('[COMPONENTS]: CartItemView', () => {
 
     expect(updateCountMock).toBeCalledWith({ id: 2, count: LAST_COUNT_VALUE });
 
-    const SUM = device.price * LAST_COUNT_VALUE;
+    const SUM = deviceMock.price * LAST_COUNT_VALUE;
 
-    expect(
-      getByText((content) => content.startsWith(String(SUM))),
-    ).toBeInTheDocument();
+    expect(getByText((content) => content.startsWith(String(SUM)))).toBeInTheDocument();
 
-    const DecreaseBtn = container.querySelector(
-      '[data-decrease-count-btn]',
-    ) as HTMLButtonElement;
+    const DecreaseBtn = container.querySelector('[data-decrease-count-btn]') as HTMLButtonElement;
 
     fireEvent.click(DecreaseBtn);
 
@@ -118,8 +92,6 @@ describe('[COMPONENTS]: CartItemView', () => {
 
     expect(updateCountMock).toBeCalledWith({ id: 2, count: 1 });
 
-    expect(
-      getByText((content) => content.startsWith(String(device.price))),
-    ).toBeInTheDocument();
+    expect(getByText((content) => content.startsWith(String(deviceMock.price)))).toBeInTheDocument();
   });
 });

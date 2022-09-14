@@ -33,7 +33,8 @@ function HeaderItemView({ device, columnId, onDragEnd, onDragEnter, onDragLeave 
       onDragLeave={onDragLeave}
       key={`header-${device.name}`}
     >
-      <Img src={(device.images[0] as IDeviceImage).url} alt={device.name} />
+      {/* FIXME: add placeholder when device does not have images */}
+      {device.images.length > 0 && <Img src={(device.images[0] as IDeviceImage).url} alt={device.name} />}
 
       <DeviceLink
         to={generatePath(routes.device, {
@@ -49,10 +50,10 @@ function HeaderItemView({ device, columnId, onDragEnd, onDragEnter, onDragLeave 
         {device.name}
       </DeviceLink>
 
-      <DeleteIcon onClick={onDelete} />
+      <DeleteIcon data-button="delete-button" onClick={onDelete} />
 
       <Price>{device.price} $</Price>
-      <PayButton onClick={pay} disabled={isPending}>
+      <PayButton data-button="pay-button" onClick={pay} disabled={isPending}>
         <AiOutlineShoppingCart />
       </PayButton>
     </HeaderListItem>

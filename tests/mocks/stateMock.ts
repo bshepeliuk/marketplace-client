@@ -1,4 +1,4 @@
-import { ROLES } from '@src/common/constants';
+import { comparisonItemsMock, comparisonTableMock, userMock } from './data';
 import { categoriesEntityMock, commentEntityMock, deviceEntityMock, replyEntityMock } from './entitiesMock';
 
 export const rootStateMock = {
@@ -13,11 +13,8 @@ export const rootStateMock = {
   },
   auth: {
     isLoggedIn: true,
-    user: {
-      id: 1,
-      fullName: 'John Wick',
-      role: ROLES.BUYER,
-    },
+    stripeAccount: null,
+    user: userMock,
   },
   categories: {
     items: categoriesEntityMock.result,
@@ -25,6 +22,7 @@ export const rootStateMock = {
     isLoading: false,
   },
   devices: {
+    total: 22,
     isLoading: false,
     items: [deviceEntityMock.result],
     device: {
@@ -35,10 +33,10 @@ export const rootStateMock = {
     items: [],
   },
   comparison: {
-    items: [],
+    items: comparisonItemsMock,
     table: {
-      header: [],
-      body: [],
+      header: comparisonTableMock.header,
+      body: comparisonTableMock.body,
     },
   },
   filters: {

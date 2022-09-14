@@ -9,11 +9,7 @@ import { CommentsProvider } from '@features/comments/context/CommentsContext';
 import calculateAvgRating from '../helpers/calculateAvgRating';
 import useEvaluateDevice from '../hooks/useEvaluateDevice';
 import { IDevice, IDeviceRating } from '../types';
-import {
-  CommentFormContainer,
-  CommentsWrap,
-  RatingMessage,
-} from '../styles/deviceDetails.styled';
+import { CommentFormContainer, CommentsWrap, RatingMessage } from '../styles/deviceDetails.styled';
 
 interface IProps {
   device: IDevice;
@@ -56,11 +52,7 @@ function DeviceCommentsView({ device }: IProps) {
           isInteractive={hasRated && isLoggedIn && !isEvaluating}
         />
 
-        {!hasRated && isLoggedIn && (
-          <RatingMessage>
-            * You have already evaluated this device.
-          </RatingMessage>
-        )}
+        {!hasRated && isLoggedIn && <RatingMessage>* You have already evaluated this device.</RatingMessage>}
       </CommentFormContainer>
     </CommentsWrap>
   );

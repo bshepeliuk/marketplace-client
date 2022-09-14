@@ -40,9 +40,6 @@ describe('useClearLocationState', () => {
       result.current.clearLocationState();
     });
 
-    expect(mockedNavigate).toBeCalledWith(
-      { pathname: '/test', search: '?something=2' },
-      { replace: true, state: {} },
-    );
+    expect(mockedNavigate).toBeCalledWith({ pathname: '/test', search: '?something=2' }, { replace: true, state: {} });
   });
 });

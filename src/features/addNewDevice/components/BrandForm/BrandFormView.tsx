@@ -21,9 +21,7 @@ function BrandFormView() {
     initialValues,
     validationSchema: NewBrandSchema,
     onSubmit: ({ name }) => {
-      const brand = items.find(
-        (i) => i.name.toLowerCase() === name.toLocaleLowerCase(),
-      );
+      const brand = items.find((i) => i.name.toLowerCase() === name.toLocaleLowerCase());
 
       if (brand !== undefined) {
         context.addBrand({ brand });

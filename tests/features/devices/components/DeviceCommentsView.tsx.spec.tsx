@@ -113,9 +113,7 @@ describe('[COMPONENTS]: DeviceCommentsView', () => {
       props: { device },
     });
 
-    const filledStars = container.querySelectorAll(
-      '[data-star-state="filled"]',
-    );
+    const filledStars = container.querySelectorAll('[data-star-state="filled"]');
 
     const avgRating = calculateAvgRating(device.ratings);
 
@@ -143,9 +141,7 @@ describe('[COMPONENTS]: DeviceCommentsView', () => {
     const numberOfStars = 5;
 
     for (let i = 1; i <= numberOfStars; i += 1) {
-      expect(container.querySelectorAll(`[data-star-id="${i}"]`)).toHaveLength(
-        1,
-      );
+      expect(container.querySelectorAll(`[data-star-id="${i}"]`)).toHaveLength(1);
     }
   });
 
@@ -198,9 +194,7 @@ describe('[COMPONENTS]: DeviceCommentsView', () => {
       props: { device },
     });
 
-    const Star = container.querySelector(
-      '[data-star-id="5"]',
-    ) as HTMLDivElement;
+    const Star = container.querySelector('[data-star-id="5"]') as HTMLDivElement;
 
     fireEvent.click(Star, { clientX });
 

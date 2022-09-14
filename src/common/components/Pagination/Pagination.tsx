@@ -30,14 +30,19 @@ function Pagination({ pageSize, totalCount, currentPage, onPageChange, siblingCo
         <BiChevronLeft />
       </ArrowButton>
 
-      <PaginationList>
+      <PaginationList data-pagination-list="pagination-list">
         {steps.map((step, idx) => {
           const isActive = step === currentPage;
 
           if (isItDots(step)) return <DotsItem key={idx}>{step}</DotsItem>;
 
           return (
-            <PaginationItem key={idx} isActive={isActive} onClick={() => onPageChange(Number(step))}>
+            <PaginationItem
+              data-pagination-item={idx + 1}
+              key={idx}
+              isActive={isActive}
+              onClick={() => onPageChange(Number(step))}
+            >
               {step}
             </PaginationItem>
           );

@@ -202,6 +202,7 @@ describe('DEVICES THUNKS', () => {
       expect(getActionTypesAndPayload(actualActions)).toEqual(expectedActions);
     });
 
+    // eslint-disable-next-line max-len
     test('should return devices and change hasMore to false when received devices length less than DEVICES_OFFSET=20', async () => {
       const devices = [
         {
@@ -251,8 +252,8 @@ describe('DEVICES THUNKS', () => {
 
       expect(getActionTypesAndPayload(actualActions)).toEqual(expectedActions);
     });
-
-    test('should return devices and keep hasMore=true while received devices length equal DEVICES_OFFSET=20', async () => {
+    // eslint-disable-next-line max-len
+    test('should return devices and keep hasMore=true while received devices length equal to limit', async () => {
       const devices = generateDevicesByCount(20);
 
       const { result, entities } = normalize(devices, DevicesSchema);

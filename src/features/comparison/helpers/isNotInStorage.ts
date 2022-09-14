@@ -1,6 +1,11 @@
 import { IDevice } from '@src/features/devices/types';
 
-const isNotInStorage = ({ data, id }: { data: IDevice[]; id: number }) => {
+interface IProps {
+  data: IDevice[];
+  id: number;
+}
+
+const isNotInStorage = ({ data, id }: IProps) => {
   return data.every((item) => item.id !== id);
 };
 

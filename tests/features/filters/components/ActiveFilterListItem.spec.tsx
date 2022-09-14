@@ -8,9 +8,7 @@ import setupAndRenderComponent from '../../../helpers/setupAndRenderComponent';
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
   __esModule: true,
-  useSearchParams: jest
-    .fn()
-    .mockImplementation(() => [new URLSearchParams(), jest.fn()]),
+  useSearchParams: jest.fn().mockImplementation(() => [new URLSearchParams(), jest.fn()]),
 }));
 
 describe('[COMPONENTS]: ActiveListItemView', () => {
@@ -46,9 +44,7 @@ describe('[COMPONENTS]: ActiveListItemView', () => {
       component: () => <ActiveListItemView item={item} />,
     });
 
-    const RemoveBtn = container.querySelector(
-      '[data-delete-item-btn]',
-    ) as HTMLButtonElement;
+    const RemoveBtn = container.querySelector('[data-delete-item-btn]') as HTMLButtonElement;
 
     fireEvent.click(RemoveBtn);
 
@@ -79,9 +75,7 @@ describe('[COMPONENTS]: ActiveListItemView', () => {
       component: () => <ActiveListItemView item={['prices', '55 - 88']} />,
     });
 
-    const RemoveBtn = container.querySelector(
-      '[data-delete-item-btn]',
-    ) as HTMLButtonElement;
+    const RemoveBtn = container.querySelector('[data-delete-item-btn]') as HTMLButtonElement;
 
     fireEvent.click(RemoveBtn);
 

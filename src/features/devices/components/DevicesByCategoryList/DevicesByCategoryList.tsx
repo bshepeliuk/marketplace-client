@@ -4,7 +4,12 @@ import { IDevice } from '../../types';
 import DevicesByCategoryListItem from './DevicesByCategoryListItem';
 import DevicesByCategoryListLoader from './DevicesByCategoryListLoader';
 
-function DevicesByCategoryList({ items, isLoading }: { items: IDevice[]; isLoading: boolean }) {
+interface IProps {
+  items: IDevice[];
+  isLoading: boolean;
+}
+
+function DevicesByCategoryList({ items, isLoading }: IProps) {
   if (isLoading) return <DevicesByCategoryListLoader />;
 
   return (

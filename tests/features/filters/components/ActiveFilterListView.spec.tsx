@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 import React from 'react';
 import { fireEvent } from '@testing-library/react';
 import { useSearchParams } from 'react-router-dom';
@@ -9,9 +8,7 @@ import setupAndRenderComponent from '../../../helpers/setupAndRenderComponent';
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
   __esModule: true,
-  useSearchParams: jest
-    .fn()
-    .mockImplementation(() => [new URLSearchParams(), jest.fn()]),
+  useSearchParams: jest.fn().mockImplementation(() => [new URLSearchParams(), jest.fn()]),
 }));
 
 const params = [
@@ -30,10 +27,7 @@ describe('[COMPONENTS]: ActiveFilterListView', () => {
   });
 
   test('should render FilterList from search params.', () => {
-    (useSearchParams as jest.Mock).mockReturnValue([
-      new URLSearchParams(params),
-      jest.fn(),
-    ]);
+    (useSearchParams as jest.Mock).mockReturnValue([new URLSearchParams(params), jest.fn()]);
 
     const { getByText } = setupAndRenderComponent({
       state: {},

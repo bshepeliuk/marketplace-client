@@ -24,7 +24,7 @@ function ComparisonButton({ device }: IProps) {
     }
   };
 
-  return <BalanceScaleIcon isUnique={isUniqueDevice} onClick={handleComparison} />;
+  return <BalanceScaleIcon data-button="comparison" isUnique={isUniqueDevice} onClick={handleComparison} />;
 }
 
 export default ComparisonButton;

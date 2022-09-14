@@ -21,9 +21,7 @@ describe('[PAGES]: BrandStepView', () => {
       },
     );
 
-    expect(
-      getByText('Please select or create device brand.', { exact: false }),
-    ).toBeInTheDocument();
+    expect(getByText('Please select or create device brand.', { exact: false })).toBeInTheDocument();
 
     const nextBtn = getByText(/next/i) as HTMLButtonElement;
 

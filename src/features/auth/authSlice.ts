@@ -108,10 +108,7 @@ const authSlice = createSlice({
     setUser(state: State, { payload }: PayloadAction<IUserData>) {
       state.user = payload.user;
     },
-    setStripeAccount(
-      state: State,
-      { payload }: PayloadAction<{ account: IStripeAccount }>,
-    ) {
+    setStripeAccount(state: State, { payload }: PayloadAction<{ account: IStripeAccount }>) {
       state.stripeAccount = payload.account;
     },
   },
@@ -121,14 +118,11 @@ const authSlice = createSlice({
       state.login.isLoading = true;
       state.login.isError = false;
     });
-    builder.addCase(
-      login.fulfilled,
-      (state: State, { payload }: PayloadAction<IUserData>) => {
-        state.login.isLoading = false;
-        state.isLoggedIn = true;
-        state.user = payload.user;
-      },
-    );
+    builder.addCase(login.fulfilled, (state: State, { payload }: PayloadAction<IUserData>) => {
+      state.login.isLoading = false;
+      state.isLoggedIn = true;
+      state.user = payload.user;
+    });
     builder.addCase(login.rejected, (state: State) => {
       state.login.isLoading = false;
       state.login.isError = true;
