@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 import React from 'react';
 import useGetFilterOptionsByCategoryId from '@features/filters/hooks/useGetFilterOptionsByCategoryId';
 import { getFilterOptionsByCategoryId } from '@src/features/filters/filtersSlice';
@@ -7,21 +6,7 @@ import * as ReactRedux from 'react-redux';
 import { renderHook } from '@testing-library/react-hooks';
 import { Wrapper } from '../../../wrapper';
 import { mockOptions } from '../../../mocks/data';
-
-const rootState = {
-  entities: {
-    devices: { 1: { id: 1, images: [1], info: [] } },
-    images: { 1: { id: 1, url: 'https://image.jpeg' } },
-  },
-  filters: {
-    options: {
-      items: mockOptions,
-    },
-  },
-  devices: {
-    items: [1],
-  },
-};
+import { rootStateMock } from '../../../mocks/stateMock';
 
 jest.mock('@features/filters/filtersSlice', () => ({
   ...jest.requireActual('@features/filters/filtersSlice'),
@@ -42,24 +27,41 @@ describe('useGetFilterOptionsByCategoryId', () => {
     jest.clearAllMocks();
   });
 
-  test('filter action should be called', () => {
+  test('in case filter options were previously fetched, should not fetch it again.', () => {
     const { result } = renderHook(() => useGetFilterOptionsByCategoryId(1), {
-      wrapper: (props) => <Wrapper {...(props as object)} state={rootState} />,
+      wrapper: (props: { children: React.ReactNode }) => (
+        <Wrapper
+          {...props}
+          state={{
+            ...rootStateMock,
+            filters: {
+              ...rootStateMock.filters,
+              options: {
+                ...rootStateMock.filters.options,
+                items: mockOptions,
+              },
+            },
+          }}
+        />
+      ),
     });
 
-    expect(result.current.items).toHaveLength(
-      groupBy(mockOptions, 'title').length,
-    );
+    expect(result.current.items).toHaveLength(groupBy(mockOptions, 'title').length);
+    expect(getFilterOptionsByCategoryId).not.toBeCalledWith({ categoryId: 1 });
+  });
+
+  test('in case state does not have filter options, should fetch it.', () => {
+    renderHook(() => useGetFilterOptionsByCategoryId(1), {
+      wrapper: (props: { children: React.ReactNode }) => <Wrapper {...props} state={rootStateMock} />,
+    });
+
     expect(getFilterOptionsByCategoryId).toBeCalledWith({ categoryId: 1 });
   });
 
   test('in case category ID was not provided should not call filter action.', () => {
-    const { result } = renderHook(
-      () => useGetFilterOptionsByCategoryId(undefined),
-      {
-        wrapper: Wrapper,
-      },
-    );
+    const { result } = renderHook(() => useGetFilterOptionsByCategoryId(undefined), {
+      wrapper: Wrapper,
+    });
 
     expect(result.current.items).toHaveLength(0);
     expect(getFilterOptionsByCategoryId).toBeCalledTimes(0);

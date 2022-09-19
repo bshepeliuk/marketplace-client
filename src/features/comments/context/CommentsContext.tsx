@@ -1,22 +1,11 @@
 import { VariableSizeList } from 'react-window';
 import { useParams } from 'react-router-dom';
-import React, {
-  createContext,
-  Dispatch,
-  MutableRefObject,
-  SetStateAction,
-  useCallback,
-  useRef,
-  useState,
-} from 'react';
-import {
-  IAddCommentParams,
-  IUpdateCommentParams,
-} from '@src/common/types/apiTypes';
+import React, { createContext, Dispatch, MutableRefObject, SetStateAction, useCallback, useRef, useState } from 'react';
+import useWindowResize from '@src/common/hooks/useWindowResize';
+import { IAddCommentParams, IUpdateCommentParams } from '@src/common/types/apiTypes';
 import useAddComment from '../hooks/useAddComment';
 import useDeleteComment from '../hooks/useDeleteComment';
 import useUpdateComment from '../hooks/useUpdateComment';
-import useWindowResize from '../hooks/useWindowResize';
 import { IComment, IDeleteCommentParams } from '../types';
 import useGetCommentsByDeviceId from '../hooks/useGetCommentsByDeviceId';
 import useGetMoreComments from '../hooks/useGetMoreComments';
@@ -169,9 +158,5 @@ export function CommentsProvider({ children }: IProps) {
     isGoTopBtnVisible,
   };
 
-  return (
-    <CommentsContext.Provider value={values}>
-      {children}
-    </CommentsContext.Provider>
-  );
+  return <CommentsContext.Provider value={values}>{children}</CommentsContext.Provider>;
 }

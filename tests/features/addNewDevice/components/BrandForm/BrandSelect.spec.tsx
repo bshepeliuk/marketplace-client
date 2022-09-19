@@ -6,10 +6,7 @@ import { MemoryRouter } from 'react-router-dom';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import BrandSelect from '@src/features/addNewDevice/components/BrandForm/BrandSelect';
-import {
-  NewDeviceContext,
-  NewDeviceProvider,
-} from '@src/features/addNewDevice/context/NewDeviceContext';
+import { NewDeviceContext, NewDeviceProvider } from '@src/features/addNewDevice/context/NewDeviceContext';
 import selectEvent from 'react-select-event';
 import { Wrapper } from '../../../../wrapper';
 import { newDeviceContextValuesMock } from '../../../../mocks/data';
@@ -113,9 +110,7 @@ describe('[COMPONENTS]: BrandSelect', () => {
           },
         }}
       >
-        <NewDeviceContext.Consumer>
-          {() => <BrandSelect formik={formikPropsMock} />}
-        </NewDeviceContext.Consumer>
+        <NewDeviceContext.Consumer>{() => <BrandSelect formik={formikPropsMock} />}</NewDeviceContext.Consumer>
       </NewDeviceContext.Provider>,
       { wrapper: Wrapper },
     );

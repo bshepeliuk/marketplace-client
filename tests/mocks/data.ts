@@ -139,6 +139,7 @@ export const filterContextValuesMock = {
   isInitPrice: false,
   getFilterParams: jest.fn(),
   setShouldBeInitial: jest.fn(),
+  hasInitFilterState: false,
 };
 
 export const newDeviceContextValuesMock = {

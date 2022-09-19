@@ -1,7 +1,7 @@
 import React from 'react';
 import { FilterProvider } from '../context/FilterContext';
 import { SideBar } from '../styles/filters.styled';
-import FilterAccordionView from './Accordion/AccordionView';
+import AccordionListView from './Accordion/AccordionListView';
 import InteractionWithFilterView from './InteractionWithFilterView';
 
 function FilterSideBarView() {
@@ -9,7 +9,7 @@ function FilterSideBarView() {
     <FilterProvider>
       <SideBar>
         <InteractionWithFilterView />
-        <FilterAccordionView />
+        <AccordionListView />
       </SideBar>
     </FilterProvider>
   );

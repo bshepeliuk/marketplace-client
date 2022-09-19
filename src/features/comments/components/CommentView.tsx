@@ -25,7 +25,7 @@ interface ICommentProps {
 }
 
 function CommentView({ comment }: ICommentProps) {
-  const { isLoggedIn } = useTypedSelector((state) => state.auth);
+  const { isLoggedIn, user } = useTypedSelector((state) => state.auth);
   // prettier-ignore
   const {
     activeComment,
@@ -45,6 +45,7 @@ function CommentView({ comment }: ICommentProps) {
   const isReplying = isCurrentComment && activeComment?.type === 'replying';
   const isEditing = isCurrentComment && activeComment?.type === 'editing';
   const canDelete = passedTimeInMs < COMMENT_ACTION_TIME_MS_LIMIT;
+  const canEdit = user?.fullName.toLowerCase() === comment.fullName.toLowerCase(); // TODO: add creatorId field to comment.
 
   const parentId = comment.parentId ?? comment.id;
 
@@ -86,9 +87,11 @@ function CommentView({ comment }: ICommentProps) {
       <CreatedAt>{createdAt}</CreatedAt>
 
       <BtnWrap>
-        <EditButton type="button" onClick={turnOnEditMode}>
-          edit
-        </EditButton>
+        {canEdit && (
+          <EditButton type="button" onClick={turnOnEditMode}>
+            edit
+          </EditButton>
+        )}
 
         <ReplyButton type="button" onClick={turnOnReplyMode}>
           reply

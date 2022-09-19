@@ -5,6 +5,7 @@ import { BASE_API_URL } from '@src/common/constants';
 import thunk from 'redux-thunk';
 import { getFilterOptionsByCategoryId } from '@src/features/filters/filtersSlice';
 import getActionTypesAndPayload from '../../helpers/getActionTypesAndPayload';
+import { rootStateMock } from '../../mocks/stateMock';
 
 const server = setupServer();
 const mockStore = configureMockStore([thunk]);
@@ -16,7 +17,7 @@ describe('FILTER THUNKS', () => {
   afterEach(() => server.resetHandlers());
   afterAll(() => server.close());
   beforeEach(() => {
-    store = mockStore({});
+    store = mockStore(rootStateMock);
   });
 
   it('should return min & max prices and filter options by categoryId', async () => {
@@ -34,6 +35,7 @@ describe('FILTER THUNKS', () => {
     await store.dispatch(getFilterOptionsByCategoryId({ categoryId: 1 }));
 
     const actualActions = store.getActions();
+
     const expectedActions = [
       {
         type: getFilterOptionsByCategoryId.pending.type,

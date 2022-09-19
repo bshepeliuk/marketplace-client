@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  FeatureDescription,
-  FeatureTitle,
-  InfoItem,
-  InfoList,
-} from '../styles/deviceDetails.styled';
+import { FeatureDescription, FeatureTitle, InfoItem, InfoList } from '../styles/deviceDetails.styled';
 import { IDeviceInfo } from '../types';
 
 interface IProps {

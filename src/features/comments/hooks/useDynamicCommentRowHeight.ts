@@ -7,11 +7,7 @@ interface IProps {
   deps?: Array<any>;
 }
 
-const useDynamicCommentRowHeight = ({
-  rowRef,
-  rowIndex,
-  deps = [],
-}: IProps) => {
+const useDynamicCommentRowHeight = ({ rowRef, rowIndex, deps = [] }: IProps) => {
   const { setSize, windowWidth } = useCommentsContext();
 
   useEffect(() => {

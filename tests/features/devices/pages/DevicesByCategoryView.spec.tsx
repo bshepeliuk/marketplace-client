@@ -9,7 +9,6 @@ import { getDevices } from '@src/features/devices/devicesSlice';
 import { DEVICES_OFFSET } from '@src/features/devices/constants';
 import DevicesByCategoryView from '@src/features/devices/pages/DevicesByCategoryView';
 import { FilterProvider } from '@features/filters/context/FilterContext';
-import { AutoSizerProps } from 'react-virtualized-auto-sizer';
 import setupAndRenderComponent from '../../../helpers/setupAndRenderComponent';
 import { deviceMock } from '../../../mocks/data';
 import { rootStateMock } from '../../../mocks/stateMock';
@@ -30,13 +29,6 @@ jest.mock('@src/features/devices/devicesSlice', () => ({
   getDevices: jest.fn(),
 }));
 
-jest.mock('react-virtualized-auto-sizer', () => {
-  return ({ children }: AutoSizerProps) => {
-    const height = 400 * 2; // 400px - DeviceItem height, 2 - count of devices
-    return children({ height, width: 1440 });
-  };
-});
-
 const scrollToMock = jest.fn();
 window.scrollTo = scrollToMock;
 
@@ -51,7 +43,7 @@ jest.mock('react-router-dom', () => ({
 
 const useDispatchMock = jest.spyOn(reactRedux, 'useDispatch');
 
-describe('[PAGES]: DevicesView', () => {
+describe('[PAGES]: DevicesByCategoryView', () => {
   beforeAll(() => server.listen());
   afterAll(() => server.close());
 
@@ -128,7 +120,10 @@ describe('[PAGES]: DevicesView', () => {
 
   test('should scroll to the top when page has changed.', () => {
     (useSearchParams as jest.Mock).mockReturnValue([
-      new URLSearchParams([['categoryId', String(deviceMock.id)]]),
+      new URLSearchParams([
+        ['categoryId', String(deviceMock.id)],
+        ['page', '2'],
+      ]),
       jest.fn(),
     ]);
 
@@ -149,9 +144,11 @@ describe('[PAGES]: DevicesView', () => {
 
     expect(paginationItem).toBeInTheDocument();
     expect(scrollToMock).toBeCalledTimes(1);
-
     expect(getDevices).lastCalledWith({
-      filters: [['categoryId', String(deviceMock.id)]],
+      filters: [
+        ['categoryId', String(deviceMock.id)],
+        ['page', '2'],
+      ],
       limit: DEVICES_OFFSET,
       offset: DEVICES_OFFSET * (pageNumber - 1),
     });

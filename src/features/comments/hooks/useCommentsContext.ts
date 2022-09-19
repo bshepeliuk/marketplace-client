@@ -5,9 +5,7 @@ const useCommentsContext = () => {
   const context = useContext(CommentsContext);
 
   if (context === undefined) {
-    throw new Error(
-      'useCommentsContext must be used within a CommentsProvider.',
-    );
+    throw new Error('useCommentsContext must be used within a CommentsProvider.');
   }
 
   return context;

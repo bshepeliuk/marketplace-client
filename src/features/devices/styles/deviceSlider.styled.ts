@@ -116,7 +116,6 @@ export const InnerWrapper = styled.div`
   justify-content: center;
   position: relative;
   overflow: hidden;
-  height: 100%;
 `;
 
 export const SliderImage = styled.img<{
@@ -137,6 +136,6 @@ export const SliderImage = styled.img<{
   }};
 
   @media (max-width: 968px) {
-    max-height: 400px;
+    max-height: 300px;
   }
 `;

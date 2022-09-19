@@ -17,7 +17,7 @@ function LoginFormView() {
     initialValues,
     validationSchema: LoginSchema,
     onSubmit: ({ email, password }) => {
-      return onLogin({ email, password });
+      onLogin({ email, password });
     },
   });
 

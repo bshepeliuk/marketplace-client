@@ -1,30 +1,24 @@
 import React, { useState } from 'react';
 import { AccordingHeader, ArrowIcon } from '../../styles/filters.styled';
-import { InfoStatus, InfoStatusUnion } from '../../types';
 import PriceInfoView from './PriceInfoView';
 
+const BODY_DEFAULT_HEIGHT = 121;
+
 function PriceFilterView() {
-  const [infoStatus, setInfoStatus] = useState<InfoStatusUnion | null>(null);
+  const [isOpen, setIsOpen] = useState(true);
 
-  const toggleVisibility = () => {
-    if (infoStatus === InfoStatus.hide) {
-      setInfoStatus(InfoStatus.show);
-      return;
-    }
+  const height = isOpen ? BODY_DEFAULT_HEIGHT : 0;
 
-    setInfoStatus(InfoStatus.hide);
-  };
-
-  const isVisible = infoStatus === InfoStatus.show || infoStatus === null;
+  const toggleVisibility = () => setIsOpen(!isOpen);
 
   return (
     <div>
       <AccordingHeader onClick={toggleVisibility}>
-        <ArrowIcon isItVisible={isVisible} />
+        <ArrowIcon isItVisible={isOpen} />
         <div>Price</div>
       </AccordingHeader>
 
-      <PriceInfoView infoStatus={infoStatus} />
+      <PriceInfoView height={height} />
     </div>
   );
 }

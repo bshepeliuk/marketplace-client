@@ -3,6 +3,7 @@ import { renderHook, act } from '@testing-library/react-hooks';
 import useRegister from '@src/features/auth/hooks/useRegister';
 import { register } from '@src/features/auth/authSlice';
 import { ROLES } from '@src/common/constants';
+import { Wrapper } from '../../../wrapper';
 
 jest.mock('@src/features/auth/authSlice', () => {
   const originalModule = jest.requireActual('@src/features/auth/authSlice');
@@ -24,7 +25,7 @@ describe('useRegister hook', () => {
   });
 
   test('call onRegister function', () => {
-    const { result } = renderHook(() => useRegister());
+    const { result } = renderHook(() => useRegister(), { wrapper: Wrapper });
 
     act(() => {
       result.current.onRegister({

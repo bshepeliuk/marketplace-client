@@ -8,13 +8,16 @@ const useGetFilterOptionsByCategoryId = (categoryId: number | undefined) => {
   const dispatch = useAppDispatch();
   const { items, isLoading } = useTypedSelector((state) => state.filters.options);
 
-  const fetchOptions = () => {
-    if (categoryId === undefined) return;
-    dispatch(getFilterOptionsByCategoryId({ categoryId }));
-  };
+  const hasNoCategoryId = categoryId === undefined;
+
+  const hasOptions = items.every((item) => item.typeId === Number(categoryId));
 
   useEffect(() => {
-    fetchOptions();
+    if (hasNoCategoryId) return;
+
+    if (items.length === 0 || !hasOptions) {
+      dispatch(getFilterOptionsByCategoryId({ categoryId }));
+    }
   }, [categoryId]);
 
   return {

@@ -4,8 +4,17 @@ import RegisterFormView from '@src/features/auth/components/RegisterFormView';
 import useRegister from '@src/features/auth/hooks/useRegister';
 import selectEvent from 'react-select-event';
 import { ROLES } from '@src/common/constants';
+import { routes } from '@src/app/Router';
 
 jest.mock('@src/features/auth/hooks/useRegister');
+
+const mockNavigate = jest.fn();
+
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  __esModule: true,
+  useNavigate: () => mockNavigate,
+}));
 
 const renderRegistrationForm = () => {
   return render(<RegisterFormView />);
@@ -104,9 +113,7 @@ describe('RegistrationForm', () => {
 
     const emailInput = getByTestId('email') as HTMLInputElement;
     const passwordInput = getByTestId('password') as HTMLInputElement;
-    const passwordConfirmationInput = getByTestId(
-      'passwordConfirmation',
-    ) as HTMLInputElement;
+    const passwordConfirmationInput = getByTestId('passwordConfirmation') as HTMLInputElement;
     const fullNameInput = getByTestId('fullName') as HTMLInputElement;
 
     const registrationBtn = getByText(/Register/i);
@@ -144,6 +151,7 @@ describe('RegistrationForm', () => {
         role: options.value,
         password: passwordInput.value,
       });
+      expect(mockNavigate).toBeCalledWith(routes.login);
     });
   });
 });

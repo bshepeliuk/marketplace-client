@@ -1,5 +1,4 @@
-/* eslint-disable max-len */
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { MdArrowBackIosNew, MdArrowForwardIos } from 'react-icons/md';
 
@@ -8,24 +7,22 @@ import useHandleScrollBySideBtnClick from '@src/common/hooks/useHandleScrollBySi
 import getActiveSearchParamsEntries from '../../helpers/getActiveSearchParamsEntries';
 import joinMinMaxPricesInEntries from '../../helpers/joinMinMaxPricesInEntries';
 import parseFeaturesParams from '../../helpers/parseFeaturesParams';
-import removePriceParamsFromEntries from '../../helpers/removePriceParamsFromEntries';
-import removeSearchParamsFromEntriesByValue from '../../helpers/removeSearchParamsFromEntriesByValue';
 import {
   ClearAllButton,
   ScrollContainer,
-  DeleteButton,
   List,
-  ListItem,
   Wrap,
   LeftArrowButton,
   RightArrowButton,
 } from '../../styles/activeFilterList.styled';
+import ActiveListItemView from './components/ActiveListItemView';
 
 function ActiveFilterListView() {
-  const scrollWrapRef = useRef<HTMLDivElement>(null);
-
-  const [activeItems, setActiveItems] = useState<Array<string[]>>([]);
   const [searchParams, setSearchParams] = useSearchParams();
+  const filters = getActiveSearchParamsEntries(searchParams);
+  const activeItems = parseFeaturesParams(filters);
+
+  const scrollWrapRef = useRef<HTMLDivElement>(null);
   const { isScrolling } = useHandleScrollOnMouseEvents({ ref: scrollWrapRef, deps: activeItems });
   // prettier-ignore
   const {
@@ -35,12 +32,10 @@ function ActiveFilterListView() {
     onRightClick
   } = useHandleScrollBySideBtnClick(scrollWrapRef, activeItems.length);
 
-  useEffect(() => {
-    const filters = getActiveSearchParamsEntries(searchParams);
-    const activeParams = parseFeaturesParams(filters);
+  const items = joinMinMaxPricesInEntries(activeItems);
 
-    setActiveItems(activeParams);
-  }, [searchParams.toString()]);
+  const hasActiveItems = items.length > 0;
+  const hasNoActiveItems = !hasActiveItems;
 
   const onClearAll = () => {
     const categoryId = searchParams.get('categoryId');
@@ -50,11 +45,7 @@ function ActiveFilterListView() {
     }
   };
 
-  const items = joinMinMaxPricesInEntries(activeItems);
-
-  const hasActiveItems = items.length > 0;
-
-  if (activeItems.length === 0) return null;
+  if (hasNoActiveItems) return null;
 
   return (
     <Wrap>
@@ -80,43 +71,6 @@ function ActiveFilterListView() {
         <MdArrowForwardIos />
       </RightArrowButton>
     </Wrap>
-  );
-}
-
-export function ActiveListItemView(props: { item: string[] }) {
-  const liRef = useRef<HTMLLIElement>(null);
-  const [width, setWidth] = useState<number>(0);
-  const [isMounted, setIsMounted] = useState(true);
-  const [searchParams, setSearchParams] = useSearchParams();
-
-  const [key, value] = props.item;
-
-  useEffect(() => {
-    if (!liRef.current) return;
-
-    setWidth(liRef.current.clientWidth);
-  }, []);
-
-  const handleRemove = () => {
-    let params = removeSearchParamsFromEntriesByValue(searchParams, value);
-
-    if (key === 'prices') {
-      // TODO: refactoring;
-      params = removePriceParamsFromEntries(params);
-    }
-
-    setTimeout(() => setSearchParams(params), 500);
-    setIsMounted(false);
-  };
-
-  return (
-    <ListItem ref={liRef} isMounted={isMounted} width={width}>
-      {value}
-
-      <DeleteButton data-delete-item-btn type="button" onClick={handleRemove}>
-        X
-      </DeleteButton>
-    </ListItem>
   );
 }
 

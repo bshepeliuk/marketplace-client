@@ -36,6 +36,7 @@ export const CategoriesButton = styled.button`
   justify-content: space-evenly;
   align-items: center;
   transition: background-color 0.3s ease-out;
+  cursor: pointer;
 
   &:hover {
     background-color: #f97988;

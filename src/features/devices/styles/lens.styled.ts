@@ -24,8 +24,7 @@ export const Lens = styled.div`
 `;
 
 export const LensOutput = styled.div`
-  box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px,
-    rgba(0, 0, 0, 0.22) 0px 15px 12px;
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
   width: 400px;
   height: 100%;
   grid-column: 3;

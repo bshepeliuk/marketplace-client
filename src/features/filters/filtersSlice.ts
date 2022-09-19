@@ -47,6 +47,13 @@ export const getFilterOptionsByCategoryId = createAsyncThunk<IFilterData, IFilte
       });
     }
   },
+  {
+    condition: (_, { getState }) => {
+      const { isLoading } = getState().filters.options;
+
+      if (isLoading) return false;
+    },
+  },
 );
 
 const filtersSlice = createSlice({

@@ -16,7 +16,9 @@ function CommentsListLoader() {
 const LoaderWrap = styled.div`
   height: 600px;
   overflow: auto;
-  width: 474px;
+  width: max-content;
+  display: flex;
+  flex-flow: column;
 `;
 
 export default CommentsListLoader;

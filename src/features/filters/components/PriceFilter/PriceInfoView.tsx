@@ -1,21 +1,18 @@
 import React, { useEffect, useRef } from 'react';
 import { useTypedSelector } from '@src/common/hooks/useTypedSelector';
-import useGetElementSizeByRef from '@common/hooks/useGetElementSizeByRef';
 import { InputWrapper, Wrap, Input } from '../../styles/filters.styled';
 import RangeInput from '../../atoms/RangeInput/RangeInput';
 import useFilterContext from '../../hooks/useFilterContext';
 import useHandleInputsPrice from '../../hooks/useHandleInputsPrice';
 import useHandleRangePrice from '../../hooks/useHandleRangePrice';
 import useSyncInputStateWithRangeState from '../../hooks/useSyncInputStateWithRangeState';
-import { InfoStatusUnion } from '../../types';
 
 interface IProps {
-  infoStatus: InfoStatusUnion | null;
+  height: number;
 }
 
-function PriceInfoView({ infoStatus }: IProps) {
+function PriceInfoView({ height }: IProps) {
   const wrapRef = useRef<HTMLDivElement>(null);
-  const size = useGetElementSizeByRef(wrapRef);
 
   const options = useTypedSelector((state) => state.filters.options);
   const context = useFilterContext();
@@ -28,7 +25,9 @@ function PriceInfoView({ infoStatus }: IProps) {
 
   useEffect(() => {
     if (isNotInitStateValues && wrapRef.current) {
-      context.setBtnOffsetY(wrapRef.current.offsetTop + 20);
+      const DEFAULT_OFFSET_TOP = 20;
+
+      context.setBtnOffsetY(wrapRef.current.offsetTop + DEFAULT_OFFSET_TOP);
       context.setIsShownApplyBtn(true);
     }
 
@@ -72,7 +71,7 @@ function PriceInfoView({ infoStatus }: IProps) {
   };
 
   return (
-    <Wrap ref={wrapRef} infoStatus={infoStatus} height={size.height}>
+    <Wrap ref={wrapRef} height={height}>
       <InputWrapper>
         <Input name="min" type="text" value={values[0]} onChange={onInputChange} />
 

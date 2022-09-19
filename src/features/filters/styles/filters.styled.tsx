@@ -1,47 +1,28 @@
 import React from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import { IoIosArrowForward } from 'react-icons/io';
-import { hideByHeight, showByHeight } from './filterAnimation.styled';
-import { InfoStatus, InfoStatusUnion } from '../types';
 
 interface IWrapProps {
-  infoStatus: InfoStatusUnion | null;
-  height: number | null;
+  height: number;
 }
 
 export const Wrap = styled.div<IWrapProps>`
-  padding: 20px 50px 20px 0;
   transition: all 0.2s ease-in-out;
   overflow: hidden;
 
-  padding: ${({ infoStatus }) => {
-    const isVisible = infoStatus === InfoStatus.show || infoStatus === null;
-    return isVisible ? '20px 50px 20px 0' : '0 50px 0 0';
+  height: ${({ height }) => {
+    return `${height}px`;
   }};
 
-  height: ${({ infoStatus }) => {
-    const isVisible = infoStatus === InfoStatus.show || infoStatus === null;
-    return isVisible ? '121px' : '0px';
-  }};
-
-  animation: ${({ height, infoStatus }) => {
-    if (infoStatus === InfoStatus.show) {
-      return css`0.3s ${showByHeight(height)} ease-in-out backwards`;
-    }
-
-    if (infoStatus === InfoStatus.hide) {
-      return css`0.3s ${hideByHeight(height)} ease-in-out backwards`;
-    }
+  padding: ${({ height }) => {
+    return height > 0 ? '20px 50px 20px 0' : '0 50px 0 0';
   }};
 `;
 
 export const SideBar = styled.div`
-  border: 1px solid rgba(189, 195, 199, 0.4);
   padding: 20px 15px;
   position: relative;
   border-radius: 5px;
-  grid-column: 1 / 2;
-  grid-row-start: 1;
   height: max-content;
 
   &::-webkit-scrollbar {
@@ -168,6 +149,7 @@ export const ApplyButton = styled.button`
 export const InputWrapper = styled.div`
   display: flex;
   margin-bottom: 15px;
+  width: 100%;
 `;
 
 export const Input = styled.input`

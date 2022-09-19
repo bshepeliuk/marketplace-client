@@ -14,7 +14,7 @@ describe('[PAGES]: LoginView', () => {
       wrapper: Wrapper,
     });
 
-    const link = getByText(/go to registration/i) as HTMLLinkElement;
+    const link = getByText(/create an account/i) as HTMLLinkElement;
     const loginBtn = getByText(/login/i) as HTMLButtonElement;
 
     expect(link.getAttribute('href')).toBe('/auth/register');

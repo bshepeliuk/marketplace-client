@@ -1,42 +1,19 @@
-/* eslint-disable max-len */
 import React from 'react';
 import useGetCountOfDevices from '@src/features/filters/hooks/useGetCountOfDevices';
 import * as ReactRedux from 'react-redux';
 import { act, renderHook } from '@testing-library/react-hooks';
 import { MemoryRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import {
-  FilterContext,
-  FilterProvider,
-} from '@src/features/filters/context/FilterContext';
+import { FilterContext } from '@src/features/filters/context/FilterContext';
 import store from '@src/app/store';
 import { setupServer } from 'msw/node';
 import { rest } from 'msw';
 import { BASE_API_URL } from '@src/common/constants';
-import { paramsEntries } from '../../../mocks/data';
+import { filterContextValuesMock, paramsEntries } from '../../../mocks/data';
 
 const server = setupServer();
 
 const useDispatchMock = jest.spyOn(ReactRedux, 'useDispatch');
-
-const filterContextValuesMock = {
-  btnOffsetY: 0,
-  setBtnOffsetY: jest.fn(),
-  selected: Array(2),
-  setSelected: jest.fn(),
-  onSelectOption: jest.fn(),
-  clearSelectedOptions: jest.fn(),
-  isShownApplyBtn: false,
-  setIsShownApplyBtn: jest.fn(),
-  hasSelectedItems: true,
-  setPrices: jest.fn(),
-  apply: jest.fn(),
-  prices: [1, 200],
-  shouldBeInitial: false,
-  isInitPrice: false,
-  getFilterParams: jest.fn(),
-  setShouldBeInitial: jest.fn(),
-};
 
 describe('[HOOK]: useGetCountOfDevices', () => {
   beforeAll(() => server.listen());
@@ -56,7 +33,7 @@ describe('[HOOK]: useGetCountOfDevices', () => {
       wrapper: (props: any) => (
         <Provider store={store}>
           <MemoryRouter>
-            <FilterProvider>{props.children}</FilterProvider>
+            <FilterContext.Provider value={filterContextValuesMock}>{props.children}</FilterContext.Provider>
           </MemoryRouter>
         </Provider>
       ),
@@ -78,7 +55,7 @@ describe('[HOOK]: useGetCountOfDevices', () => {
       wrapper: (props: { children: React.ReactNode }) => (
         <Provider store={store}>
           <MemoryRouter>
-            <FilterProvider>{props.children}</FilterProvider>
+            <FilterContext.Provider value={filterContextValuesMock}>{props.children}</FilterContext.Provider>
           </MemoryRouter>
         </Provider>
       ),
@@ -101,10 +78,7 @@ describe('[HOOK]: useGetCountOfDevices', () => {
   test('should change counter to default value when something went wrong.', async () => {
     server.use(
       rest.get(`${BASE_API_URL}/devices`, (req, res, ctx) => {
-        return res(
-          ctx.status(500),
-          ctx.json({ message: '[API]: Something went wrong!' }),
-        );
+        return res(ctx.status(500), ctx.json({ message: '[API]: Something went wrong!' }));
       }),
     );
 
@@ -112,7 +86,7 @@ describe('[HOOK]: useGetCountOfDevices', () => {
       wrapper: (props: { children: React.ReactNode }) => (
         <Provider store={store}>
           <MemoryRouter>
-            <FilterProvider>{props.children}</FilterProvider>
+            <FilterContext.Provider value={filterContextValuesMock}>{props.children}</FilterContext.Provider>
           </MemoryRouter>
         </Provider>
       ),
@@ -139,9 +113,7 @@ describe('[HOOK]: useGetCountOfDevices', () => {
       wrapper: (props: { children: React.ReactNode }) => (
         <Provider store={store}>
           <MemoryRouter>
-            <FilterContext.Provider value={filterContextValuesMock}>
-              {props.children}
-            </FilterContext.Provider>
+            <FilterContext.Provider value={filterContextValuesMock}>{props.children}</FilterContext.Provider>
           </MemoryRouter>
         </Provider>
       ),

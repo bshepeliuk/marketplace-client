@@ -4,7 +4,7 @@ import * as Api from '@src/common/api/Api';
 import useFilterContext from './useFilterContext';
 
 const useGetCountOfDevices = () => {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [count, setCount] = useState(0);
   const context = useFilterContext();
 

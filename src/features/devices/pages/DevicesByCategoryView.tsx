@@ -1,69 +1,68 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import FilterSideBarView from '@src/features/filters/components/FilterSideBar';
-import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import ErrorMessageView from '@common/components/ErrorMessageView';
 import ActiveFilterListView from '@features/filters/components/ActiveFilterList/ActiveFilterListView';
 import { useTypedSelector } from '@src/common/hooks/useTypedSelector';
 import { routes } from '@src/app/Router';
 import Pagination from '@common/components/Pagination/Pagination';
-import { RootState } from '@src/app/store';
-import { PaginationContainer, Container } from '../styles/devicesByCategory.styled';
+import FilterBurgerMenu from '@common/components/FilterBurgerMenu/FilterBurgerMenu';
+import {
+  PaginationContainer,
+  Container,
+  ActiveFilterContainer,
+  SideBarWrap,
+  FilterBurgerMenuContainer,
+} from '../styles/devicesByCategory.styled';
 import NoDevicesView from '../components/NoDevicesView';
 import { DEVICES_OFFSET } from '../constants';
-import useFetchDevicesByRequest from '../hooks/useFetchDevicesByRequest';
 import DevicesByCategoryList from '../components/DevicesByCategoryList/DevicesByCategoryList';
-import { devicesSelector } from '../selectors/deviceSelector';
+import useServeDevicePagination from '../hooks/useServeDevicePagination';
+import useHandleDeviceByCategoryResize from '../hooks/useHandleDeviceByCategoryResize';
 
 function DevicesByCategoryView() {
-  const [searchParams, setSearchParams] = useSearchParams();
-
-  const categoryId = searchParams.get('categoryId');
-
-  const [currentPage, setCurrentPage] = useState(1);
-  const fetchDevices = useFetchDevicesByRequest();
+  const { isLessThanLargeScreen, isLargeScreen } = useHandleDeviceByCategoryResize();
+  // prettier-ignore
+  const {
+    items,
+    total,
+    isLoading,
+    isError,
+    shouldHavePagination,
+    onPageChange,
+    currentPage
+  } = useServeDevicePagination();
   const location = useLocation();
   const navigate = useNavigate();
   const hasNoDevices = useTypedSelector((state) => state.devices.hasNoDevices);
-  const { items, isLoading, isError, total } = useTypedSelector((state: RootState) => {
-    return devicesSelector(state, categoryId);
-  });
 
   const hasNoSearchParams = location.pathname === routes.devices && location.search === '';
-  const shouldHavePagination = total > DEVICES_OFFSET;
 
   useEffect(() => {
-    const page = Number(searchParams.get('page'));
-    const offset = page > 1 ? (page - 1) * DEVICES_OFFSET : 0;
-
-    fetchDevices({ offset, limit: DEVICES_OFFSET });
-  }, [categoryId]);
-
-  useEffect(() => {
-    if (hasNoSearchParams) navigate('/');
+    if (hasNoSearchParams) navigate(routes.home);
   }, [location.pathname]);
-
-  const onPageChange = (page: number) => {
-    window.scrollTo({ behavior: 'smooth', top: 0 });
-
-    fetchDevices({ limit: DEVICES_OFFSET, offset: (page - 1) * DEVICES_OFFSET });
-
-    searchParams.set('page', String(page));
-    setSearchParams(searchParams);
-
-    setCurrentPage(page);
-  };
 
   if (hasNoDevices) return <NoDevicesView />;
   if (isError) return <ErrorMessageView />;
 
   return (
     <>
-      <Container>
+      {isLessThanLargeScreen && (
+        <FilterBurgerMenuContainer>
+          <FilterBurgerMenu />
+        </FilterBurgerMenuContainer>
+      )}
+
+      <ActiveFilterContainer>
         <ActiveFilterListView />
-      </Container>
+      </ActiveFilterContainer>
 
       <Container>
-        <FilterSideBarView />
+        {isLargeScreen && (
+          <SideBarWrap>
+            <FilterSideBarView />
+          </SideBarWrap>
+        )}
 
         <DevicesByCategoryList items={items} isLoading={isLoading} />
 

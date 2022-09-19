@@ -3,6 +3,9 @@ import { useFormik } from 'formik';
 import useRegister from '@src/features/auth/hooks/useRegister';
 import { IRegister } from '@src/common/types/apiTypes';
 import { ROLES } from '@src/common/constants';
+import { useNavigate } from 'react-router-dom';
+import notifications from '@common/utils/notifications';
+import { routes } from '@src/app/Router';
 import CustomInput from '@common/components/CustomInput/CustomInput';
 import CustomSelect from '@common/components/CustomSelect/CustomSelect';
 import { RegisterButton, RegistrationForm } from '../styles/register.styled';
@@ -26,34 +29,26 @@ const ROLE_OPTIONS = [
 ];
 
 function RegisterFormView() {
-  const { onRegister } = useRegister();
+  const { onRegister, isLoading } = useRegister();
+  const navigate = useNavigate();
   const formik = useFormik<IRegisterFormValues>({
     initialValues,
     validationSchema: RegistrationSchema,
-    onSubmit: ({ email, password, role, fullName }) => {
-      return onRegister({ email, password, role, fullName });
+    onSubmit: async ({ email, password, role, fullName }) => {
+      await onRegister({ email, password, role, fullName });
+
+      navigate(routes.login);
+      notifications.success('You have created an account successfully!');
     },
   });
 
-  const isDisabled = !(formik.isValid && formik.dirty);
+  const isDisabled = !(formik.isValid && formik.dirty) || isLoading;
 
   return (
     <RegistrationForm onSubmit={formik.handleSubmit}>
-      <CustomInput
-        id="fullName"
-        label="Full Name"
-        fieldName="fullName"
-        type="text"
-        {...formik}
-      />
+      <CustomInput id="fullName" label="Full Name" fieldName="fullName" type="text" {...formik} />
 
-      <CustomInput
-        id="email"
-        label="Email"
-        fieldName="email"
-        type="email"
-        {...formik}
-      />
+      <CustomInput id="email" label="Email" fieldName="email" type="email" {...formik} />
 
       <CustomSelect
         formikProps={formik}
@@ -63,13 +58,7 @@ function RegisterFormView() {
         label="Role"
       />
 
-      <CustomInput
-        id="password"
-        label="Password"
-        fieldName="password"
-        type="password"
-        {...formik}
-      />
+      <CustomInput id="password" label="Password" fieldName="password" type="password" {...formik} />
 
       <CustomInput
         id="passwordConfirmation"
@@ -80,7 +69,7 @@ function RegisterFormView() {
       />
 
       <RegisterButton type="submit" disabled={isDisabled}>
-        Register
+        {isLoading ? 'Processing...' : 'Register'}
       </RegisterButton>
     </RegistrationForm>
   );

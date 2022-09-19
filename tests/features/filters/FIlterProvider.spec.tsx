@@ -2,10 +2,7 @@ import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
 import * as ReactRedux from 'react-redux';
 import { getDevices } from '@src/features/devices/devicesSlice';
-import {
-  FilterContext,
-  FilterProvider,
-} from '@src/features/filters/context/FilterContext';
+import { FilterContext, FilterProvider } from '@src/features/filters/context/FilterContext';
 import { Wrapper } from '../../wrapper';
 
 jest.mock('react-router-dom', () => ({
@@ -34,9 +31,7 @@ describe('FilterProvider', () => {
       <FilterProvider>
         <FilterContext.Consumer>
           {(value) => {
-            return (
-              <div>shouldBeInitial: {value!.shouldBeInitial.toString()}</div>
-            );
+            return <div>shouldBeInitial: {value!.shouldBeInitial.toString()}</div>;
           }}
         </FilterContext.Consumer>
       </FilterProvider>,
@@ -66,9 +61,7 @@ describe('FilterProvider', () => {
       <FilterProvider>
         <FilterContext.Consumer>
           {(value) => {
-            return (
-              <div>hasSelectedItems: {value!.hasSelectedItems.toString()}</div>
-            );
+            return <div>hasSelectedItems: {value!.hasSelectedItems.toString()}</div>;
           }}
         </FilterContext.Consumer>
       </FilterProvider>,
@@ -83,9 +76,7 @@ describe('FilterProvider', () => {
       <FilterProvider>
         <FilterContext.Consumer>
           {(value) => {
-            return (
-              <div>isShownApplyBtn: {value!.isShownApplyBtn.toString()}</div>
-            );
+            return <div>isShownApplyBtn: {value!.isShownApplyBtn.toString()}</div>;
           }}
         </FilterContext.Consumer>
       </FilterProvider>,
@@ -105,10 +96,7 @@ describe('FilterProvider', () => {
                 <div>min: {value?.prices[0]}</div>
                 <div>max: {value?.prices[1]}</div>
                 <div>isInitPrice: {value?.isInitPrice.toString()}</div>
-                <button
-                  type="button"
-                  onClick={() => value!.setPrices([500, 1000])}
-                >
+                <button type="button" onClick={() => value!.setPrices([500, 1000])}>
                   change filter prices
                 </button>
               </div>
@@ -117,12 +105,7 @@ describe('FilterProvider', () => {
         </FilterContext.Consumer>
       </FilterProvider>,
       {
-        wrapper: (props) => (
-          <Wrapper
-            {...props}
-            state={{ filters: { options: { prices: [0, 1] } } }}
-          />
-        ),
+        wrapper: (props) => <Wrapper {...props} state={{ filters: { options: { prices: [0, 1] } } }} />,
       },
     );
 

@@ -1,13 +1,7 @@
 import React, { useRef } from 'react';
 import useSlider from '@src/common/hooks/useSlider';
 import useZoomImageOnMouseEvt from '@common/hooks/useZoomImageOnMouseEvt';
-import {
-  LeftArrow,
-  RightArrow,
-  SliderImage,
-  SliderWrap,
-  InnerWrapper,
-} from '../../styles/deviceSlider.styled';
+import { LeftArrow, RightArrow, SliderImage, SliderWrap, InnerWrapper } from '../../styles/deviceSlider.styled';
 import DotImageList from './DotImageList';
 import { Lens, LensOutput, Wrap } from '../../styles/lens.styled';
 
@@ -28,14 +22,7 @@ function DeviceImageSlider(props: ISliderProps) {
     onRightClick,
     slideDirection
   } = useSlider({ startIdx: 0, lastIdx: urls.length - 1 , delay: 590 });
-  const {
-    onMouseLeave,
-    onMouseMove,
-    imgRef,
-    lensRef,
-    lensOutputRef,
-    isLensActive,
-  } = useZoomImageOnMouseEvt();
+  const { onMouseLeave, onMouseMove, imgRef, lensRef, lensOutputRef, isLensActive } = useZoomImageOnMouseEvt();
 
   const greaterThanOne = urls.length > 1;
 
@@ -61,18 +48,10 @@ function DeviceImageSlider(props: ISliderProps) {
             {isLensActive && <Lens ref={lensRef} />}
           </Wrap>
 
-          {greaterThanOne && (
-            <RightArrow onClick={onRightClick}>right</RightArrow>
-          )}
+          {greaterThanOne && <RightArrow onClick={onRightClick}>right</RightArrow>}
         </InnerWrapper>
 
-        {greaterThanOne && (
-          <DotImageList
-            urls={urls}
-            onClick={(idx) => setActiveIdx(idx)}
-            alt={alt}
-          />
-        )}
+        {greaterThanOne && <DotImageList urls={urls} onClick={(idx) => setActiveIdx(idx)} alt={alt} />}
       </SliderWrap>
     </>
   );

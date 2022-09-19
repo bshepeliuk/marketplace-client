@@ -1,4 +1,4 @@
-import AccordionLoader from '@src/features/filters/components/Accordion/AccordionLoader';
+import AccordionLoader from '@src/features/filters/components/Accordion/components/AccordionLoader';
 import setupAndRenderComponent from '../../../helpers/setupAndRenderComponent';
 import { rootStateMock } from '../../../mocks/stateMock';
 

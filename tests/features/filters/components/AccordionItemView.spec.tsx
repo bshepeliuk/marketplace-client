@@ -2,30 +2,10 @@
 import React from 'react';
 import { fireEvent } from '@testing-library/react';
 import { FilterContext, FilterProvider } from '@features/filters/context/FilterContext';
-import AccordionItemView from '@features/filters/components/Accordion/AccordionItemView';
+import AccordionItemView from '@features/filters/components/Accordion/components/AccordionItemView';
 import setupAndRenderComponent from '../../../helpers/setupAndRenderComponent';
-import { mockOptions, filterContextValuesMock } from '../../../mocks/data';
-
-const rootState = {
-  entities: {},
-  auth: {
-    isLoggedIn: true,
-  },
-  categories: {
-    items: [],
-    isError: false,
-    isLoading: false,
-  },
-  filters: {
-    options: {
-      prices: {
-        min: 1000,
-        max: 5000,
-      },
-      items: mockOptions,
-    },
-  },
-};
+import { filterContextValuesMock } from '../../../mocks/data';
+import { rootStateMock } from '../../../mocks/stateMock';
 
 const microprocessorsInfo = [
   {
@@ -60,7 +40,7 @@ const microprocessorsInfo = [
 describe('[COMPONENTS]: AccordionItemView', () => {
   test('should render accordion item with info.', () => {
     const { getByText } = setupAndRenderComponent({
-      state: rootState,
+      state: rootStateMock,
       component: () => (
         <FilterProvider>
           <AccordionItemView title="Microprocessor" info={microprocessorsInfo} />
@@ -77,7 +57,7 @@ describe('[COMPONENTS]: AccordionItemView', () => {
     const setShowApplyBtnMock = jest.fn();
 
     const { getByText } = setupAndRenderComponent({
-      state: rootState,
+      state: rootStateMock,
       component: () => (
         <FilterContext.Provider
           value={{

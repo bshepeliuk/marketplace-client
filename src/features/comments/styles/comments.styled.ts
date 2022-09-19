@@ -1,7 +1,16 @@
 import styled from 'styled-components';
 import { VariableSizeList } from 'react-window';
+import { BiChevronLeft } from 'react-icons/bi';
 
-export const StyledList = styled(VariableSizeList)``;
+export const CommentListContainer = styled.div`
+  position: relative;
+`;
+
+export const StyledList = styled(VariableSizeList)`
+  border: 1px solid #f5f5f5;
+  box-shadow: rgb(99 99 99 / 20%) 0px 2px 8px 0px;
+  border-radius: 15px 0 0px 15px;
+`;
 
 export const LoadMoreWrap = styled.div`
   width: 310px;
@@ -21,6 +30,8 @@ export const LoadMoreWrap = styled.div`
 
 export const RowContainer = styled.div`
   padding-left: 20px;
+  padding-top: 15px;
+  padding-right: 20px;
 
   @media (max-width: 500px) {
     padding-left: 0;
@@ -28,7 +39,7 @@ export const RowContainer = styled.div`
 `;
 
 export const ReplyList = styled.ul`
-  margin-left: 50px;
+  margin-left: 30px;
 
   @media (max-width: 500px) {
     margin-left: 10px;
@@ -72,17 +83,10 @@ export const Comment = styled.li`
     'LOGO FULL-NAME CREATED-AT'
     'LOGO BODY BODY'
     'LOGO BTN BTN';
-  grid-template-columns: 60px 200px 150px;
+
+  grid-template-columns: 60px 1fr 1fr;
   height: 100%;
-  padding-bottom: 20px;
-
-  @media (max-width: 570px) {
-    grid-template-columns: 60px 150px 100px;
-  }
-
-  @media (max-width: 450px) {
-    grid-template-columns: 60px 140px 70px;
-  }
+  padding-bottom: 15px;
 `;
 
 export const BtnWrap = styled.div`
@@ -165,12 +169,27 @@ export const ShowMoreButton = styled.button`
 `;
 
 export const ScrollTopButton = styled.button`
-  position: fixed;
-  right: 30px;
-  bottom: 30px;
-  background-color: #34495e;
-  color: #fff;
   border: none;
-  padding: 5px 8px;
-  border-radius: 4px;
+  position: absolute;
+  display: flex;
+  z-index: 2;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  bottom: 16px;
+  right: -80px;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background-color: #fff;
+  box-shadow: 0 1px 6px 0 rgb(0 0 0 / 40%);
+
+  @media (max-width: 968px) {
+    display: none;
+  }
+`;
+
+export const GoToTopIcon = styled(BiChevronLeft)`
+  font-size: 20px;
+  transform: rotate(90deg);
 `;

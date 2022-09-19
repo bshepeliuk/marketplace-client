@@ -1,9 +1,8 @@
 /* eslint-disable react/jsx-no-constructed-context-values */
-/* eslint-disable max-len */
 import React from 'react';
 import { fireEvent } from '@testing-library/react';
 import { FilterContext } from '@features/filters/context/FilterContext';
-import AccordionInfoItemView from '@features/filters/components/Accordion/AccordionInfoItemView';
+import AccordionInfoItemView from '@src/features/filters/components/Accordion/components/AccordionInfoItemView';
 import setupAndRenderComponent from '../../../helpers/setupAndRenderComponent';
 import { filterContextValuesMock } from '../../../mocks/data';
 
@@ -27,7 +26,7 @@ describe('[COMPONENTS]: AccordionInfoItemView', () => {
   const setIsShownApplyBtn = jest.fn();
 
   test('should be checked in case item added to selected.', () => {
-    const { getByTestId } = setupAndRenderComponent({
+    const { container } = setupAndRenderComponent({
       state: {},
       component: () => (
         <FilterContext.Provider
@@ -44,14 +43,14 @@ describe('[COMPONENTS]: AccordionInfoItemView', () => {
       ),
     });
 
-    const InfoItemCheckBox = getByTestId(info.description) as HTMLInputElement;
+    const InfoItemCheckBox = container.querySelector('input[type="checkbox"]') as HTMLInputElement;
 
     expect(InfoItemCheckBox).toBeInTheDocument();
     expect(InfoItemCheckBox.checked).toBeTruthy();
   });
 
   test('should be unchecked in case item have not added to selected.', () => {
-    const { getByTestId } = setupAndRenderComponent({
+    const { container } = setupAndRenderComponent({
       state: {},
       component: () => (
         <FilterContext.Provider
@@ -68,14 +67,14 @@ describe('[COMPONENTS]: AccordionInfoItemView', () => {
       ),
     });
 
-    const InfoItemCheckBox = getByTestId(info.description) as HTMLInputElement;
+    const InfoItemCheckBox = container.querySelector('input[type="checkbox"]') as HTMLInputElement;
 
     expect(InfoItemCheckBox).toBeInTheDocument();
     expect(InfoItemCheckBox.checked).toBeFalsy();
   });
 
   test('should add checked item to selected.', () => {
-    const { getByTestId } = setupAndRenderComponent({
+    const { container } = setupAndRenderComponent({
       state: {},
       component: () => (
         <FilterContext.Provider
@@ -91,7 +90,7 @@ describe('[COMPONENTS]: AccordionInfoItemView', () => {
       ),
     });
 
-    const InfoItemCheckBox = getByTestId(info.description) as HTMLInputElement;
+    const InfoItemCheckBox = container.querySelector('input[type="checkbox"]') as HTMLInputElement;
 
     fireEvent.click(InfoItemCheckBox);
 

@@ -1,12 +1,23 @@
 import React from 'react';
 import * as formik from 'formik';
 import { render, screen } from '@testing-library/react';
+import useRegister from '@src/features/auth/hooks/useRegister';
 import RegisterFormView from '@src/features/auth/components/RegisterFormView';
 import setupUseFormikMock from '../../../helpers/setupUseFormikMock';
+
+jest.mock('@src/features/auth/hooks/useRegister');
 
 jest.mock('react-redux', () => ({
   useSelector: jest.fn(),
   useDispatch: () => jest.fn(),
+}));
+
+const mockNavigate = jest.fn();
+
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  __esModule: true,
+  useNavigate: () => mockNavigate,
 }));
 
 const useFormikMock = jest.spyOn(formik, 'useFormik');
@@ -16,6 +27,14 @@ const renderRegistrationForm = () => {
 };
 
 describe('RegisterForm render errors', () => {
+  beforeEach(() => {
+    (useRegister as jest.Mock).mockImplementation(() => ({ onRegister: jest.fn(), isLoading: false }));
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   test('should render error message when email is not correct.', () => {
     const options = {
       values: {

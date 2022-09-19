@@ -21,10 +21,44 @@ export const Container = styled.div`
   }
 `;
 
+export const FilterBurgerMenuContainer = styled.div`
+  display: none;
+
+  @media (max-width: 1050px) {
+    padding: 20px 0;
+    margin: 0 auto;
+    max-width: 875px;
+    display: block;
+  }
+
+  @media (max-width: 920px) {
+    max-width: 580px;
+  }
+
+  @media (max-width: 650px) {
+    max-width: 285px;
+  }
+`;
+
+export const ActiveFilterContainer = styled(Container)`
+  @media (max-width: 1050px) {
+    display: none;
+  }
+`;
+
 export const PaginationContainer = styled.div`
   grid-column: 2 / 3;
   grid-row: 2;
   padding: 30px 0 20px 0;
+`;
+
+export const SideBarWrap = styled.div`
+  grid-column: 1 / 2;
+  grid-row-start: 1;
+
+  @media (max-width: 1050px) {
+    display: none;
+  }
 `;
 
 export const List = styled.ul`
@@ -34,20 +68,22 @@ export const List = styled.ul`
   grid-template-columns: repeat(auto-fill, 285px);
   gap: 10px;
   height: max-content;
-
-  grid-column: 2 / 3;
-  grid-row-start: 1;
   max-width: 1200px;
 
   @media (max-width: 1600px) {
     max-width: 900px;
   }
 
-  @media (max-width: 996px) {
+  @media (max-width: 1050px) {
+    grid-column: 1 / -1;
+    justify-self: center;
+  }
+
+  @media (max-width: 920px) {
     max-width: 605px;
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 650px) {
     max-width: 320px;
   }
 `;

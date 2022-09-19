@@ -1,8 +1,14 @@
 import React from 'react';
-import { VariableSizeList as List } from 'react-window';
+import { ListChildComponentProps } from 'react-window';
 import CommentRow from './CommentRow';
 import useCommentsContext from '../hooks/useCommentsContext';
-import { RowContainer, ScrollTopButton } from '../styles/comments.styled';
+import {
+  CommentListContainer,
+  GoToTopIcon,
+  RowContainer,
+  ScrollTopButton,
+  StyledList,
+} from '../styles/comments.styled';
 import calculateCommentListWidthBySize from '../helpers/calculateCommentListWidthBySize';
 import CommentsListLoader from './CommentsListLoader';
 
@@ -12,25 +18,26 @@ interface IProps {
   };
 }
 
-const HEIGHT = 600;
-
 function CommentsList({ size }: IProps) {
   const context = useCommentsContext();
   const width = calculateCommentListWidthBySize(size);
 
   const { comments, listRef, getSize, isLoading, hasMore, onListScroll, goToTop, isGoTopBtnVisible } = context;
 
+  const hasNoComments = !hasMore && comments.length === 0;
+
   const COMMENTS_COUNT = hasMore ? comments.length + 1 : comments.length;
+  const HEIGHT = 680;
 
   if (isLoading) return <CommentsListLoader />;
 
-  if (!hasMore && comments.length === 0) {
+  if (hasNoComments) {
     return <div>No comments yet.</div>;
   }
 
   return (
-    <>
-      <List
+    <CommentListContainer>
+      <StyledList
         ref={listRef}
         height={HEIGHT}
         width={width}
@@ -40,19 +47,19 @@ function CommentsList({ size }: IProps) {
         itemSize={getSize}
         itemData={{ comments }}
       >
-        {({ data, index, style }) => (
+        {({ data, index, style }: ListChildComponentProps) => (
           <RowContainer style={style}>
             <CommentRow data={data} index={index} />
           </RowContainer>
         )}
-      </List>
+      </StyledList>
 
       {isGoTopBtnVisible && (
-        <ScrollTopButton type="button" onClick={goToTop}>
-          go to top
+        <ScrollTopButton data-button="go-to-top" type="button" onClick={goToTop}>
+          <GoToTopIcon />
         </ScrollTopButton>
       )}
-    </>
+    </CommentListContainer>
   );
 }
 

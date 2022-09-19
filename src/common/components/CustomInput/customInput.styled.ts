@@ -31,4 +31,10 @@ export const Input = styled.input`
   height: 30px;
   padding: 5px 10px;
   grid-area: INPUT;
+  transition: outline 0.2s ease-in-out;
+  outline: none;
+
+  &:focus {
+    border: 1px solid #1abc9c;
+  }
 `;

@@ -2,7 +2,6 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { CommentsContext, CommentsProvider } from '@features/comments/context/CommentsContext';
 import CommentsList from '@features/comments/components/CommentsList';
-
 import { Wrapper } from '../../../wrapper';
 import { commentMock, commentsContextValuesMock, deviceMock } from '../../../mocks/data';
 import { rootStateMock } from '../../../mocks/stateMock';
@@ -76,10 +75,12 @@ describe('[COMPONENTS]: CommentsList', () => {
       </CommentsContext.Provider>
     );
 
-    const { getByText } = render(UI, {
+    const { container } = render(UI, {
       wrapper: (props) => <Wrapper {...props} state={rootStateMock} />,
     });
 
-    expect(getByText(/go to top/i)).toBeInTheDocument();
+    const scrollToTopButton = container.querySelector('[data-button="go-to-top"]') as HTMLElement;
+
+    expect(scrollToTopButton).toBeInTheDocument();
   });
 });

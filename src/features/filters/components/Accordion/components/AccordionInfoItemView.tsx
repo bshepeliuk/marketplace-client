@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { IDeviceInfo } from '@src/features/devices/types';
-import { AccordionInfo, CheckBox, Label } from '../../styles/filters.styled';
-import useFilterContext from '../../hooks/useFilterContext';
+import { AccordionInfo, CheckBox, Label } from '../../../styles/filters.styled';
+import useFilterContext from '../../../hooks/useFilterContext';
 
 interface IProps {
   item: IDeviceInfo;
@@ -26,8 +26,8 @@ function AccordionInfoItemView({ item }: IProps) {
 
   return (
     <AccordionInfo ref={wrapRef}>
-      <Label htmlFor={item.description}>
-        <CheckBox id={item.description} type="checkbox" checked={hasChecked(item.id)} onChange={handleChange} />
+      <Label>
+        <CheckBox type="checkbox" checked={hasChecked(item.id)} onChange={handleChange} />
         <span className="checkmark" />
       </Label>
 

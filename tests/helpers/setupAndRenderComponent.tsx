@@ -14,11 +14,7 @@ interface Props {
 
 const mockStore = configureMockStore([thunk]);
 
-const setupAndRenderComponent = ({
-  state,
-  props,
-  component: Component,
-}: Props) => {
+const setupAndRenderComponent = ({ state, props, component: Component }: Props) => {
   const storeMock = mockStore(state);
 
   return render(

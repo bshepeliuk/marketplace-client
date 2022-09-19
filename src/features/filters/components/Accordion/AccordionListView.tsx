@@ -1,27 +1,15 @@
 import React from 'react';
 import useGetCategoryId from '@features/categories/hooks/useGetCategoryId';
-
 import useGetFilterOptionsByCategoryId from '../../hooks/useGetFilterOptionsByCategoryId';
-import AccordionItemView from './AccordionItemView';
+import AccordionItemView from './components/AccordionItemView';
 import PriceFilterView from '../PriceFilter/PriceFilterView';
-import PriceLoader from '../PriceFilter/PriceLoader';
-import AccordionLoader from './AccordionLoader';
+import AccordionListLoader from './components/AccordionListLoader';
 
 function AccordionListView() {
   const categoryId = useGetCategoryId();
   const { items, isLoading } = useGetFilterOptionsByCategoryId(categoryId);
 
-  if (isLoading) {
-    return (
-      <div>
-        <PriceLoader />
-        <AccordionLoader />
-        <AccordionLoader />
-        <AccordionLoader />
-        <AccordionLoader />
-      </div>
-    );
-  }
+  if (isLoading) return <AccordionListLoader />;
 
   return (
     <>

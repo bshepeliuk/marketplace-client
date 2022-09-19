@@ -4,6 +4,7 @@ import * as Api from '@src/common/api/Api';
 import { IUser, IUserData } from '@src/common/types/userTypes';
 import { IThunkAPI, Nullable } from '@src/common/types/baseTypes';
 import getErrorMessage from '@src/common/utils/getErrorMessage';
+import notifications from '@src/common/utils/notifications';
 
 interface IStripeAccount {
   id: string;
@@ -50,6 +51,8 @@ export const login = createAsyncThunk<IUserData, ILogin, IThunkAPI>(
     } catch (error) {
       const message = getErrorMessage(error);
 
+      notifications.error(message);
+
       return rejectWithValue({
         message,
       });
@@ -71,6 +74,8 @@ export const register = createAsyncThunk<IUserData, IRegister, IThunkAPI>(
       return { user: data.user };
     } catch (error) {
       const message = getErrorMessage(error);
+
+      notifications.error(message);
 
       return rejectWithValue({
         message,

@@ -15,6 +15,21 @@ export const rootStateMock = {
     isLoggedIn: true,
     stripeAccount: null,
     user: userMock,
+    login: {
+      isLoading: false,
+      isError: false,
+      error: null,
+    },
+    register: {
+      isLoading: false,
+      isError: false,
+      error: null,
+    },
+    logout: {
+      isLoading: false,
+      isError: false,
+      error: null,
+    },
   },
   categories: {
     items: categoriesEntityMock.result,

@@ -56,7 +56,7 @@ export const ListItem = styled.li<{
     if (isMounted) return css`0.3s ${showFilterItem} ease-in-out backwards`;
 
     return css`
-      520ms ${({ width }: { width: number }) => removeFilterItem(width)} ease-in
+      300ms ${({ width }: { width: number }) => removeFilterItem(width)} ease-in
     `;
   }};
 
@@ -74,6 +74,9 @@ export const ClearAllButton = styled.button`
   padding: 10px 20px;
   height: 40px;
   margin-right: 25px;
+  text-transform: uppercase;
+  transition: all 0.3s ease-out;
+  cursor: pointer;
 
   &:hover {
     background-color: #3498db;
@@ -85,6 +88,7 @@ export const DeleteButton = styled.button`
   margin-left: 10px;
   border: none;
   color: #3498db;
+  cursor: pointer;
 `;
 
 const ScrollArrowButton = styled.button`

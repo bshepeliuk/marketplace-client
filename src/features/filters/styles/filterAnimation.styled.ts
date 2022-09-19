@@ -54,5 +54,8 @@ export const removeFilterItem = (width: number | null) => keyframes`
   100% {
     opacity: 0;
     width: 0;
+    padding-left: 0;
+    padding-right: 0;
+    margin: 0;
   }
 `;

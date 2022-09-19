@@ -14,10 +14,9 @@ interface IProps {
 function RangeInput({ min, max, values, onChange }: IProps) {
   if (values[0] === 0 && values[1] === 0) return null;
 
-  const renderTrack = (trackProps: {
-    props: ITrackProps;
-    children: React.ReactNode;
-  }) => <RangeTrackView {...trackProps} values={values} min={min} max={max} />;
+  const renderTrack = (trackProps: { props: ITrackProps; children: React.ReactNode }) => (
+    <RangeTrackView {...trackProps} values={values} min={min} max={max} />
+  );
 
   return (
     <Range

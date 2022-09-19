@@ -1,8 +1,7 @@
-/* eslint-disable max-len */
 import React from 'react';
 import { fireEvent, waitFor } from '@testing-library/react';
 import { useSearchParams } from 'react-router-dom';
-import { ActiveListItemView } from '@features/filters/components/ActiveFilterList/ActiveFilterListView';
+import ActiveListItemView from '@features/filters/components/ActiveFilterList/components/ActiveListItemView';
 import setupAndRenderComponent from '../../../helpers/setupAndRenderComponent';
 
 jest.mock('react-router-dom', () => ({

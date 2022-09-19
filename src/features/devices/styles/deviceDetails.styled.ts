@@ -23,8 +23,8 @@ export const ImageWrapper = styled.div`
 export const InnerWrap = styled.div`
   display: grid;
   grid-template-columns: 60px 440px 1fr 100px;
+  margin-top: 20px;
   grid-template-rows: 50px 50px 50px 1fr;
-  margin-top: 50px;
   row-gap: 15px;
 
   @media (max-width: 1060px) {
@@ -46,7 +46,7 @@ export const InfoWrap = styled.div`
   grid-row: 4 / 5;
 
   @media (max-width: 968px) {
-    grid-column: 1 / 4;
+    grid-column: 1 / -1;
     grid-row: 5;
     justify-self: center;
   }
@@ -65,10 +65,12 @@ export const NavWrap = styled.div`
 export const CommentsWrap = styled.div`
   grid-column: 1 / -1;
   height: max-content;
-  margin-top: 50px;
+  margin-top: 10px;
   display: grid;
   grid-template-columns: 1fr 1fr;
   justify-items: center;
+
+}
 
   @media (max-width: 968px) {
     grid-template-columns: 1fr;
@@ -217,6 +219,10 @@ export const Price = styled.p`
 
 export const InfoList = styled.ul`
   margin: 40px 0 0 30px;
+
+  @media (max-width: 968px) {
+    margin: 40px 0 0 0;
+  }
 `;
 
 export const InfoItem = styled.li`
