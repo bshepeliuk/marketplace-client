@@ -38,7 +38,7 @@ export const useServeDevicePagination = () => {
   const onPageChange = (page: number) => {
     window.scrollTo({ behavior: 'smooth', top: 0 });
 
-    fetchDevices({ limit: DEVICES_OFFSET, offset });
+    fetchDevices({ limit: DEVICES_OFFSET, offset: (page - FIRST_PAGE) * DEVICES_OFFSET });
 
     searchParams.set('page', String(page));
     setSearchParams(searchParams);
