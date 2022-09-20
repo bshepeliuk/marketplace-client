@@ -4,7 +4,7 @@ import styled from 'styled-components';
 export const List = styled.ul`
   list-style-type: none;
   position: absolute;
-  z-index: 2;
+  z-index: 10;
   width: 200px;
   background-color: #fff;
   margin: 0;

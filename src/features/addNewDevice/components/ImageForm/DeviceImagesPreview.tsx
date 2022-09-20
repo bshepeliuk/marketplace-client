@@ -13,16 +13,10 @@ import {
 } from '../../styles/deviceForm.styled';
 import PreviewImageItem from './PreviewImageItem';
 
-const Container = styled.div`
-  width: 400px;
-`;
-
 function DeviceImagesPreview() {
   const scrollWrapRef = useRef(null);
   const { formState } = useNewDeviceContext();
-
   const imageDataURLs = useGetImgURLsByFiles(formState.images);
-
   // prettier-ignore
   const {
     onLeftClick,
@@ -45,7 +39,6 @@ function DeviceImagesPreview() {
 
           <PreviewList ref={scrollWrapRef}>
             {imageDataURLs.map((img) => (
-              // eslint-disable-next-line react/no-array-index-key
               <PreviewImageItem key={img.id} image={img} />
             ))}
           </PreviewList>
@@ -60,5 +53,13 @@ function DeviceImagesPreview() {
     </Container>
   );
 }
+
+const Container = styled.div`
+  width: 400px;
+
+  @media (max-width: 530px) {
+    display: none;
+  }
+`;
 
 export default DeviceImagesPreview;

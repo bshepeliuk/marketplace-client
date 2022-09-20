@@ -1,12 +1,19 @@
 import React from 'react';
-import { Container } from '@src/common/styles/base.styled';
+import styled from 'styled-components';
 
 function LoadingDeviceDetailsView() {
   return (
-    <Container>
+    <Wrap>
       <div>Loading...</div>
-    </Container>
+    </Wrap>
   );
 }
+
+const Wrap = styled.div`
+  height: var(--default-height);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
 export default LoadingDeviceDetailsView;

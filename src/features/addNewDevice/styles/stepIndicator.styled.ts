@@ -18,8 +18,7 @@ export const Circle = styled.div<{ isActive: boolean }>`
 
   color: ${(props) => (props.isActive ? '#1abc9c;' : '#bdc3c7;')};
 
-  border: ${(props) =>
-    props.isActive ? '5px solid #1abc9c;' : '5px solid #bdc3c7;'};
+  border: ${(props) => (props.isActive ? '5px solid #1abc9c;' : '5px solid #bdc3c7;')};
 `;
 
 export const Wrap = styled.div`
@@ -28,6 +27,10 @@ export const Wrap = styled.div`
   justify-content: space-between;
   margin-bottom: 50px;
   position: relative;
+
+  @media (max-width: 440px) {
+    width: 100%;
+  }
 `;
 
 export const ProgressLine = styled.div<{ width: number }>`

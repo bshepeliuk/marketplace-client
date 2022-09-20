@@ -1,13 +1,13 @@
 import React from 'react';
 import ContentLoader, { IContentLoaderProps } from 'react-content-loader';
 
-function CommentLoader(props: IContentLoaderProps) {
+function BaseLoader({ props }: { props: IContentLoaderProps }) {
   return (
     <ContentLoader
       speed={2}
       width={400}
-      height={115}
-      viewBox="0 0 400 115"
+      height={88}
+      viewBox="0 0 400 88"
       backgroundColor="#f1efef"
       foregroundColor="#ebeaea"
       {...props}
@@ -24,4 +24,4 @@ function CommentLoader(props: IContentLoaderProps) {
   );
 }
 
-export default CommentLoader;
+export default BaseLoader;

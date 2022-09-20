@@ -50,6 +50,14 @@ export const PaginationContainer = styled.div`
   grid-column: 2 / 3;
   grid-row: 2;
   padding: 30px 0 20px 0;
+
+  @media (max-width: 1050px) {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    align-self: center;
+    width: max-content;
+    justify-self: center;
+  }
 `;
 
 export const SideBarWrap = styled.div`

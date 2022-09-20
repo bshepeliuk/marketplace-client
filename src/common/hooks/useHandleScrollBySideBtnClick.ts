@@ -1,9 +1,6 @@
 import { useEffect, useState, RefObject } from 'react';
 
-const useHandleScrollBySideBtnClick = (
-  scrollWrapRef: RefObject<HTMLElement>,
-  countOfItems: number,
-) => {
+const useHandleScrollBySideBtnClick = (scrollWrapRef: RefObject<HTMLElement>, countOfItems: number) => {
   const [isLeftVisible, setLeftVisible] = useState(false);
   const [isRightVisible, setRightVisible] = useState(false);
 

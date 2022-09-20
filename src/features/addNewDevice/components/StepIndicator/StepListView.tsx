@@ -19,9 +19,7 @@ function StepListView({ activeStepId }: Props) {
   return (
     <>
       {steps.map((item) => {
-        const Icon = checkIfValidByStepId(item.id)
-          ? item.icon.completed
-          : item.icon.default;
+        const Icon = checkIfValidByStepId(item.id) ? item.icon.completed : item.icon.default;
 
         return (
           <InnerWrap key={item.id}>

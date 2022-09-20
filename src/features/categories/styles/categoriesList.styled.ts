@@ -111,6 +111,7 @@ const ScrollArrowButton = styled.button`
 export const LeftArrowButton = styled(ScrollArrowButton)<{
   isLeftVisible: boolean;
 }>`
+  cursor: pointer;
   display: ${({ isLeftVisible }) => {
     return isLeftVisible ? 'flex' : 'none';
   }};
@@ -128,6 +129,7 @@ export const LeftArrowButton = styled(ScrollArrowButton)<{
 export const RightArrowButton = styled(ScrollArrowButton)<{
   isRightVisible: boolean;
 }>`
+  cursor: pointer;
   display: ${({ isRightVisible }) => {
     return isRightVisible ? 'flex' : 'none';
   }};

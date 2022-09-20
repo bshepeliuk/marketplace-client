@@ -36,13 +36,17 @@ export const animateOpenByWidth = (width: number) => keyframes`
 
 export const MenuContainer = styled.div<{ isOpen: boolean }>`
   background-color: #fff;
-  height: 100vh;
+  height: 100%;
   padding-top: 20px;
   overflow-y: scroll;
   position: relative;
   width: 400px;
   transition: transform 0.3s ease-in-out;
   transform: ${(props) => (props.isOpen ? 'translateX(0)' : 'translateX(-400px)')};
+
+  @media (max-width: 400px) {
+    width: 320px;
+  }
 `;
 
 export const CloseIcon = styled(IoMdClose)`

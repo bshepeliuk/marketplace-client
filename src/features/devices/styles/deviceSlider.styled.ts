@@ -31,6 +31,7 @@ export const DotsList = styled.ul`
 export const SliderWrap = styled.div`
   grid-column: 1 / 3;
   grid-row: 3 / -1;
+  align-self: center;
 
   @media (max-width: 968px) {
     grid-column: 1 / -1;

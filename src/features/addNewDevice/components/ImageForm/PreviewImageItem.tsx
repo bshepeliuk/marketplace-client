@@ -1,10 +1,6 @@
 import React from 'react';
 import useNewDeviceContext from '../../hooks/useNewDeviceContext';
-import {
-  DeleteImgButton,
-  PreviewImage,
-  PreviewListItem,
-} from '../../styles/deviceForm.styled';
+import { DeleteImgButton, PreviewImage, PreviewListItem } from '../../styles/deviceForm.styled';
 
 function PreviewImageItem({ image }: { image: { url: string; id: string } }) {
   const context = useNewDeviceContext();

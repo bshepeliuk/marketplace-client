@@ -15,6 +15,11 @@ export const Wrap = styled.div`
 
 export const FormWrap = styled.div`
   width: 400px;
+
+  @media (max-width: 440px) {
+    width: 100%;
+    padding: 0 10px;
+  }
 `;
 
 export const ImageFormWrap = styled(FormWrap)`
@@ -22,6 +27,11 @@ export const ImageFormWrap = styled(FormWrap)`
   display: flex;
   flex-flow: column wrap;
   align-items: center;
+
+  @media (max-width: 440px) {
+    width: 100%;
+    padding: 0 10px;
+  }
 `;
 
 export const FormFooter = styled.footer`
@@ -29,6 +39,11 @@ export const FormFooter = styled.footer`
   grid-template-columns: repeat(2, 1fr);
   margin-top: 30px;
   width: 400px;
+
+  @media (max-width: 440px) {
+    width: 100%;
+    padding: 0 10px;
+  }
 `;
 
 export const FeatureFormFooter = styled.footer`
@@ -138,6 +153,10 @@ export const PreviewList = styled.ul`
   display: flex;
   overflow: hidden;
   width: 400px;
+
+  @media (max-width: 440px) {
+    width: 100%;
+  }
 `;
 
 export const PreviewListItem = styled.li`
