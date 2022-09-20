@@ -12,6 +12,7 @@ const BurgerIcon = styled(GiHamburgerMenu)<Pick<IProps, 'size' | 'color'>>`
   display: none;
   grid-column: 6;
   transition: transform 0.3s ease-in-out;
+  cursor: pointer;
 
   &:hover {
     transform: scale(1.2);

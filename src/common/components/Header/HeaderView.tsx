@@ -35,7 +35,8 @@ function HeaderView() {
       <UserInfoView />
 
       {!isLoggedIn && <LoginLink to={routes.login}>Login</LoginLink>}
-      {isLoggedIn && <BurgerMenu />}
+
+      <BurgerMenu />
     </Header>
   );
 }

@@ -1,4 +1,5 @@
 import { MdExitToApp } from 'react-icons/md';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 export const Wrap = styled.div`
@@ -47,4 +48,16 @@ export const Role = styled.p`
   color: #7f8fa6;
   align-self: end;
   font-weight: bold;
+`;
+
+export const LoginLink = styled(Link)`
+  grid-column: 1 / -1;
+  color: #fff;
+  text-decoration: none;
+  justify-self: center;
+  align-self: center;
+
+  &:hover {
+    text-decoration: underline;
+  }
 `;

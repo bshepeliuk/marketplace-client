@@ -1,21 +1,20 @@
 import React from 'react';
 import { useTypedSelector } from '@src/common/hooks/useTypedSelector';
+import { routes } from '@src/app/Router';
 import useLogout from '@src/features/auth/hooks/useLogout';
 import UserLogo from '../../../UserLogo/UserLogo';
-import {
-  Email,
-  FullName,
-  LogoutIcon,
-  LogoWrap,
-  Role,
-  Wrap,
-} from './userBlock.styled';
+import { Email, FullName, LoginLink, LogoutIcon, LogoWrap, Role, Wrap } from './userBlock.styled';
 
 function UserBlockView() {
   const { user } = useTypedSelector((state) => state.auth);
   const { onLogout } = useLogout();
 
-  if (user === null) return null;
+  if (user === null)
+    return (
+      <Wrap>
+        <LoginLink to={routes.login}>Login to my account.</LoginLink>
+      </Wrap>
+    );
 
   return (
     <Wrap>

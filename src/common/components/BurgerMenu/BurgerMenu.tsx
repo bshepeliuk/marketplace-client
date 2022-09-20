@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { VscAccount } from 'react-icons/vsc';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { FaBalanceScale } from 'react-icons/fa';
+import useSetBodyScroll from '@src/common/hooks/useBodyScroll';
 import SearchBarView from '@features/search/components/SearchBar/SearchBar';
 import { routes } from '@src/app/Router';
 import { MdOutlineLibraryAdd } from 'react-icons/md';
@@ -24,9 +25,16 @@ function BurgerMenu() {
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
   const { isBuyer, isSeller } = useCheckUserRole();
+  const setHasBodyScroll = useSetBodyScroll();
 
-  const onOpen = () => setIsOpen(true);
-  const onClose = () => setIsOpen(false);
+  const onOpen = () => {
+    setIsOpen(true);
+    setHasBodyScroll(false);
+  };
+  const onClose = () => {
+    setIsOpen(false);
+    setHasBodyScroll(true);
+  };
 
   useEffect(() => {
     onClose();
@@ -38,6 +46,7 @@ function BurgerMenu() {
 
       <SideBarView width={350} isOpen={isOpen} onClose={onClose}>
         <UserBlockView />
+
         <SearchContainer>
           <SearchBarView />
         </SearchContainer>
