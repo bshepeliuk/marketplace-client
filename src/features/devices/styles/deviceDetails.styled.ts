@@ -151,6 +151,7 @@ export const PurchaseButton = styled.button`
   background-color: #e31837;
   height: 48px;
   width: 250px;
+  cursor: pointer;
   color: #fff;
   border: none;
   border-radius: 4px;
@@ -161,12 +162,12 @@ export const PurchaseButton = styled.button`
   grid-row: 1;
   transition: background-color 0.3s ease-out;
 
-  &:disabled {
-    background-color: #bdc3c7;
-  }
-
   &:hover {
     background-color: #f97988;
+  }
+
+  &:disabled {
+    background-color: #bdc3c7;
   }
 
   @media (max-width: 600px) {

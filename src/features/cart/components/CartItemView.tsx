@@ -16,6 +16,7 @@ import {
   IncrementBtn,
   Price,
   Title,
+  DeleteButton,
   Wrap,
 } from '../styles/cartItem.styled';
 
@@ -92,7 +93,9 @@ function CartItemView({ index, style, data }: IProps) {
       </CounterWrap>
       <Price title={item.price.toString()}>{price} $</Price>
 
-      <DeleteIcon onClick={remove} />
+      <DeleteButton type="button" onClick={remove}>
+        <DeleteIcon />
+      </DeleteButton>
     </Wrap>
   );
 }

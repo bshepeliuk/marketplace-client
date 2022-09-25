@@ -35,9 +35,9 @@ export const InfoWrap = styled.div`
   position: absolute;
   top: 70px;
   border-radius: 4px;
-  padding: 10px;
+  padding: 15px;
   width: 200px;
-  height: 106px;
+  height: max-content;
   right: 0;
   background-color: #fff;
   display: flex;
@@ -55,6 +55,7 @@ export const ArrowIcon = styled(({ isOpen, ...props }) => <TiArrowSortedDown {..
   margin-left: 7px;
   font-size: 19px;
   transition: all 0.3s ease-in-out;
+  cursor: pointer;
   transform: ${({ isOpen }) => {
     return isOpen ? 'rotate(180deg)' : 'rotate(0deg)';
   }};

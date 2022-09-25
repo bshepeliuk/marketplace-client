@@ -19,6 +19,7 @@ export const RegisterButton = styled.button`
   border: none;
   border-radius: 4px;
   color: #fff;
+  cursor: pointer;
 
   &:disabled {
     background-color: rgba(127, 140, 141, 0.1);

@@ -122,6 +122,18 @@ export const Ratings = {
   },
 };
 
+export const Orders = {
+  get() {
+    return api.get('/orders');
+  },
+};
+
+export const Purchases = {
+  get() {
+    return api.get('/purchases');
+  },
+};
+
 export const Interceptors = {
   response(logout: () => void) {
     api.interceptors.response.use(

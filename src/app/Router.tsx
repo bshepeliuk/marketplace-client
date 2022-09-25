@@ -20,6 +20,9 @@ export const routes = {
   searchResult: '/search-result',
   recentlyViewed: '/recently-viewed',
   comparison: '/comparison',
+  stripeAccountSuccess: '/stripe-account-success',
+  orders: '/orders',
+  purchases: '/purchases',
 };
 
 function Router() {

@@ -43,9 +43,7 @@ describe('[PAGES]: CartView', () => {
       state: rootState,
     });
 
-    expect(
-      getByText(/Unfortunately your cart is empty yet./i),
-    ).toBeInTheDocument();
+    expect(getByText(/Unfortunately your cart is empty yet./i)).toBeInTheDocument();
   });
 
   test('render items from cart and total sum.', async () => {

@@ -8,11 +8,12 @@ export const initialState: IEntitiesState = {
   info: {},
   ratings: {},
   comments: {},
+  addresses: {},
+  orders: {},
+  purchases: {},
 };
 
-export const incrementCommentRepliesCount = createAction<{ commentId: number }>(
-  'entities/increment-replies-count',
-);
+export const incrementCommentRepliesCount = createAction<{ commentId: number }>('entities/increment-replies-count');
 
 const isActionWithEntities = (action: AnyAction) => {
   return action?.payload && Object.hasOwn(action.payload, 'entities');

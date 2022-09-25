@@ -102,7 +102,7 @@ describe('[PAGES]: DeviceDetailsView', () => {
       component: DeviceDetailsView,
     });
 
-    const PurchaseBtn = getByText(/purchase/i) as HTMLButtonElement;
+    const PurchaseBtn = getByText(/processing.../i) as HTMLButtonElement;
 
     fireEvent.click(PurchaseBtn);
 

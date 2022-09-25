@@ -27,7 +27,7 @@ function DeviceOverView({ device }: IProps) {
 
       <PurchaseWrap>
         <PurchaseButton type="button" onClick={pay} disabled={isPending}>
-          purchase
+          {isPending ? 'processing...' : 'purchase'}
         </PurchaseButton>
 
         <Price title={`${device.price} $`}>{device.price} $</Price>
