@@ -10,7 +10,7 @@ export interface IShippingAddress {
   state: string;
 }
 
-const OrderStatus = {
+export const OrderStatus = {
   paid: 'PAID',
   processing: 'PROCESSING',
   inProgress: 'IN PROGRESS',
@@ -24,38 +24,39 @@ const OrderStatus = {
 } as const;
 
 type Keys = keyof typeof OrderStatus;
-type Values = typeof OrderStatus[Keys];
+export type OrderStatusValues = typeof OrderStatus[Keys];
 
-export interface IOrder {
+export interface IOrderItem {
   id: number;
   orderId: number;
   quantity: number;
-  status: Values;
+  status: OrderStatusValues;
   deviceId: number;
   createdAt: string;
   updatedAt: string;
 }
 
 export interface IOrderDevice extends IDevice {
-  order: IOrder | number;
+  orderDevice: IOrderItem | number;
 }
 
-export interface IPurchase {
+export interface IOrder {
   id: number;
   createdAt: string;
   updatedAt: string;
   address: IShippingAddress | number;
   devices: IOrderDevice[] | number[];
   phone: string;
+  fullName: string;
 }
 
-export interface IPurchaseEntities extends DeviceEntities {
+export interface IOrderEntities extends DeviceEntities {
   addresses: Record<string, IShippingAddress>;
-  orders: Record<string, IOrder>;
-  purchases: Record<string, IPurchase>;
+  orders: Record<string, IOrderItem>;
+  purchases: Record<string, IOrder>;
 }
 
 export interface IPurchaseData {
   result: number[];
-  entities: IPurchaseEntities;
+  entities: IOrderEntities;
 }

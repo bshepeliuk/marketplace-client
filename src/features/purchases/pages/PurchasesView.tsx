@@ -35,7 +35,7 @@ function PurchasesView() {
             const orderUpdatedAt = format(new Date(device.order.updatedAt), 'dd MMM yyyy, h:m:s a');
 
             return (
-              <ListItem key={device.id}>
+              <Row key={device.id}>
                 <Cell>{item.id}</Cell>
                 <Cell>
                   <PurchaseStatus>{device.order.status}</PurchaseStatus>
@@ -53,7 +53,7 @@ function PurchasesView() {
                   {item.address.line2}
                 </Cell>
                 <Cell>{orderUpdatedAt}</Cell>
-              </ListItem>
+              </Row>
             );
           });
         })}
@@ -96,7 +96,7 @@ const Header = styled.div`
   }
 `;
 
-const ListItem = styled.li`
+const Row = styled.div`
   display: grid;
   grid-template-columns: repeat(10, minmax(120px, 1fr));
   grid-auto-rows: max-content;

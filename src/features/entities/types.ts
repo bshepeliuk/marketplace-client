@@ -1,7 +1,7 @@
 import { ICategory } from '../categories/types';
 import { IComment } from '../comments/types';
 import { IDevice, IDeviceImage, IDeviceInfo, IDeviceRating } from '../devices/types';
-import { IOrder, IPurchase, IShippingAddress } from '../purchases/types';
+import { IOrderItem, IOrder, IShippingAddress } from '../purchases/types';
 
 export interface IEntitiesState {
   devices: Record<string, IDevice>;
@@ -12,7 +12,7 @@ export interface IEntitiesState {
   comments: Record<string, IComment>;
   addresses: Record<string, IShippingAddress>;
   orders: Record<string, IOrder>;
-  purchases: Record<string, IPurchase>;
+  orderDevices: Record<string, IOrderItem>;
 }
 
 export type EntityKeys = keyof IEntitiesState;
