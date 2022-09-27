@@ -37,15 +37,15 @@ export interface IOrderItem {
 }
 
 export interface IOrderDevice extends IDevice {
-  orderDevice: IOrderItem | number;
+  orderDevice: IOrderItem;
 }
 
 export interface IOrder {
   id: number;
   createdAt: string;
   updatedAt: string;
-  address: IShippingAddress | number;
-  devices: IOrderDevice[] | number[];
+  address: IShippingAddress;
+  devices: IOrderDevice[];
   phone: string;
   fullName: string;
 }

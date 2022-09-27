@@ -2,8 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import { format } from 'date-fns';
 import { generatePath, Link } from 'react-router-dom';
+import { OrderStatusColor } from '@features/orders/constants';
 import { routes } from '@src/app/Router';
 import useGetPurchases from '../hooks/useGetPurchases';
+import { OrderStatusValues } from '../types';
 
 function PurchasesView() {
   const { items, isLoading } = useGetPurchases();
@@ -34,11 +36,13 @@ function PurchasesView() {
 
             const orderUpdatedAt = format(new Date(device.order.updatedAt), 'dd MMM yyyy, h:m:s a');
 
+            const color = OrderStatusColor[device.order.status as OrderStatusValues];
+
             return (
               <Row key={device.id}>
                 <Cell>{item.id}</Cell>
                 <Cell>
-                  <PurchaseStatus>{device.order.status}</PurchaseStatus>
+                  <PurchaseStatus color={color}>{device.order.status}</PurchaseStatus>
                 </Cell>
                 <TitleCell>
                   <Link to={generatePath(routes.device, { deviceId: String(device.id) })}>{device.name}</Link>
@@ -128,8 +132,8 @@ const TitleCell = styled(Cell)`
   justify-content: start;
 `;
 
-const PurchaseStatus = styled.span`
-  background-color: #1abc9c;
+const PurchaseStatus = styled.span<{ color: string }>`
+  background-color: ${(props) => props.color};
   display: flex;
   justify-content: center;
   align-items: center;

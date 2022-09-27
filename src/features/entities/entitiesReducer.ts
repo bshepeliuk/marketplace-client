@@ -8,9 +8,6 @@ export const initialState: IEntitiesState = {
   info: {},
   ratings: {},
   comments: {},
-  addresses: {},
-  orders: {},
-  orderDevices: {},
 };
 
 export const incrementCommentRepliesCount = createAction<{ commentId: number }>('entities/increment-replies-count');

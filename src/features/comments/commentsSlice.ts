@@ -5,28 +5,11 @@ import { IThunkAPI } from '@src/common/types/baseTypes';
 import getErrorMessage from '@src/common/utils/getErrorMessage';
 import calculateOffsetValue from '@common/utils/calculateOffsetValue';
 import notifications from '@common/utils/notifications';
-import {
-  IAddCommentParams,
-  IGetRepliesParams,
-  IUpdateCommentParams,
-} from '@src/common/types/apiTypes';
-import {
-  CommentSchema,
-  CommentsSchema,
-  DeviceSchema,
-} from '@src/common/normalizeSchemas';
-import {
-  IComment,
-  ICommentEntities,
-  INewCommentEntity,
-  IUpdateCommentEntity,
-} from './types';
+import { IAddCommentParams, IGetRepliesParams, IUpdateCommentParams } from '@src/common/types/apiTypes';
+import { CommentSchema, CommentsSchema, DeviceSchema } from '@src/common/normalizeSchemas';
+import { IComment, ICommentEntities, INewCommentEntity, IUpdateCommentEntity } from './types';
 import { DeviceEntities, IDevice, IDeviceEntityData } from '../devices/types';
-import {
-  commentsSelector,
-  getCommentByIdSelector,
-  repliesSelector,
-} from './selectors/commentsSelector';
+import { commentsSelector, getCommentByIdSelector, repliesSelector } from './selectors/commentsSelector';
 import { getDeviceByIdSelector } from '../devices/selectors/deviceSelector';
 import { COMMENTS_LIMIT, REPLIES_LIMIT } from './constants';
 import { incrementCommentRepliesCount } from '../entities/entitiesReducer';
@@ -48,16 +31,9 @@ export const commentsInitialState = {
 
 type State = typeof commentsInitialState;
 
-export const addComment = createAsyncThunk<
-  INewCommentEntity,
-  IAddCommentParams,
-  IThunkAPI
->(
+export const addComment = createAsyncThunk<INewCommentEntity, IAddCommentParams, IThunkAPI>(
   'comments/create',
-  async (
-    { deviceId, parentId, body },
-    { rejectWithValue, getState, dispatch },
-  ) => {
+  async ({ deviceId, parentId, body }, { rejectWithValue, getState, dispatch }) => {
     const state = getState();
 
     try {
@@ -70,11 +46,10 @@ export const addComment = createAsyncThunk<
       const comment = getCommentByIdSelector(state, data.comment.parentId);
       const hasRootComment = comment !== undefined;
 
-      const { result, entities } = normalize<
-        IComment,
-        Pick<DeviceEntities, 'comments'>,
-        number
-      >(data.comment, CommentSchema);
+      const { result, entities } = normalize<IComment, Pick<DeviceEntities, 'comments'>, number>(
+        data.comment,
+        CommentSchema,
+      );
 
       if (hasRootComment) {
         dispatch(incrementCommentRepliesCount({ commentId: comment.id }));
@@ -105,11 +80,7 @@ export const addComment = createAsyncThunk<
   },
 );
 
-export const getCommentsByDeviceId = createAsyncThunk<
-  ICommentEntities,
-  { deviceId: number },
-  IThunkAPI
->(
+export const getCommentsByDeviceId = createAsyncThunk<ICommentEntities, { deviceId: number }, IThunkAPI>(
   'comments/fetch-by-deviceId',
   async ({ deviceId }, { rejectWithValue, getState, dispatch }) => {
     const state = getState();
@@ -132,11 +103,10 @@ export const getCommentsByDeviceId = createAsyncThunk<
         dispatch(commentsActions.setHasMore({ hasMore: false }));
       }
 
-      const { result, entities } = normalize<
-        IComment,
-        Pick<DeviceEntities, 'comments'>,
-        number[]
-      >(data.comments, CommentsSchema);
+      const { result, entities } = normalize<IComment, Pick<DeviceEntities, 'comments'>, number[]>(
+        data.comments,
+        CommentsSchema,
+      );
 
       const nextDeviceState = updateCommentIdsForDevice({
         deviceId,
@@ -161,11 +131,7 @@ export const getCommentsByDeviceId = createAsyncThunk<
   },
 );
 
-export const getReplies = createAsyncThunk<
-  ICommentEntities,
-  IGetRepliesParams,
-  IThunkAPI
->(
+export const getReplies = createAsyncThunk<ICommentEntities, IGetRepliesParams, IThunkAPI>(
   'comments/get-replies-by-root-commentId',
   async ({ commentId }, { rejectWithValue, getState }) => {
     const state = getState();
@@ -185,11 +151,10 @@ export const getReplies = createAsyncThunk<
         limit: 20,
       });
 
-      const { result, entities } = normalize<
-        IComment,
-        Pick<DeviceEntities, 'comments' | 'devices'>,
-        number[]
-      >(data.replies, CommentsSchema);
+      const { result, entities } = normalize<IComment, Pick<DeviceEntities, 'comments' | 'devices'>, number[]>(
+        data.replies,
+        CommentsSchema,
+      );
 
       const nextDeviceState = updateCommentIdsForDevice({
         deviceId: rootComment.deviceId,
@@ -214,11 +179,7 @@ export const getReplies = createAsyncThunk<
   },
 );
 
-export const updateComment = createAsyncThunk<
-  IUpdateCommentEntity,
-  IUpdateCommentParams,
-  IThunkAPI
->(
+export const updateComment = createAsyncThunk<IUpdateCommentEntity, IUpdateCommentParams, IThunkAPI>(
   'comments/update-by-commentId',
   async ({ commentId, body }, { rejectWithValue, getState }) => {
     const state = getState();
@@ -238,11 +199,10 @@ export const updateComment = createAsyncThunk<
         }),
       };
 
-      const { result, entities } = normalize<
-        IComment,
-        Pick<DeviceEntities, 'comments'>,
-        number
-      >(comment, CommentSchema);
+      const { result, entities } = normalize<IComment, Pick<DeviceEntities, 'comments'>, number>(
+        comment,
+        CommentSchema,
+      );
 
       return {
         result,
@@ -260,11 +220,7 @@ export const updateComment = createAsyncThunk<
   },
 );
 
-export const deleteComment = createAsyncThunk<
-  IDeviceEntityData,
-  Pick<IUpdateCommentParams, 'commentId'>,
-  IThunkAPI
->(
+export const deleteComment = createAsyncThunk<IDeviceEntityData, Pick<IUpdateCommentParams, 'commentId'>, IThunkAPI>(
   'comments/delete-by-commentId',
   async ({ commentId }, { rejectWithValue, getState }) => {
     const state = getState();
@@ -275,19 +231,14 @@ export const deleteComment = createAsyncThunk<
     try {
       await Api.Comments.deleteById(commentId);
 
-      const updatedComments = (device.comments as Array<number>).filter(
-        (id) => commentId !== id,
-      );
+      const updatedComments = (device.comments as Array<number>).filter((id) => commentId !== id);
 
       const updatedDevice = {
         ...device,
         comments: updatedComments,
       };
 
-      const { result, entities } = normalize<IDevice, DeviceEntities, number>(
-        updatedDevice,
-        DeviceSchema,
-      );
+      const { result, entities } = normalize<IDevice, DeviceEntities, number>(updatedDevice, DeviceSchema);
 
       return {
         result,

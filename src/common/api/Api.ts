@@ -11,6 +11,7 @@ import {
 } from '@src/common/types/apiTypes';
 import getApiInstance from '@src/common/utils/getApiInstance';
 import { IPaymentItems } from '@src/features/payment/types';
+import { OrderStatusValues } from '@src/features/purchases/types';
 import { IUser } from '../types/userTypes';
 import generateSearchParamsStr from '../utils/generateSearchParamsStr';
 
@@ -125,6 +126,9 @@ export const Ratings = {
 export const Orders = {
   get() {
     return api.get('/orders');
+  },
+  changeStatus({ id, status }: { id: number; status: OrderStatusValues }) {
+    return api.patch('/order-status', { id, status });
   },
 };
 
