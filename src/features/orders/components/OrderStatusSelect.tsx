@@ -22,7 +22,7 @@ function OrderStatusSelect({ defaultValue, orderDeviceId }: IProps) {
   const options: StatusOption[] = Object.values(OrderStatus).map((status) => createOption(status));
 
   const customStyles: StylesConfig<StatusOption, false> = {
-    control: (styles) => ({ ...styles, backgroundColor: 'white', width: 170 }),
+    control: (styles) => ({ ...styles, backgroundColor: 'white', width: 170, cursor: 'pointer' }),
     container: (styles) => ({ ...styles, width: 200 }),
     option: (styles) => ({ ...styles }),
     singleValue: (styles, { data }) => {
