@@ -113,7 +113,7 @@ export const Header = styled.div`
 `;
 
 export const HeaderItem = styled.div`
-  background-color: #8395a7;
+  background-color: #7897ab;
   padding: 2px 4px;
   color: #fff;
   text-transform: uppercase;

@@ -1,31 +1,33 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import * as Api from '@src/common/api/Api';
-import { OrdersSchema } from '@src/common/normalizeSchemas';
-import { IThunkAPI } from '@src/common/types/baseTypes';
+import { IThunkAPI, Nullable } from '@src/common/types/baseTypes';
 import getErrorMessage from '@src/common/utils/getErrorMessage';
-import { normalize } from 'normalizr';
-import { IOrder, IPurchaseData, IOrderEntities } from './types';
+import { IOrder } from '../orders/types';
 
 export const initialState = {
   isLoading: false,
   isError: false,
   error: null,
-  items: [] as number[],
+  total: null as Nullable<number>,
+  items: [] as IOrder[],
 };
 
 type State = typeof initialState;
 
-export const getPurchases = createAsyncThunk<IPurchaseData, undefined, IThunkAPI>(
-  'purchases/get-all',
-  async (_, { rejectWithValue }) => {
-    try {
-      const { data } = await Api.Purchases.get();
+interface IPurchasesData {
+  purchases: IOrder[];
+  total: number;
+}
 
-      const { result, entities } = normalize<IOrder, IOrderEntities, number[]>(data.purchases, OrdersSchema);
+export const getPurchases = createAsyncThunk<IPurchasesData, { limit: number; offset: number }, IThunkAPI>(
+  'purchases/get-all',
+  async ({ limit, offset }, { rejectWithValue }) => {
+    try {
+      const { data } = await Api.Purchases.get({ limit, offset });
 
       return {
-        result,
-        entities,
+        total: data.total,
+        purchases: data.purchases,
       };
     } catch (error) {
       const message = getErrorMessage(error);
@@ -46,9 +48,10 @@ const purchasesSlice = createSlice({
       state.isLoading = true;
       state.isError = false;
     });
-    builder.addCase(getPurchases.fulfilled, (state: State, { payload }: PayloadAction<{ result: number[] }>) => {
+    builder.addCase(getPurchases.fulfilled, (state: State, { payload }: PayloadAction<IPurchasesData>) => {
       state.isLoading = false;
-      state.items = payload.result;
+      state.total = payload.total;
+      state.items = payload.purchases;
     });
     builder.addCase(getPurchases.rejected, (state: State) => {
       state.isLoading = false;

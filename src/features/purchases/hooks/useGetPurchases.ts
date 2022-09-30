@@ -1,20 +1,23 @@
 import { useAppDispatch } from '@src/common/hooks/useAppDispatch';
 import { useTypedSelector } from '@src/common/hooks/useTypedSelector';
-import { useEffect } from 'react';
+import groupByOrderId from '@src/features/orders/helpers/groupByOrderId';
 import { getPurchases } from '../purchasesSlice';
-import { purchasesSelector } from '../selectors/purchasesSelector';
 
 const useGetPurchases = () => {
   const dispatch = useAppDispatch();
-  const { items, isLoading } = useTypedSelector(purchasesSelector);
+  const { items, isLoading, total } = useTypedSelector((state) => state.purchases);
 
-  useEffect(() => {
-    dispatch(getPurchases());
-  }, []);
+  const purchases = groupByOrderId(items);
+
+  const fetchPurchases = ({ limit, offset }: { limit: number; offset: number }) => {
+    dispatch(getPurchases({ limit, offset }));
+  };
 
   return {
-    items,
+    total,
     isLoading,
+    fetchPurchases,
+    items: purchases,
   };
 };
 

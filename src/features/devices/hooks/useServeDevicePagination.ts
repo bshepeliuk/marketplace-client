@@ -6,7 +6,7 @@ import { DEVICES_OFFSET } from '../constants';
 import { devicesSelector } from '../selectors/deviceSelector';
 import useFetchDevicesByRequest from './useFetchDevicesByRequest';
 
-export const useServeDevicePagination = () => {
+const useServeDevicePagination = () => {
   const FIRST_PAGE = 1;
 
   const [currentPage, setCurrentPage] = useState(FIRST_PAGE);

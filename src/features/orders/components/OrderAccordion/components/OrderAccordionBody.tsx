@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { generatePath } from 'react-router-dom';
 import { format } from 'date-fns';
 import { routes } from '@src/app/Router';
-import { IOrderDevice } from '@src/features/purchases/types';
+import { IOrderDevice } from '@src/features/orders/types';
 import {
   Body,
   BodyHeaderCell,
@@ -12,14 +12,15 @@ import {
   Row,
   UpdatedAtWrap,
 } from '../../../styles/ordersAccordion.styled';
-import OrderStatusSelect from '../../OrderStatusSelect';
+import OrderStatusView from './OrderStatusView';
 
 interface IProps {
   devices: IOrderDevice[];
   isOpen: boolean;
+  isStatusChangeable: boolean;
 }
 
-function OrderAccordionBody({ devices, isOpen }: IProps) {
+function OrderAccordionBody({ devices, isOpen, isStatusChangeable }: IProps) {
   const bodyRef = useRef<HTMLDivElement>(null);
   const [height, setHeight] = useState<number | undefined>(undefined);
   const prevHeight = useRef<number | undefined>();
@@ -52,6 +53,7 @@ function OrderAccordionBody({ devices, isOpen }: IProps) {
       {devices.map((device) => {
         const orderDate = format(new Date(device.orderDevice.updatedAt), 'dd MMM yyyy');
         const orderTime = format(new Date(device.orderDevice.updatedAt), 'hh:mm:ss a');
+        const totalPrice = device.price * device.orderDevice.quantity;
 
         return (
           <Row key={device.orderDevice.id}>
@@ -59,7 +61,11 @@ function OrderAccordionBody({ devices, isOpen }: IProps) {
               <DeviceLink to={generatePath(routes.device, { deviceId: String(device.id) })}>{device.name}</DeviceLink>
             </Cell>
             <Cell>
-              <OrderStatusSelect orderDeviceId={device.orderDevice.id} defaultValue={device.orderDevice.status} />
+              <OrderStatusView
+                isStatusChangeable={isStatusChangeable}
+                orderId={device.orderDevice.id}
+                status={device.orderDevice.status}
+              />
             </Cell>
             <Cell>
               <Price>{device.price}</Price>
@@ -67,7 +73,7 @@ function OrderAccordionBody({ devices, isOpen }: IProps) {
             <Cell>USD</Cell>
             <Cell>{device.orderDevice.quantity}</Cell>
             <Cell>
-              <Price>{device.price * device.orderDevice.quantity}</Price>
+              <Price>{totalPrice}</Price>
             </Cell>
 
             <Cell>

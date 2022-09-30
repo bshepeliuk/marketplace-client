@@ -1,6 +1,7 @@
 import React from 'react';
 import { format } from 'date-fns';
 import Copyable from '@src/common/components/Copyable/Copyable';
+import { IOrder } from '@src/features/orders/types';
 import {
   ArrowIcon,
   DateWrap,
@@ -11,7 +12,6 @@ import {
   OrdersAccordionHeader,
   ToggleButton,
 } from '@src/features/orders/styles/ordersAccordion.styled';
-import { IOrder } from '@src/features/purchases/types';
 import CopyableAddress from '../../../atoms/CopyableAddress';
 
 interface IProps {

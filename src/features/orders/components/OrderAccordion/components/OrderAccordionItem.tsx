@@ -7,9 +7,10 @@ import OrderAccordionHeader from './OrderAccordionHeader';
 interface IOrderItemProps {
   order: Omit<IOrder, 'devices'>;
   devices: IOrderDevice[];
+  isStatusChangeable: boolean;
 }
 
-function OrderAccordionItem({ order, devices }: IOrderItemProps) {
+function OrderAccordionItem({ order, devices, isStatusChangeable }: IOrderItemProps) {
   const [isOpen, setIsOpen] = useState(true);
 
   const toggleOpen = () => setIsOpen(!isOpen);
@@ -17,7 +18,7 @@ function OrderAccordionItem({ order, devices }: IOrderItemProps) {
   return (
     <Wrapper>
       <OrderAccordionHeader isOpen={isOpen} toggleOpen={toggleOpen} order={order} />
-      <OrderAccordionBody isOpen={isOpen} devices={devices} />
+      <OrderAccordionBody isStatusChangeable={isStatusChangeable} isOpen={isOpen} devices={devices} />
     </Wrapper>
   );
 }

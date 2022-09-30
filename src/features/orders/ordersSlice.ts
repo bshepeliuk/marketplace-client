@@ -1,26 +1,33 @@
 import produce from 'immer';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import * as Api from '@src/common/api/Api';
-import { IThunkAPI } from '@src/common/types/baseTypes';
+import { IThunkAPI, Nullable } from '@src/common/types/baseTypes';
 import getErrorMessage from '@src/common/utils/getErrorMessage';
-import { IOrder, OrderStatusValues } from '../purchases/types';
+import { IOrder, OrderStatusValues } from './types';
 
 export const initialState = {
   isLoading: false,
   isError: false,
   error: null,
+  total: null as Nullable<number>,
   items: [] as IOrder[],
 };
 
 type State = typeof initialState;
 
-export const getOrders = createAsyncThunk<any, undefined, IThunkAPI>(
+interface IOrdersData {
+  total: number;
+  orders: IOrder[];
+}
+
+export const getOrders = createAsyncThunk<IOrdersData, { limit: number; offset: number }, IThunkAPI>(
   'orders/get-all',
-  async (_, { rejectWithValue }) => {
+  async ({ limit, offset }, { rejectWithValue }) => {
     try {
-      const { data } = await Api.Orders.get();
+      const { data } = await Api.Orders.get({ limit, offset });
 
       return {
+        total: data.total,
         orders: data.orders,
       };
     } catch (error) {
@@ -53,9 +60,10 @@ const ordersSlice = createSlice({
       state.isLoading = true;
       state.isError = false;
     });
-    builder.addCase(getOrders.fulfilled, (state: State, { payload }: PayloadAction<{ orders: IOrder[] }>) => {
+    builder.addCase(getOrders.fulfilled, (state: State, { payload }: PayloadAction<IOrdersData>) => {
       state.isLoading = false;
       state.items = payload.orders;
+      state.total = payload.total;
     });
     builder.addCase(getOrders.rejected, (state: State) => {
       state.isLoading = false;

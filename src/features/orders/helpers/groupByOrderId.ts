@@ -1,4 +1,4 @@
-import { IOrder, IOrderDevice } from '@src/features/purchases/types';
+import { IOrder, IOrderDevice } from '../types';
 
 const groupByOrderId = (orders: IOrder[]) => {
   const map = new Map();

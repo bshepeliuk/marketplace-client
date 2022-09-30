@@ -1,4 +1,15 @@
-import { OrderStatus } from '../purchases/types';
+export const OrderStatus = {
+  paid: 'PAID',
+  processing: 'PROCESSING',
+  inProgress: 'IN PROGRESS',
+  unpaid: 'UNPAID',
+  delivered: 'DELIVERED',
+  shipped: 'SHIPPED',
+  unshipped: 'UNSHIPPED',
+  rejected: 'REJECTED',
+  completed: 'COMPLETED',
+  refunded: 'REFUNDED',
+} as const;
 
 export const OrderStatusColor = {
   [OrderStatus.paid]: '#1dd1a1',
@@ -12,3 +23,5 @@ export const OrderStatusColor = {
   [OrderStatus.refunded]: '#8e44ad',
   [OrderStatus.rejected]: '#f53b57',
 } as const;
+
+export const ORDERS_LIMIT = 20;

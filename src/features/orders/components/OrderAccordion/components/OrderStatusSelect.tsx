@@ -1,11 +1,11 @@
 import React from 'react';
 import Select, { SingleValue, StylesConfig } from 'react-select';
 import createOption from '@src/common/utils/createSelectOption';
-import { OrderStatus, OrderStatusValues } from '@src/features/purchases/types';
 import { useAppDispatch } from '@common/hooks/useAppDispatch';
+import { OrderStatusValues } from '@src/features/orders/types';
 import { Orders } from '@src/common/api/Api';
-import { OrderStatusColor } from '../constants';
-import { ordersActions } from '../ordersSlice';
+import { OrderStatus, OrderStatusColor } from '../../../constants';
+import { ordersActions } from '../../../ordersSlice';
 
 interface IProps {
   defaultValue: OrderStatusValues;

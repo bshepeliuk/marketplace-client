@@ -1,4 +1,5 @@
-import { DeviceEntities, IDevice } from '../devices/types';
+import { IDevice } from '../devices/types';
+import { OrderStatus } from './constants';
 
 export interface IShippingAddress {
   orderId: number;
@@ -9,19 +10,6 @@ export interface IShippingAddress {
   postal_code: string;
   state: string;
 }
-
-export const OrderStatus = {
-  paid: 'PAID',
-  processing: 'PROCESSING',
-  inProgress: 'IN PROGRESS',
-  unpaid: 'UNPAID',
-  delivered: 'DELIVERED',
-  shipped: 'SHIPPED',
-  unshipped: 'UNSHIPPED',
-  rejected: 'REJECTED',
-  completed: 'COMPLETED',
-  refunded: 'REFUNDED',
-} as const;
 
 type Keys = keyof typeof OrderStatus;
 export type OrderStatusValues = typeof OrderStatus[Keys];
@@ -48,15 +36,4 @@ export interface IOrder {
   devices: IOrderDevice[];
   phone: string;
   fullName: string;
-}
-
-export interface IOrderEntities extends DeviceEntities {
-  addresses: Record<string, IShippingAddress>;
-  orders: Record<string, IOrderItem>;
-  purchases: Record<string, IOrder>;
-}
-
-export interface IPurchaseData {
-  result: number[];
-  entities: IOrderEntities;
 }

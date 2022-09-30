@@ -10,8 +10,8 @@ import {
   IUpdateCommentParams,
 } from '@src/common/types/apiTypes';
 import getApiInstance from '@src/common/utils/getApiInstance';
+import { OrderStatusValues } from '@src/features/orders/types';
 import { IPaymentItems } from '@src/features/payment/types';
-import { OrderStatusValues } from '@src/features/purchases/types';
 import { IUser } from '../types/userTypes';
 import generateSearchParamsStr from '../utils/generateSearchParamsStr';
 
@@ -124,8 +124,8 @@ export const Ratings = {
 };
 
 export const Orders = {
-  get() {
-    return api.get('/orders');
+  get({ limit = 20, offset = 0 }) {
+    return api.get('/orders', { params: { limit, offset } });
   },
   changeStatus({ id, status }: { id: number; status: OrderStatusValues }) {
     return api.patch('/order-status', { id, status });
@@ -133,8 +133,8 @@ export const Orders = {
 };
 
 export const Purchases = {
-  get() {
-    return api.get('/purchases');
+  get({ limit = 20, offset = 0 }) {
+    return api.get('/purchases', { params: { limit, offset } });
   },
 };
 
@@ -145,7 +145,9 @@ export const Interceptors = {
       (error) => {
         const { response } = error;
 
-        if (response.status === 401) logout();
+        const UNAUTHORIZED_STATUS_CODE = 401;
+
+        if (response.status === UNAUTHORIZED_STATUS_CODE) logout();
 
         return Promise.reject(error);
       },
