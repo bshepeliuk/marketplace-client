@@ -37,3 +37,8 @@ export interface IOrder {
   phone: string;
   fullName: string;
 }
+
+export interface IOrderStatusOption {
+  readonly label: OrderStatusValues;
+  readonly value: OrderStatusValues;
+}

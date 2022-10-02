@@ -1,3 +1,4 @@
+import { ParamKeyValuePair } from 'react-router-dom';
 import { useAppDispatch } from '@src/common/hooks/useAppDispatch';
 import { useTypedSelector } from '@src/common/hooks/useTypedSelector';
 import { getOrders } from '../ordersSlice';
@@ -9,8 +10,16 @@ const useGetOrders = () => {
 
   const orders = groupByOrderId(items);
 
-  const fetchOrders = ({ limit, offset }: { limit: number; offset: number }) => {
-    dispatch(getOrders({ limit, offset }));
+  const fetchOrders = ({
+    limit,
+    offset,
+    filters,
+  }: {
+    limit: number;
+    offset: number;
+    filters?: ParamKeyValuePair[];
+  }) => {
+    dispatch(getOrders({ limit, offset, filters }));
   };
 
   return {

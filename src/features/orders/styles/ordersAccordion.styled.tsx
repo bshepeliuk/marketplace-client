@@ -4,20 +4,11 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 export const Wrapper = styled.div`
-  padding-top: 10px;
-  min-width: 100%;
-
-  @media (max-width: 1330px) {
-    width: fit-content;
-  }
+  width: fit-content;
+  padding: 10px 5px 0 5px;
 `;
 
-export const Container = styled.div`
-  max-width: 1400px;
-  margin: 20px auto;
-  padding: 0 20px 6px 20px;
-  overflow-x: auto;
-`;
+export const Container = styled.div``;
 
 export const Cell = styled.div`
   padding: 10px;
@@ -42,6 +33,7 @@ export const Body = styled.div<{ isOpen: boolean; height: number | undefined }>`
   border: 1px solid #ecf0f1;
   transition: height 0.2s ease-in-out;
   overflow: hidden;
+  margin-top: 10px;
   height: ${(props) => {
     if (props.height === undefined) return 'auto';
     return `${props.height}px`;
@@ -88,7 +80,7 @@ export const HeaderWrapper = styled.div`
 `;
 
 export const HeaderCell = styled.div`
-  padding: 20px 0 10px 0;
+  padding: 20px 5px 10px 5px;
   width: 100%;
   height: 100%;
   background-color: #f0f8ff;

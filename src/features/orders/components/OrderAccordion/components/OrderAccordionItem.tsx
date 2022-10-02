@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { IOrder, IOrderDevice } from '@src/features/purchases/types';
+import { IOrder, IOrderDevice } from '@src/features/orders/types';
 import { Wrapper } from '@src/features/orders/styles/ordersAccordion.styled';
 import OrderAccordionBody from './OrderAccordionBody';
 import OrderAccordionHeader from './OrderAccordionHeader';

@@ -1,5 +1,6 @@
 import produce from 'immer';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { ParamKeyValuePair } from 'react-router-dom';
 import * as Api from '@src/common/api/Api';
 import { IThunkAPI, Nullable } from '@src/common/types/baseTypes';
 import getErrorMessage from '@src/common/utils/getErrorMessage';
@@ -20,25 +21,26 @@ interface IOrdersData {
   orders: IOrder[];
 }
 
-export const getOrders = createAsyncThunk<IOrdersData, { limit: number; offset: number }, IThunkAPI>(
-  'orders/get-all',
-  async ({ limit, offset }, { rejectWithValue }) => {
-    try {
-      const { data } = await Api.Orders.get({ limit, offset });
+export const getOrders = createAsyncThunk<
+  IOrdersData,
+  { limit: number; offset: number; filters?: ParamKeyValuePair[] },
+  IThunkAPI
+>('orders/get-all', async ({ limit, offset, filters }, { rejectWithValue }) => {
+  try {
+    const { data } = await Api.Orders.get({ limit, offset, filters });
 
-      return {
-        total: data.total,
-        orders: data.orders,
-      };
-    } catch (error) {
-      const message = getErrorMessage(error);
+    return {
+      total: data.total,
+      orders: data.orders,
+    };
+  } catch (error) {
+    const message = getErrorMessage(error);
 
-      return rejectWithValue({
-        message,
-      });
-    }
-  },
-);
+    return rejectWithValue({
+      message,
+    });
+  }
+});
 
 const ordersSlice = createSlice({
   initialState,

@@ -2,7 +2,7 @@ import React from 'react';
 import Select, { SingleValue, StylesConfig } from 'react-select';
 import createOption from '@src/common/utils/createSelectOption';
 import { useAppDispatch } from '@common/hooks/useAppDispatch';
-import { OrderStatusValues } from '@src/features/orders/types';
+import { IOrderStatusOption, OrderStatusValues } from '@src/features/orders/types';
 import { Orders } from '@src/common/api/Api';
 import { OrderStatus, OrderStatusColor } from '../../../constants';
 import { ordersActions } from '../../../ordersSlice';
@@ -12,35 +12,10 @@ interface IProps {
   orderDeviceId: number;
 }
 
-interface StatusOption {
-  readonly label: OrderStatusValues;
-  readonly value: OrderStatusValues;
-}
-
 function OrderStatusSelect({ defaultValue, orderDeviceId }: IProps) {
   const dispatch = useAppDispatch();
-  const options: StatusOption[] = Object.values(OrderStatus).map((status) => createOption(status));
 
-  const customStyles: StylesConfig<StatusOption, false> = {
-    control: (styles) => ({ ...styles, backgroundColor: 'white', width: 170, cursor: 'pointer' }),
-    container: (styles) => ({ ...styles, width: 200 }),
-    option: (styles) => ({ ...styles }),
-    singleValue: (styles, { data }) => {
-      return {
-        ...styles,
-        backgroundColor: OrderStatusColor[data.label as OrderStatusValues],
-        padding: '8px 2px',
-        borderRadius: '4px',
-        color: '#fff',
-        fontWeight: 'bold',
-        textAlign: 'center',
-        fontSize: '12px',
-        letterSpacing: '1px',
-      };
-    },
-  };
-
-  const onChange = (option: SingleValue<StatusOption>) => {
+  const onChange = (option: SingleValue<IOrderStatusOption>) => {
     if (option?.value !== undefined) {
       Orders.changeStatus({ id: orderDeviceId, status: option.value });
       dispatch(ordersActions.updateOrderStatus({ id: orderDeviceId, status: option.value }));
@@ -60,5 +35,26 @@ function OrderStatusSelect({ defaultValue, orderDeviceId }: IProps) {
     />
   );
 }
+
+const options: IOrderStatusOption[] = Object.values(OrderStatus).map((status) => createOption(status));
+
+const customStyles: StylesConfig<IOrderStatusOption, false> = {
+  control: (styles) => ({ ...styles, backgroundColor: 'white', width: 170, cursor: 'pointer' }),
+  container: (styles) => ({ ...styles, width: 200 }),
+  option: (styles) => ({ ...styles }),
+  singleValue: (styles, { data }) => {
+    return {
+      ...styles,
+      backgroundColor: OrderStatusColor[data.label as OrderStatusValues],
+      padding: '8px 2px',
+      borderRadius: '4px',
+      color: '#fff',
+      fontWeight: 'bold',
+      textAlign: 'center',
+      fontSize: '12px',
+      letterSpacing: '1px',
+    };
+  },
+};
 
 export default OrderStatusSelect;

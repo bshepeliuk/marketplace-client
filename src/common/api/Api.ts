@@ -124,8 +124,10 @@ export const Ratings = {
 };
 
 export const Orders = {
-  get({ limit = 20, offset = 0 }) {
-    return api.get('/orders', { params: { limit, offset } });
+  get({ limit = 20, offset = 0, filters }) {
+    const paramsUrl = generateSearchParamsStr({ filters, limit, offset });
+
+    return api.get(`/orders?${paramsUrl}`);
   },
   changeStatus({ id, status }: { id: number; status: OrderStatusValues }) {
     return api.patch('/order-status', { id, status });

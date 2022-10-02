@@ -1,7 +1,4 @@
-import {
-  INewDeviceFeature,
-  INewDeviceInfo,
-} from '@src/features/addNewDevice/modules/newDeviceTypes';
+import { INewDeviceFeature, INewDeviceInfo } from '@src/features/addNewDevice/modules/newDeviceTypes';
 import { ROLES } from '../constants';
 
 export interface ILogin {

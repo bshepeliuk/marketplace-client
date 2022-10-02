@@ -10,19 +10,21 @@ const useServeOrdersPagination = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { items, isLoading, total, fetchOrders } = useGetOrders();
 
-  const shouldHavePagination = total && total > ORDERS_LIMIT;
+  const shouldHavePagination = total !== null && total > ORDERS_LIMIT;
 
   const pageParam = Number(searchParams.get('page'));
   const offset = pageParam > FIRST_PAGE ? (pageParam - FIRST_PAGE) * ORDERS_LIMIT : 0;
 
+  const filters = [...searchParams.entries()].filter(([key]) => key !== 'page');
+
   useEffect(() => {
-    fetchOrders({ offset, limit: ORDERS_LIMIT });
+    fetchOrders({ offset, filters, limit: ORDERS_LIMIT });
   }, []);
 
   const onPageChange = (page: number) => {
     window.scrollTo({ behavior: 'smooth', top: 0 });
 
-    fetchOrders({ limit: ORDERS_LIMIT, offset: (page - FIRST_PAGE) * ORDERS_LIMIT });
+    fetchOrders({ filters, limit: ORDERS_LIMIT, offset: (page - FIRST_PAGE) * ORDERS_LIMIT });
 
     searchParams.set('page', String(page));
     setSearchParams(searchParams);
