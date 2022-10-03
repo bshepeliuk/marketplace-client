@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Select, { ActionMeta, MultiValue, Options, StylesConfig } from 'react-select';
 import chroma from 'chroma-js';
 import { useSearchParams } from 'react-router-dom';
@@ -13,6 +13,7 @@ interface IOrderStatusOptionWithColor extends IOrderStatusOption {
 }
 
 function OrderStatusFilterView() {
+  const timeoutId = useRef<ReturnType<typeof setTimeout>>();
   const [values, setValues] = useState<MultiValue<IOrderStatusOptionWithColor>>([]);
   const [searchParams, setSearchParams] = useSearchParams();
   const { fetchOrders } = useGetOrders();
@@ -40,6 +41,8 @@ function OrderStatusFilterView() {
     options: MultiValue<IOrderStatusOptionWithColor>,
     meta: ActionMeta<IOrderStatusOptionWithColor>,
   ) => {
+    clearTimeout(timeoutId.current as ReturnType<typeof setTimeout>);
+
     if (meta.action === 'clear') {
       searchParams.delete('status');
     }
@@ -57,11 +60,13 @@ function OrderStatusFilterView() {
     setValues(options);
     setSearchParams(searchParams);
 
-    fetchOrders({
-      limit: ORDERS_LIMIT,
-      offset,
-      filters: [...searchParams.entries()].filter(([key]) => key !== 'page'), // TODO: create helper;
-    });
+    timeoutId.current = setTimeout(() => {
+      fetchOrders({
+        limit: ORDERS_LIMIT,
+        offset,
+        filters: [...searchParams.entries()].filter(([key]) => key !== 'page'), // TODO: create helper;
+      });
+    }, 1000);
   };
 
   const isOptionDisabled = (_: IOrderStatusOptionWithColor, selectValue: Options<IOrderStatusOptionWithColor>) => {
@@ -91,7 +96,12 @@ const statusOptions: IOrderStatusOptionWithColor[] = Object.values(OrderStatus).
 
 const statusStyles: StylesConfig<IOrderStatusOptionWithColor, true> = {
   container: (styles) => ({ ...styles, minWidth: 150 }),
-  control: (styles) => ({ ...styles, backgroundColor: 'white', boxShadow: '0 !important', width: 'max-content' }),
+  control: (styles) => ({
+    ...styles,
+    backgroundColor: 'white',
+    boxShadow: '0 !important',
+    width: '100%',
+  }),
   option: (styles) => {
     return {
       ...styles,
