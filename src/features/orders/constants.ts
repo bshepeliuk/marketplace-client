@@ -1,3 +1,5 @@
+import createOption from '@src/common/utils/createSelectOption';
+
 export const OrderStatus = {
   paid: 'PAID',
   processing: 'PROCESSING',
@@ -23,5 +25,11 @@ export const OrderStatusColor = {
   [OrderStatus.refunded]: '#8e44ad',
   [OrderStatus.rejected]: '#f53b57',
 } as const;
+
+export const searchOrderOptions = [
+  { ...createOption('Order id'), fieldName: 'id' },
+  { ...createOption('Customer'), fieldName: 'fullName' },
+  { ...createOption('Phone'), fieldName: 'phone' },
+];
 
 export const ORDERS_LIMIT = 20;

@@ -1,74 +1,81 @@
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
 import Select, { SingleValue, StylesConfig } from 'react-select';
 import { useSearchParams } from 'react-router-dom';
-import createOption from '@src/common/utils/createSelectOption';
-import { ORDERS_LIMIT } from '../../constants';
+import { ORDERS_LIMIT, searchOrderOptions } from '../../constants';
 import useGetOrders from '../../hooks/useGetOrders';
 import { SearchContainer, SearchInput } from '../../styles/orderSearchFilter';
-
-interface ISearchOption {
-  label: string;
-  value: string;
-  fieldName: string;
-}
+import useGetPrevSearchOrderOption from '../../hooks/useGetPrevSearchOrderOption';
+import { ISearchOption } from '../../types';
 
 function OrderSearchView() {
   const timeoutId = useRef<ReturnType<typeof setTimeout>>();
-  const [searchOption, setSearchOption] = useState<ISearchOption>(searchFieldOptions[0]);
+  const [searchOption, setSearchOption] = useState<ISearchOption>(searchOrderOptions[0]);
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchValue, setSearchValue] = useState('');
   const { fetchOrders } = useGetOrders();
+  const { getPrevSearchOptionFromParams } = useGetPrevSearchOrderOption();
 
-  const searchOrderFields = searchFieldOptions.map((item) => item.fieldName);
   const FIRST_PAGE = 1;
   const pageParam = Number(searchParams.get('page'));
   const offset = pageParam > FIRST_PAGE ? (pageParam - FIRST_PAGE) * ORDERS_LIMIT : 0;
   const placeholder = `Search by ${searchOption.value.toLowerCase()}`;
 
   useEffect(() => {
-    for (const key of searchOrderFields) {
-      const hasOrderParams = searchParams.has(key);
+    // sync search state with params;
+    const option = getPrevSearchOptionFromParams(searchOrderOptions);
 
-      if (hasOrderParams) {
-        const option = searchFieldOptions.find((item) => item.fieldName === key);
+    if (option) {
+      const prevSearchValue = searchParams.get(option.fieldName) ?? '';
 
-        if (option) {
-          setSearchOption(option);
-        }
-
-        const newSearchValue = searchParams.get(key) ?? '';
-
-        setSearchValue(newSearchValue);
-      }
+      setSearchValue(prevSearchValue);
+      setSearchOption(option);
     }
   }, []);
 
   const handleOptionChange = (option: SingleValue<ISearchOption>) => {
-    // FIXME: remove previous option;
+    const prevOption = getPrevSearchOptionFromParams(searchOrderOptions);
+
+    if (prevOption !== undefined) {
+      searchParams.delete(prevOption.fieldName);
+    }
+
     if (option !== null) {
       setSearchOption(option);
+      setSearchValue('');
     }
+
+    setSearchParams(searchParams);
   };
 
   const onSearchValueChange = (evt: ChangeEvent<HTMLInputElement>) => {
+    // FIXME: allow only number for orderId (id);
     clearTimeout(timeoutId.current as ReturnType<typeof setTimeout>);
 
-    setSearchValue(evt.target.value);
-    searchParams.set(searchOption.fieldName, evt.target.value);
+    const { value } = evt.target;
+
+    if (value.trim() === '') {
+      searchParams.delete(searchOption.fieldName);
+    } else {
+      searchParams.set(searchOption.fieldName, value);
+    }
+
+    setSearchValue(value);
     setSearchParams(searchParams);
 
-    fetchOrders({
-      limit: ORDERS_LIMIT,
-      offset,
-      filters: [...searchParams.entries()].filter(([key]) => key !== 'page'), // TODO: create helper;
-    });
+    timeoutId.current = setTimeout(() => {
+      fetchOrders({
+        limit: ORDERS_LIMIT,
+        offset,
+        filters: [...searchParams.entries()].filter(([key]) => key !== 'page'), // TODO: create helper;
+      });
+    }, 1500);
   };
 
   return (
     <SearchContainer>
       <Select
         value={searchOption}
-        options={searchFieldOptions}
+        options={searchOrderOptions}
         styles={searchFieldStyles}
         onChange={handleOptionChange}
       />
@@ -77,12 +84,6 @@ function OrderSearchView() {
     </SearchContainer>
   );
 }
-
-const searchFieldOptions = [
-  { ...createOption('Order id'), fieldName: 'id' },
-  { ...createOption('Customer'), fieldName: 'fullName' },
-  { ...createOption('Phone'), fieldName: 'phone' },
-];
 
 const searchFieldStyles: StylesConfig<ISearchOption, false> = {
   container: (styles) => ({

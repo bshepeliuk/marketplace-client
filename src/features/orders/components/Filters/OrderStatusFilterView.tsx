@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Select, { ActionMeta, MultiValue, Options, StylesConfig } from 'react-select';
 import chroma from 'chroma-js';
 import { useSearchParams } from 'react-router-dom';
@@ -13,6 +13,7 @@ interface IOrderStatusOptionWithColor extends IOrderStatusOption {
 }
 
 function OrderStatusFilterView() {
+  const [values, setValues] = useState<MultiValue<IOrderStatusOptionWithColor>>([]);
   const [searchParams, setSearchParams] = useSearchParams();
   const { fetchOrders } = useGetOrders();
 
@@ -24,6 +25,16 @@ function OrderStatusFilterView() {
   const hasSearchParam = ({ name, value }: { name: string; value: string }) => {
     return searchParams.getAll(name).includes(value);
   };
+
+  useEffect(() => {
+    const statusValues = searchParams.getAll('status');
+
+    const optionsFromParams = statusOptions.filter((option) => {
+      return statusValues.includes(option.value.toUpperCase()) || statusValues.includes(option.value.toLowerCase());
+    });
+
+    setValues(optionsFromParams);
+  }, []);
 
   const onChange = (
     options: MultiValue<IOrderStatusOptionWithColor>,
@@ -43,6 +54,7 @@ function OrderStatusFilterView() {
       }
     }
 
+    setValues(options);
     setSearchParams(searchParams);
 
     fetchOrders({
@@ -64,6 +76,7 @@ function OrderStatusFilterView() {
         placeholder="Order status"
         options={statusOptions}
         styles={statusStyles}
+        value={values}
         isOptionDisabled={isOptionDisabled}
         onChange={onChange}
       />

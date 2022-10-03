@@ -42,3 +42,9 @@ export interface IOrderStatusOption {
   readonly label: OrderStatusValues;
   readonly value: OrderStatusValues;
 }
+
+export interface ISearchOption {
+  label: string;
+  value: string;
+  fieldName: string;
+}

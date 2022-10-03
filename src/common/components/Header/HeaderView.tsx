@@ -30,7 +30,7 @@ function HeaderView() {
       {isBuyer && <CartLink />}
       {isSeller && <AddDeviceLink />}
 
-      <ComparisonLink />
+      {isBuyer && <ComparisonLink />}
 
       <UserInfoView />
 
