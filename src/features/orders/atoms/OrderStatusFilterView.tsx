@@ -1,27 +1,24 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Select, { ActionMeta, MultiValue, Options, StylesConfig } from 'react-select';
 import chroma from 'chroma-js';
-import { useSearchParams } from 'react-router-dom';
+import { ParamKeyValuePair, useSearchParams } from 'react-router-dom';
 import createOption from '@src/common/utils/createSelectOption';
 import notifications from '@src/common/utils/notifications';
-import { OrderStatus, OrderStatusColor, ORDERS_LIMIT } from '../../constants';
-import { IOrderStatusOption } from '../../types';
-import useGetOrders from '../../hooks/useGetOrders';
+import { OrderStatus, OrderStatusColor } from '../constants';
+import { IOrderStatusOption } from '../types';
 
 interface IOrderStatusOptionWithColor extends IOrderStatusOption {
   color: string;
 }
 
-function OrderStatusFilterView() {
+interface IProps {
+  onFilterChange: (filters: ParamKeyValuePair[]) => void;
+}
+
+function OrderStatusFilterView({ onFilterChange }: IProps) {
   const timeoutId = useRef<ReturnType<typeof setTimeout>>();
   const [values, setValues] = useState<MultiValue<IOrderStatusOptionWithColor>>([]);
   const [searchParams, setSearchParams] = useSearchParams();
-  const { fetchOrders } = useGetOrders();
-
-  const FIRST_PAGE = 1;
-
-  const pageParam = Number(searchParams.get('page'));
-  const offset = pageParam > FIRST_PAGE ? (pageParam - FIRST_PAGE) * ORDERS_LIMIT : 0;
 
   const hasSearchParam = ({ name, value }: { name: string; value: string }) => {
     return searchParams.getAll(name).includes(value);
@@ -43,6 +40,20 @@ function OrderStatusFilterView() {
   ) => {
     clearTimeout(timeoutId.current as ReturnType<typeof setTimeout>);
 
+    searchParams.delete('page');
+
+    if (meta.action === 'remove-value') {
+      const filteredOptions = statusOptions.filter((option) => {
+        return option.value.toLowerCase() === meta.removedValue.value.toLowerCase();
+      });
+
+      searchParams.delete('status');
+
+      for (const item of filteredOptions) {
+        searchParams.append('status', item.value);
+      }
+    }
+
     if (meta.action === 'clear') {
       searchParams.delete('status');
     }
@@ -61,13 +72,13 @@ function OrderStatusFilterView() {
     setSearchParams(searchParams);
 
     timeoutId.current = setTimeout(() => {
-      fetchOrders({
-        limit: ORDERS_LIMIT,
-        offset,
-        filters: [...searchParams.entries()].filter(([key]) => key !== 'page'), // TODO: create helper;
-      });
+      const filters = getOrderFilterParams();
+
+      onFilterChange(filters);
     }, 1000);
   };
+
+  const getOrderFilterParams = () => [...searchParams.entries()].filter(([key]) => key !== 'page');
 
   const isOptionDisabled = (_: IOrderStatusOptionWithColor, selectValue: Options<IOrderStatusOptionWithColor>) => {
     return selectValue.length >= ORDERS_MULTISELECT_LIMIT;
@@ -95,7 +106,7 @@ const statusOptions: IOrderStatusOptionWithColor[] = Object.values(OrderStatus).
 }));
 
 const statusStyles: StylesConfig<IOrderStatusOptionWithColor, true> = {
-  container: (styles) => ({ ...styles, minWidth: 150 }),
+  container: (styles) => ({ ...styles, minWidth: 150, width: 'max-content' }),
   control: (styles) => ({
     ...styles,
     backgroundColor: 'white',

@@ -1,4 +1,5 @@
 import { INewDeviceFeature, INewDeviceInfo } from '@src/features/addNewDevice/modules/newDeviceTypes';
+import { ParamKeyValuePair } from 'react-router-dom';
 import { ROLES } from '../constants';
 
 export interface ILogin {
@@ -65,4 +66,10 @@ export interface IGetCommentsParams {
   deviceId: number;
   limit?: number;
   offset?: number;
+}
+
+export interface IGetOrdersParams {
+  offset: number;
+  limit: number;
+  filters?: ParamKeyValuePair[];
 }

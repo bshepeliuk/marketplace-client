@@ -1,22 +1,36 @@
 import styled from 'styled-components';
-
 import { Link } from 'react-router-dom';
 
-export const Header = styled.header`
-  height: 80px;
+export const Container = styled.div`
   align-items: center;
-  padding: 10px 20px;
-  display: flex;
-  margin-bottom: 10px;
   background-color: #303030;
   display: grid;
   grid-template-columns: 200px 200px 1fr 50px 50px 180px;
+  grid-column-gap: 20px;
   justify-items: center;
-  column-gap: 5px;
+
+  @media screen and (min-width: 1600px) {
+    width: 100%;
+    max-width: 1600px;
+  }
+
+  @media screen and (max-width: 1600px) {
+    width: 100%;
+    max-width: 1440px;
+  }
 
   @media (max-width: 700px) {
     grid-template-columns: repeat(2, 1fr);
   }
+`;
+
+export const Header = styled.header`
+  height: 80px;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+  background-color: #303030;
 `;
 
 export const LogoLink = styled(Link)`
@@ -50,15 +64,8 @@ export const LoginLink = styled(Link)`
 `;
 
 export const SearchWrap = styled.div`
-  width: 650px;
-
-  @media (max-width: 1440px) {
-    width: 500px;
-  }
-
-  @media (max-width: 1300px) {
-    width: 90%;
-  }
+  max-width: 800px;
+  width: 100%;
 
   @media (max-width: 960px) {
     display: none;

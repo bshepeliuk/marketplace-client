@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import * as Api from '@src/common/api/Api';
 import { IThunkAPI, Nullable } from '@src/common/types/baseTypes';
 import getErrorMessage from '@src/common/utils/getErrorMessage';
+import { ParamKeyValuePair } from 'react-router-dom';
 import { IOrder } from '../orders/types';
 
 export const initialState = {
@@ -19,25 +20,26 @@ interface IPurchasesData {
   total: number;
 }
 
-export const getPurchases = createAsyncThunk<IPurchasesData, { limit: number; offset: number }, IThunkAPI>(
-  'purchases/get-all',
-  async ({ limit, offset }, { rejectWithValue }) => {
-    try {
-      const { data } = await Api.Purchases.get({ limit, offset });
+export const getPurchases = createAsyncThunk<
+  IPurchasesData,
+  { limit: number; offset: number; filters?: ParamKeyValuePair[] },
+  IThunkAPI
+>('purchases/get-all', async ({ limit, offset, filters }, { rejectWithValue }) => {
+  try {
+    const { data } = await Api.Purchases.get({ limit, offset, filters });
 
-      return {
-        total: data.total,
-        purchases: data.purchases,
-      };
-    } catch (error) {
-      const message = getErrorMessage(error);
+    return {
+      total: data.total,
+      purchases: data.purchases,
+    };
+  } catch (error) {
+    const message = getErrorMessage(error);
 
-      return rejectWithValue({
-        message,
-      });
-    }
-  },
-);
+    return rejectWithValue({
+      message,
+    });
+  }
+});
 
 const purchasesSlice = createSlice({
   initialState,

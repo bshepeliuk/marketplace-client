@@ -4,6 +4,7 @@ import {
   IEvaluateDeviceParams,
   IGetCommentsParams,
   IGetDevicesProps,
+  IGetOrdersParams,
   IGetRepliesParams,
   ILogin,
   IRegister,
@@ -124,7 +125,7 @@ export const Ratings = {
 };
 
 export const Orders = {
-  get({ limit = 20, offset = 0, filters }) {
+  get({ limit = 20, offset = 0, filters }: IGetOrdersParams) {
     const paramsUrl = generateSearchParamsStr({ filters, limit, offset });
 
     return api.get(`/orders?${paramsUrl}`);
@@ -135,8 +136,10 @@ export const Orders = {
 };
 
 export const Purchases = {
-  get({ limit = 20, offset = 0 }) {
-    return api.get('/purchases', { params: { limit, offset } });
+  get({ limit = 20, offset = 0, filters }: IGetOrdersParams) {
+    const paramsUrl = generateSearchParamsStr({ filters, limit, offset });
+
+    return api.get(`/purchases?${paramsUrl}`);
   },
 };
 

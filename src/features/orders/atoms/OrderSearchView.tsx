@@ -1,23 +1,22 @@
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
 import Select, { SingleValue, StylesConfig } from 'react-select';
-import { useSearchParams } from 'react-router-dom';
-import { ORDERS_LIMIT, searchOrderOptions } from '../../constants';
-import useGetOrders from '../../hooks/useGetOrders';
-import { SearchContainer, SearchInput } from '../../styles/orderSearchFilter';
-import useGetPrevSearchOrderOption from '../../hooks/useGetPrevSearchOrderOption';
-import { ISearchOption } from '../../types';
+import { ParamKeyValuePair, useSearchParams } from 'react-router-dom';
+import { searchOrderOptions } from '../constants';
+import { SearchContainer, SearchInput } from '../styles/orderSearchFilter';
+import useGetPrevSearchOrderOption from '../hooks/useGetPrevSearchOrderOption';
+import { ISearchOption } from '../types';
 
-function OrderSearchView() {
+interface IProps {
+  onFilterChange: (filters: ParamKeyValuePair[]) => void;
+}
+
+function OrderSearchView({ onFilterChange }: IProps) {
   const timeoutId = useRef<ReturnType<typeof setTimeout>>();
   const [searchOption, setSearchOption] = useState<ISearchOption>(searchOrderOptions[0]);
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchValue, setSearchValue] = useState('');
-  const { fetchOrders } = useGetOrders();
   const { getPrevSearchOptionFromParams } = useGetPrevSearchOrderOption();
 
-  const FIRST_PAGE = 1;
-  const pageParam = Number(searchParams.get('page'));
-  const offset = pageParam > FIRST_PAGE ? (pageParam - FIRST_PAGE) * ORDERS_LIMIT : 0;
   const placeholder = `Search by ${searchOption.value.toLowerCase()}`;
 
   useEffect(() => {
@@ -48,10 +47,10 @@ function OrderSearchView() {
   };
 
   const onSearchValueChange = (evt: ChangeEvent<HTMLInputElement>) => {
+    const { value } = evt.target;
     // FIXME: allow only number for orderId (id);
     clearTimeout(timeoutId.current as ReturnType<typeof setTimeout>);
-
-    const { value } = evt.target;
+    searchParams.delete('page');
 
     if (value.trim() === '') {
       searchParams.delete(searchOption.fieldName);
@@ -63,13 +62,13 @@ function OrderSearchView() {
     setSearchParams(searchParams);
 
     timeoutId.current = setTimeout(() => {
-      fetchOrders({
-        limit: ORDERS_LIMIT,
-        offset,
-        filters: [...searchParams.entries()].filter(([key]) => key !== 'page'), // TODO: create helper;
-      });
+      const filters = getOrderFilterParams();
+
+      onFilterChange(filters);
     }, 1500);
   };
+
+  const getOrderFilterParams = () => [...searchParams.entries()].filter(([key]) => key !== 'page');
 
   return (
     <SearchContainer>

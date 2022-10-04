@@ -1,24 +1,16 @@
-import { ParamKeyValuePair } from 'react-router-dom';
 import { useAppDispatch } from '@src/common/hooks/useAppDispatch';
 import { useTypedSelector } from '@src/common/hooks/useTypedSelector';
+import { IGetOrdersParams } from '@src/common/types/apiTypes';
 import { getOrders } from '../ordersSlice';
 import groupByOrderId from '../helpers/groupByOrderId';
 
-const useGetOrders = () => {
+const useFetchOrders = () => {
   const dispatch = useAppDispatch();
   const { items, isLoading, total } = useTypedSelector((state) => state.orders);
 
   const orders = groupByOrderId(items);
 
-  const fetchOrders = ({
-    limit,
-    offset,
-    filters,
-  }: {
-    limit: number;
-    offset: number;
-    filters?: ParamKeyValuePair[];
-  }) => {
+  const fetchOrders = ({ limit, offset, filters }: IGetOrdersParams) => {
     dispatch(getOrders({ limit, offset, filters }));
   };
 
@@ -30,4 +22,4 @@ const useGetOrders = () => {
   };
 };
 
-export default useGetOrders;
+export default useFetchOrders;

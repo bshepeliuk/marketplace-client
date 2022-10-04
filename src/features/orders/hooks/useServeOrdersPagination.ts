@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { ORDERS_LIMIT } from '../constants';
-import useGetOrders from './useGetOrders';
+import useFetchOrders from './useFetchOrders';
 
 const useServeOrdersPagination = () => {
   const FIRST_PAGE = 1;
 
   const [currentPage, setCurrentPage] = useState(FIRST_PAGE);
   const [searchParams, setSearchParams] = useSearchParams();
-  const { items, isLoading, total, fetchOrders } = useGetOrders();
+  const { items, isLoading, total, fetchOrders } = useFetchOrders();
 
   const shouldHavePagination = total !== null && total > ORDERS_LIMIT;
 
