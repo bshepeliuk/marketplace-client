@@ -1,18 +1,21 @@
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
+import notifications from '@src/common/utils/notifications';
 import Select, { SingleValue, StylesConfig } from 'react-select';
 import { ParamKeyValuePair, useSearchParams } from 'react-router-dom';
-import { searchOrderOptions } from '../constants';
 import { SearchContainer, SearchInput } from '../styles/orderSearchFilter';
 import useGetPrevSearchOrderOption from '../hooks/useGetPrevSearchOrderOption';
 import { ISearchOption } from '../types';
 
 interface IProps {
   onFilterChange: (filters: ParamKeyValuePair[]) => void;
+  options: ISearchOption[];
+  validation?: { [key: string]: (value: string | number) => boolean };
+  errors?: { [key: string]: { message: string } };
 }
-
-function OrderSearchView({ onFilterChange }: IProps) {
+// TODO: validation and error messages;
+function OrderSearchView({ onFilterChange, options, validation, errors }: IProps) {
   const timeoutId = useRef<ReturnType<typeof setTimeout>>();
-  const [searchOption, setSearchOption] = useState<ISearchOption>(searchOrderOptions[0]);
+  const [searchOption, setSearchOption] = useState<ISearchOption>(options[0]);
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchValue, setSearchValue] = useState('');
   const { getPrevSearchOptionFromParams } = useGetPrevSearchOrderOption();
@@ -21,7 +24,7 @@ function OrderSearchView({ onFilterChange }: IProps) {
 
   useEffect(() => {
     // sync search state with params;
-    const option = getPrevSearchOptionFromParams(searchOrderOptions);
+    const option = getPrevSearchOptionFromParams(options);
 
     if (option) {
       const prevSearchValue = searchParams.get(option.fieldName) ?? '';
@@ -32,7 +35,7 @@ function OrderSearchView({ onFilterChange }: IProps) {
   }, []);
 
   const handleOptionChange = (option: SingleValue<ISearchOption>) => {
-    const prevOption = getPrevSearchOptionFromParams(searchOrderOptions);
+    const prevOption = getPrevSearchOptionFromParams(options);
 
     if (prevOption !== undefined) {
       searchParams.delete(prevOption.fieldName);
@@ -47,10 +50,21 @@ function OrderSearchView({ onFilterChange }: IProps) {
   };
 
   const onSearchValueChange = (evt: ChangeEvent<HTMLInputElement>) => {
-    const { value } = evt.target;
-    // FIXME: allow only number for orderId (id);
     clearTimeout(timeoutId.current as ReturnType<typeof setTimeout>);
     searchParams.delete('page');
+
+    const { value, name } = evt.target;
+
+    const hasValidationMethod = validation && validation[name] !== undefined;
+
+    if (hasValidationMethod) {
+      const isValid = validation[name](value);
+
+      if (!isValid && errors && errors[name] !== undefined) {
+        notifications.error(errors[name].message, { toastId: 'orders-validation-error' });
+        return;
+      }
+    }
 
     if (value.trim() === '') {
       searchParams.delete(searchOption.fieldName);
@@ -72,14 +86,15 @@ function OrderSearchView({ onFilterChange }: IProps) {
 
   return (
     <SearchContainer>
-      <Select
-        value={searchOption}
-        options={searchOrderOptions}
-        styles={searchFieldStyles}
-        onChange={handleOptionChange}
-      />
+      <Select value={searchOption} options={options} styles={searchFieldStyles} onChange={handleOptionChange} />
 
-      <SearchInput type="text" onChange={onSearchValueChange} placeholder={placeholder} value={searchValue} />
+      <SearchInput
+        type="text"
+        name={searchOption.fieldName}
+        onChange={onSearchValueChange}
+        placeholder={placeholder}
+        value={searchValue}
+      />
     </SearchContainer>
   );
 }
@@ -87,7 +102,7 @@ function OrderSearchView({ onFilterChange }: IProps) {
 const searchFieldStyles: StylesConfig<ISearchOption, false> = {
   container: (styles) => ({
     ...styles,
-    width: 150,
+    width: 'max-content',
   }),
   control: (styles) => ({
     ...styles,

@@ -3,8 +3,9 @@ import { ParamKeyValuePair, useSearchParams } from 'react-router-dom';
 import OrderSearchView from '../atoms/OrderSearchView';
 import OrderStatusFilterView from '../atoms/OrderStatusFilterView';
 import SorterView from '../../../common/atoms/Sorter/SorterView';
-import { ORDERS_LIMIT } from '../constants';
+import { ORDERS_LIMIT, searchOrderOptions } from '../constants';
 import useFetchOrders from '../hooks/useFetchOrders';
+import { searchOrderErrors, searchOrderValidation } from './helpers/searchFilterOrderValidation';
 
 type SorterListType = Array<{ label: string; fieldName: 'fullName' | 'createdAt' }>;
 
@@ -31,7 +32,12 @@ function OrdersFilter() {
 
   return (
     <>
-      <OrderSearchView onFilterChange={onFilterChange} />
+      <OrderSearchView
+        options={searchOrderOptions}
+        onFilterChange={onFilterChange}
+        validation={searchOrderValidation}
+        errors={searchOrderErrors}
+      />
       <OrderStatusFilterView onFilterChange={onFilterChange} />
       <SorterView options={sortOptions} onFilterChange={onFilterChange} />
     </>

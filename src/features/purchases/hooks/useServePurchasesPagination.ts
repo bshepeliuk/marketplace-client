@@ -10,7 +10,7 @@ const useServePurchasesPagination = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { items, isLoading, total, fetchPurchases } = useFetchPurchases();
 
-  const shouldHavePagination = total && total > ORDERS_LIMIT;
+  const shouldHavePagination = total !== null && total > ORDERS_LIMIT;
 
   const pageParam = Number(searchParams.get('page'));
   const offset = pageParam > FIRST_PAGE ? (pageParam - FIRST_PAGE) * ORDERS_LIMIT : 0;
