@@ -1,6 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import { ParamKeyValuePair, useSearchParams } from 'react-router-dom';
+import {
+  searchOrderErrors,
+  searchOrderValidation,
+} from '@src/features/orders/components/helpers/searchFilterOrderValidation';
 import OrderSearchView from '@src/features/orders/atoms/OrderSearchView';
 import OrderStatusFilterView from '@src/features/orders/atoms/OrderStatusFilterView';
 import createOption from '@src/common/utils/createSelectOption';
@@ -10,10 +14,6 @@ import Pagination from '@src/common/components/Pagination/Pagination';
 import { ORDERS_LIMIT } from '@src/features/orders/constants';
 import useServePurchasesPagination from '../hooks/useServePurchasesPagination';
 import useFetchPurchases from '../hooks/useFetchPurchases';
-import {
-  searchOrderErrors,
-  searchOrderValidation,
-} from '@src/features/orders/components/helpers/searchFilterOrderValidation';
 
 function PurchasesView() {
   const { items, isLoading, total, shouldHavePagination, currentPage, onPageChange } = useServePurchasesPagination();

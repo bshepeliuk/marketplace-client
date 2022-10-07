@@ -118,6 +118,7 @@ const statusStyles: StylesConfig<IOrderStatusOptionWithColor, true> = {
       ...styles,
     };
   },
+  placeholder: (styles) => ({ ...styles, fontSize: 15 }),
   valueContainer: (styles) => ({ ...styles }),
   multiValue: (styles, { data }) => {
     const color = chroma(data.color);

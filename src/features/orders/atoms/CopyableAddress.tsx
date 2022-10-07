@@ -1,8 +1,8 @@
 import React from 'react';
 import useCopy from '@src/common/hooks/useCopy';
-import { IShippingAddress } from '@src/features/purchases/types';
 import styled from 'styled-components';
 import { BiCopy } from 'react-icons/bi';
+import { IShippingAddress } from '../types';
 
 interface IProps {
   address: IShippingAddress;
@@ -10,6 +10,8 @@ interface IProps {
 
 function CopyableAddress({ address }: IProps) {
   const { isCopied, onCopy } = useCopy();
+
+  if (address === null) return <div>-</div>;
 
   const addressForCopy = `${address.country}, ${address.city}, ${address.state}, ${address.line1}, ${address.line2}`;
 

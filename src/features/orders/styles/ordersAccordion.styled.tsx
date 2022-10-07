@@ -4,8 +4,11 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 export const Wrapper = styled.div`
-  width: fit-content;
   padding: 10px 5px 0 5px;
+
+  @media (max-width: 1300px) {
+    width: fit-content;
+  }
 `;
 
 export const Container = styled.div``;
@@ -27,20 +30,19 @@ export const BodyHeaderCell = styled(Cell)`
 
 export const Body = styled.div<{ isOpen: boolean; height: number | undefined }>`
   grid-column: 1 / -1;
-  background-color: #ecf0f1;
   display: grid;
   gap: 1px;
-  border: 1px solid #ecf0f1;
-  transition: height 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
   overflow: hidden;
   margin-top: 10px;
   height: ${(props) => {
     if (props.height === undefined) return 'auto';
+
     return `${props.height}px`;
   }};
+  background-color: ${(props) => (props.isOpen ? '#ecf0f1' : '#fff')};
   margin-bottom: ${(props) => (props.isOpen ? '10px' : '0px')};
-  border-top: ${(props) => (props.isOpen ? '1px solid #ecf0f1' : 'none')};
-  border-bottom: ${(props) => (props.isOpen ? '1px solid #ecf0f1' : 'none')};
+  border: ${(props) => (props.isOpen ? '1px solid #ecf0f1' : '1px solid transparent')};
 `;
 
 export const Row = styled.div`
