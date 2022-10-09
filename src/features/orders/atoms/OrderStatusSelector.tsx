@@ -15,7 +15,7 @@ interface IProps {
   onFilterChange: (filters: ParamKeyValuePair[]) => void;
 }
 
-function OrderStatusFilterView({ onFilterChange }: IProps) {
+function OrderStatusSelector({ onFilterChange }: IProps) {
   const timeoutId = useRef<ReturnType<typeof setTimeout>>();
   const [values, setValues] = useState<MultiValue<IOrderStatusOptionWithColor>>([]);
   const [searchParams, setSearchParams] = useSearchParams();
@@ -100,6 +100,8 @@ function OrderStatusFilterView({ onFilterChange }: IProps) {
   );
 }
 
+const ORDERS_MULTISELECT_LIMIT = 4;
+
 const statusOptions: IOrderStatusOptionWithColor[] = Object.values(OrderStatus).map((status) => ({
   ...createOption(status),
   color: OrderStatusColor[status],
@@ -143,6 +145,4 @@ const statusStyles: StylesConfig<IOrderStatusOptionWithColor, true> = {
   }),
 };
 
-const ORDERS_MULTISELECT_LIMIT = 4;
-
-export default OrderStatusFilterView;
+export default OrderStatusSelector;

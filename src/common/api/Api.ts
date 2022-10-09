@@ -133,6 +133,9 @@ export const Orders = {
   changeStatus({ id, status }: { id: number; status: OrderStatusValues }) {
     return api.patch('/order-status', { id, status });
   },
+  getYearOptions() {
+    return api.get('/orders/year-options');
+  },
 };
 
 export const Purchases = {
@@ -140,6 +143,9 @@ export const Purchases = {
     const paramsUrl = generateSearchParamsStr({ filters, limit, offset });
 
     return api.get(`/purchases?${paramsUrl}`);
+  },
+  getYearOptions() {
+    return api.get('/purchases/year-options');
   },
 };
 

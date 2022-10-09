@@ -1,28 +1,32 @@
 import React from 'react';
-import styled from 'styled-components';
 import { ParamKeyValuePair, useSearchParams } from 'react-router-dom';
-import { Orders } from '@src/common/api/Api';
+import styled from 'styled-components';
+import createOption from '@src/common/utils/createSelectOption';
+import { ORDERS_LIMIT } from '@src/features/orders/constants';
+import {
+  searchOrderErrors,
+  searchOrderValidation,
+} from '@src/features/orders/components/helpers/searchFilterOrderValidation';
 import MonthFilter from '@src/common/components/MonthFilter/MonthFilter';
-import OrderSearchView from '../atoms/OrderSearchView';
-import SorterView from '../../../common/atoms/Sorter/SorterView';
-import { ORDERS_LIMIT, searchOrderOptions } from '../constants';
-import useFetchOrders from '../hooks/useFetchOrders';
-import { searchOrderErrors, searchOrderValidation } from './helpers/searchFilterOrderValidation';
-import OrderStatusSelector from '../atoms/OrderStatusSelector';
-import OrderYearSelector from '../atoms/OrderYearSelector';
+import OrderYearSelector from '@src/features/orders/atoms/OrderYearSelector';
+import OrderSearchView from '@src/features/orders/atoms/OrderSearchView';
+import OrderStatusSelector from '@src/features/orders/atoms/OrderStatusSelector';
+import { Purchases } from '@src/common/api/Api';
+import SorterView from '@src/common/atoms/Sorter/SorterView';
+import useFetchPurchases from '../hooks/useFetchPurchases';
 
 type SorterListType = Array<{ label: string; fieldName: 'fullName' | 'createdAt' }>;
 
-function OrdersFilter() {
+function PurchasesFilter() {
   const [searchParams] = useSearchParams();
-  const { fetchOrders } = useFetchOrders();
+  const { fetchPurchases } = useFetchPurchases();
 
   const onFilterChange = (filters: ParamKeyValuePair[]) => {
     const FIRST_PAGE = 1;
     const pageParam = Number(searchParams.get('page'));
     const offset = pageParam > FIRST_PAGE ? (pageParam - FIRST_PAGE) * ORDERS_LIMIT : 0;
 
-    fetchOrders({
+    fetchPurchases({
       offset,
       filters,
       limit: ORDERS_LIMIT,
@@ -30,7 +34,7 @@ function OrdersFilter() {
   };
 
   const onLoadYearOptions = () => {
-    return Orders.getYearOptions().then((res) => res.data.options);
+    return Purchases.getYearOptions().then((res) => res.data.options);
   };
 
   return (
@@ -42,7 +46,7 @@ function OrdersFilter() {
 
       <InnerWrap>
         <OrderSearchView
-          options={searchOrderOptions}
+          options={searchPurchaseOptions}
           onFilterChange={onFilterChange}
           validation={searchOrderValidation}
           errors={searchOrderErrors}
@@ -59,6 +63,11 @@ const sortOptions: SorterListType = [
   { label: 'customer', fieldName: 'fullName' },
 ];
 
+const searchPurchaseOptions = [
+  { ...createOption('Order id'), fieldName: 'id' },
+  { ...createOption('Device name'), fieldName: 'deviceName' },
+];
+
 const Wrap = styled.div`
   display: flex;
   flex-flow: column wrap;
@@ -70,4 +79,4 @@ const InnerWrap = styled.div`
   gap: 15px;
 `;
 
-export default OrdersFilter;
+export default PurchasesFilter;

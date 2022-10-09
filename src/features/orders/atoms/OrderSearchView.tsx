@@ -12,7 +12,7 @@ interface IProps {
   validation?: { [key: string]: (value: string | number) => boolean };
   errors?: { [key: string]: { message: string } };
 }
-// TODO: validation and error messages;
+
 function OrderSearchView({ onFilterChange, options, validation, errors }: IProps) {
   const timeoutId = useRef<ReturnType<typeof setTimeout>>();
   const [searchOption, setSearchOption] = useState<ISearchOption>(options[0]);
