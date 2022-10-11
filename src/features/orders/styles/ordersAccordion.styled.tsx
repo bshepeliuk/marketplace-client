@@ -11,8 +11,6 @@ export const Wrapper = styled.div`
   }
 `;
 
-export const Container = styled.div``;
-
 export const Cell = styled.div`
   padding: 10px;
   background-color: #fff;

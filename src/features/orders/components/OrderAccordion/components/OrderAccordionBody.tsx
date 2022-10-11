@@ -1,8 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React from 'react';
 import { generatePath } from 'react-router-dom';
 import { format } from 'date-fns';
 import { routes } from '@src/app/Router';
 import { IOrderDevice } from '@src/features/orders/types';
+import useDynamicHeightBasedOnVisibility from '@common/hooks/useDynamicHeightBasedOnVisibility';
 import {
   Body,
   BodyHeaderCell,
@@ -21,25 +22,10 @@ interface IProps {
 }
 
 function OrderAccordionBody({ devices, isOpen, isStatusChangeable }: IProps) {
-  const bodyRef = useRef<HTMLDivElement>(null);
-  const [height, setHeight] = useState<number | undefined>(undefined);
-  const prevHeight = useRef<number | undefined>();
-
-  useEffect(() => {
-    prevHeight.current = bodyRef.current?.getBoundingClientRect().height;
-  }, []);
-
-  useEffect(() => {
-    if (isOpen) {
-      const nextHeight = prevHeight.current || bodyRef.current?.getBoundingClientRect().height;
-      setHeight(nextHeight);
-    } else {
-      setHeight(0);
-    }
-  }, [isOpen]);
+  const { wrapperRef, height } = useDynamicHeightBasedOnVisibility<HTMLDivElement>(isOpen);
 
   return (
-    <Body ref={bodyRef} isOpen={isOpen} height={height}>
+    <Body ref={wrapperRef} isOpen={isOpen} height={height}>
       <Row>
         <BodyHeaderCell>Title</BodyHeaderCell>
         <BodyHeaderCell>Status</BodyHeaderCell>

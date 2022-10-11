@@ -2,6 +2,7 @@ import React from 'react';
 import useCopy from '@src/common/hooks/useCopy';
 import { BiCopy } from 'react-icons/bi';
 import styled from 'styled-components';
+import { MdOutlineLibraryAddCheck } from 'react-icons/md';
 
 interface IProps {
   value: string | number;
@@ -16,7 +17,7 @@ function Copyable({ value }: IProps) {
     <>
       {value}
       <CopyButton type="button" isCopied={isCopied} onClick={handleCopy}>
-        <BiCopy />
+        {isCopied ? <MdOutlineLibraryAddCheck /> : <BiCopy />}
       </CopyButton>
     </>
   );

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Wrapper } from '../../styles/ordersAccordion.styled';
+import { Wrapper } from '../../styles/ordersAccordion.styled';
 import { IOrder, IOrderDevice } from '../../types';
 import OrderAccordionItem from './components/OrderAccordionItem';
 
@@ -10,23 +10,16 @@ interface IProps {
 }
 
 function OrdersAccordion({ items, isLoading, isStatusChangeable = false }: IProps) {
-  if (isLoading) return <div>isLoading...</div>;
+  if (isLoading) return <Wrapper>isLoading...</Wrapper>;
 
   return (
-    <Container>
-      <Wrapper>
-        {items.map(([order, devices]) => {
-          return (
-            <OrderAccordionItem
-              isStatusChangeable={isStatusChangeable}
-              key={order.id}
-              order={order}
-              devices={devices}
-            />
-          );
-        })}
-      </Wrapper>
-    </Container>
+    <Wrapper>
+      {items.map(([order, devices]) => {
+        return (
+          <OrderAccordionItem isStatusChangeable={isStatusChangeable} key={order.id} order={order} devices={devices} />
+        );
+      })}
+    </Wrapper>
   );
 }
 
