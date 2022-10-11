@@ -1,7 +1,7 @@
-import { OrderStatusValues } from '@src/features/orders/types';
 import React from 'react';
 import styled from 'styled-components';
 
+import { OrderStatusValues } from '@src/features/orders/types';
 import { OrderStatusColor } from '../../../constants';
 
 interface IProps {

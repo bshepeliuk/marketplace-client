@@ -1,5 +1,6 @@
 import React from 'react';
 import useCopy from '@src/common/hooks/useCopy';
+import { MdOutlineLibraryAddCheck } from 'react-icons/md';
 import styled from 'styled-components';
 import { BiCopy } from 'react-icons/bi';
 import { IShippingAddress } from '../types';
@@ -15,6 +16,8 @@ function CopyableAddress({ address }: IProps) {
 
   const addressForCopy = `${address.country}, ${address.city}, ${address.state}, ${address.line1}, ${address.line2}`;
 
+  const handleCopy = () => onCopy(addressForCopy);
+
   return (
     <>
       <div>
@@ -25,8 +28,8 @@ function CopyableAddress({ address }: IProps) {
           {address.line1}, {address.line2}
         </div>
       </div>
-      <CopyButton type="button" isCopied={isCopied} onClick={() => onCopy(addressForCopy)}>
-        <BiCopy />
+      <CopyButton type="button" isCopied={isCopied} onClick={handleCopy}>
+        {isCopied ? <MdOutlineLibraryAddCheck /> : <BiCopy />}
       </CopyButton>
     </>
   );

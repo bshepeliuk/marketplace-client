@@ -33,3 +33,12 @@ export const searchOrderOptions = [
 ];
 
 export const ORDERS_LIMIT = 20;
+
+export const ORDERS_MULTISELECT_LIMIT = 4;
+
+type SorterListType = Array<{ label: string; fieldName: 'fullName' | 'createdAt' }>;
+
+export const SORT_ORDER_OPTIONS: SorterListType = [
+  { label: 'created at', fieldName: 'createdAt' },
+  { label: 'customer', fieldName: 'fullName' },
+];

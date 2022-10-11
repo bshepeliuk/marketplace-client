@@ -1,7 +1,7 @@
 import React from 'react';
 import { ParamKeyValuePair, useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
-import createOption from '@src/common/utils/createSelectOption';
+
 import { ORDERS_LIMIT } from '@src/features/orders/constants';
 import {
   searchOrderErrors,
@@ -14,8 +14,7 @@ import OrderStatusSelector from '@src/features/orders/atoms/OrderStatusSelector'
 import { Purchases } from '@src/common/api/Api';
 import SorterView from '@src/common/atoms/Sorter/SorterView';
 import useFetchPurchases from '../hooks/useFetchPurchases';
-
-type SorterListType = Array<{ label: string; fieldName: 'fullName' | 'createdAt' }>;
+import { PURCHASES_SEARCH_OPTIONS, PURCHASES_SORT_OPTIONS } from '../constants';
 
 function PurchasesFilter() {
   const [searchParams] = useSearchParams();
@@ -46,27 +45,17 @@ function PurchasesFilter() {
 
       <InnerWrap>
         <OrderSearchView
-          options={searchPurchaseOptions}
+          options={PURCHASES_SEARCH_OPTIONS}
           onFilterChange={onFilterChange}
           validation={searchOrderValidation}
           errors={searchOrderErrors}
         />
         <OrderStatusSelector onFilterChange={onFilterChange} />
-        <SorterView options={sortOptions} onFilterChange={onFilterChange} />
+        <SorterView options={PURCHASES_SORT_OPTIONS} onFilterChange={onFilterChange} />
       </InnerWrap>
     </Wrap>
   );
 }
-
-const sortOptions: SorterListType = [
-  { label: 'created at', fieldName: 'createdAt' },
-  { label: 'customer', fieldName: 'fullName' },
-];
-
-const searchPurchaseOptions = [
-  { ...createOption('Order id'), fieldName: 'id' },
-  { ...createOption('Device name'), fieldName: 'deviceName' },
-];
 
 const Wrap = styled.div`
   display: flex;

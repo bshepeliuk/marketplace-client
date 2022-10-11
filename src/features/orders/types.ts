@@ -1,3 +1,4 @@
+import { ActionMeta, MultiValue } from 'react-select';
 import { IDevice } from '../devices/types';
 import { OrderStatus } from './constants';
 
@@ -47,4 +48,15 @@ export interface ISearchOption {
   label: string;
   value: string;
   fieldName: string;
+}
+
+export interface IOrderStatusOptionWithColor extends IOrderStatusOption {
+  color: string;
+}
+
+export interface ISelectorChangeActions {
+  [key: string]: (props: {
+    options: MultiValue<IOrderStatusOptionWithColor>;
+    meta: ActionMeta<IOrderStatusOptionWithColor>;
+  }) => void;
 }

@@ -9,8 +9,14 @@ import { ISearchOption } from '../types';
 interface IProps {
   onFilterChange: (filters: ParamKeyValuePair[]) => void;
   options: ISearchOption[];
-  validation?: { [key: string]: (value: string | number) => boolean };
-  errors?: { [key: string]: { message: string } };
+  validation?: {
+    [key: string]: (value: string | number) => boolean;
+  };
+  errors?: {
+    [key: string]: {
+      message: string;
+    };
+  };
 }
 
 function OrderSearchView({ onFilterChange, options, validation, errors }: IProps) {
@@ -50,23 +56,17 @@ function OrderSearchView({ onFilterChange, options, validation, errors }: IProps
   };
 
   const onSearchValueChange = (evt: ChangeEvent<HTMLInputElement>) => {
+    const { value, name } = evt.target;
+
     clearTimeout(timeoutId.current as ReturnType<typeof setTimeout>);
     searchParams.delete('page');
 
-    const { value, name } = evt.target;
+    const isValueEmpty = value.trim() === '';
+    const isValid = validateSearchInput({ fieldName: name, value });
 
-    const hasValidationMethod = validation && validation[name] !== undefined;
+    if (!isValid) return;
 
-    if (hasValidationMethod) {
-      const isValid = validation[name](value);
-
-      if (!isValid && errors && errors[name] !== undefined) {
-        notifications.error(errors[name].message, { toastId: 'orders-validation-error' });
-        return;
-      }
-    }
-
-    if (value.trim() === '') {
+    if (isValueEmpty) {
       searchParams.delete(searchOption.fieldName);
     } else {
       searchParams.set(searchOption.fieldName, value);
@@ -80,6 +80,22 @@ function OrderSearchView({ onFilterChange, options, validation, errors }: IProps
 
       onFilterChange(filters);
     }, 1500);
+  };
+
+  const validateSearchInput = ({ fieldName, value }: { fieldName: string; value: string }) => {
+    const hasValidationMethod = validation && validation[fieldName] !== undefined;
+
+    if (hasValidationMethod) {
+      const isValid = validation[fieldName](value);
+      const hasValidationError = !isValid && errors && errors[fieldName] !== undefined;
+
+      if (hasValidationError) {
+        notifications.error(errors[fieldName].message, { toastId: 'orders-validation-error' });
+        return false;
+      }
+    }
+
+    return true;
   };
 
   const getOrderFilterParams = () => [...searchParams.entries()].filter(([key]) => key !== 'page');

@@ -27,8 +27,8 @@ const useServePurchasesPagination = () => {
     fetchPurchases({ filters, limit: ORDERS_LIMIT, offset: (page - FIRST_PAGE) * ORDERS_LIMIT });
 
     searchParams.set('page', String(page));
-    setSearchParams(searchParams);
 
+    setSearchParams(searchParams);
     setCurrentPage(page);
   };
 

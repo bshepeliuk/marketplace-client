@@ -1,17 +1,15 @@
 import React from 'react';
-import styled from 'styled-components';
 import { ParamKeyValuePair, useSearchParams } from 'react-router-dom';
 import { Orders } from '@src/common/api/Api';
 import MonthFilter from '@src/common/components/MonthFilter/MonthFilter';
 import OrderSearchView from '../atoms/OrderSearchView';
 import SorterView from '../../../common/atoms/Sorter/SorterView';
-import { ORDERS_LIMIT, searchOrderOptions } from '../constants';
+import { ORDERS_LIMIT, searchOrderOptions, SORT_ORDER_OPTIONS } from '../constants';
 import useFetchOrders from '../hooks/useFetchOrders';
 import { searchOrderErrors, searchOrderValidation } from './helpers/searchFilterOrderValidation';
 import OrderStatusSelector from '../atoms/OrderStatusSelector';
 import OrderYearSelector from '../atoms/OrderYearSelector';
-
-type SorterListType = Array<{ label: string; fieldName: 'fullName' | 'createdAt' }>;
+import { InnerWrap, Wrap } from '../styles/ordersFilter.styled';
 
 function OrdersFilter() {
   const [searchParams] = useSearchParams();
@@ -48,26 +46,10 @@ function OrdersFilter() {
           errors={searchOrderErrors}
         />
         <OrderStatusSelector onFilterChange={onFilterChange} />
-        <SorterView options={sortOptions} onFilterChange={onFilterChange} />
+        <SorterView options={SORT_ORDER_OPTIONS} onFilterChange={onFilterChange} />
       </InnerWrap>
     </Wrap>
   );
 }
-
-const sortOptions: SorterListType = [
-  { label: 'created at', fieldName: 'createdAt' },
-  { label: 'customer', fieldName: 'fullName' },
-];
-
-const Wrap = styled.div`
-  display: flex;
-  flex-flow: column wrap;
-  gap: 20px;
-`;
-
-const InnerWrap = styled.div`
-  display: flex;
-  gap: 15px;
-`;
 
 export default OrdersFilter;
