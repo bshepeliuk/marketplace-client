@@ -5,9 +5,7 @@ import removePriceParamsFromEntries from '@src/features/filters/helpers/removePr
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
   __esModule: true,
-  useSearchParams: jest
-    .fn()
-    .mockImplementation(() => [new URLSearchParams(), jest.fn()]),
+  useSearchParams: jest.fn().mockImplementation(() => [new URLSearchParams(), jest.fn()]),
 }));
 
 describe('[HELPERS] removePriceParamsFromEntries', () => {
@@ -29,13 +27,9 @@ describe('[HELPERS] removePriceParamsFromEntries', () => {
 
     const [searchParams] = useSearchParamsMock();
 
-    const entriesWithoutPrices = removePriceParamsFromEntries([
-      ...searchParams.entries(),
-    ]);
+    const entriesWithoutPrices = removePriceParamsFromEntries([...searchParams.entries()]);
 
-    const expectedEntries = params.filter(
-      ([title]) => title !== 'minPrice' && title !== 'maxPrice',
-    );
+    const expectedEntries = params.filter(([title]) => title !== 'minPrice' && title !== 'maxPrice');
 
     expect(entriesWithoutPrices).toEqual(expectedEntries);
   });

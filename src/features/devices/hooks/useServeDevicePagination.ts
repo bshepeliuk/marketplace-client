@@ -2,7 +2,7 @@ import usePrevious from '@src/common/hooks/usePrevious';
 import { useTypedSelector } from '@src/common/hooks/useTypedSelector';
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { DEVICES_OFFSET } from '../constants';
+import { DEVICES_LIMIT } from '../constants';
 import { devicesSelector } from '../selectors/deviceSelector';
 import useFetchDevicesByRequest from './useFetchDevicesByRequest';
 
@@ -17,28 +17,28 @@ const useServeDevicePagination = () => {
     return devicesSelector(state, searchParams.get('categoryId'));
   });
 
-  const shouldHavePagination = total > DEVICES_OFFSET;
+  const shouldHavePagination = total > DEVICES_LIMIT;
 
   const categoryId = searchParams.get('categoryId');
   const pageParam = Number(searchParams.get('page'));
-  const offset = pageParam > FIRST_PAGE ? (pageParam - FIRST_PAGE) * DEVICES_OFFSET : 0;
+  const offset = pageParam > FIRST_PAGE ? (pageParam - FIRST_PAGE) * DEVICES_LIMIT : 0;
 
   const currentSearchParams = searchParams.toString();
 
   const hasRemovedFilterParams = prevSearchParams && prevSearchParams.length > currentSearchParams.length;
 
   useEffect(() => {
-    if (hasRemovedFilterParams) fetchDevices({ limit: DEVICES_OFFSET, offset });
+    if (hasRemovedFilterParams) fetchDevices({ limit: DEVICES_LIMIT, offset });
   }, [currentSearchParams]);
 
   useEffect(() => {
-    fetchDevices({ offset, limit: DEVICES_OFFSET });
+    fetchDevices({ offset, limit: DEVICES_LIMIT });
   }, [categoryId]);
 
   const onPageChange = (page: number) => {
     window.scrollTo({ behavior: 'smooth', top: 0 });
 
-    fetchDevices({ limit: DEVICES_OFFSET, offset: (page - FIRST_PAGE) * DEVICES_OFFSET });
+    fetchDevices({ limit: DEVICES_LIMIT, offset: (page - FIRST_PAGE) * DEVICES_LIMIT });
 
     searchParams.set('page', String(page));
     setSearchParams(searchParams);

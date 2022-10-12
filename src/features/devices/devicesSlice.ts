@@ -15,7 +15,7 @@ import {
   IEvaluateDeviceEntity,
   IGetMoreDevicesParams,
 } from './types';
-import { DEVICES_OFFSET } from './constants';
+import { DEVICES_LIMIT } from './constants';
 
 export const initialState = {
   isLoading: false,
@@ -55,7 +55,7 @@ export const getDevices = createAsyncThunk<IDevicesData, IGetDevicesProps, IThun
 
       const { result, entities } = normalize<IDevice, DeviceEntities, number[]>(data.devices, DevicesSchema);
 
-      if (data.devices.length < DEVICES_OFFSET) {
+      if (data.devices.length < DEVICES_LIMIT) {
         dispatch(deviceActions.hasNoMore({ hasMore: false }));
       }
 
@@ -88,7 +88,7 @@ export const getMoreDevices = createAsyncThunk<IDevicesData, IGetMoreDevicesPara
 
       const { result, entities } = normalize<IDevice, DeviceEntities, number[]>(data.devices, DevicesSchema);
 
-      if (data.devices.length < DEVICES_OFFSET) {
+      if (data.devices.length < DEVICES_LIMIT) {
         dispatch(deviceActions.hasNoMore({ hasMore: false }));
       }
 

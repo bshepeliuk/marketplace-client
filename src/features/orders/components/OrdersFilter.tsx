@@ -4,9 +4,9 @@ import { Orders } from '@src/common/api/Api';
 import MonthFilter from '@src/common/components/MonthFilter/MonthFilter';
 import OrderSearchView from '../atoms/OrderSearchView';
 import SorterView from '../../../common/atoms/Sorter/SorterView';
-import { ORDERS_LIMIT, searchOrderOptions, SORT_ORDER_OPTIONS } from '../constants';
+import { FIRST_ORDER_PAGINATION_PAGE, ORDERS_LIMIT, SEARCH_ORDER_OPTIONS, SORT_ORDER_OPTIONS } from '../constants';
 import useFetchOrders from '../hooks/useFetchOrders';
-import { searchOrderErrors, searchOrderValidation } from './helpers/searchFilterOrderValidation';
+import { searchOrderErrors, searchOrderValidation } from '../helpers/searchFilterOrderValidation';
 import OrderStatusSelector from '../atoms/OrderStatusSelector';
 import OrderYearSelector from '../atoms/OrderYearSelector';
 import { InnerWrap, Wrap } from '../styles/ordersFilter.styled';
@@ -16,9 +16,10 @@ function OrdersFilter() {
   const { fetchOrders } = useFetchOrders();
 
   const onFilterChange = (filters: ParamKeyValuePair[]) => {
-    const FIRST_PAGE = 1;
     const pageParam = Number(searchParams.get('page'));
-    const offset = pageParam > FIRST_PAGE ? (pageParam - FIRST_PAGE) * ORDERS_LIMIT : 0;
+
+    const isNextPage = pageParam > FIRST_ORDER_PAGINATION_PAGE;
+    const offset = isNextPage ? (pageParam - FIRST_ORDER_PAGINATION_PAGE) * ORDERS_LIMIT : 0;
 
     fetchOrders({
       offset,
@@ -40,7 +41,7 @@ function OrdersFilter() {
 
       <InnerWrap>
         <OrderSearchView
-          options={searchOrderOptions}
+          options={SEARCH_ORDER_OPTIONS}
           onFilterChange={onFilterChange}
           validation={searchOrderValidation}
           errors={searchOrderErrors}

@@ -9,7 +9,9 @@ const searchOrderValidation: ISearchOrderValidation = {
 };
 
 const searchOrderErrors = {
-  id: { message: 'Order id should be a number.' },
+  id: {
+    message: 'Order id should be a number.',
+  },
 };
 
 export { searchOrderValidation, searchOrderErrors };

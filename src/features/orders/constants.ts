@@ -26,14 +26,14 @@ export const OrderStatusColor = {
   [OrderStatus.rejected]: '#f53b57',
 } as const;
 
-export const searchOrderOptions = [
+export const SEARCH_ORDER_OPTIONS = [
   { ...createOption('Order id'), fieldName: 'id' },
   { ...createOption('Customer'), fieldName: 'fullName' },
   { ...createOption('Phone'), fieldName: 'phone' },
 ];
 
 export const ORDERS_LIMIT = 20;
-
+export const FIRST_ORDER_PAGINATION_PAGE = 1;
 export const ORDERS_MULTISELECT_LIMIT = 4;
 
 type SorterListType = Array<{ label: string; fieldName: 'fullName' | 'createdAt' }>;

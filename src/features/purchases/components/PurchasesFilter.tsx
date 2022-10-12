@@ -3,10 +3,7 @@ import { ParamKeyValuePair, useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { ORDERS_LIMIT } from '@src/features/orders/constants';
-import {
-  searchOrderErrors,
-  searchOrderValidation,
-} from '@src/features/orders/components/helpers/searchFilterOrderValidation';
+import { searchOrderErrors, searchOrderValidation } from '@src/features/orders/helpers/searchFilterOrderValidation';
 import MonthFilter from '@src/common/components/MonthFilter/MonthFilter';
 import OrderYearSelector from '@src/features/orders/atoms/OrderYearSelector';
 import OrderSearchView from '@src/features/orders/atoms/OrderSearchView';

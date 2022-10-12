@@ -9,11 +9,7 @@ import { rest } from 'msw';
 import { BASE_API_URL } from '@src/common/constants';
 import { Wrapper } from '../../../wrapper';
 import { goods } from '../../../mocks/data';
-import {
-  mockStripe,
-  mockStripeElement,
-  mockStripeElements,
-} from '../../../mocks/stripe';
+import { mockStripe, mockStripeElement, mockStripeElements } from '../../../mocks/stripe';
 
 const server = setupServer(
   rest.post(`${BASE_API_URL}/create-checkout-session`, (req, res, ctx) => {
@@ -123,12 +119,7 @@ describe('useMakePayment hook', () => {
 
   test('should navigate to login page when unauthorized user tries to pay for goods.', () => {
     const { result } = renderHook(() => useMakePayment(goods), {
-      wrapper: (props) => (
-        <Wrapper
-          {...(props as object)}
-          state={{ auth: { isLoggedIn: false } }}
-        />
-      ),
+      wrapper: (props) => <Wrapper {...(props as object)} state={{ auth: { isLoggedIn: false } }} />,
     });
 
     act(() => {
@@ -144,24 +135,13 @@ describe('useMakePayment hook', () => {
   test('should changed isPending to default value when server return some error.', async () => {
     server.use(
       rest.post(`${BASE_API_URL}/create-checkout-session`, (req, res, ctx) => {
-        return res(
-          ctx.status(500),
-          ctx.json({ message: '[Stripe]: Something went wrong!' }),
-        );
+        return res(ctx.status(500), ctx.json({ message: '[Stripe]: Something went wrong!' }));
       }),
     );
 
-    const { result, waitForNextUpdate } = renderHook(
-      () => useMakePayment(goods),
-      {
-        wrapper: (props) => (
-          <Wrapper
-            {...(props as object)}
-            state={{ auth: { isLoggedIn: true, user: { id: 1 } } }}
-          />
-        ),
-      },
-    );
+    const { result, waitForNextUpdate } = renderHook(() => useMakePayment(goods), {
+      wrapper: (props) => <Wrapper {...(props as object)} state={{ auth: { isLoggedIn: true, user: { id: 1 } } }} />,
+    });
 
     act(() => {
       result.current.pay();
