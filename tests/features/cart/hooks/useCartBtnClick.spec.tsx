@@ -49,9 +49,7 @@ describe('[HOOK] useCartBtnClick', () => {
 
   test('should call removeFromCart action when device was added to cart earlier.', async () => {
     const { result } = renderHook(() => useCartBtnClick(), {
-      wrapper: (props) => (
-        <Wrapper {...props} state={{ cart: { items: [device] } }} />
-      ),
+      wrapper: (props) => <Wrapper {...props} state={{ cart: { items: [device] } }} />,
     });
 
     act(() => {
