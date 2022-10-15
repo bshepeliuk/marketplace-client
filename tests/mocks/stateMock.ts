@@ -74,7 +74,7 @@ export const rootStateMock = {
     isError: false,
     error: null,
     total: null,
-    items: [],
+    items: ordersMock,
   },
   comments: {
     isError: false,
