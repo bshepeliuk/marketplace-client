@@ -20,6 +20,7 @@ import {
   MenuTitle,
   SearchContainer,
 } from './burgerMenu.styled';
+import { BsBox } from 'react-icons/bs';
 
 function BurgerMenu() {
   const location = useLocation();
@@ -69,6 +70,19 @@ function BurgerMenu() {
             <MenuLink to={routes.newDevice}>
               <MdOutlineLibraryAdd />
               create a new device
+            </MenuLink>
+          )}
+
+          {isSeller && (
+            <MenuLink to={routes.orders}>
+              <BsBox />
+              My orders
+            </MenuLink>
+          )}
+          {isBuyer && (
+            <MenuLink to={routes.purchases}>
+              <BsBox />
+              My purchases
             </MenuLink>
           )}
 

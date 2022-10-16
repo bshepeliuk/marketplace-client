@@ -13,6 +13,7 @@ export function MonthFilter({ onFilterChange }: IProps) {
   const onMonthClick = (idx: number) => {
     if (checkIsSelected(idx)) {
       const filteredMonths = selected.filter((monthIdx) => monthIdx !== idx);
+
       setSelected(filteredMonths);
 
       searchParams.delete('month');

@@ -15,6 +15,8 @@ function HeaderView() {
   const { isLoggedIn } = useTypedSelector((state) => state.auth);
   const { isSeller, isBuyer } = useCheckUserRole();
 
+  const isUnauthorized = !isLoggedIn;
+
   return (
     <Header>
       <Container>
@@ -30,12 +32,11 @@ function HeaderView() {
 
         {isBuyer && <CartLink />}
         {isSeller && <AddDeviceLink />}
-
         {isBuyer && <ComparisonLink />}
 
         <UserInfoView />
 
-        {!isLoggedIn && <LoginLink to={routes.login}>Login</LoginLink>}
+        {isUnauthorized && <LoginLink to={routes.login}>Login</LoginLink>}
 
         <BurgerMenu />
       </Container>

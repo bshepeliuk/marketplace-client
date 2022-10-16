@@ -6,7 +6,7 @@ import { getPurchases } from '../purchasesSlice';
 
 const useFetchPurchases = () => {
   const dispatch = useAppDispatch();
-  const { items, isLoading, total } = useTypedSelector((state) => state.purchases);
+  const { items, isLoading, total, notFound } = useTypedSelector((state) => state.purchases);
 
   const purchases = groupByOrderId(items);
 
@@ -15,6 +15,7 @@ const useFetchPurchases = () => {
   };
 
   return {
+    notFound,
     total,
     isLoading,
     fetchPurchases,

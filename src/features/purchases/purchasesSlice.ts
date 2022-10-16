@@ -9,6 +9,7 @@ export const initialState = {
   isLoading: false,
   isError: false,
   error: null,
+  notFound: false,
   total: null as Nullable<number>,
   items: [] as IOrder[],
 };
@@ -22,9 +23,15 @@ interface IPurchasesData {
 
 export const getPurchases = createAsyncThunk<IPurchasesData, IGetOrdersParams, IThunkAPI>(
   'purchases/get-all',
-  async ({ limit, offset, filters }, { rejectWithValue }) => {
+  async ({ limit, offset, filters }, { rejectWithValue, dispatch }) => {
     try {
       const { data } = await Api.Purchases.get({ limit, offset, filters });
+
+      const hasNoPurchases = data.purchases.length === 0;
+
+      if (hasNoPurchases) {
+        dispatch(purchasesActions.setNotFound({ notFound: true }));
+      }
 
       return {
         total: data.total,
@@ -43,11 +50,18 @@ export const getPurchases = createAsyncThunk<IPurchasesData, IGetOrdersParams, I
 const purchasesSlice = createSlice({
   initialState,
   name: 'purchases',
-  reducers: {},
+  reducers: {
+    setNotFound(state: State, { payload }: PayloadAction<{ notFound: boolean }>) {
+      state.notFound = payload.notFound;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(getPurchases.pending, (state: State) => {
+      state.notFound = false;
       state.isLoading = true;
       state.isError = false;
+      state.total = null;
+      state.items = [];
     });
     builder.addCase(getPurchases.fulfilled, (state: State, { payload }: PayloadAction<IPurchasesData>) => {
       state.isLoading = false;

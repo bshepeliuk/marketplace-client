@@ -2,18 +2,17 @@ import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { ORDERS_LIMIT } from '@src/features/orders/constants';
 import useFetchPurchases from './useFetchPurchases';
+import { PURCHASES_FIRST_PAGE } from '../constants';
 
 const useServePurchasesPagination = () => {
-  const FIRST_PAGE = 1;
-
-  const [currentPage, setCurrentPage] = useState(FIRST_PAGE);
+  const [currentPage, setCurrentPage] = useState(PURCHASES_FIRST_PAGE);
   const [searchParams, setSearchParams] = useSearchParams();
-  const { items, isLoading, total, fetchPurchases } = useFetchPurchases();
+  const { items, isLoading, total, fetchPurchases, notFound } = useFetchPurchases();
 
   const shouldHavePagination = total !== null && total > ORDERS_LIMIT;
 
   const pageParam = Number(searchParams.get('page'));
-  const offset = pageParam > FIRST_PAGE ? (pageParam - FIRST_PAGE) * ORDERS_LIMIT : 0;
+  const offset = pageParam > PURCHASES_FIRST_PAGE ? (pageParam - PURCHASES_FIRST_PAGE) * ORDERS_LIMIT : 0;
 
   const filters = [...searchParams.entries()].filter(([key]) => key !== 'page');
 
@@ -24,7 +23,7 @@ const useServePurchasesPagination = () => {
   const onPageChange = (page: number) => {
     window.scrollTo({ behavior: 'smooth', top: 0 });
 
-    fetchPurchases({ filters, limit: ORDERS_LIMIT, offset: (page - FIRST_PAGE) * ORDERS_LIMIT });
+    fetchPurchases({ filters, limit: ORDERS_LIMIT, offset: (page - PURCHASES_FIRST_PAGE) * ORDERS_LIMIT });
 
     searchParams.set('page', String(page));
 
@@ -33,6 +32,7 @@ const useServePurchasesPagination = () => {
   };
 
   return {
+    notFound,
     currentPage,
     items,
     isLoading,

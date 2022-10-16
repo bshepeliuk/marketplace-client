@@ -1,6 +1,8 @@
 import React from 'react';
+
 import { Wrapper } from '../../styles/ordersAccordion.styled';
 import { IOrder, IOrderDevice } from '../../types';
+import OrderAccordionLoader from '../OrderAccordionLoader/OrderAccordionLoader';
 import OrderAccordionItem from './components/OrderAccordionItem';
 
 interface IProps {
@@ -10,7 +12,7 @@ interface IProps {
 }
 
 function OrdersAccordion({ items, isLoading, isStatusChangeable = false }: IProps) {
-  if (isLoading) return <Wrapper>isLoading...</Wrapper>;
+  if (isLoading) return <OrderAccordionLoader />;
 
   return (
     <Wrapper>

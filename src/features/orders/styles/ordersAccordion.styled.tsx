@@ -22,11 +22,13 @@ export const BodyHeaderCell = styled(Cell)`
   color: #487eb0;
   text-transform: uppercase;
   font-size: 14px;
-  text-align: center;
   font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
-export const Body = styled.div<{ isOpen: boolean; height: number | undefined }>`
+export const Body = styled.div<{ isOpen: boolean; height?: number }>`
   grid-column: 1 / -1;
   display: grid;
   gap: 1px;

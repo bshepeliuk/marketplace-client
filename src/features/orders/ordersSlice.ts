@@ -10,6 +10,7 @@ export const initialState = {
   isLoading: false,
   isError: false,
   error: null,
+  notFound: false,
   total: null as Nullable<number>,
   items: [] as IOrder[],
 };
@@ -23,9 +24,15 @@ interface IOrdersData {
 
 export const getOrders = createAsyncThunk<IOrdersData, IGetOrdersParams, IThunkAPI>(
   'orders/get-all',
-  async ({ limit, offset, filters }, { rejectWithValue }) => {
+  async ({ limit, offset, filters }, { rejectWithValue, dispatch }) => {
     try {
       const { data } = await Api.Orders.get({ limit, offset, filters });
+
+      const hasNoOrders = data.orders.length === 0;
+
+      if (hasNoOrders) {
+        dispatch(ordersActions.setNotFound({ notFound: true }));
+      }
 
       return {
         total: data.total,
@@ -55,11 +62,17 @@ const ordersSlice = createSlice({
 
       state.items = items;
     },
+    setNotFound(state: State, { payload }: PayloadAction<{ notFound: boolean }>) {
+      state.notFound = payload.notFound;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getOrders.pending, (state: State) => {
+      state.notFound = false;
       state.isLoading = true;
       state.isError = false;
+      state.total = null;
+      state.items = [];
     });
     builder.addCase(getOrders.fulfilled, (state: State, { payload }: PayloadAction<IOrdersData>) => {
       state.isLoading = false;

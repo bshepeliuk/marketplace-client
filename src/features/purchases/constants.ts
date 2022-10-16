@@ -11,3 +11,5 @@ export const PURCHASES_SEARCH_OPTIONS = [
   { ...createOption('Order id'), fieldName: 'id' },
   { ...createOption('Device name'), fieldName: 'deviceName' },
 ];
+
+export const PURCHASES_FIRST_PAGE = 1;

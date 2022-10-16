@@ -19,7 +19,7 @@ export const Container = styled.div`
     max-width: 1440px;
   }
 
-  @media (max-width: 700px) {
+  @media (max-width: 740px) {
     grid-template-columns: repeat(2, 1fr);
   }
 `;

@@ -6,7 +6,7 @@ import useFetchOrders from './useFetchOrders';
 const useServeOrdersPagination = () => {
   const [currentPage, setCurrentPage] = useState(FIRST_ORDER_PAGINATION_PAGE);
   const [searchParams, setSearchParams] = useSearchParams();
-  const { items, isLoading, total, fetchOrders } = useFetchOrders();
+  const { items, isLoading, total, fetchOrders, notFound } = useFetchOrders();
 
   const shouldHavePagination = total !== null && total > ORDERS_LIMIT;
 
@@ -31,6 +31,7 @@ const useServeOrdersPagination = () => {
   };
 
   return {
+    notFound,
     currentPage,
     items,
     isLoading,

@@ -101,7 +101,6 @@
     "react-virtualized-auto-sizer": "^1.0.6",
     "react-window": "^1.8.6",
     "react-window-infinite-loader": "^1.0.7",
-    "react-window-scroller": "^1.0.10",
     "redux-persist": "^6.0.0",
     "styled-components": "^5.3.3",
     "yup": "^0.32.11"

@@ -1,13 +1,27 @@
 import React from 'react';
-import styled from 'styled-components';
 import OrdersAccordion from '@features/orders/components/OrderAccordion/OrderAccordion';
 import Pagination from '@src/common/components/Pagination/Pagination';
+import useSlowDownLoaderIndicator from '@src/common/hooks/useSlowDownLoaderIndicator';
 import { ORDERS_LIMIT } from '@src/features/orders/constants';
 import useServePurchasesPagination from '../hooks/useServePurchasesPagination';
 import PurchasesFilter from '../components/PurchasesFilter';
+import { Container, FilterWrapper, PaginationContainer, NotFoundContainer } from '../styles/purchases.styled';
 
 function PurchasesView() {
-  const { items, isLoading, total, shouldHavePagination, currentPage, onPageChange } = useServePurchasesPagination();
+  // prettier-ignore
+  const {
+    items,
+    isLoading,
+    total,
+    shouldHavePagination,
+    currentPage,
+    onPageChange,
+    notFound
+  } = useServePurchasesPagination();
+  const isSlowLoading = useSlowDownLoaderIndicator({ isLoading, duration: 500 });
+
+  const isLoaded = !isSlowLoading;
+  const hasPagination = shouldHavePagination && !isSlowLoading;
 
   return (
     <Container>
@@ -15,31 +29,22 @@ function PurchasesView() {
         <PurchasesFilter />
       </FilterWrapper>
 
-      <OrdersAccordion items={items} isLoading={isLoading} />
+      {notFound && isLoaded && <NotFoundContainer>Not Found!</NotFoundContainer>}
 
-      {shouldHavePagination && (
-        <Pagination
-          totalCount={total ?? 0}
-          currentPage={currentPage}
-          onPageChange={onPageChange}
-          pageSize={ORDERS_LIMIT}
-        />
+      <OrdersAccordion items={items} isLoading={isSlowLoading} />
+
+      {hasPagination && (
+        <PaginationContainer>
+          <Pagination
+            totalCount={total ?? 0}
+            currentPage={currentPage}
+            onPageChange={onPageChange}
+            pageSize={ORDERS_LIMIT}
+          />
+        </PaginationContainer>
       )}
     </Container>
   );
 }
-
-const Container = styled.div`
-  max-width: 1400px;
-  margin: 20px auto;
-  overflow-x: auto;
-  min-height: calc(var(--default-height) - 40px); // margin top and bottom
-`;
-
-const FilterWrapper = styled.div`
-  display: flex;
-  gap: 15px;
-  margin: 0 10px 20px 10px;
-`;
 
 export default PurchasesView;

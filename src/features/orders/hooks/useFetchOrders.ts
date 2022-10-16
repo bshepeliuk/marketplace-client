@@ -6,7 +6,7 @@ import groupByOrderId from '../helpers/groupByOrderId';
 
 const useFetchOrders = () => {
   const dispatch = useAppDispatch();
-  const { items, isLoading, total } = useTypedSelector((state) => state.orders);
+  const { items, isLoading, total, notFound } = useTypedSelector((state) => state.orders);
 
   const orders = groupByOrderId(items);
 
@@ -18,6 +18,7 @@ const useFetchOrders = () => {
     isLoading,
     total,
     fetchOrders,
+    notFound,
     items: orders,
   };
 };

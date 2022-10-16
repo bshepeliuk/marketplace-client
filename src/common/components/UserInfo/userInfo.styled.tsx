@@ -36,7 +36,7 @@ export const InfoWrap = styled.div`
   top: 70px;
   border-radius: 4px;
   padding: 15px;
-  width: 200px;
+  min-width: 200px;
   height: max-content;
   right: 0;
   background-color: #fff;
@@ -85,7 +85,7 @@ export const Email = styled.p`
 
 export const Role = styled.p`
   color: rgba(26, 188, 156, 1);
-  margin-bottom: 0;
+  margin: 0;
 `;
 
 export const Logout = styled(MdExitToApp)`
@@ -96,5 +96,20 @@ export const Logout = styled(MdExitToApp)`
 
   &:hover {
     color: rgba(10, 61, 98, 1);
+  }
+`;
+
+export const InnerWrapper = styled.div`
+  padding: 15px 0;
+`;
+
+export const CustomLink = styled(Link)`
+  text-decoration: none;
+  color: #005a8d;
+  transition: all 0.2s ease-out;
+
+  &:hover {
+    text-decoration: underline;
+    color: #92b4ec;
   }
 `;
