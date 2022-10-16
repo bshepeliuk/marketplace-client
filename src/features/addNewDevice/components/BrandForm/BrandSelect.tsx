@@ -6,7 +6,7 @@ import useServeBrandSelect from '../../hooks/useServeBrandSelect';
 
 function BrandSelect({ formik }: { formik: FormikProps<{ name: string }> }) {
   const context = useNewDeviceContext();
-
+  // prettier-ignore
   const {
     onCreateOption,
     handleChange,

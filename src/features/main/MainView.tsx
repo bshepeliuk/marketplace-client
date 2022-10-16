@@ -16,9 +16,12 @@ import ForbiddenView from '../forbidden/ForbiddenView';
 import NotFoundView from '../notFound/NotFoundView';
 import NewDeviceView from '../addNewDevice/pages/NewDeviceView';
 import ComparisonView from '../comparison/pages/ComparisonView';
+import StripeAccountCreatedView from '../stripe/page/AccountCreatedView';
+import OrdersView from '../orders/pages/OrdersView';
+import PurchasesView from '../purchases/pages/PurchasesView';
 
 function MainView() {
-  const { isSeller } = useCheckUserRole();
+  const { isSeller, isBuyer } = useCheckUserRole();
 
   return (
     <>
@@ -33,6 +36,23 @@ function MainView() {
         <Route path={routes.searchResult} element={<SearchResultView />} />
         <Route path={routes.checkoutCancel} element={<PaymentCheckoutCancel />} />
         <Route path={routes.checkoutSuccess} element={<PaymentCheckoutSuccess />} />
+        <Route path={routes.stripeAccountSuccess} element={<StripeAccountCreatedView />} />
+        <Route
+          path={routes.orders}
+          element={
+            <PrivateRoute isAllowed={isSeller}>
+              <OrdersView />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path={routes.purchases}
+          element={
+            <PrivateRoute isAllowed={isBuyer}>
+              <PurchasesView />
+            </PrivateRoute>
+          }
+        />
         <Route
           path={routes.account}
           element={

@@ -1,4 +1,4 @@
-const createOption = (label: string) => ({
+const createOption = <T>(label: T) => ({
   label,
   value: label,
 });

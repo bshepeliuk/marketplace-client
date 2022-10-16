@@ -18,6 +18,7 @@ export const LoginButton = styled.button`
   background-color: #1abc9c;
   border: none;
   border-radius: 4px;
+  cursor: pointer;
   color: #fff;
 
   &:disabled {

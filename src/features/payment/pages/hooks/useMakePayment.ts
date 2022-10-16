@@ -25,7 +25,7 @@ const useMakePayment = (goods: IDeviceWithCount[]) => {
     try {
       setIsPending(true);
 
-      const line_items = prepareAndGetGoodsForPayment(goods);
+      const line_items = prepareAndGetGoodsForPayment({ goods, customerId: user.id });
 
       const res = await Api.Payment.session(line_items, user);
 

@@ -15,7 +15,7 @@ import {
   FilterBurgerMenuContainer,
 } from '../styles/devicesByCategory.styled';
 import NoDevicesView from '../components/NoDevicesView';
-import { DEVICES_OFFSET } from '../constants';
+import { DEVICES_LIMIT } from '../constants';
 import DevicesByCategoryList from '../components/DevicesByCategoryList/DevicesByCategoryList';
 import useServeDevicePagination from '../hooks/useServeDevicePagination';
 import useHandleDeviceByCategoryResize from '../hooks/useHandleDeviceByCategoryResize';
@@ -69,7 +69,7 @@ function DevicesByCategoryView() {
         {shouldHavePagination && (
           <PaginationContainer>
             <Pagination
-              pageSize={DEVICES_OFFSET}
+              pageSize={DEVICES_LIMIT}
               totalCount={total}
               currentPage={currentPage}
               onPageChange={onPageChange}

@@ -17,7 +17,7 @@ const serializeFeatures = (features: ISelectProps[]) => {
   }, [] as string[]);
 };
 
-const serialize = <T>(value: T): string => {
+const serialize = <T extends Record<string, string>>(value: T): string => {
   return Object.values(value).join(':');
 };
 

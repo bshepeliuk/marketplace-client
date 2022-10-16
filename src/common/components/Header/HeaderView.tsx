@@ -8,35 +8,38 @@ import SearchBarView from '@features/search/components/SearchBar/SearchBar';
 import ComparisonLink from '@common/atoms/ComparisonLink/ComparisonLink';
 import useCheckUserRole from '@common/hooks/useCheckUserRole';
 import UserInfoView from '../UserInfo/UserInfoView';
-import { Header, LoginLink, LogoLink, SearchWrap } from './header.styled';
+import { Header, LoginLink, LogoLink, SearchWrap, Container } from './header.styled';
 import BurgerMenu from '../BurgerMenu/BurgerMenu';
 
 function HeaderView() {
   const { isLoggedIn } = useTypedSelector((state) => state.auth);
   const { isSeller, isBuyer } = useCheckUserRole();
 
+  const isUnauthorized = !isLoggedIn;
+
   return (
     <Header>
-      <LogoLink to={routes.home} state={{ shouldRefetchDevices: true }}>
-        Marketplace
-      </LogoLink>
+      <Container>
+        <LogoLink to={routes.home} state={{ shouldRefetchDevices: true }}>
+          Marketplace
+        </LogoLink>
 
-      <CategoriesDropDown />
+        <CategoriesDropDown />
 
-      <SearchWrap>
-        <SearchBarView hasSuggestions />
-      </SearchWrap>
+        <SearchWrap>
+          <SearchBarView hasSuggestions />
+        </SearchWrap>
 
-      {isBuyer && <CartLink />}
-      {isSeller && <AddDeviceLink />}
+        {isBuyer && <CartLink />}
+        {isSeller && <AddDeviceLink />}
+        {isBuyer && <ComparisonLink />}
 
-      <ComparisonLink />
+        <UserInfoView />
 
-      <UserInfoView />
+        {isUnauthorized && <LoginLink to={routes.login}>Login</LoginLink>}
 
-      {!isLoggedIn && <LoginLink to={routes.login}>Login</LoginLink>}
-
-      <BurgerMenu />
+        <BurgerMenu />
+      </Container>
     </Header>
   );
 }

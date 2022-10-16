@@ -7,10 +7,7 @@ function generateSearchParamsStr({ filters, offset, limit }: IGetDevicesProps) {
   ]);
 
   if (filters) {
-    paramsUrl = new URLSearchParams([
-      ...filters,
-      ...Array.from(paramsUrl.entries()),
-    ]);
+    paramsUrl = new URLSearchParams([...filters, ...Array.from(paramsUrl.entries())]);
   }
 
   return paramsUrl;

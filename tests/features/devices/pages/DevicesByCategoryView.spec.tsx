@@ -6,7 +6,7 @@ import { rest } from 'msw';
 import { BASE_API_URL } from '@src/common/constants';
 import { fireEvent } from '@testing-library/dom';
 import { getDevices } from '@src/features/devices/devicesSlice';
-import { DEVICES_OFFSET } from '@src/features/devices/constants';
+import { DEVICES_LIMIT } from '@src/features/devices/constants';
 import DevicesByCategoryView from '@src/features/devices/pages/DevicesByCategoryView';
 import { FilterProvider } from '@features/filters/context/FilterContext';
 import setupAndRenderComponent from '../../../helpers/setupAndRenderComponent';
@@ -149,8 +149,8 @@ describe('[PAGES]: DevicesByCategoryView', () => {
         ['categoryId', String(deviceMock.id)],
         ['page', '2'],
       ],
-      limit: DEVICES_OFFSET,
-      offset: DEVICES_OFFSET * (pageNumber - 1),
+      limit: DEVICES_LIMIT,
+      offset: DEVICES_LIMIT * (pageNumber - 1),
     });
   });
 
@@ -186,7 +186,7 @@ describe('[PAGES]: DevicesByCategoryView', () => {
 
     expect(getDevices).toBeCalledWith({
       filters: [['categoryId', String(deviceMock.id)]],
-      limit: DEVICES_OFFSET,
+      limit: DEVICES_LIMIT,
       offset: 0,
     });
   });

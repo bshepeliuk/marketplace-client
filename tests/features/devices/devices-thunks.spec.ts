@@ -203,7 +203,7 @@ describe('DEVICES THUNKS', () => {
     });
 
     // eslint-disable-next-line max-len
-    test('should return devices and change hasMore to false when received devices length less than DEVICES_OFFSET=20', async () => {
+    test('should return devices and change hasMore to false when received devices length less than DEVICES_LIMIT=20', async () => {
       const devices = [
         {
           id: 22,

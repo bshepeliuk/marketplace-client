@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { IDeviceInfo } from '@features/devices/types';
+import useDynamicHeightBasedOnVisibility from '@common/hooks/useDynamicHeightBasedOnVisibility';
 import { AccordingHeader, ArrowIcon } from '../../../styles/filters.styled';
 import AccordionInfoListView from './AccordionInfoListView';
 import useFilterContext from '../../../hooks/useFilterContext';
@@ -11,25 +12,10 @@ interface IProps {
 
 function AccordionItemView({ title, info }: IProps) {
   const { setIsShownApplyBtn, hasSelectedItems } = useFilterContext();
-
-  const bodyRef = useRef<HTMLUListElement>(null);
   const [isOpen, setIsOpen] = useState(true);
-  const [height, setHeight] = useState<number | undefined>(undefined);
-  const prevHeight = useRef<number | undefined>();
+  const { height, wrapperRef } = useDynamicHeightBasedOnVisibility<HTMLUListElement>(isOpen);
 
   useEffect(() => {
-    prevHeight.current = bodyRef.current?.getBoundingClientRect().height;
-  }, []);
-
-  useEffect(() => {
-    if (isOpen) {
-      const nextHeight = prevHeight.current || bodyRef.current?.getBoundingClientRect().height;
-
-      setHeight(nextHeight);
-    } else {
-      setHeight(0);
-    }
-
     if (isOpen && hasSelectedItems) {
       setIsShownApplyBtn(true);
     } else {
@@ -46,7 +32,7 @@ function AccordionItemView({ title, info }: IProps) {
         <div>{title}</div>
       </AccordingHeader>
 
-      <AccordionInfoListView height={height} bodyRef={bodyRef} info={info} />
+      <AccordionInfoListView height={height} bodyRef={wrapperRef} info={info} />
     </li>
   );
 }

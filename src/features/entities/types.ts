@@ -1,11 +1,6 @@
 import { ICategory } from '../categories/types';
 import { IComment } from '../comments/types';
-import {
-  IDevice,
-  IDeviceImage,
-  IDeviceInfo,
-  IDeviceRating,
-} from '../devices/types';
+import { IDevice, IDeviceImage, IDeviceInfo, IDeviceRating } from '../devices/types';
 
 export interface IEntitiesState {
   devices: Record<string, IDevice>;

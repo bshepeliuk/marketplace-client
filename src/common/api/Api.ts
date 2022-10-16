@@ -4,12 +4,14 @@ import {
   IEvaluateDeviceParams,
   IGetCommentsParams,
   IGetDevicesProps,
+  IGetOrdersParams,
   IGetRepliesParams,
   ILogin,
   IRegister,
   IUpdateCommentParams,
 } from '@src/common/types/apiTypes';
 import getApiInstance from '@src/common/utils/getApiInstance';
+import { OrderStatusValues } from '@src/features/orders/types';
 import { IPaymentItems } from '@src/features/payment/types';
 import { IUser } from '../types/userTypes';
 import generateSearchParamsStr from '../utils/generateSearchParamsStr';
@@ -122,6 +124,31 @@ export const Ratings = {
   },
 };
 
+export const Orders = {
+  get({ limit = 20, offset = 0, filters }: IGetOrdersParams) {
+    const paramsUrl = generateSearchParamsStr({ filters, limit, offset });
+
+    return api.get(`/orders?${paramsUrl}`);
+  },
+  changeStatus({ id, status }: { id: number; status: OrderStatusValues }) {
+    return api.patch('/order-status', { id, status });
+  },
+  getYearOptions() {
+    return api.get('/orders/year-options');
+  },
+};
+
+export const Purchases = {
+  get({ limit = 20, offset = 0, filters }: IGetOrdersParams) {
+    const paramsUrl = generateSearchParamsStr({ filters, limit, offset });
+
+    return api.get(`/purchases?${paramsUrl}`);
+  },
+  getYearOptions() {
+    return api.get('/purchases/year-options');
+  },
+};
+
 export const Interceptors = {
   response(logout: () => void) {
     api.interceptors.response.use(
@@ -129,7 +156,9 @@ export const Interceptors = {
       (error) => {
         const { response } = error;
 
-        if (response.status === 401) logout();
+        const UNAUTHORIZED_STATUS_CODE = 401;
+
+        if (response.status === UNAUTHORIZED_STATUS_CODE) logout();
 
         return Promise.reject(error);
       },

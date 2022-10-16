@@ -1,4 +1,4 @@
-import { comparisonItemsMock, comparisonTableMock, userMock } from './data';
+import { comparisonItemsMock, comparisonTableMock, ordersMock, userMock } from './data';
 import { categoriesEntityMock, commentEntityMock, deviceEntityMock, replyEntityMock } from './entitiesMock';
 
 export const rootStateMock = {
@@ -61,6 +61,20 @@ export const rootStateMock = {
       items: [],
       prices: {},
     },
+  },
+  orders: {
+    isLoading: false,
+    isError: false,
+    error: null,
+    total: null,
+    items: ordersMock,
+  },
+  purchases: {
+    isLoading: false,
+    isError: false,
+    error: null,
+    total: null,
+    items: ordersMock,
   },
   comments: {
     isError: false,

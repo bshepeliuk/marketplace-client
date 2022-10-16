@@ -1,7 +1,12 @@
 import { IDeviceImage, IDeviceWithCount } from '@src/features/devices/types';
 
-const prepareAndGetGoodsForPayment = (data: IDeviceWithCount[]) => {
-  return data.map((item) => ({
+interface IProps {
+  goods: IDeviceWithCount[];
+  customerId: number;
+}
+
+const prepareAndGetGoodsForPayment = ({ goods, customerId }: IProps) => {
+  return goods.map((item) => ({
     quantity: item.count,
     price_data: {
       currency: 'USD',
@@ -10,10 +15,11 @@ const prepareAndGetGoodsForPayment = (data: IDeviceWithCount[]) => {
         name: item.name,
         metadata: {
           sellerId: item.userId,
+          deviceId: item.id,
+          customerId,
         },
         description: `id: ${item.id}`,
-        images:
-          item.images.length > 0 ? [(item.images[0] as IDeviceImage).url] : [],
+        images: item.images.length > 0 ? [(item.images[0] as IDeviceImage).url] : [],
       },
     },
   }));

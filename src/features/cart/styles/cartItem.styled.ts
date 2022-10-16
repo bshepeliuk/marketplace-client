@@ -68,6 +68,7 @@ export const Image = styled.img`
 `;
 
 export const IncrementBtn = styled.button`
+  cursor: pointer;
   background-color: #34495e;
   border: none;
   color: #fff;
@@ -82,6 +83,7 @@ export const IncrementBtn = styled.button`
 `;
 
 export const DecrementBtn = styled.button`
+  cursor: pointer;
   background-color: #34495e;
   border: none;
   color: #fff;
@@ -99,9 +101,17 @@ export const Counter = styled.span`
   padding: 0 10px;
 `;
 
-export const DeleteIcon = styled(MdDelete)`
+export const DeleteButton = styled.button`
+  cursor: pointer;
   font-size: 20px;
   color: #7f8c8d;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  background-color: transparent;
+  border: none;
+  width: max-content;
 
   &:hover {
     color: #e00027;
@@ -113,6 +123,8 @@ export const DeleteIcon = styled(MdDelete)`
     grid-column: 4;
   }
 `;
+
+export const DeleteIcon = styled(MdDelete)``;
 
 export const CounterWrap = styled.div`
   grid-column-start: 3;

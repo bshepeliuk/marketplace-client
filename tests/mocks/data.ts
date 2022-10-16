@@ -1,4 +1,5 @@
 import { ROLES } from '@src/common/constants';
+import { OrderStatus } from '@src/features/orders/constants';
 import { MutableRefObject } from 'react';
 import { ParamKeyValuePair } from 'react-router-dom';
 import { VariableSizeList } from 'react-window';
@@ -679,4 +680,99 @@ export const emptyTableOptionsListMock = [
   ['screen size', []],
   ['type of matrix', []],
   ['ram', []],
+];
+
+export const ordersMock = [
+  {
+    id: 1,
+    userId: 4,
+    fullName: 'Albus Dambldor',
+    phone: '+380674728556',
+    createdAt: '2022-06-06T22:53:39.456Z',
+    updatedAt: '2022-06-06T22:53:39.456Z',
+    devices: [
+      {
+        id: 18,
+        price: 34334,
+        quantity: 5,
+        name: 'Huawei MatePad 11',
+        typeId: 2,
+        brandId: 8,
+        createdAt: '2021-08-14T22:46:17.346Z',
+        updatedAt: '2021-08-14T22:46:17.346Z',
+        userId: 2,
+        orderDevice: {
+          id: 1,
+          orderId: 1,
+          deviceId: 18,
+          quantity: 2,
+          status: OrderStatus.delivered,
+          createdAt: '2022-04-06T02:18:09.400Z',
+          updatedAt: '2022-04-06T02:18:09.400Z',
+        },
+        info: [],
+        ratings: [],
+        images: [],
+        comments: [],
+      },
+    ],
+    address: {
+      id: 1,
+      country: 'UA',
+      city: 'Yalta',
+      line1: 'Independent street 618',
+      line2: 'building 1',
+      postal_code: '30040',
+      state: 'Yalta region',
+      orderId: 1,
+      createdAt: '2022-10-08T15:02:04.039Z',
+      updatedAt: '2022-10-08T15:02:04.039Z',
+    },
+  },
+  {
+    id: 25,
+    userId: 4,
+    fullName: 'Albus Dambldor',
+    phone: '+380676659730',
+    createdAt: '2022-05-18T20:09:31.458Z',
+    updatedAt: '2022-05-18T20:09:31.458Z',
+    devices: [
+      {
+        id: 33,
+        price: 47250,
+        quantity: 10,
+        name: 'Test example № - 11',
+        typeId: 6,
+        brandId: 11,
+        createdAt: '2022-01-30T20:48:47.689Z',
+        updatedAt: '2022-01-30T20:48:47.689Z',
+        userId: 2,
+        orderDevice: {
+          id: 50,
+          orderId: 25,
+          deviceId: 33,
+          quantity: 2,
+          status: OrderStatus.completed,
+          createdAt: '2022-01-04T08:12:02.651Z',
+          updatedAt: '2022-01-04T08:12:02.651Z',
+        },
+        info: [],
+        ratings: [],
+        images: [],
+        comments: [],
+      },
+    ],
+    address: {
+      id: 25,
+      country: 'UA',
+      city: 'Kyiv',
+      line1: 'Independent street 141',
+      line2: 'building 97',
+      postal_code: '32620',
+      state: 'Kyiv region',
+      orderId: 25,
+      createdAt: '2022-10-08T15:02:04.039Z',
+      updatedAt: '2022-10-08T15:02:04.039Z',
+    },
+  },
 ];

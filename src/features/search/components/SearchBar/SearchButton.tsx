@@ -3,6 +3,16 @@ import styled from 'styled-components';
 import { FiSearch } from 'react-icons/fi';
 import useSearchContext from '../../hooks/useSearchContext';
 
+function SearchButton() {
+  const context = useSearchContext();
+
+  return (
+    <Button className="search-button" type="button" onClick={context.onSearch}>
+      <FiSearch />
+    </Button>
+  );
+}
+
 const Button = styled.button`
   background-color: #e00027;
   border: none;
@@ -16,15 +26,5 @@ const Button = styled.button`
     background-color: #f97988;
   }
 `;
-
-function SearchButton() {
-  const context = useSearchContext();
-
-  return (
-    <Button className="search-button" type="button" onClick={context.onSearch}>
-      <FiSearch />
-    </Button>
-  );
-}
 
 export default SearchButton;

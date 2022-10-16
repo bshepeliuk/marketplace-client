@@ -10,8 +10,8 @@ const notifications = {
     draggable: true,
     progress: undefined,
   } as ToastOptions,
-  error(message: string) {
-    toast.error(message, { ...this._options, autoClose: 5000 });
+  error(message: string, options?: ToastOptions) {
+    toast.error(message, { ...this._options, autoClose: 5000, ...(options ?? {}) });
   },
 
   info(message: string) {
