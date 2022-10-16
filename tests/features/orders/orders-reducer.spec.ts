@@ -19,6 +19,8 @@ describe('[REDUCER]: Orders', () => {
     expect(ordersReducer(initialState, action)).toEqual({
       ...initialState,
       isLoading: true,
+      items: [],
+      total: null,
     });
   });
 
@@ -73,6 +75,18 @@ describe('[REDUCER]: Orders', () => {
       ...initialState,
       isLoading: false,
       items: updatedOrders,
+    });
+  });
+
+  test('notFound should be true.', () => {
+    const action = {
+      type: ordersActions.setNotFound.type,
+      payload: { notFound: true },
+    };
+
+    expect(ordersReducer(initialState, action)).toEqual({
+      ...initialState,
+      notFound: true,
     });
   });
 });

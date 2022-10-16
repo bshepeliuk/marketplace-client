@@ -3,7 +3,7 @@ import thunk from 'redux-thunk';
 import { rest } from 'msw';
 
 import { BASE_API_URL } from '@src/common/constants';
-import { getOrders } from '@src/features/orders/ordersSlice';
+import { getOrders, ordersActions } from '@src/features/orders/ordersSlice';
 import { ORDERS_LIMIT } from '@src/features/orders/constants';
 import { ordersGetResponse } from '../../mocks/api/responses';
 import getActionTypesAndPayload from '../../helpers/getActionTypesAndPayload';
@@ -26,7 +26,7 @@ describe('[THUNKS]: Orders', () => {
   });
 
   describe('get orders', () => {
-    test('should return orders successfully', async () => {
+    test('should return orders successfully. In case orders are empty, notFound should be true', async () => {
       await store.dispatch(getOrders({ offset: 0, limit: ORDERS_LIMIT }));
 
       const actualActions = store.getActions();
@@ -35,6 +35,7 @@ describe('[THUNKS]: Orders', () => {
           type: getOrders.pending.type,
           payload: undefined,
         },
+        { type: ordersActions.setNotFound.type, payload: { notFound: true } },
         {
           type: getOrders.fulfilled.type,
           payload: {

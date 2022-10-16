@@ -20,6 +20,10 @@ const mswHandlers: RequestHandler[] = [
   rest.get(`${BASE_API_URL}/purchases/year-options`, (req, res, ctx) => {
     return res(ctx.json(ordersYearOptionsResponse));
   }),
+  // devices
+  rest.get(`${BASE_API_URL}/devices`, (req, res, ctx) => {
+    return res(ctx.json({ devices: [], count: 0 }));
+  }),
 ];
 
 export default mswHandlers;

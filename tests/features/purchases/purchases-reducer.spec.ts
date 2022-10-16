@@ -1,4 +1,4 @@
-import purchasesReducer, { getPurchases, initialState } from '@src/features/purchases/purchasesSlice';
+import purchasesReducer, { getPurchases, initialState, purchasesActions } from '@src/features/purchases/purchasesSlice';
 import { ordersMock } from '../../mocks/data';
 
 describe('[REDUCER]: Purchases', () => {
@@ -18,6 +18,8 @@ describe('[REDUCER]: Purchases', () => {
     expect(purchasesReducer(initialState, action)).toEqual({
       ...initialState,
       isLoading: true,
+      items: [],
+      total: null,
     });
   });
 
@@ -45,6 +47,18 @@ describe('[REDUCER]: Purchases', () => {
       ...initialState,
       isLoading: false,
       isError: true,
+    });
+  });
+
+  test('notFound should be true.', () => {
+    const action = {
+      type: purchasesActions.setNotFound.type,
+      payload: { notFound: true },
+    };
+
+    expect(purchasesReducer(initialState, action)).toEqual({
+      ...initialState,
+      notFound: true,
     });
   });
 });

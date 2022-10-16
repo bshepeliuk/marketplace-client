@@ -4,7 +4,7 @@ import { rest } from 'msw';
 
 import { BASE_API_URL } from '@src/common/constants';
 import { ORDERS_LIMIT } from '@src/features/orders/constants';
-import { getPurchases } from '@src/features/purchases/purchasesSlice';
+import { getPurchases, purchasesActions } from '@src/features/purchases/purchasesSlice';
 import { purchasesGetResponse } from '../../mocks/api/responses';
 import getActionTypesAndPayload from '../../helpers/getActionTypesAndPayload';
 import server from '../../mocks/api/server';
@@ -26,7 +26,7 @@ describe('[THUNKS]: Purchases', () => {
   });
 
   describe('get purchases', () => {
-    test('should return purchases successfully', async () => {
+    test('should return purchases successfully. In case purchases are empty, notFound should be true.', async () => {
       await store.dispatch(getPurchases({ offset: 0, limit: ORDERS_LIMIT }));
 
       const actualActions = store.getActions();
@@ -35,6 +35,7 @@ describe('[THUNKS]: Purchases', () => {
           type: getPurchases.pending.type,
           payload: undefined,
         },
+        { type: purchasesActions.setNotFound.type, payload: { notFound: true } },
         {
           type: getPurchases.fulfilled.type,
           payload: {

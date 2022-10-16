@@ -38,6 +38,6 @@ describe('[COMPONENTS]: OrdersAccordion', () => {
       props: { items, isLoading: true },
     });
 
-    expect(screen.getByText('isLoading...', { exact: false })).toBeInTheDocument();
+    expect(screen.getAllByText('Loading...', { exact: false }).length).toBeGreaterThan(0);
   });
 });
