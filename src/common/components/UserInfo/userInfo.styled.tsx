@@ -101,6 +101,8 @@ export const Logout = styled(MdExitToApp)`
 
 export const InnerWrapper = styled.div`
   padding: 15px 0;
+  display: flex;
+  flex-flow: column wrap;
 `;
 
 export const CustomLink = styled(Link)`

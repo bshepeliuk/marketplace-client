@@ -149,6 +149,12 @@ export const Purchases = {
   },
 };
 
+export const Stats = {
+  get() {
+    return api.get(`/stats`);
+  },
+};
+
 export const Interceptors = {
   response(logout: () => void) {
     api.interceptors.response.use(

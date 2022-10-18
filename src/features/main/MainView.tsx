@@ -19,6 +19,7 @@ import ComparisonView from '../comparison/pages/ComparisonView';
 import StripeAccountCreatedView from '../stripe/page/AccountCreatedView';
 import OrdersView from '../orders/pages/OrdersView';
 import PurchasesView from '../purchases/pages/PurchasesView';
+import StatsView from '../stats/pages/StatsView';
 
 function MainView() {
   const { isSeller, isBuyer } = useCheckUserRole();
@@ -50,6 +51,14 @@ function MainView() {
           element={
             <PrivateRoute isAllowed={isBuyer}>
               <PurchasesView />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path={routes.stats}
+          element={
+            <PrivateRoute isAllowed={isSeller}>
+              <StatsView />
             </PrivateRoute>
           }
         />

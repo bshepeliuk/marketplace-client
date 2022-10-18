@@ -26,6 +26,7 @@
     "@testing-library/react-hooks": "^7.0.2",
     "@testing-library/user-event": "^13.5.0",
     "@types/chroma-js": "^2.1.4",
+    "@types/d3-scale-chromatic": "^3.0.0",
     "@types/jest": "^27.4.0",
     "@types/react": "^18.0.7",
     "@types/react-dom": "^17.0.11",
@@ -82,6 +83,7 @@
     "@stripe/stripe-js": "^1.29.0",
     "axios": "^0.24.0",
     "chroma-js": "^2.4.2",
+    "d3-scale-chromatic": "^3.0.0",
     "date-fns": "^2.29.1",
     "fastify": "^3.25.3",
     "fastify-static": "^4.5.0",
@@ -101,6 +103,7 @@
     "react-virtualized-auto-sizer": "^1.0.6",
     "react-window": "^1.8.6",
     "react-window-infinite-loader": "^1.0.7",
+    "recharts": "^2.1.15",
     "redux-persist": "^6.0.0",
     "styled-components": "^5.3.3",
     "yup": "^0.32.11"

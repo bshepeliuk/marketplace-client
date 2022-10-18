@@ -23,6 +23,7 @@ export const routes = {
   stripeAccountSuccess: '/stripe-account-success',
   orders: '/orders',
   purchases: '/purchases',
+  stats: '/stats',
 };
 
 function Router() {
