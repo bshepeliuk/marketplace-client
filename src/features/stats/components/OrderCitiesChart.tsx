@@ -21,8 +21,8 @@ function OrderCitiesChart({ items }: IProps) {
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="city" />
-          <YAxis />
+          <XAxis dataKey="city" tick={{ fontSize: 10 }} />
+          <YAxis tick={{ fontSize: 10 }} />
           <Tooltip />
           <Area type="monotone" dataKey="total" stroke="#24A19C" fill="#24A19C" />
         </AreaChart>

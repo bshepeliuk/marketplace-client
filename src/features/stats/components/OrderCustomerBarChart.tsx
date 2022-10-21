@@ -24,8 +24,8 @@ function OrderCustomerBarChart({ items }: IProps) {
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="fullName" />
-          <YAxis />
+          <XAxis dataKey="fullName" tick={{ fontSize: 10 }} />
+          <YAxis domain={[0, 'enter your max value ']} tick={{ fontSize: 10 }} />
           <Tooltip />
           <Area type="monotone" dataKey="total" stackId="1" stroke="#8884d8" fill="#8884d8" />
           <Area type="monotone" dataKey="quantity" stackId="1" stroke="#82ca9d" fill="#82ca9d" />

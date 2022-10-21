@@ -1,45 +1,29 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
+import { Route, Routes } from 'react-router-dom';
 
-import { Stats } from '@src/common/api/Api';
-import OrderCitiesChart from '../components/OrderCitiesChart';
-import OrderCustomerBarChart from '../components/OrderCustomerBarChart';
-import OrderDeviceBarChart from '../components/OrderDeviceBarChart';
-import OrderStatusPie from '../components/OrderStatusPie';
-import OrderStatusAreaChart from '../components/OrderStatusAreaChart';
-import { IStats } from '../types';
-import DeviceCategoriesBarChart from '../components/DeviceCategoriesBarChart';
+import useGetStats from '../hooks/useGetStats';
+import DeviceStatsView from '../components/DeviceStatsView';
+import CustomerStatsView from '../components/CustomerStatsView';
+import OrderStatsView from '../components/OrderStatsView';
+import StatsNavMenu from '../components/StatsNavMenu';
 
 function StatsView() {
-  const [stats, setStats] = useState<IStats | undefined>();
-
-  useEffect(() => {
-    Stats.get().then((res) => {
-      setStats(res.data.stats);
-    });
-  }, []);
+  const stats = useGetStats();
 
   return (
     <Container>
-      <OrderDeviceBarChart items={stats?.devices} />
-      <StatusStatsWrapper>
-        <OrderStatusPie items={stats?.statuses} />
-        <OrderStatusAreaChart items={stats?.statuses} />
-      </StatusStatsWrapper>
-      <DeviceCategoriesBarChart items={stats?.categories} />
-      <OrderCustomerBarChart items={stats?.customers} />
-      <OrderCitiesChart items={stats?.cities} />
+      <StatsNavMenu />
+
+      <Routes>
+        <Route path="/" element={<DeviceStatsView stats={stats} />} />
+        <Route path="/orders" element={<OrderStatsView stats={stats} />} />
+        <Route path="/customer" element={<CustomerStatsView stats={stats} />} />
+        <Route path="*" element={<div>Not Found....</div>} />
+      </Routes>
     </Container>
   );
 }
-
-const StatusStatsWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 50px;
-}
-`;
 
 const Container = styled.div`
   max-width: 1400px;

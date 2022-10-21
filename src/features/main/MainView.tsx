@@ -55,7 +55,7 @@ function MainView() {
           }
         />
         <Route
-          path={routes.stats}
+          path={`${routes.stats}/*`}
           element={
             <PrivateRoute isAllowed={isSeller}>
               <StatsView />
