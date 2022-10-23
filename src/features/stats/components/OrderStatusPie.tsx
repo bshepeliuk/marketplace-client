@@ -3,20 +3,21 @@ import { Cell, Pie, PieChart, ResponsiveContainer, Sector } from 'recharts';
 import styled from 'styled-components';
 
 import { OrderStatusColor } from '@src/features/orders/constants';
+import { useTypedSelector } from '@src/common/hooks/useTypedSelector';
 import { IStatusStats } from '../types';
+import { statusStatsSelector } from '../selectors/statusStatsSelector';
 
-interface IProps {
-  items?: IStatusStats[];
-}
-
-function OrderStatusPie({ items = [] }: IProps) {
+function OrderStatusPie() {
+  const items = useTypedSelector(statusStatsSelector);
   const [activeIndex, setActiveIdx] = useState<number>(0);
 
-  const colors = items.map((item) => OrderStatusColor[item.status]);
+  const colors = (items || []).map((item) => OrderStatusColor[item.status]);
 
   const onPieEnter = (_: unknown, index: number) => {
     setActiveIdx(index);
   };
+
+  if (items === undefined) return null;
 
   return (
     <PieWrapper>
@@ -46,8 +47,8 @@ function OrderStatusPie({ items = [] }: IProps) {
 }
 
 const PieWrapper = styled.div`
-  width: 30%;
-  height: 300px;
+  width: 35%;
+  height: 350px;
 `;
 
 interface IActiveShapeProps {

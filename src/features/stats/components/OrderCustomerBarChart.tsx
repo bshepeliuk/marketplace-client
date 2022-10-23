@@ -1,14 +1,15 @@
+import { useTypedSelector } from '@src/common/hooks/useTypedSelector';
 import React from 'react';
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
 import styled from 'styled-components';
-import { ICustomerStats } from '../types';
+import { customerStatsSelector } from '../selectors/customerStatsSelector';
 
-interface IProps {
-  items?: ICustomerStats[];
-}
+function OrderCustomerBarChart() {
+  const items = useTypedSelector(customerStatsSelector);
 
-function OrderCustomerBarChart({ items }: IProps) {
+  if (items === undefined) return null;
+
   return (
     <Wrapper>
       <ResponsiveContainer>

@@ -1,13 +1,13 @@
+import { useTypedSelector } from '@src/common/hooks/useTypedSelector';
 import React from 'react';
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { cityStatsSelector } from '../selectors/cityStatsSelector';
 
-import { ICitiesStats } from '../types';
+function OrderCitiesChart() {
+  const items = useTypedSelector(cityStatsSelector);
 
-interface IProps {
-  items?: ICitiesStats[];
-}
+  if (items === undefined) return null;
 
-function OrderCitiesChart({ items }: IProps) {
   return (
     <div style={{ height: 300 }}>
       <ResponsiveContainer>

@@ -1,18 +1,18 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
-import { Stats } from '@src/common/api/Api';
-import { IStats } from '../types';
+import { useAppDispatch } from '@src/common/hooks/useAppDispatch';
+import { useTypedSelector } from '@src/common/hooks/useTypedSelector';
+import { getStats } from '../statsSlice';
 
 const useGetStats = () => {
-  const [stats, setStats] = useState<IStats | undefined>();
+  const dispatch = useAppDispatch();
+  const { items } = useTypedSelector((state) => state.stats);
 
   useEffect(() => {
-    Stats.get().then((res) => {
-      setStats(res.data.stats);
-    });
+    dispatch(getStats());
   }, []);
 
-  return stats;
+  return items;
 };
 
 export default useGetStats;

@@ -9,16 +9,16 @@ import OrderStatsView from '../components/OrderStatsView';
 import StatsNavMenu from '../components/StatsNavMenu';
 
 function StatsView() {
-  const stats = useGetStats();
+  useGetStats();
 
   return (
     <Container>
       <StatsNavMenu />
 
       <Routes>
-        <Route path="/" element={<DeviceStatsView stats={stats} />} />
-        <Route path="/orders" element={<OrderStatsView stats={stats} />} />
-        <Route path="/customer" element={<CustomerStatsView stats={stats} />} />
+        <Route path="/" element={<DeviceStatsView />} />
+        <Route path="/orders" element={<OrderStatsView />} />
+        <Route path="/customer" element={<CustomerStatsView />} />
         <Route path="*" element={<div>Not Found....</div>} />
       </Routes>
     </Container>

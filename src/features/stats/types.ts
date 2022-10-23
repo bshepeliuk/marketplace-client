@@ -32,10 +32,26 @@ export interface ICategoriesStats {
   quantity: number;
 }
 
+export interface IOrderMonthStats {
+  month: string;
+  total: number;
+  quantity: number;
+  index: 1;
+}
+
+export interface IOrderTimeStats {
+  hour: number;
+  total: number;
+  quantity: number;
+  index: 1;
+}
+
 export interface IStats {
   devices: IDeviceStats[];
   statuses: IStatusStats[];
   categories: ICategoriesStats[];
   customers: ICustomerStats[];
   cities: ICitiesStats[];
+  orderMonth: Record<string, IOrderMonthStats[]>;
+  orderTime: Record<string, IOrderTimeStats[]>;
 }

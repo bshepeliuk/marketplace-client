@@ -1,14 +1,12 @@
+import { useTypedSelector } from '@src/common/hooks/useTypedSelector';
 import React from 'react';
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import styled from 'styled-components';
+import { categoryStatsSelector } from '../selectors/categoryStatsSelector';
 
-import { ICategoriesStats } from '../types';
+function DeviceCategoriesBarChart() {
+  const items = useTypedSelector(categoryStatsSelector);
 
-interface IProps {
-  items?: ICategoriesStats[];
-}
-
-function DeviceCategoriesBarChart({ items = [] }: IProps) {
   return (
     <Wrapper>
       <ResponsiveContainer width="45%">

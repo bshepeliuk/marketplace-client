@@ -14,14 +14,14 @@ import {
 } from 'recharts';
 
 import interpolateColors from '@src/common/utils/interpolateColors';
-import { IDeviceStats } from '../types';
+import { useTypedSelector } from '@src/common/hooks/useTypedSelector';
+import { deviceStatsSelector } from '../selectors/deviceStatsSelector';
 
-interface IProps {
-  items?: IDeviceStats[];
-}
+function OrderDeviceBarChart() {
+  const items = useTypedSelector(deviceStatsSelector);
+  const colors = interpolateColors(items?.length ?? 0);
 
-function OrderDeviceBarChart({ items = [] }: IProps) {
-  const colors = interpolateColors(items.length);
+  if (items === undefined) return null;
 
   return (
     <Wrapper>

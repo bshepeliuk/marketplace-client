@@ -1,28 +1,46 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { IStats } from '../types';
 import OrderStatusAreaChart from './OrderStatusAreaChart';
 import OrderStatusPie from './OrderStatusPie';
+import OrderDateScatterChart from './OrderDateScatterChart';
+import OrderTimeScatterChart from './OrderTimeScatterChart';
 
-interface IProps {
-  stats?: IStats;
-}
-
-function OrderStatsView({ stats }: IProps) {
+function OrderStatsView() {
   return (
-    <StatusStatsWrapper>
-      <OrderStatusPie items={stats?.statuses} />
-      <OrderStatusAreaChart items={stats?.statuses} />
-    </StatusStatsWrapper>
+    <Container>
+      <StatusWrapper>
+        <OrderStatusPie />
+        <OrderStatusAreaChart />
+      </StatusWrapper>
+
+      <OrderDateWrapper>
+        <OrderDateScatterChart />
+      </OrderDateWrapper>
+
+      <OrderDateWrapper>
+        <OrderTimeScatterChart />
+      </OrderDateWrapper>
+    </Container>
   );
 }
 
-const StatusStatsWrapper = styled.div`
+const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-top: 50px;
+  flex-flow: column wrap;
+`;
+
+const StatusWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+`;
+
+const OrderDateWrapper = styled.div`
+  width: 100%;
 `;
 
 export default OrderStatsView;

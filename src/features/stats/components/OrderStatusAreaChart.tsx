@@ -1,14 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { useTypedSelector } from '@src/common/hooks/useTypedSelector';
+import { statusStatsSelector } from '../selectors/statusStatsSelector';
 
-import { IStatusStats } from '../types';
+function OrderStatusAreaChart() {
+  const items = useTypedSelector(statusStatsSelector);
 
-interface IProps {
-  items?: IStatusStats[];
-}
-
-function OrderStatusAreaChart({ items = [] }: IProps) {
   return (
     <Wrapper>
       <ResponsiveContainer>
@@ -26,7 +24,7 @@ function OrderStatusAreaChart({ items = [] }: IProps) {
 
 const Wrapper = styled.div`
   width: 65%;
-  height: 300px;
+  height: 350px;
 `;
 
 export default OrderStatusAreaChart;
