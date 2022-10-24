@@ -5,6 +5,7 @@ module.exports = {
     '@src/(.*)$': '<rootDir>/src/$1',
     '@common/(.*)$': '<rootDir>/src/common/$1',
     '@features/(.*)$': '<rootDir>/src/features/$1',
+    '^d3-(.*)$': `<rootDir>/node_modules/d3-$1/dist/d3-$1`,
     '.+\\.(css|style|less|sass|scss|png|jpg|ttf|woff|woff2)$': 'jest-transform-stub',
   },
   coveragePathIgnorePatterns: [
