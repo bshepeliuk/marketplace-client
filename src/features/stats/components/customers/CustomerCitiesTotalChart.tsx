@@ -1,17 +1,19 @@
 import { useTypedSelector } from '@src/common/hooks/useTypedSelector';
 import React from 'react';
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
-import { cityStatsSelector } from '../selectors/cityStatsSelector';
+import styled from 'styled-components';
+import { cityStatsSelector } from '../../selectors/cityStatsSelector';
 
-function OrderCitiesChart() {
+function CustomerCitiesTotalChart() {
   const items = useTypedSelector(cityStatsSelector);
 
   if (items === undefined) return null;
 
   return (
-    <div style={{ height: 300 }}>
+    <Wrapper>
       <ResponsiveContainer>
         <AreaChart
+          syncId="order-cities"
           data={items}
           margin={{
             top: 10,
@@ -27,8 +29,12 @@ function OrderCitiesChart() {
           <Area type="monotone" dataKey="total" stroke="#24A19C" fill="#24A19C" />
         </AreaChart>
       </ResponsiveContainer>
-    </div>
+    </Wrapper>
   );
 }
 
-export default OrderCitiesChart;
+const Wrapper = styled.div`
+  width: 50%;
+`;
+
+export default CustomerCitiesTotalChart;

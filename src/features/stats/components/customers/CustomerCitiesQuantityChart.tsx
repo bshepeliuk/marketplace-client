@@ -1,12 +1,11 @@
 import { useTypedSelector } from '@src/common/hooks/useTypedSelector';
 import React from 'react';
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
-
 import styled from 'styled-components';
-import { customerStatsSelector } from '../selectors/customerStatsSelector';
+import { cityStatsSelector } from '../../selectors/cityStatsSelector';
 
-function OrderCustomerBarChart() {
-  const items = useTypedSelector(customerStatsSelector);
+function CustomerCitiesQuantityChart() {
+  const items = useTypedSelector(cityStatsSelector);
 
   if (items === undefined) return null;
 
@@ -14,8 +13,7 @@ function OrderCustomerBarChart() {
     <Wrapper>
       <ResponsiveContainer>
         <AreaChart
-          width={500}
-          height={400}
+          syncId="order-cities"
           data={items}
           margin={{
             top: 10,
@@ -25,11 +23,10 @@ function OrderCustomerBarChart() {
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="fullName" tick={{ fontSize: 10 }} />
-          <YAxis domain={[0, 'enter your max value ']} tick={{ fontSize: 10 }} />
+          <XAxis dataKey="city" tick={{ fontSize: 10 }} />
+          <YAxis tick={{ fontSize: 10 }} />
           <Tooltip />
-          <Area type="monotone" dataKey="total" stackId="1" stroke="#8884d8" fill="#8884d8" />
-          <Area type="monotone" dataKey="quantity" stackId="1" stroke="#82ca9d" fill="#82ca9d" />
+          <Area type="monotone" dataKey="quantity" stroke="#24A19C" fill="#24A19C" />
         </AreaChart>
       </ResponsiveContainer>
     </Wrapper>
@@ -37,10 +34,7 @@ function OrderCustomerBarChart() {
 }
 
 const Wrapper = styled.div`
-  height: 300px;
-  margin-top: 20px;
-  display: flex;
-  justify-content: space-around;
+  width: 50%;
 `;
 
-export default OrderCustomerBarChart;
+export default CustomerCitiesQuantityChart;

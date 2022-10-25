@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { useTypedSelector } from '@src/common/hooks/useTypedSelector';
-import { statusStatsSelector } from '../selectors/statusStatsSelector';
+import { statusStatsSelector } from '../../selectors/statusStatsSelector';
 
 function OrderStatusAreaChart() {
   const items = useTypedSelector(statusStatsSelector);
@@ -10,12 +10,20 @@ function OrderStatusAreaChart() {
   return (
     <Wrapper>
       <ResponsiveContainer>
-        <AreaChart width={730} height={250} data={items} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
-          <YAxis domain={[0, 'dataMax']} style={{ fontSize: 10 }} />
-          <XAxis dataKey="status" style={{ fontSize: 10 }} />
-          <CartesianGrid strokeDasharray="3 3" stroke="rgba(189, 195, 199,0.5)" />
+        <AreaChart
+          data={items}
+          margin={{
+            top: 10,
+            right: 30,
+            left: 0,
+            bottom: 0,
+          }}
+        >
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="status" tick={{ fontSize: 10 }} />
+          <YAxis tick={{ fontSize: 10 }} />
           <Tooltip />
-          <Area type="monotone" dataKey="total" stroke="#AEE6E6" fillOpacity={0.6} fill="#3AB0FF" />
+          <Area type="monotone" dataKey="total" stroke="#24A19C" fill="#24A19C" />
         </AreaChart>
       </ResponsiveContainer>
     </Wrapper>

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import OrderStatusAreaChart from './OrderStatusAreaChart';
 import OrderStatusPie from './OrderStatusPie';
-import OrderDateScatterChart from './OrderDateScatterChart';
+import OrderMonthScatterChart from './OrderMonthScatterChart';
 import OrderTimeScatterChart from './OrderTimeScatterChart';
 
 function OrderStatsView() {
@@ -15,7 +15,7 @@ function OrderStatsView() {
       </StatusWrapper>
 
       <OrderDateWrapper>
-        <OrderDateScatterChart />
+        <OrderMonthScatterChart />
       </OrderDateWrapper>
 
       <OrderDateWrapper>

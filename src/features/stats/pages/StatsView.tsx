@@ -3,9 +3,9 @@ import styled from 'styled-components';
 import { Route, Routes } from 'react-router-dom';
 
 import useGetStats from '../hooks/useGetStats';
-import DeviceStatsView from '../components/DeviceStatsView';
-import CustomerStatsView from '../components/CustomerStatsView';
-import OrderStatsView from '../components/OrderStatsView';
+import DeviceStatsView from '../components/devices/DeviceStatsView';
+import CustomerStatsView from '../components/customers/CustomerStatsView';
+import OrderStatsView from '../components/orders/OrderStatsView';
 import StatsNavMenu from '../components/StatsNavMenu';
 
 function StatsView() {

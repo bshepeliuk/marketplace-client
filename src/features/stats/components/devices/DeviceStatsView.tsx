@@ -1,12 +1,12 @@
 import React from 'react';
 
 import DeviceCategoriesBarChart from './DeviceCategoriesBarChart';
-import OrderDeviceBarChart from './OrderDeviceBarChart';
+import DevicesBarChart from './DevicesBarChart';
 
 function DeviceStatsView() {
   return (
     <>
-      <OrderDeviceBarChart />
+      <DevicesBarChart />
       <DeviceCategoriesBarChart />
     </>
   );

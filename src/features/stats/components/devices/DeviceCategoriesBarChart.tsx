@@ -2,7 +2,7 @@ import { useTypedSelector } from '@src/common/hooks/useTypedSelector';
 import React from 'react';
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import styled from 'styled-components';
-import { categoryStatsSelector } from '../selectors/categoryStatsSelector';
+import { categoryStatsSelector } from '../../selectors/categoryStatsSelector';
 
 function DeviceCategoriesBarChart() {
   const items = useTypedSelector(categoryStatsSelector);

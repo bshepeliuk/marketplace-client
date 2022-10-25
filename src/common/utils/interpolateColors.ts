@@ -7,11 +7,6 @@ interface IColorRange {
   useEndAsStart: boolean;
 }
 
-function calculatePoint(idx: number, intervalSize: number, colorRangeInfo: IColorRange) {
-  const { colorStart, colorEnd, useEndAsStart } = colorRangeInfo;
-  return useEndAsStart ? colorEnd - idx * intervalSize : colorStart + idx * intervalSize;
-}
-/* Must use an interpolated color scale, which has a range of [0, 1] */
 function interpolateColors(
   dataLength: number,
   colorScale = interpolateRainbow,
@@ -33,6 +28,11 @@ function interpolateColors(
   }
 
   return colorArray;
+}
+
+function calculatePoint(idx: number, intervalSize: number, colorRangeInfo: IColorRange) {
+  const { colorStart, colorEnd, useEndAsStart } = colorRangeInfo;
+  return useEndAsStart ? colorEnd - idx * intervalSize : colorStart + idx * intervalSize;
 }
 
 export default interpolateColors;

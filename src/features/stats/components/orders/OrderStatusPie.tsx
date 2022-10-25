@@ -4,8 +4,8 @@ import styled from 'styled-components';
 
 import { OrderStatusColor } from '@src/features/orders/constants';
 import { useTypedSelector } from '@src/common/hooks/useTypedSelector';
-import { IStatusStats } from '../types';
-import { statusStatsSelector } from '../selectors/statusStatsSelector';
+import { IStatusStats } from '../../types';
+import { statusStatsSelector } from '../../selectors/statusStatsSelector';
 
 function OrderStatusPie() {
   const items = useTypedSelector(statusStatsSelector);

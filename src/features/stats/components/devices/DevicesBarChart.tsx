@@ -15,9 +15,9 @@ import {
 
 import interpolateColors from '@src/common/utils/interpolateColors';
 import { useTypedSelector } from '@src/common/hooks/useTypedSelector';
-import { deviceStatsSelector } from '../selectors/deviceStatsSelector';
+import { deviceStatsSelector } from '../../selectors/deviceStatsSelector';
 
-function OrderDeviceBarChart() {
+function DevicesBarChart() {
   const items = useTypedSelector(deviceStatsSelector);
   const colors = interpolateColors(items?.length ?? 0);
 
@@ -26,15 +26,7 @@ function OrderDeviceBarChart() {
   return (
     <Wrapper>
       <ResponsiveContainer>
-        <BarChart
-          data={items}
-          margin={{
-            top: 5,
-            right: 30,
-            left: 20,
-            bottom: 5,
-          }}
-        >
+        <BarChart data={items} margin={margin}>
           <CartesianGrid strokeDasharray="3 3" stroke="rgba(189, 195, 199,0.5)" />
           <XAxis dataKey="name" style={{ fontSize: 10 }} />
           <YAxis dataKey="quantity" style={{ fontSize: 10 }} />
@@ -57,4 +49,11 @@ const Wrapper = styled.div`
   height: 300px;
 `;
 
-export default OrderDeviceBarChart;
+const margin = {
+  top: 5,
+  right: 30,
+  left: 20,
+  bottom: 5,
+};
+
+export default DevicesBarChart;
