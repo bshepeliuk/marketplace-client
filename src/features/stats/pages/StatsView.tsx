@@ -1,19 +1,31 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useSearchParams } from 'react-router-dom';
 
-import useGetStats from '../hooks/useGetStats';
+import useFetchStats from '../hooks/useFetchStats';
 import DeviceStatsView from '../components/devices/DeviceStatsView';
 import CustomerStatsView from '../components/customers/CustomerStatsView';
 import OrderStatsView from '../components/orders/OrderStatsView';
 import StatsNavMenu from '../components/StatsNavMenu';
+import StatsFilter from '../components/StatsFilter';
 
 function StatsView() {
-  useGetStats();
+  const [searchParams] = useSearchParams();
+  const { fetchStats } = useFetchStats();
+
+  useEffect(() => {
+    const filters = [...searchParams.entries()];
+
+    fetchStats({ filters });
+  }, []);
 
   return (
     <Container>
       <StatsNavMenu />
+
+      <FilterWrapper>
+        <StatsFilter />
+      </FilterWrapper>
 
       <Routes>
         <Route path="/" element={<DeviceStatsView />} />
@@ -28,6 +40,12 @@ function StatsView() {
 const Container = styled.div`
   max-width: 1400px;
   margin: 0 auto;
+`;
+
+const FilterWrapper = styled.div`
+  display: flex;
+  gap: 50px;
+  margin-bottom: 40px;
 `;
 
 export default StatsView;

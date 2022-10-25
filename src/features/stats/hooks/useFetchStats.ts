@@ -1,18 +1,18 @@
-import { useEffect } from 'react';
+import { ParamKeyValuePair } from 'react-router-dom';
 
 import { useAppDispatch } from '@src/common/hooks/useAppDispatch';
 import { useTypedSelector } from '@src/common/hooks/useTypedSelector';
 import { getStats } from '../statsSlice';
 
-const useGetStats = () => {
+const useFetchStats = () => {
   const dispatch = useAppDispatch();
   const { items } = useTypedSelector((state) => state.stats);
 
-  useEffect(() => {
-    dispatch(getStats());
-  }, []);
+  const fetchStats = ({ filters }: { filters: ParamKeyValuePair[] }) => {
+    dispatch(getStats({ filters }));
+  };
 
-  return items;
+  return { fetchStats, items };
 };
 
-export default useGetStats;
+export default useFetchStats;

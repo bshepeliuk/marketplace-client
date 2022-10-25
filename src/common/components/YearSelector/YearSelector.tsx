@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 import AsyncSelect from 'react-select/async';
 import { ActionMeta, SingleValue, StylesConfig } from 'react-select';
-import { Option } from '@src/common/types/selectTypes';
 import { ParamKeyValuePair, useSearchParams } from 'react-router-dom';
 
-interface IOrderYearSelectorProps {
+import { Option } from '@src/common/types/selectTypes';
+
+interface IYearSelectorProps {
   onFilterChange: (filters: ParamKeyValuePair[]) => void;
   onLoadYearOptions: () => Promise<Option[]>;
 }
-// TODO: replace with common/components/YearSelector
-function OrderYearSelector({ onFilterChange, onLoadYearOptions }: IOrderYearSelectorProps) {
+
+function YearSelector({ onFilterChange, onLoadYearOptions }: IYearSelectorProps) {
   const [searchParams, setSearchParams] = useSearchParams();
   const [yearOption, setYearOption] = useState<Option | null>(null);
 
@@ -60,4 +61,4 @@ const selectorStyles: StylesConfig<Option, false> = {
   placeholder: (styles) => ({ ...styles, fontSize: 15 }),
 };
 
-export default OrderYearSelector;
+export default YearSelector;

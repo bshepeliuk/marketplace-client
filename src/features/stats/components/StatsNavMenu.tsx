@@ -1,17 +1,19 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { routes } from '@src/app/Router';
 
 function StatsNavMenu() {
+  const [searchParams] = useSearchParams();
+
   return (
     <Container>
-      <StatsLink end to={routes.stats}>
+      <StatsLink end to={{ pathname: routes.stats, search: `?${searchParams}` }}>
         devices
       </StatsLink>
-      <StatsLink to={`${routes.stats}/customer`}>customers</StatsLink>
-      <StatsLink to={`${routes.stats}/orders`}>orders</StatsLink>
+      <StatsLink to={{ pathname: `${routes.stats}/customer`, search: `?${searchParams}` }}>customers</StatsLink>
+      <StatsLink to={{ pathname: `${routes.stats}/orders`, search: `?${searchParams}` }}>orders</StatsLink>
     </Container>
   );
 }

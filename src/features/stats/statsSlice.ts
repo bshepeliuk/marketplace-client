@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
+import { IGetStatsParams } from '@src/common/types/apiTypes';
 import * as Api from '@src/common/api/Api';
 import { IThunkAPI, Nullable } from '@src/common/types/baseTypes';
 import getErrorMessage from '@src/common/utils/getErrorMessage';
@@ -18,11 +19,11 @@ interface IStatsData {
   stats: IStats;
 }
 
-export const getStats = createAsyncThunk<IStatsData, undefined, IThunkAPI>(
+export const getStats = createAsyncThunk<IStatsData, IGetStatsParams, IThunkAPI>(
   'stats/get-all',
-  async (_, { rejectWithValue }) => {
+  async ({ filters }, { rejectWithValue }) => {
     try {
-      const { data } = await Api.Stats.get();
+      const { data } = await Api.Stats.get({ filters });
 
       return {
         stats: data.stats,

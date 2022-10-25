@@ -6,6 +6,7 @@ import {
   IGetDevicesProps,
   IGetOrdersParams,
   IGetRepliesParams,
+  IGetStatsParams,
   ILogin,
   IRegister,
   IUpdateCommentParams,
@@ -150,8 +151,9 @@ export const Purchases = {
 };
 
 export const Stats = {
-  get() {
-    return api.get(`/stats`);
+  get({ filters }: IGetStatsParams) {
+    const paramsUrl = new URLSearchParams(filters);
+    return api.get(`/stats?${paramsUrl}`);
   },
 };
 

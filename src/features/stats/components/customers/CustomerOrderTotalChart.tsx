@@ -38,7 +38,6 @@ function CustomerOrderTotalChart() {
 
 const Wrapper = styled.div`
   height: 300px;
-  margin-top: 20px;
   width: 50%;
 `;
 

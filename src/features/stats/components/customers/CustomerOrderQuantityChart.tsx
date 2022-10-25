@@ -38,7 +38,6 @@ function CustomerOrderQuantityChart() {
 const Wrapper = styled.div`
   height: 300px;
   width: 50%;
-  margin-top: 20px;
 `;
 
 export default CustomerOrderQuantityChart;
