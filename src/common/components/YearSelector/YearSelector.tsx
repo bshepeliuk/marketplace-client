@@ -12,7 +12,7 @@ interface IYearSelectorProps {
 
 function YearSelector({ onFilterChange, onLoadYearOptions }: IYearSelectorProps) {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [yearOption, setYearOption] = useState<Option | null>(null);
+  const [yearOption, setYearOption] = useState<Option | null>();
 
   const onChange = (option: SingleValue<Option>, meta: ActionMeta<Option>) => {
     if (meta.action === 'clear') {
@@ -31,10 +31,22 @@ function YearSelector({ onFilterChange, onLoadYearOptions }: IYearSelectorProps)
   };
 
   const loadOptions = () => {
-    return onLoadYearOptions();
+    return onLoadYearOptions().then((options) => {
+      setInitOptionRelyOnPossibleOptions(options);
+      return options;
+    });
   };
 
   const getOrderFilterParams = () => [...searchParams.entries()].filter(([key]) => key !== 'page');
+
+  const setInitOptionRelyOnPossibleOptions = (options: Option[]) => {
+    if (searchParams.has('year')) {
+      const year = searchParams.get('year');
+      const option = options.find((item) => Number(item.value) === Number(year));
+
+      if (option !== undefined) setYearOption(option);
+    }
+  };
 
   return (
     <AsyncSelect
