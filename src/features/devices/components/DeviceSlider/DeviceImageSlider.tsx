@@ -1,9 +1,17 @@
 import React, { useRef } from 'react';
 import useSlider from '@src/common/hooks/useSlider';
 import useZoomImageOnMouseEvt from '@common/hooks/useZoomImageOnMouseEvt';
-import { LeftArrow, RightArrow, SliderImage, SliderWrap, InnerWrapper } from '../../styles/deviceSlider.styled';
+import {
+  LeftArrow,
+  RightArrow,
+  SliderImage,
+  SliderWrap,
+  InnerWrapper,
+  ImageMagnify,
+  ImgWrap,
+} from '../../styles/deviceSlider.styled';
 import DotImageList from './DotImageList';
-import { Lens, LensOutput, Wrap } from '../../styles/lens.styled';
+import { Lens, LensOutput } from '../../styles/lens.styled';
 
 interface ISliderProps {
   urls: string[];
@@ -13,7 +21,7 @@ interface ISliderProps {
 function DeviceImageSlider(props: ISliderProps) {
   const { urls = [], alt = 'device' } = props;
 
-  const wrapRef = useRef<HTMLDivElement>(null);
+  const wrapRef = useRef<HTMLDivElement | null>(null);
   // prettier-ignore
   const {
     activeIdx,
@@ -34,19 +42,21 @@ function DeviceImageSlider(props: ISliderProps) {
         <InnerWrapper>
           {greaterThanOne && <LeftArrow onClick={onLeftClick}>left</LeftArrow>}
 
-          <Wrap ref={wrapRef}>
-            <SliderImage
-              ref={imgRef}
-              key={urls[activeIdx]}
-              src={urls[activeIdx]}
-              alt={alt}
-              slideDirection={slideDirection}
-              onMouseMove={onMouseMove}
-              onMouseLeave={onMouseLeave}
-            />
+          <ImageMagnify>
+            <ImgWrap ref={wrapRef}>
+              <SliderImage
+                ref={imgRef}
+                key={urls[activeIdx]}
+                src={urls[activeIdx]}
+                alt={alt}
+                slideDirection={slideDirection}
+                onMouseMove={onMouseMove}
+                onMouseLeave={onMouseLeave}
+              />
 
-            {isLensActive && <Lens ref={lensRef} />}
-          </Wrap>
+              {isLensActive && <Lens ref={lensRef} />}
+            </ImgWrap>
+          </ImageMagnify>
 
           {greaterThanOne && <RightArrow onClick={onRightClick}>right</RightArrow>}
         </InnerWrapper>

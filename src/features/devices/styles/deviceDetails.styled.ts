@@ -33,7 +33,7 @@ export const InnerWrap = styled.div`
 
   @media (max-width: 968px) {
     grid-template-columns: 60px 1fr 1fr 100px;
-    grid-template-rows: 50px 50px 350px 50px 1fr;
+    grid-template-rows: 50px 50px 400px 50px 1fr;
   }
 
   @media (max-width: 600px) {

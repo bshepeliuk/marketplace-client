@@ -119,12 +119,36 @@ export const InnerWrapper = styled.div`
   overflow: hidden;
 `;
 
+export const ImageMagnify = styled.div`
+  position: relative;
+  width: 460px;
+  height: 460px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  @media (max-width: 968px) {
+    max-height: 300px;
+    width: 350px;
+    height: 350px;
+  }
+`;
+
+export const ImgWrap = styled.div`
+  position: relative;
+  overflow: visible;
+  width: auto;
+  height: auto;
+`;
+
 export const SliderImage = styled.img<{
   slideDirection: SliderDirectionValues;
 }>`
   max-width: 100%;
-  max-height: 100%;
+  max-height: 460px;
+  object-fit: contain;
   user-select: none;
+  cursor: zoom-in;
 
   animation: ${({ slideDirection }) => {
     if (slideDirection === SlideDirection.Left) {
@@ -138,5 +162,6 @@ export const SliderImage = styled.img<{
 
   @media (max-width: 968px) {
     max-height: 300px;
+    cursor: pointer;
   }
 `;
