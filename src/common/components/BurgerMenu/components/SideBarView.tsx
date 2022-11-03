@@ -1,3 +1,4 @@
+import useMountTransition from '@src/common/hooks/useMountTransition';
 import React, { useEffect, useRef } from 'react';
 import { CloseIcon, Layout, SideBarContainer, SideBarContent } from './sidebar.styled';
 
@@ -10,9 +11,10 @@ interface IProps {
 }
 
 function SideBarView(props: IProps) {
-  const sideBarRef = useRef<HTMLDivElement>(null);
+  const { onClose, isOpen, children, color = '#34495e' } = props;
 
-  const { onClose, isOpen, children, width, color = '#34495e' } = props;
+  const sideBarRef = useRef<HTMLDivElement>(null);
+  const hasTransitionedIn = useMountTransition({ isMounted: isOpen, unmountDelay: 300 });
 
   const onMouseDown = (evt: MouseEvent) => {
     if (sideBarRef.current === null) return;
@@ -33,14 +35,14 @@ function SideBarView(props: IProps) {
     };
   }, [isOpen]);
 
-  return (
-    <Layout isOpen={isOpen}>
-      <SideBarContainer ref={sideBarRef} width={width} isOpen={isOpen} color={color}>
+  return isOpen || hasTransitionedIn ? (
+    <Layout>
+      <SideBarContainer ref={sideBarRef} isOpen={isOpen && hasTransitionedIn} color={color}>
         <CloseIcon onClick={onClose} color="#fff" />
         <SideBarContent>{children}</SideBarContent>
       </SideBarContainer>
     </Layout>
-  );
+  ) : null;
 }
 
 export default SideBarView;

@@ -10,7 +10,7 @@ export const UserWrap = styled.div`
   align-items: center;
   position: relative;
 
-  @media (max-width: 960px) {
+  @media (max-width: 1000px) {
     display: none;
   }
 `;

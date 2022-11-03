@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { IDeviceInfo } from '@features/devices/types';
 import useDynamicHeightBasedOnVisibility from '@common/hooks/useDynamicHeightBasedOnVisibility';
-import { AccordingHeader, ArrowIcon } from '../../../styles/filters.styled';
+import { AccordingHeader, ArrowIcon, Title } from '../../../styles/filters.styled';
 import AccordionInfoListView from './AccordionInfoListView';
 import useFilterContext from '../../../hooks/useFilterContext';
 
@@ -15,21 +15,21 @@ function AccordionItemView({ title, info }: IProps) {
   const [isOpen, setIsOpen] = useState(true);
   const { height, wrapperRef } = useDynamicHeightBasedOnVisibility<HTMLUListElement>(isOpen);
 
-  useEffect(() => {
-    if (isOpen && hasSelectedItems) {
+  const toggleVisibility = () => {
+    setIsOpen(!isOpen);
+
+    if (!isOpen && hasSelectedItems) {
       setIsShownApplyBtn(true);
     } else {
       setIsShownApplyBtn(false);
     }
-  }, [isOpen]);
-
-  const toggleVisibility = () => setIsOpen(!isOpen);
+  };
 
   return (
     <li key={title}>
       <AccordingHeader onClick={toggleVisibility}>
         <ArrowIcon isItVisible={isOpen} />
-        <div>{title}</div>
+        <Title>{title}</Title>
       </AccordingHeader>
 
       <AccordionInfoListView height={height} bodyRef={wrapperRef} info={info} />

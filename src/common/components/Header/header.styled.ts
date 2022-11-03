@@ -19,6 +19,10 @@ export const Container = styled.div`
     max-width: 1440px;
   }
 
+  @media screen and (max-width: 1300px) {
+    grid-template-columns: 150px auto 1fr 50px 50px auto;
+  }
+
   @media (max-width: 740px) {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -58,7 +62,7 @@ export const LoginLink = styled(Link)`
   text-transform: uppercase;
   font-size: 14px;
 
-  @media (max-width: 968px) {
+  @media (max-width: 1000px) {
     display: none;
   }
 `;
@@ -67,7 +71,7 @@ export const SearchWrap = styled.div`
   max-width: 800px;
   width: 100%;
 
-  @media (max-width: 960px) {
+  @media (max-width: 1000px) {
     display: none;
   }
 `;

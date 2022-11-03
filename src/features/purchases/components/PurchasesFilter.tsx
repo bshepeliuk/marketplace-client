@@ -1,11 +1,11 @@
 import React from 'react';
-import { ParamKeyValuePair, useSearchParams } from 'react-router-dom';
+import { ParamKeyValuePair } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { ORDERS_LIMIT } from '@src/features/orders/constants';
 import { searchOrderErrors, searchOrderValidation } from '@src/features/orders/helpers/searchFilterOrderValidation';
 import MonthFilter from '@src/common/components/MonthFilter/MonthFilter';
-import OrderYearSelector from '@src/features/orders/atoms/OrderYearSelector';
+import YearSelector from '@src/common/components/YearSelector/YearSelector';
 import OrderSearchView from '@src/features/orders/atoms/OrderSearchView';
 import OrderStatusSelector from '@src/features/orders/atoms/OrderStatusSelector';
 import { Purchases } from '@src/common/api/Api';
@@ -14,17 +14,12 @@ import useFetchPurchases from '../hooks/useFetchPurchases';
 import { PURCHASES_SEARCH_OPTIONS, PURCHASES_SORT_OPTIONS } from '../constants';
 
 function PurchasesFilter() {
-  const [searchParams] = useSearchParams();
   const { fetchPurchases } = useFetchPurchases();
 
   const onFilterChange = (filters: ParamKeyValuePair[]) => {
-    const FIRST_PAGE = 1;
-    const pageParam = Number(searchParams.get('page'));
-    const offset = pageParam > FIRST_PAGE ? (pageParam - FIRST_PAGE) * ORDERS_LIMIT : 0;
-
     fetchPurchases({
-      offset,
       filters,
+      offset: 0,
       limit: ORDERS_LIMIT,
     });
   };
@@ -37,7 +32,7 @@ function PurchasesFilter() {
     <Wrap>
       <InnerWrap>
         <MonthFilter onFilterChange={onFilterChange} />
-        <OrderYearSelector onFilterChange={onFilterChange} onLoadYearOptions={onLoadYearOptions} />
+        <YearSelector onFilterChange={onFilterChange} onLoadYearOptions={onLoadYearOptions} />
       </InnerWrap>
 
       <InnerWrap>

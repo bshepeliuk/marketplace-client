@@ -37,7 +37,12 @@ function YearSelector({ onFilterChange, onLoadYearOptions }: IYearSelectorProps)
     });
   };
 
-  const getOrderFilterParams = () => [...searchParams.entries()].filter(([key]) => key !== 'page');
+  const getOrderFilterParams = () => {
+    searchParams.delete('page');
+    setSearchParams(searchParams);
+
+    return Array.from(searchParams.entries());
+  };
 
   const setInitOptionRelyOnPossibleOptions = (options: Option[]) => {
     if (searchParams.has('year')) {

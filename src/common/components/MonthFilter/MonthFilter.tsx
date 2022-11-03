@@ -34,7 +34,12 @@ export function MonthFilter({ onFilterChange }: IProps) {
     setSearchParams(searchParams);
   };
 
-  const getOrderFilterParams = () => [...searchParams.entries()].filter(([key]) => key !== 'page');
+  const getOrderFilterParams = () => {
+    searchParams.delete('page');
+    setSearchParams(searchParams);
+
+    return Array.from(searchParams.entries());
+  };
 
   const checkIsSelected = (idx: number) => selected.includes(idx);
 

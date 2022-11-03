@@ -58,9 +58,10 @@ export const Price = styled.p`
 `;
 
 export const Image = styled.img`
-  max-width: 70px;
+  max-width: 100%;
   grid-column-start: 1;
   justify-self: center;
+  max-height: 70px;
 
   @media (max-width: 600px) {
     grid-row: 1 / 3;

@@ -5,6 +5,7 @@ import { InfoWrap, Price, PurchaseButton, PurchaseWrap } from '../styles/deviceD
 import DeviceFeatureList from './DeviceFeatureList';
 import DeviceImageSlider from './DeviceSlider/DeviceImageSlider';
 import { DevicePlaceholder } from '../styles/deviceSlider.styled';
+import getSortedUrlsByPreviewValue from '../helpers/getSortedUrlsByPreviewValue';
 
 interface IProps {
   device: IDevice;
@@ -18,7 +19,7 @@ function DeviceOverView({ device }: IProps) {
   const images = device.images as IDeviceImage[];
   const features = device.info as IDeviceInfo[];
 
-  const urls = images.map((img) => img.url);
+  const urls = getSortedUrlsByPreviewValue(images);
 
   return (
     <>

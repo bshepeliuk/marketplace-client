@@ -6,6 +6,7 @@ export interface IDeviceImage {
   id: number;
   url: string;
   deviceId: number;
+  preview: boolean;
 }
 
 export interface IDeviceInfo {

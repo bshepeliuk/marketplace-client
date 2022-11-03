@@ -7,7 +7,7 @@ export const Wrap = styled.div`
   grid-column-start: 4;
   grid-row-start: 1;
 
-  @media (max-width: 960px) {
+  @media (max-width: 1000px) {
     display: none;
   }
 `;

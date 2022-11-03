@@ -11,7 +11,7 @@ export const Wrap = styled.div`
   grid-column-start: 5;
   position: relative;
 
-  @media (max-width: 960px) {
+  @media (max-width: 1000px) {
     display: none;
   }
 `;

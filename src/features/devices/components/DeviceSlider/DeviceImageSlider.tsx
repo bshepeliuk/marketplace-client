@@ -52,6 +52,7 @@ function DeviceImageSlider(props: ISliderProps) {
                 slideDirection={slideDirection}
                 onMouseMove={onMouseMove}
                 onMouseLeave={onMouseLeave}
+                loading="lazy"
               />
 
               {isLensActive && <Lens ref={lensRef} />}

@@ -68,7 +68,7 @@ function CartItemView({ index, style, data }: IProps) {
 
   return (
     <Wrap style={styles}>
-      {hasImages && <Image src={(item.images[0] as IDeviceImage).url} alt={item.name} />}
+      {hasImages && <Image loading="lazy" src={(item.images[0] as IDeviceImage).url} alt={item.name} />}
 
       <DeviceLink
         to={generatePath(routes.device, { deviceId: `${item.id}` })}

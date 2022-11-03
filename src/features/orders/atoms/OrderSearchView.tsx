@@ -21,6 +21,7 @@ interface IProps {
 
 function OrderSearchView({ onFilterChange, options, validation, errors }: IProps) {
   const timeoutId = useRef<ReturnType<typeof setTimeout>>();
+  const inputRef = useRef<HTMLInputElement>(null);
   const [searchOption, setSearchOption] = useState<ISearchOption>(options[0]);
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchValue, setSearchValue] = useState('');
@@ -53,6 +54,7 @@ function OrderSearchView({ onFilterChange, options, validation, errors }: IProps
     }
 
     setSearchParams(searchParams);
+    onInputFocus();
   };
 
   const onSearchValueChange = (evt: ChangeEvent<HTMLInputElement>) => {
@@ -98,7 +100,16 @@ function OrderSearchView({ onFilterChange, options, validation, errors }: IProps
     return true;
   };
 
-  const getOrderFilterParams = () => [...searchParams.entries()].filter(([key]) => key !== 'page');
+  const getOrderFilterParams = () => {
+    searchParams.delete('page');
+    setSearchParams(searchParams);
+
+    return Array.from(searchParams.entries());
+  };
+
+  const onInputFocus = () => {
+    inputRef.current?.focus();
+  };
 
   return (
     <SearchContainer>
@@ -106,6 +117,7 @@ function OrderSearchView({ onFilterChange, options, validation, errors }: IProps
 
       <SearchInput
         type="text"
+        ref={inputRef}
         name={searchOption.fieldName}
         onChange={onSearchValueChange}
         placeholder={placeholder}

@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { IDeviceInfo } from '@src/features/devices/types';
-import { AccordionInfo, CheckBox, Label } from '../../../styles/filters.styled';
+import { AccordionInfo, CheckBox, Description, Label } from '../../../styles/filters.styled';
 import useFilterContext from '../../../hooks/useFilterContext';
 
 interface IProps {
@@ -31,7 +31,7 @@ function AccordionInfoItemView({ item }: IProps) {
         <span className="checkmark" />
       </Label>
 
-      <li>{description}</li>
+      <Description>{description}</Description>
     </AccordionInfo>
   );
 }

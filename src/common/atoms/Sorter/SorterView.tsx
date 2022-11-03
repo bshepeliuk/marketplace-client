@@ -99,7 +99,12 @@ function SorterView<T extends ISorterOption>({ options, onFilterChange }: IProps
     }
   };
 
-  const getOrderFilterParams = () => [...searchParams.entries()].filter(([key]) => key !== 'page');
+  const getOrderFilterParams = () => {
+    searchParams.delete('page');
+    setSearchParams(searchParams);
+
+    return Array.from(searchParams.entries());
+  };
 
   return (
     <SorterContainer>

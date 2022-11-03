@@ -1,33 +1,23 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import { IoMdClose } from 'react-icons/io';
 
-export const Layout = styled.div<{ isOpen: boolean }>`
+export const Layout = styled.div`
   background: rgba(0, 0, 0, 0.3);
   height: 100%;
   position: fixed;
   z-index: 15;
+  width: 100%;
   inset: 0;
-
-  ${({ isOpen }) => {
-    return isOpen
-      ? css`
-          width: 100%;
-        `
-      : css`
-          width: 0;
-        `;
-  }}
 `;
 
 interface ISideBarStyleProps {
-  width: number;
   isOpen: boolean;
   color: string;
 }
 
 export const SideBarContainer = styled.div<ISideBarStyleProps>`
   height: 100%;
-  width: 0;
+  width: 360px;
   position: fixed;
   z-index: 6;
   top: 0;
@@ -37,18 +27,8 @@ export const SideBarContainer = styled.div<ISideBarStyleProps>`
   transition: 0.5s;
   overflow-x: hidden;
   border-radius: 5px 0 0 5px;
-
-  ${({ isOpen, width }) => {
-    const currentWidth = width
-      ? css`
-          width: ${width}px;
-        `
-      : css`
-          width: 100%;
-        `;
-
-    if (isOpen) return currentWidth;
-  }}
+  transition: transform 0.3s ease-in-out;
+  transform: ${(props) => (props.isOpen ? 'translateX(0)' : 'translateX(360px)')};
 `;
 
 export const SideBarContent = styled.div`
