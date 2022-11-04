@@ -13,7 +13,8 @@ export const List = styled.ul`
   overflow-y: auto;
   box-shadow: 3px 2px 38px 5px rgb(0 0 0 / 18%);
   border: 1px solid rgba(236, 240, 241, 1);
-  padding-bottom: 0;
+  padding: 6px 0;
+  border-radius: 0 0 4px 4px;
 `;
 
 export const Wrap = styled.div`
@@ -46,19 +47,42 @@ export const CategoriesButton = styled.button`
 export const CategoryLink = styled(NavLink)`
   text-decoration: none;
   color: #fff;
-  font-size: 18px;
   color: #34495e;
-  padding: 10px;
   border-radius: 4px;
   display: block;
+  color: #303030;
+  font-size: 15px;
+  font-weight: 300;
+  letter-spacing: 0.15px;
+  transition: all 0.2s ease-out;
+  padding: 8px 12px;
 
   &:hover {
-    color: #e31837;
-    background-color: rgba(189, 195, 199, 0.2);
+    font-weight: 600;
   }
 
   &.active-category {
-    color: #e31837;
-    background-color: rgba(189, 195, 199, 0.2);
+    font-weight: 600;
+  }
+`;
+
+export const ListItem = styled.li`
+  text-decoration: none;
+  color: #fff;
+  color: #34495e;
+  color: #303030;
+  font-size: 15px;
+  letter-spacing: 0.15px;
+  font-family: 'Roboto';
+  transition: all 0.2s ease-out;
+
+  &:hover {
+    background-color: #fff;
+    box-shadow: 4px 1px 7px -2px #c5c5c5, 0 2px 7px -2px #c5c5c5;
+  }
+
+  &.active-category {
+    background-color: #fff;
+    box-shadow: 4px 1px 7px -2px #c5c5c5, 0 2px 7px -2px #c5c5c5;
   }
 `;

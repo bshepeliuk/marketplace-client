@@ -200,6 +200,7 @@ export const BackBtn = styled(MdOutlineArrowBackIos)`
   grid-row: 1;
   align-self: center;
   font-size: 20px;
+  cursor: pointer;
 `;
 
 export const Price = styled.p`
