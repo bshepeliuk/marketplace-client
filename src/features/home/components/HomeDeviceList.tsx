@@ -11,9 +11,9 @@ interface IProps {
 }
 
 function HomeDeviceList({ containerRef }: IProps) {
+  const hasNoDevices = useTypedSelector((state) => state.devices.hasNoDevices);
   const { isLoading, isError, items } = useGetDevices();
   const { fetchMore, isLoadingMore } = useGetMoreDevices();
-  const hasNoDevices = useTypedSelector((state) => state.devices.hasNoDevices);
 
   if (isError) return <ErrorMessageView />;
 

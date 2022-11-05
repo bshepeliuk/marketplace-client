@@ -1,4 +1,5 @@
 import React from 'react';
+
 import CategoriesDropDown from '@features/categories/atoms/CategoriesDropDown/CategoriesDropDown';
 import { useTypedSelector } from '@src/common/hooks/useTypedSelector';
 import { routes } from '@src/app/Router';
@@ -8,8 +9,9 @@ import SearchBarView from '@features/search/components/SearchBar/SearchBar';
 import ComparisonLink from '@common/atoms/ComparisonLink/ComparisonLink';
 import useCheckUserRole from '@common/hooks/useCheckUserRole';
 import UserInfoView from '../UserInfo/UserInfoView';
-import { Header, LoginLink, LogoLink, SearchWrap, Container } from './header.styled';
+import { Header, LoginLink, SearchWrap, Container } from './header.styled';
 import BurgerMenu from '../BurgerMenu/BurgerMenu';
+import LogoButton from './atoms/LogoButton';
 
 function HeaderView() {
   const { isLoggedIn } = useTypedSelector((state) => state.auth);
@@ -20,9 +22,7 @@ function HeaderView() {
   return (
     <Header>
       <Container>
-        <LogoLink to={routes.home} state={{ shouldRefetchDevices: true }}>
-          Marketplace
-        </LogoLink>
+        <LogoButton>Marketplace</LogoButton>
 
         <CategoriesDropDown />
 

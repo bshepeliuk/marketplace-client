@@ -37,24 +37,6 @@ export const Header = styled.header`
   background-color: #303030;
 `;
 
-export const LogoLink = styled(Link)`
-  color: #fff;
-  text-decoration: none;
-  text-transform: uppercase;
-  font-weight: bold;
-  letter-spacing: 1px;
-  transition: all 0.2s ease-in-out;
-
-  &:hover {
-    transform: scale(1.01);
-    letter-spacing: 2px;
-  }
-
-  @media (max-width: 700px) {
-    justify-self: start;
-  }
-`;
-
 export const LoginLink = styled(Link)`
   text-decoration: none;
   color: #fff;

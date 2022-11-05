@@ -13,7 +13,7 @@ import getCountOfColumns from '../helpers/getCountOfColumns';
 import calcAndGetCountOfRows from '../helpers/calcAndGetCountOfRows';
 import '../styles/scrollbar.scss';
 
-type OnItemsRendered = (props: ListOnItemsRenderedProps) => any;
+type OnItemsRendered = (_: ListOnItemsRenderedProps) => any;
 
 interface Props {
   containerRef: RefObject<HTMLElement>;
@@ -96,7 +96,7 @@ function DeviceListView({
     };
   };
 
-  const getOwnRefSetter = (ref: (n: Grid) => void) => (node: Grid) => {
+  const getOwnRefSetter = (ref: (_: Grid) => void) => (node: Grid) => {
     if (typeof ref === 'function') ref(node);
     gridRef.current = node;
   };
