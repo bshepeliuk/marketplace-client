@@ -40,12 +40,15 @@ function StatsView() {
 const Container = styled.div`
   max-width: 1400px;
   margin: 0 auto;
+  height: 100%;
 `;
 
 const FilterWrapper = styled.div`
   display: flex;
   gap: 50px;
   margin-bottom: 40px;
+  overflow: auto;
+  padding: 0 15px;
 `;
 
 export default StatsView;

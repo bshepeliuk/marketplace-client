@@ -58,6 +58,7 @@ function YearSelector({ onFilterChange, onLoadYearOptions }: IYearSelectorProps)
       cacheOptions
       defaultOptions
       isClearable
+      menuPosition="fixed"
       styles={selectorStyles}
       loadOptions={loadOptions}
       placeholder="Select order year."
@@ -68,14 +69,14 @@ function YearSelector({ onFilterChange, onLoadYearOptions }: IYearSelectorProps)
 }
 
 const selectorStyles: StylesConfig<Option, false> = {
-  container: (styles) => ({ ...styles, minWidth: 150, width: 'max-content' }),
+  container: (styles) => ({ ...styles, minWidth: 160, width: 'max-content' }),
   control: (styles) => ({
     ...styles,
     backgroundColor: 'white',
     boxShadow: '0 !important',
     width: '100%',
   }),
-  placeholder: (styles) => ({ ...styles, fontSize: 15 }),
+  placeholder: (styles) => ({ ...styles, fontSize: 15, whiteSpace: 'nowrap' }),
 };
 
 export default YearSelector;

@@ -24,8 +24,13 @@ function CustomerStatsView() {
 
 const Wrapper = styled.div`
   display: flex;
-  height: 350px;
+  min-height: 350px;
   width: 100%;
+  overflow: hidden;
+
+  @media (max-width: 968px) {
+    flex-direction: column;
+  }
 `;
 
 export default CustomerStatsView;

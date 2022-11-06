@@ -35,6 +35,11 @@ function CustomerCitiesQuantityChart() {
 
 const Wrapper = styled.div`
   width: 50%;
+  height: 300px;
+
+  @media (max-width: 968px) {
+    width: 100%;
+  }
 `;
 
 export default CustomerCitiesQuantityChart;

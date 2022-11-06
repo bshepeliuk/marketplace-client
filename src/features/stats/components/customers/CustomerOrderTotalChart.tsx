@@ -39,6 +39,10 @@ function CustomerOrderTotalChart() {
 const Wrapper = styled.div`
   height: 300px;
   width: 50%;
+
+  @media (max-width: 968px) {
+    width: 100%;
+  }
 `;
 
 export default CustomerOrderTotalChart;

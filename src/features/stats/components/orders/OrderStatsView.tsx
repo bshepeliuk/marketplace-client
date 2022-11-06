@@ -30,6 +30,7 @@ const Container = styled.div`
   align-items: center;
   justify-content: space-between;
   flex-flow: column wrap;
+  overflow: auto;
 `;
 
 const StatusWrapper = styled.div`
