@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, RefObject } from 'react';
 
 interface IProps<T> {
   ref: RefObject<HTMLDivElement | null>;
-  deps: T[];
+  deps?: T[];
 }
 
 const useHandleScrollOnMouseEvents = <T>({ ref, deps }: IProps<T>) => {

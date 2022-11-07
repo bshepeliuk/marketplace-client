@@ -10,15 +10,7 @@ function OrderStatusAreaChart() {
   return (
     <Wrapper>
       <ResponsiveContainer>
-        <AreaChart
-          data={items}
-          margin={{
-            top: 10,
-            right: 30,
-            left: 0,
-            bottom: 0,
-          }}
-        >
+        <AreaChart data={items} margin={margin}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="status" tick={{ fontSize: 10 }} />
           <YAxis tick={{ fontSize: 10 }} />
@@ -30,9 +22,20 @@ function OrderStatusAreaChart() {
   );
 }
 
+const margin = {
+  top: 10,
+  right: 30,
+  left: 0,
+  bottom: 0,
+};
+
 const Wrapper = styled.div`
   width: 65%;
   height: 350px;
+
+  @media (max-width: 1300px) {
+    width: 1024px;
+  }
 `;
 
 export default OrderStatusAreaChart;

@@ -3,13 +3,17 @@ import { Cell, Pie, PieChart, ResponsiveContainer, Sector } from 'recharts';
 import styled from 'styled-components';
 
 import { OrderStatusColor } from '@src/features/orders/constants';
+import useWindowResize from '@src/common/hooks/useWindowResize';
 import { useTypedSelector } from '@src/common/hooks/useTypedSelector';
 import { IStatusStats } from '../../types';
 import { statusStatsSelector } from '../../selectors/statusStatsSelector';
 
+const MAX_WIDTH = 1300;
+
 function OrderStatusPie() {
   const items = useTypedSelector(statusStatsSelector);
   const [activeIndex, setActiveIdx] = useState<number>(0);
+  const [width] = useWindowResize();
 
   const colors = (items || []).map((item) => OrderStatusColor[item.status]);
 
@@ -17,7 +21,7 @@ function OrderStatusPie() {
     setActiveIdx(index);
   };
 
-  if (items === undefined) return null;
+  if (items === undefined || width <= MAX_WIDTH) return null;
 
   return (
     <PieWrapper>

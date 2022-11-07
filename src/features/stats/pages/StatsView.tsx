@@ -1,7 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { RefObject, TouchEvent, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { Route, Routes, useSearchParams } from 'react-router-dom';
 
+import useHandleScrollOnMouseEvents from '@common/hooks/useHandleScrollOnMouseEvents';
+import useScrollOnTouchEvents from '@src/common/hooks/useScrollOnTouchEvents';
 import useFetchStats from '../hooks/useFetchStats';
 import DeviceStatsView from '../components/devices/DeviceStatsView';
 import CustomerStatsView from '../components/customers/CustomerStatsView';
@@ -10,8 +12,12 @@ import StatsNavMenu from '../components/StatsNavMenu';
 import StatsFilter from '../components/StatsFilter';
 
 function StatsView() {
+  const filterWrapRef = useRef<HTMLDivElement | null>(null);
   const [searchParams] = useSearchParams();
   const { fetchStats } = useFetchStats();
+  const { onTouchMove, onTouchStart } = useScrollOnTouchEvents({ ref: filterWrapRef });
+
+  useHandleScrollOnMouseEvents({ ref: filterWrapRef });
 
   useEffect(() => {
     const filters = [...searchParams.entries()];
@@ -23,7 +29,7 @@ function StatsView() {
     <Container>
       <StatsNavMenu />
 
-      <FilterWrapper>
+      <FilterWrapper ref={filterWrapRef} onTouchMove={onTouchMove} onTouchStart={onTouchStart}>
         <StatsFilter />
       </FilterWrapper>
 
@@ -47,7 +53,7 @@ const FilterWrapper = styled.div`
   display: flex;
   gap: 50px;
   margin-bottom: 40px;
-  overflow: auto;
+  overflow: hidden;
   padding: 0 15px;
 `;
 

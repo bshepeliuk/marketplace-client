@@ -43,9 +43,9 @@ function ScatterItem({ dayLabel, isLastDay, dayData }: IProps) {
   const range = [16, 225];
   const margin = {
     top: 10,
-    right: 0,
+    right: 10,
     bottom: 0,
-    left: 0,
+    left: 10,
   };
   const TOOLTIP_WIDTH = 150;
 

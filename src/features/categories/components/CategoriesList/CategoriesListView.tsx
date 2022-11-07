@@ -1,6 +1,9 @@
 import React, { useRef } from 'react';
 import { MdArrowBackIosNew, MdArrowForwardIos } from 'react-icons/md';
+
 import useHandleScrollBySideBtnClick from '@common/hooks/useHandleScrollBySideBtnClick';
+import useHandleScrollOnMouseEvents from '@common/hooks/useHandleScrollOnMouseEvents';
+import useScrollOnTouchEvents from '@src/common/hooks/useScrollOnTouchEvents';
 import useGetCategories from '../../hooks/useGetCategories';
 import { List, Wrap, LeftArrowButton, RightArrowButton, ListItem } from '../../styles/categoriesList.styled';
 import useGetCategoryId from '../../hooks/useGetCategoryId';
@@ -20,6 +23,9 @@ function CategoriesListView() {
     onLeftClick,
     onRightClick
   } = useHandleScrollBySideBtnClick(scrollWrapRef, items.length);
+  const { onTouchMove, onTouchStart } = useScrollOnTouchEvents({ ref: scrollWrapRef });
+
+  useHandleScrollOnMouseEvents({ ref: scrollWrapRef, deps: items });
 
   const active = items.find((item) => item.id === categoryId);
 
@@ -31,7 +37,7 @@ function CategoriesListView() {
         <MdArrowBackIosNew />
       </LeftArrowButton>
 
-      <List ref={scrollWrapRef}>
+      <List ref={scrollWrapRef} onTouchMove={onTouchMove} onTouchStart={onTouchStart}>
         <RecentlyViewedLink />
 
         <ListItem>
