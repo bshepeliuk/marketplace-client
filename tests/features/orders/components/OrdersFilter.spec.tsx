@@ -65,9 +65,7 @@ describe('[COMPONENTS]: OrdersFilter', () => {
 
     fireEvent.click(monthFilterBtn);
 
-    const offset = (page - FIRST_ORDER_PAGINATION_PAGE) * ORDERS_LIMIT;
-
-    expect(getOrders).toBeCalledWith({ filters: [['month', '1']], limit: ORDERS_LIMIT, offset });
+    expect(getOrders).toBeCalledWith({ filters: [['month', '1']], limit: ORDERS_LIMIT, offset: 0 });
   });
 
   test('in case page params less than zero, offset should be equal zero.', () => {

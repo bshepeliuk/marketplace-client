@@ -14,8 +14,8 @@ describe('[COMPONENTS]: AllDevicesListItem', () => {
       component: () => <AllDevicesListItem />,
     });
 
-    const AllLink = getByText(/all/i);
+    const AllCategoryBtn = getByText(/all/i);
 
-    expect(AllLink.getAttribute('href')).toBe('/');
+    expect(AllCategoryBtn).toBeInTheDocument();
   });
 });

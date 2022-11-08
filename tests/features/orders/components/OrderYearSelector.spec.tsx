@@ -2,7 +2,7 @@ import selectEvent from 'react-select-event';
 import { screen, waitFor } from '@testing-library/dom';
 
 import createOption from '@src/common/utils/createSelectOption';
-import OrderYearSelector from '@src/features/orders/atoms/OrderYearSelector';
+import YearSelector from '@src/common/components/YearSelector/YearSelector';
 import { rootStateMock } from '../../../mocks/stateMock';
 import setupAndRenderComponent from '../../../helpers/setupAndRenderComponent';
 
@@ -12,14 +12,14 @@ const yearOptionsMock = [createOption(2022), createOption(2021)];
 
 const onLoadYearOptionsMock = jest.fn(() => Promise.resolve(yearOptionsMock));
 
-describe('[COMPONENTS]: OrderYearSelector', () => {
+describe('[COMPONENTS]: YearSelector', () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
 
   test('should have year order selector', async () => {
     setupAndRenderComponent({
-      component: OrderYearSelector,
+      component: YearSelector,
       state: rootStateMock,
       props: {
         onFilterChange: jest.fn(),
@@ -35,7 +35,7 @@ describe('[COMPONENTS]: OrderYearSelector', () => {
 
   test('should have menu with order years from server.', async () => {
     setupAndRenderComponent({
-      component: OrderYearSelector,
+      component: YearSelector,
       state: rootStateMock,
       props: {
         onFilterChange: jest.fn(),
@@ -59,7 +59,7 @@ describe('[COMPONENTS]: OrderYearSelector', () => {
     const yearOption = yearOptionsMock[0];
 
     setupAndRenderComponent({
-      component: OrderYearSelector,
+      component: YearSelector,
       state: rootStateMock,
       props: {
         onFilterChange: onFilterChangeMock,

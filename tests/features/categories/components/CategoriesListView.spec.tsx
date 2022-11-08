@@ -21,7 +21,7 @@ describe('[COMPONENTS]: CategoriesListView', () => {
     }
   });
 
-  test('should have link for each category.', () => {
+  test('should render all categories from list.', () => {
     const { getByText } = setupAndRenderComponent({
       state: rootStateMock,
       component: () => <CategoriesListView />,
@@ -29,7 +29,7 @@ describe('[COMPONENTS]: CategoriesListView', () => {
 
     for (const category of categories) {
       const Category = getByText(category.name);
-      expect(Category.getAttribute('href')).toBe(`/?categoryId=${category.id}`);
+      expect(Category).toBeInTheDocument();
     }
   });
 
