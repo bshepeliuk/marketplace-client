@@ -22,13 +22,13 @@ describe('[HOOK]: useGetDevices', () => {
     jest.clearAllMocks();
   });
 
-  test('should fetch devices', () => {
+  test('should not fetch devices when previous state is not empty', () => {
     const { result } = renderHook(() => useGetDevices(), {
       wrapper: (props: { children: React.ReactNode }) => <Wrapper {...props} state={rootStateMock} />,
     });
 
     expect(result.current.items).toHaveLength(1);
-    expect(getDevices).toBeCalledTimes(1);
+    expect(getDevices).toBeCalledTimes(0);
   });
 
   test('should fetch devices when state is empty', () => {

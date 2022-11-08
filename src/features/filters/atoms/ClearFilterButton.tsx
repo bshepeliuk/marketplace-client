@@ -8,6 +8,7 @@ const ClearButton = styled.button`
   border-radius: 4px 0 0 4px;
   border: 1px solid red;
   background-color: #fff;
+  cursor: pointer;
 `;
 
 function ClearFilterButton() {

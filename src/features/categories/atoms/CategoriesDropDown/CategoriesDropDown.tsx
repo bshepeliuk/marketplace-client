@@ -21,7 +21,6 @@ function CategoriesDropDown() {
         <BsFillGrid3X3GapFill size="22" />
         Categories
       </CategoriesButton>
-
       {isVisible && <DropDownList onLeave={onLeave} />}
     </Wrap>
   );

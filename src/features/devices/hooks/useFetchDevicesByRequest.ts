@@ -1,4 +1,4 @@
-import { useSearchParams } from 'react-router-dom';
+import { ParamKeyValuePair, useSearchParams } from 'react-router-dom';
 import { useAppDispatch } from '@src/common/hooks/useAppDispatch';
 import { getDevices } from '../devicesSlice';
 import { DEVICES_LIMIT } from '../constants';
@@ -6,6 +6,7 @@ import { DEVICES_LIMIT } from '../constants';
 interface IFetchProps {
   offset?: number;
   limit?: number;
+  filters?: ParamKeyValuePair[];
 }
 
 const useFetchDevicesByRequest = () => {
@@ -16,7 +17,7 @@ const useFetchDevicesByRequest = () => {
     const offset = props?.offset ?? 0;
     const limit = props?.limit ?? DEVICES_LIMIT;
 
-    const filters = Array.from(params.entries());
+    const filters = props?.filters === undefined ? Array.from(params.entries()) : props.filters;
 
     dispatch(getDevices({ filters, offset, limit }));
   };

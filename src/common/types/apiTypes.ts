@@ -73,3 +73,9 @@ export interface IGetOrdersParams {
   limit: number;
   filters?: ParamKeyValuePair[];
 }
+
+export interface IGetStatsParams {
+  offset?: number;
+  limit?: number;
+  filters?: ParamKeyValuePair[];
+}

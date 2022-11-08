@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
 import AsyncSelect from 'react-select/async';
 import { ActionMeta, SingleValue, StylesConfig } from 'react-select';
-import { Option } from '@src/common/types/selectTypes';
 import { ParamKeyValuePair, useSearchParams } from 'react-router-dom';
 
-interface IOrderYearSelectorProps {
+import { Option } from '@src/common/types/selectTypes';
+
+interface IYearSelectorProps {
   onFilterChange: (filters: ParamKeyValuePair[]) => void;
   onLoadYearOptions: () => Promise<Option[]>;
 }
 
-function OrderYearSelector({ onFilterChange, onLoadYearOptions }: IOrderYearSelectorProps) {
+function YearSelector({ onFilterChange, onLoadYearOptions }: IYearSelectorProps) {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [yearOption, setYearOption] = useState<Option | null>(null);
+  const [yearOption, setYearOption] = useState<Option | null>();
 
   const onChange = (option: SingleValue<Option>, meta: ActionMeta<Option>) => {
     if (meta.action === 'clear') {
@@ -30,16 +31,34 @@ function OrderYearSelector({ onFilterChange, onLoadYearOptions }: IOrderYearSele
   };
 
   const loadOptions = () => {
-    return onLoadYearOptions();
+    return onLoadYearOptions().then((options) => {
+      setInitOptionRelyOnPossibleOptions(options);
+      return options;
+    });
   };
 
-  const getOrderFilterParams = () => [...searchParams.entries()].filter(([key]) => key !== 'page');
+  const getOrderFilterParams = () => {
+    searchParams.delete('page');
+    setSearchParams(searchParams);
+
+    return Array.from(searchParams.entries());
+  };
+
+  const setInitOptionRelyOnPossibleOptions = (options: Option[]) => {
+    if (searchParams.has('year')) {
+      const year = searchParams.get('year');
+      const option = options.find((item) => Number(item.value) === Number(year));
+
+      if (option !== undefined) setYearOption(option);
+    }
+  };
 
   return (
     <AsyncSelect
       cacheOptions
       defaultOptions
       isClearable
+      menuPosition="fixed"
       styles={selectorStyles}
       loadOptions={loadOptions}
       placeholder="Select order year."
@@ -50,14 +69,14 @@ function OrderYearSelector({ onFilterChange, onLoadYearOptions }: IOrderYearSele
 }
 
 const selectorStyles: StylesConfig<Option, false> = {
-  container: (styles) => ({ ...styles, minWidth: 150, width: 'max-content' }),
+  container: (styles) => ({ ...styles, minWidth: 160, width: 'max-content' }),
   control: (styles) => ({
     ...styles,
     backgroundColor: 'white',
     boxShadow: '0 !important',
     width: '100%',
   }),
-  placeholder: (styles) => ({ ...styles, fontSize: 15 }),
+  placeholder: (styles) => ({ ...styles, fontSize: 15, whiteSpace: 'nowrap' }),
 };
 
-export default OrderYearSelector;
+export default YearSelector;

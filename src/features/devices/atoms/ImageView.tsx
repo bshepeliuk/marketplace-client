@@ -17,9 +17,12 @@ function ImageView({ device }: { device: IDevice }) {
     );
   }
 
+  const preview = images.find((item) => item.preview === true);
+  const url = preview !== undefined ? preview.url : images[0].url;
+
   return (
     <ImageWrapper>
-      <Image src={images[0].url} alt={device.name} />
+      <Image src={url} alt={device.name} loading="lazy" />
     </ImageWrapper>
   );
 }

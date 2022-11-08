@@ -6,6 +6,7 @@ import {
   IGetDevicesProps,
   IGetOrdersParams,
   IGetRepliesParams,
+  IGetStatsParams,
   ILogin,
   IRegister,
   IUpdateCommentParams,
@@ -146,6 +147,13 @@ export const Purchases = {
   },
   getYearOptions() {
     return api.get('/purchases/year-options');
+  },
+};
+
+export const Stats = {
+  get({ filters }: IGetStatsParams) {
+    const paramsUrl = new URLSearchParams(filters);
+    return api.get(`/stats?${paramsUrl}`);
   },
 };
 

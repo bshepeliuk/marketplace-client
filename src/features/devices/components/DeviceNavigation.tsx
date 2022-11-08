@@ -10,10 +10,7 @@ interface IProps {
 function DeviceNavigation({ deviceId }: IProps) {
   return (
     <NavWrap>
-      <MenuLink
-        end
-        to={generatePath(routes.device, { deviceId: String(deviceId) })}
-      >
+      <MenuLink end to={generatePath(routes.device, { deviceId: String(deviceId) })}>
         Overview
       </MenuLink>
 

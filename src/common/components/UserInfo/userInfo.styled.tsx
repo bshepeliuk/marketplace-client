@@ -10,7 +10,7 @@ export const UserWrap = styled.div`
   align-items: center;
   position: relative;
 
-  @media (max-width: 960px) {
+  @media (max-width: 1000px) {
     display: none;
   }
 `;
@@ -101,6 +101,8 @@ export const Logout = styled(MdExitToApp)`
 
 export const InnerWrapper = styled.div`
   padding: 15px 0;
+  display: flex;
+  flex-flow: column wrap;
 `;
 
 export const CustomLink = styled(Link)`

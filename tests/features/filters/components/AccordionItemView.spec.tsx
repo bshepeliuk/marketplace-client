@@ -53,7 +53,7 @@ describe('[COMPONENTS]: AccordionItemView', () => {
     }
   });
 
-  test('should render apply filter btn when Item has selected items.', async () => {
+  test('should render apply filter btn', async () => {
     const setShowApplyBtnMock = jest.fn();
 
     const { getByText } = setupAndRenderComponent({
@@ -73,12 +73,14 @@ describe('[COMPONENTS]: AccordionItemView', () => {
       ),
     });
 
-    expect(setShowApplyBtnMock).toBeCalledWith(true);
-
     const header = getByText(/Microprocessor/i);
 
     fireEvent.click(header);
 
     expect(setShowApplyBtnMock).lastCalledWith(false);
+
+    fireEvent.click(header);
+
+    expect(setShowApplyBtnMock).lastCalledWith(true);
   });
 });

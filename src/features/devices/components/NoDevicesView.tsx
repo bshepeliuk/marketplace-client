@@ -4,7 +4,7 @@ import styled from 'styled-components';
 const Wrap = styled.div`
   display: flex;
   justify-content: center;
-  height: var(--default-height);
+  height: calc(var(--default-height) - 60px);
   align-items: center;
 `;
 

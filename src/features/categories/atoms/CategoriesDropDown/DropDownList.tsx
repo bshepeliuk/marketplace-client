@@ -3,7 +3,7 @@ import React from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
 import useGetCategories from '../../hooks/useGetCategories';
 import { ICategory } from '../../types';
-import { CategoryLink, List } from './dropDown.styled';
+import { CategoryLink, List, ListItem } from './dropDown.styled';
 
 interface IListProps {
   onLeave: () => void;
@@ -34,11 +34,11 @@ function DropDownItem({ item }: IItemProps) {
   const className = isActive ? 'active-category' : '';
 
   return (
-    <li key={item.id}>
+    <ListItem key={item.id} className={className}>
       <CategoryLink className={className} to={{ pathname: routes.devices, search: `?categoryId=${item.id}` }}>
         {item.name}
       </CategoryLink>
-    </li>
+    </ListItem>
   );
 }
 

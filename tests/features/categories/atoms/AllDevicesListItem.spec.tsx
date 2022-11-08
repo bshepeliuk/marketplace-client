@@ -1,6 +1,6 @@
 import React from 'react';
 
-import AllDevicesListItem from '@features/categories/components/CategoriesList/AllDevicesListItem';
+import AllDevicesListItem from '@src/features/categories/components/CategoriesList/AllCategoriesButton';
 import setupAndRenderComponent from '../../../helpers/setupAndRenderComponent';
 
 describe('[COMPONENTS]: AllDevicesListItem', () => {
@@ -14,8 +14,8 @@ describe('[COMPONENTS]: AllDevicesListItem', () => {
       component: () => <AllDevicesListItem />,
     });
 
-    const AllLink = getByText(/all/i);
+    const AllCategoryBtn = getByText(/all/i);
 
-    expect(AllLink.getAttribute('href')).toBe('/');
+    expect(AllCategoryBtn).toBeInTheDocument();
   });
 });

@@ -18,7 +18,7 @@ const BurgerIcon = styled(GiHamburgerMenu)<Pick<IProps, 'size' | 'color'>>`
     transform: scale(1.2);
   }
 
-  @media (max-width: 960px) {
+  @media (max-width: 1000px) {
     display: block;
   }
 `;

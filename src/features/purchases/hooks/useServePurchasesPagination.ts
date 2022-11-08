@@ -20,6 +20,12 @@ const useServePurchasesPagination = () => {
     fetchPurchases({ offset, filters, limit: ORDERS_LIMIT });
   }, []);
 
+  useEffect(() => {
+    if (searchParams.get('page') === null) {
+      setCurrentPage(PURCHASES_FIRST_PAGE);
+    }
+  }, [searchParams.toString()]);
+
   const onPageChange = (page: number) => {
     window.scrollTo({ behavior: 'smooth', top: 0 });
 

@@ -19,6 +19,12 @@ const useServeOrdersPagination = () => {
     fetchOrders({ offset, filters, limit: ORDERS_LIMIT });
   }, []);
 
+  useEffect(() => {
+    if (searchParams.get('page') === null) {
+      setCurrentPage(FIRST_ORDER_PAGINATION_PAGE);
+    }
+  }, [searchParams.toString()]);
+
   const onPageChange = (page: number) => {
     window.scrollTo({ behavior: 'smooth', top: 0 });
 

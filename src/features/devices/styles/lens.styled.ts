@@ -6,6 +6,8 @@ export const Wrap = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+
+  height: 100%;
 `;
 
 export const Lens = styled.div`
@@ -17,6 +19,7 @@ export const Lens = styled.div`
   background-color: rgba(26, 188, 156, 0.4);
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   pointer-events: none;
+  z-index: 1;
 
   @media (max-width: 968px) {
     display: none;

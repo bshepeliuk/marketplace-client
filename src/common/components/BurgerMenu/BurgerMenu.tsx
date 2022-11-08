@@ -7,6 +7,7 @@ import useSetBodyScroll from '@src/common/hooks/useBodyScroll';
 import SearchBarView from '@features/search/components/SearchBar/SearchBar';
 import { routes } from '@src/app/Router';
 import { MdOutlineLibraryAdd } from 'react-icons/md';
+import { BsBox } from 'react-icons/bs';
 import useCheckUserRole from '@common/hooks/useCheckUserRole';
 import BurgerButton from './components/BurgerButton';
 import SideBarView from './components/SideBarView';
@@ -20,7 +21,6 @@ import {
   MenuTitle,
   SearchContainer,
 } from './burgerMenu.styled';
-import { BsBox } from 'react-icons/bs';
 
 function BurgerMenu() {
   const location = useLocation();

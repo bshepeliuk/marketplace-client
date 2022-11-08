@@ -90,6 +90,34 @@ export const StyledRecentlyLink = styled(NavLink)`
   }
 `;
 
+export const CategoryButton = styled.button`
+  font-family: 'Roboto';
+  border: 1px solid #e0e0e0;
+  font-size: 9px;
+  height: 36px;
+  line-height: 16px;
+  white-space: nowrap;
+  color: #bdc3c7;
+  background: #fff;
+  border-radius: 4px;
+  padding: 0 20px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.2s ease-out;
+  letter-spacing: 1.5px;
+  cursor: pointer;
+
+  &:hover {
+    color: #e31837;
+    box-shadow: 0 0 5px rgb(0 0 5 / 20%);
+  }
+
+  &.active-category {
+    border: 1px solid #e31837;
+    color: #e31837;
+  }
+`;
+
 const ScrollArrowButton = styled.button`
   height: 32px;
   width: 32px;

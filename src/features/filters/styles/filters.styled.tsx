@@ -139,6 +139,7 @@ export const ApplyButton = styled.button`
   padding: 4px 10px;
   color: #5285cc;
   border: 1px solid currentColor;
+  cursor: pointer;
 
   &:disabled {
     border: 1px solid #bdc3c7;
@@ -167,4 +168,17 @@ export const Input = styled.input`
   }
 
   -moz-appearance: textfield;
+`;
+
+export const Title = styled.div`
+  text-transform: uppercase;
+  font-weight: 500;
+  font-size: 12px;
+  letter-spacing: 1px;
+  font-family: 'Roboto';
+`;
+
+export const Description = styled.li`
+  font-family: 'Roboto';
+  font-weight: 300;
 `;

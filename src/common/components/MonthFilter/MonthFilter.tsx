@@ -8,7 +8,9 @@ interface IProps {
 
 export function MonthFilter({ onFilterChange }: IProps) {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [selected, setSelected] = useState<number[]>([]);
+
+  const initialValues = () => Array.from(searchParams.getAll('month').values()).map(Number);
+  const [selected, setSelected] = useState<number[]>(initialValues);
 
   const onMonthClick = (idx: number) => {
     if (checkIsSelected(idx)) {
@@ -32,7 +34,12 @@ export function MonthFilter({ onFilterChange }: IProps) {
     setSearchParams(searchParams);
   };
 
-  const getOrderFilterParams = () => [...searchParams.entries()].filter(([key]) => key !== 'page');
+  const getOrderFilterParams = () => {
+    searchParams.delete('page');
+    setSearchParams(searchParams);
+
+    return Array.from(searchParams.entries());
+  };
 
   const checkIsSelected = (idx: number) => selected.includes(idx);
 

@@ -5,10 +5,7 @@ const useClearLocationState = () => {
   const navigate = useNavigate();
 
   const clearLocationState = () => {
-    navigate(
-      { pathname: location.pathname, search: location.search },
-      { replace: true, state: {} },
-    );
+    navigate({ pathname: location.pathname, search: location.search }, { replace: true, state: {} });
   };
 
   return {

@@ -76,7 +76,12 @@ function OrderStatusSelector({ onFilterChange }: IProps) {
     },
   };
 
-  const getOrderFilterParams = () => [...searchParams.entries()].filter(([key]) => key !== 'page');
+  const getOrderFilterParams = () => {
+    searchParams.delete('page');
+    setSearchParams(searchParams);
+
+    return Array.from(searchParams.entries());
+  };
 
   const isOptionDisabled = (_: IOrderStatusOptionWithColor, selectValue: Options<IOrderStatusOptionWithColor>) => {
     return selectValue.length >= ORDERS_MULTISELECT_LIMIT;

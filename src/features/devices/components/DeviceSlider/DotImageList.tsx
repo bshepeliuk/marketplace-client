@@ -11,7 +11,7 @@ function DotImageList({ urls, alt, onClick }: IDotImgList) {
   return (
     <DotsList className="custom-scrollbar-horizontal">
       {urls.map((url, idx) => (
-        <DotImage key={url} src={url} alt={alt} onClick={() => onClick(idx)} />
+        <DotImage loading="lazy" key={url} src={url} alt={alt} onClick={() => onClick(idx)} />
       ))}
     </DotsList>
   );
