@@ -24,6 +24,7 @@ const Status = styled.div<{ color: string }>`
   background-color: ${(props) => props.color};
   color: #fff;
   letter-spacing: 1px;
+  max-height: 35px;
 `;
 
 export default OrderStatusBadge;

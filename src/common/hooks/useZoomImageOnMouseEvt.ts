@@ -97,7 +97,6 @@ const useZoomImageOnMouseEvt = () => {
     }
 
     const cx = lensOutputRef.current.offsetWidth / lensRef.current.offsetWidth;
-    // prettier-ignore
     const cy = lensOutputRef.current.offsetHeight / lensRef.current.offsetHeight;
 
     return { cx, cy };

@@ -1,8 +1,8 @@
 import * as ReactRedux from 'react-redux';
 import { screen } from '@testing-library/dom';
 
-import { months } from '@src/common/components/MonthFilter/MonthFilter';
 import PurchasesView from '@src/features/purchases/pages/PurchasesView';
+import { months } from '@src/common/constants';
 import setupAndRenderComponent from '../../../helpers/setupAndRenderComponent';
 import { ordersMock } from '../../../mocks/data';
 import { rootStateMock } from '../../../mocks/stateMock';
@@ -10,7 +10,7 @@ import server from '../../../mocks/api/server';
 
 const useDispatchMock = jest.spyOn(ReactRedux, 'useDispatch');
 
-describe('[PAGES]: DevicesByCategoryView', () => {
+describe('[PAGES]: PurchasesView', () => {
   beforeAll(() => server.listen());
   afterAll(() => server.close());
 

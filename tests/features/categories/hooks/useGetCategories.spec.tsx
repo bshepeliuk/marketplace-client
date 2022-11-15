@@ -67,9 +67,7 @@ describe('[HOOK]: useGetCategories.', () => {
     };
 
     const { result } = renderHook(() => useGetCategories(), {
-      wrapper: (props: { children: React.ReactNode }) => (
-        <Wrapper {...props} state={state} />
-      ),
+      wrapper: (props: { children: React.ReactNode }) => <Wrapper {...props} state={state} />,
     });
 
     expect(result.current.items).toHaveLength(ids.length);

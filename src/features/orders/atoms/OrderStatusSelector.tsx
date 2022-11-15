@@ -1,95 +1,47 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import Select, { ActionMeta, MultiValue, Options, StylesConfig } from 'react-select';
 import chroma from 'chroma-js';
-import { ParamKeyValuePair, useSearchParams } from 'react-router-dom';
 
 import createOption from '@src/common/utils/createSelectOption';
 import notifications from '@src/common/utils/notifications';
 import { OrderStatus, OrderStatusColor, ORDERS_MULTISELECT_LIMIT } from '../constants';
-import { IOrderStatusOptionWithColor, ISelectorChangeActions } from '../types';
+import { IOrderStatusOptionWithColor } from '../types';
 
 interface IProps {
-  onFilterChange: (filters: ParamKeyValuePair[]) => void;
+  onFilterChange: (filters: { status?: string[] }) => void;
+  initialValues: string[];
 }
 
-function OrderStatusSelector({ onFilterChange }: IProps) {
+function OrderStatusSelector({ onFilterChange, initialValues }: IProps) {
   const timeoutId = useRef<ReturnType<typeof setTimeout>>();
-  const [values, setValues] = useState<MultiValue<IOrderStatusOptionWithColor>>([]);
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [values, setValues] = useState<MultiValue<IOrderStatusOptionWithColor>>(getInitialValues());
 
-  useEffect(() => {
-    const statusValues = searchParams.getAll('status');
-
-    const optionsFromParams = statusOptions.filter((option) => {
-      return statusValues.includes(option.value.toUpperCase()) || statusValues.includes(option.value.toLowerCase());
-    });
-
-    setValues(optionsFromParams);
-  }, []);
-
-  const onChange = (
-    options: MultiValue<IOrderStatusOptionWithColor>,
-    meta: ActionMeta<IOrderStatusOptionWithColor>,
-  ) => {
+  const onChange = (options: MultiValue<IOrderStatusOptionWithColor>) => {
     clearTimeout(timeoutId.current as ReturnType<typeof setTimeout>);
-
-    searchParams.delete('page');
-
-    const selectorAction = selectorChangeActions[meta.action];
-
-    if (selectorAction !== undefined) selectorAction({ options, meta });
 
     if (options.length === ORDERS_MULTISELECT_LIMIT) {
       notifications.info(`Only ${ORDERS_MULTISELECT_LIMIT} status options can be added to filter.`);
     }
 
-    for (const option of options) {
-      const hasNoSearchParam = !hasSearchParam({ name: 'status', value: option.value });
-
-      if (hasNoSearchParam) searchParams.append('status', option.value);
-    }
-
     setValues(options);
-    setSearchParams(searchParams);
 
     timeoutId.current = setTimeout(() => {
-      const filters = getOrderFilterParams();
+      const optionValues = options.map((item) => item.value);
+      const status = optionValues.length > 0 ? optionValues : undefined;
 
-      onFilterChange(filters);
+      onFilterChange({ status });
     }, 1000);
-  };
-
-  const selectorChangeActions: ISelectorChangeActions = {
-    'remove-value': ({ meta }) => {
-      const filteredOptions = statusOptions.filter((option) => {
-        return option.value.toLowerCase() === meta.removedValue?.value.toLowerCase();
-      });
-
-      searchParams.delete('status');
-
-      for (const item of filteredOptions) {
-        searchParams.append('status', item.value);
-      }
-    },
-    clear: () => {
-      searchParams.delete('status');
-    },
-  };
-
-  const getOrderFilterParams = () => {
-    searchParams.delete('page');
-    setSearchParams(searchParams);
-
-    return Array.from(searchParams.entries());
   };
 
   const isOptionDisabled = (_: IOrderStatusOptionWithColor, selectValue: Options<IOrderStatusOptionWithColor>) => {
     return selectValue.length >= ORDERS_MULTISELECT_LIMIT;
   };
 
-  const hasSearchParam = ({ name, value }: { name: string; value: string }) => {
-    return searchParams.getAll(name).includes(value);
-  };
+  function getInitialValues() {
+    return statusOptions.filter((option) => {
+      return initialValues.includes(option.value.toUpperCase()) || initialValues.includes(option.value.toLowerCase());
+    });
+  }
 
   return (
     <div>

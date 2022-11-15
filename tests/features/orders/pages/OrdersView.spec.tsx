@@ -2,7 +2,7 @@ import * as reactRedux from 'react-redux';
 import { screen } from '@testing-library/dom';
 
 import OrdersView from '@src/features/orders/pages/OrdersView';
-import { months } from '@src/common/components/MonthFilter/MonthFilter';
+import { months } from '@src/common/constants';
 import setupAndRenderComponent from '../../../helpers/setupAndRenderComponent';
 import { ordersMock } from '../../../mocks/data';
 import { rootStateMock } from '../../../mocks/stateMock';

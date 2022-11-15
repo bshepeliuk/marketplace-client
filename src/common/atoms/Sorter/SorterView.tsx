@@ -1,6 +1,6 @@
+import React, { useState } from 'react';
+
 import { Nullable } from '@src/common/types/baseTypes';
-import React, { useEffect, useState } from 'react';
-import { ParamKeyValuePair, useSearchParams } from 'react-router-dom';
 import {
   ApplyButton,
   ArrowIcon,
@@ -23,11 +23,17 @@ const SortDirection = {
 } as const;
 
 type SortDirectionKeys = keyof typeof SortDirection;
-type SortDirectionValues = typeof SortDirection[SortDirectionKeys];
+export type SortDirectionValues = typeof SortDirection[SortDirectionKeys];
+
+export type SorterInitValues = {
+  sortDirection: Nullable<SortDirectionValues>;
+  sortField: Nullable<string>;
+};
 
 interface IProps<T> {
   options: T[];
-  onFilterChange: (filters: ParamKeyValuePair[]) => void;
+  onFilterChange: (filters: { sortDirection?: SortDirectionValues; sortField?: string }) => void;
+  initialValue: SorterInitValues;
 }
 
 interface ISorterOption {
@@ -35,33 +41,10 @@ interface ISorterOption {
   fieldName: string;
 }
 
-function SorterView<T extends ISorterOption>({ options, onFilterChange }: IProps<T>) {
-  const [searchParams, setSearchParams] = useSearchParams();
+function SorterView<T extends ISorterOption>({ options, onFilterChange, initialValue }: IProps<T>) {
   const [isOpen, setIsOpen] = useState(false);
-  const [sortDirection, setSortDirection] = useState<SortDirectionValues>(SortDirection.ASC);
-  const [activeIdx, setActiveIdx] = useState<Nullable<number>>(null);
-
-  useEffect(() => {
-    if (searchParams.has('sortField') && searchParams.has('sortDirection')) {
-      const optionIdx = options.findIndex((item) => {
-        return item.fieldName.toLowerCase() === searchParams.get('sortField')?.toLowerCase();
-      });
-
-      if (optionIdx !== undefined) {
-        setActiveIdx(optionIdx);
-      }
-
-      const searchDirectionParam = searchParams.get('sortDirection');
-
-      const hasCorrectDirection = Object.values(SortDirection).some((direction) => {
-        return direction === searchDirectionParam?.toUpperCase();
-      });
-
-      if (hasCorrectDirection && searchDirectionParam !== null) {
-        setSortDirection(searchDirectionParam.toUpperCase() as SortDirectionValues);
-      }
-    }
-  }, []);
+  const [sortDirection, setSortDirection] = useState<SortDirectionValues>(getInitialDirectionValue());
+  const [activeIdx, setActiveIdx] = useState<Nullable<number>>(getInitialSortFieldIdx());
 
   const toggleOpen = () => {
     setIsOpen(!isOpen);
@@ -78,33 +61,32 @@ function SorterView<T extends ISorterOption>({ options, onFilterChange }: IProps
     setIsOpen(false);
     setActiveIdx(null);
 
-    searchParams.delete('sortField');
-    searchParams.delete('sortDirection');
-
-    setSearchParams(searchParams);
+    onFilterChange({ sortDirection: undefined, sortField: undefined });
   };
+
   const onApply = () => {
     setIsOpen(false);
 
     if (activeIdx !== null) {
-      searchParams.set('sortField', options[activeIdx].fieldName);
-      searchParams.set('sortDirection', sortDirection);
-      searchParams.delete('page');
-
-      setSearchParams(searchParams);
-
-      const filters = getOrderFilterParams();
-
-      onFilterChange(filters);
+      onFilterChange({ sortDirection, sortField: options[activeIdx].fieldName });
     }
   };
 
-  const getOrderFilterParams = () => {
-    searchParams.delete('page');
-    setSearchParams(searchParams);
+  function getInitialDirectionValue() {
+    const hasCorrectDirection = Object.values(SortDirection).some((direction) => {
+      return direction.toUpperCase() === initialValue.sortDirection?.toUpperCase();
+    });
 
-    return Array.from(searchParams.entries());
-  };
+    return hasCorrectDirection && initialValue.sortDirection !== null ? initialValue.sortDirection : SortDirection.ASC;
+  }
+
+  function getInitialSortFieldIdx() {
+    const optionIdx = options.findIndex((item) => {
+      return item.fieldName.toLowerCase() === initialValue.sortField?.toLowerCase();
+    });
+
+    return optionIdx !== -1 ? optionIdx : null;
+  }
 
   return (
     <SorterContainer>

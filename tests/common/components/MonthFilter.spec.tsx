@@ -1,10 +1,11 @@
 import { fireEvent, screen } from '@testing-library/dom';
 
-import MonthFilter, { months } from '@src/common/components/MonthFilter/MonthFilter';
+import MonthFilter from '@src/common/components/MonthFilter/MonthFilter';
+import { months } from '@src/common/constants';
 import { rootStateMock } from '../../mocks/stateMock';
 import setupAndRenderComponent from '../../helpers/setupAndRenderComponent';
 
-describe('[COMPONENTS]: UserInfoView', () => {
+describe('[COMPONENTS]: MonthFilter', () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
@@ -13,7 +14,7 @@ describe('[COMPONENTS]: UserInfoView', () => {
     setupAndRenderComponent({
       component: MonthFilter,
       state: rootStateMock,
-      props: { onFilterChange: jest.fn() },
+      props: { onFilterChange: jest.fn(), initialValues: [] },
     });
 
     for (const month of months) {
@@ -32,6 +33,7 @@ describe('[COMPONENTS]: UserInfoView', () => {
       state: rootStateMock,
       props: {
         onFilterChange,
+        initialValues: [],
       },
     });
 
@@ -42,7 +44,8 @@ describe('[COMPONENTS]: UserInfoView', () => {
     const activeMonthItem = container.querySelector('[data-month-active="true"]');
 
     expect(monthFilterBtn).toBeInTheDocument();
-    expect(onFilterChange).toBeCalledWith([['month', String(firstMonthIdx)]]);
+
+    expect(onFilterChange).toBeCalledWith({ month: [firstMonthIdx] });
     expect(activeMonthItem).toBeInTheDocument();
     expect(activeMonthItem!.textContent).toBe(firstMonth);
 

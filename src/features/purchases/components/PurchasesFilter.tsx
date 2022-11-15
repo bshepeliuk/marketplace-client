@@ -1,25 +1,50 @@
 import React from 'react';
-import { ParamKeyValuePair } from 'react-router-dom';
+import { ParamKeyValuePair, useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { ORDERS_LIMIT } from '@src/features/orders/constants';
 import { searchOrderErrors, searchOrderValidation } from '@src/features/orders/helpers/searchFilterOrderValidation';
 import MonthFilter from '@src/common/components/MonthFilter/MonthFilter';
+import convertFiltersToParamKeyValuePair from '@src/common/utils/convertFiltersToParamKeyValuePair';
+import getNextSearchParams from '@src/common/utils/getNextSearchParams';
 import YearSelector from '@src/common/components/YearSelector/YearSelector';
 import OrderSearchView from '@src/features/orders/atoms/OrderSearchView';
 import OrderStatusSelector from '@src/features/orders/atoms/OrderStatusSelector';
+import { Nullable } from '@src/common/types/baseTypes';
 import { Purchases } from '@src/common/api/Api';
-import SorterView from '@src/common/atoms/Sorter/SorterView';
+import SorterView, { SortDirectionValues, SorterInitValues } from '@src/common/atoms/Sorter/SorterView';
 import useFetchPurchases from '../hooks/useFetchPurchases';
 import { PURCHASES_SEARCH_OPTIONS, PURCHASES_SORT_OPTIONS } from '../constants';
 
+type Filters = Record<string, string | number | string[] | number[]>;
+
 function PurchasesFilter() {
+  const [searchParams, setSearchParams] = useSearchParams();
   const { fetchPurchases } = useFetchPurchases();
 
-  const onFilterChange = (filters: ParamKeyValuePair[]) => {
+  const initialStatusValues = Array.from(searchParams.getAll('status').values());
+  const initialMonthValues = Array.from(searchParams.getAll('month').values()).map(Number);
+  const initialYearValue = searchParams.get('year');
+  const initialSearchValue = PURCHASES_SEARCH_OPTIONS.reduce((prev, current) => {
+    const value = searchParams.get(current.fieldName);
+    return value !== null ? [current.fieldName, value] : prev;
+  }, [] as string[]);
+  const initialSorterValue: SorterInitValues = {
+    sortField: searchParams.get('sortField'),
+    sortDirection: searchParams.get('sortDirection') as Nullable<SortDirectionValues>,
+  };
+
+  const onFilterChange = (filters: Filters) => {
+    searchParams.delete('page');
+
+    const prevParams = Array.from(searchParams.entries());
+    const newParams = convertFiltersToParamKeyValuePair(filters);
+    const nextParams = getNextSearchParams({ prev: prevParams, next: newParams });
+
+    setSearchParams(nextParams);
     fetchPurchases({
-      filters,
       offset: 0,
+      filters: nextParams,
       limit: ORDERS_LIMIT,
     });
   };
@@ -31,8 +56,12 @@ function PurchasesFilter() {
   return (
     <Wrap>
       <InnerWrap>
-        <MonthFilter onFilterChange={onFilterChange} />
-        <YearSelector onFilterChange={onFilterChange} onLoadYearOptions={onLoadYearOptions} />
+        <MonthFilter onFilterChange={onFilterChange} initialValues={initialMonthValues} />
+        <YearSelector
+          onFilterChange={onFilterChange}
+          onLoadYearOptions={onLoadYearOptions}
+          initialValue={initialYearValue}
+        />
       </InnerWrap>
 
       <InnerWrap>
@@ -41,9 +70,14 @@ function PurchasesFilter() {
           onFilterChange={onFilterChange}
           validation={searchOrderValidation}
           errors={searchOrderErrors}
+          initialValue={initialSearchValue}
         />
-        <OrderStatusSelector onFilterChange={onFilterChange} />
-        <SorterView options={PURCHASES_SORT_OPTIONS} onFilterChange={onFilterChange} />
+        <OrderStatusSelector onFilterChange={onFilterChange} initialValues={initialStatusValues} />
+        <SorterView
+          options={PURCHASES_SORT_OPTIONS}
+          onFilterChange={onFilterChange}
+          initialValue={initialSorterValue}
+        />
       </InnerWrap>
     </Wrap>
   );

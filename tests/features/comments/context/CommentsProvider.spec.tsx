@@ -3,10 +3,7 @@ import React from 'react';
 import { fireEvent, render, waitFor } from '@testing-library/react';
 import LoadMoreButton from '@features/comments/atoms/LoadMoreButton';
 import * as ReactRedux from 'react-redux';
-import {
-  CommentsContext,
-  CommentsProvider,
-} from '@features/comments/context/CommentsContext';
+import { CommentsContext, CommentsProvider } from '@features/comments/context/CommentsContext';
 import useGetMoreComments from '@features/comments/hooks/useGetMoreComments';
 import CommentRow from '@features/comments/components/CommentRow';
 import CommentFormView from '@src/features/comments/components/CommentForm';
@@ -34,12 +31,8 @@ describe('[CONTEXT]: CommentsProvider', () => {
   const dispatch = jest.fn();
 
   const onAddMock = jest.fn().mockImplementationOnce(() => Promise.resolve());
-  const onUpdateMock = jest
-    .fn()
-    .mockImplementationOnce(() => Promise.resolve());
-  const onDeleteMock = jest
-    .fn()
-    .mockImplementationOnce(() => Promise.resolve());
+  const onUpdateMock = jest.fn().mockImplementationOnce(() => Promise.resolve());
+  const onDeleteMock = jest.fn().mockImplementationOnce(() => Promise.resolve());
 
   beforeEach(() => {
     useDispatchMock.mockReturnValue(dispatch);
@@ -64,9 +57,7 @@ describe('[CONTEXT]: CommentsProvider', () => {
   });
 
   test('should dispatch thunk for loading more comments.', async () => {
-    const mockGetMoreByDeviceId = jest
-      .fn()
-      .mockImplementationOnce(() => Promise.resolve());
+    const mockGetMoreByDeviceId = jest.fn().mockImplementationOnce(() => Promise.resolve());
 
     (useGetMoreComments as jest.Mock).mockImplementation(() => ({
       getMoreByDeviceId: mockGetMoreByDeviceId,
@@ -101,10 +92,7 @@ describe('[CONTEXT]: CommentsProvider', () => {
             return (
               <div>
                 <h1>size: {value?.getSize(1)}</h1>
-                <button
-                  type="button"
-                  onClick={() => value?.setSize(index, height)}
-                >
+                <button type="button" onClick={() => value?.setSize(index, height)}>
                   set size
                 </button>
               </div>
@@ -174,9 +162,7 @@ describe('[CONTEXT]: CommentsProvider', () => {
 
     fireEvent.click(getByText(/edit/i));
 
-    expect(
-      getByText(`active commentId: ${commentMock.id}`, { exact: false }),
-    ).toBeInTheDocument();
+    expect(getByText(`active commentId: ${commentMock.id}`, { exact: false })).toBeInTheDocument();
     expect(getByText(/action: editing/i)).toBeInTheDocument();
 
     fireEvent.click(getByText(/^edit$/));
@@ -297,13 +283,8 @@ describe('[CONTEXT]: CommentsProvider', () => {
           {(value) => {
             return (
               <div>
-                <h1>
-                  isGoTopBtnVisible: {value?.isGoTopBtnVisible.toString()}
-                </h1>
-                <button
-                  type="button"
-                  onClick={() => value?.onListScroll({ scrollOffset: 800 })}
-                >
+                <h1>isGoTopBtnVisible: {value?.isGoTopBtnVisible.toString()}</h1>
+                <button type="button" onClick={() => value?.onListScroll({ scrollOffset: 800 })}>
                   scroll
                 </button>
               </div>
@@ -331,13 +312,8 @@ describe('[CONTEXT]: CommentsProvider', () => {
           {(value) => {
             return (
               <div>
-                <h1>
-                  isGoTopBtnVisible: {value?.isGoTopBtnVisible.toString()}
-                </h1>
-                <button
-                  type="button"
-                  onClick={() => value?.onListScroll({ scrollOffset: 0 })}
-                >
+                <h1>isGoTopBtnVisible: {value?.isGoTopBtnVisible.toString()}</h1>
+                <button type="button" onClick={() => value?.onListScroll({ scrollOffset: 0 })}>
                   scroll
                 </button>
               </div>

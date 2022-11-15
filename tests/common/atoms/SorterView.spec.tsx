@@ -1,16 +1,9 @@
 import { fireEvent, screen } from '@testing-library/dom';
-import { useSearchParams } from 'react-router-dom';
 
 import SorterView from '@src/common/atoms/Sorter/SorterView';
 import { SORT_ORDER_OPTIONS } from '@src/features/orders/constants';
 import { rootStateMock } from '../../mocks/stateMock';
 import setupAndRenderComponent from '../../helpers/setupAndRenderComponent';
-
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
-  __esModule: true,
-  useSearchParams: jest.fn().mockImplementation(() => [new URLSearchParams(), jest.fn()]),
-}));
 
 describe('[COMPONENTS]: SorterView', () => {
   afterEach(() => {
@@ -24,6 +17,7 @@ describe('[COMPONENTS]: SorterView', () => {
       props: {
         onFilterChange: jest.fn(),
         options: SORT_ORDER_OPTIONS,
+        initialValue: { sortDirection: undefined, sortField: undefined },
       },
     });
 
@@ -42,6 +36,7 @@ describe('[COMPONENTS]: SorterView', () => {
       props: {
         onFilterChange,
         options: SORT_ORDER_OPTIONS,
+        initialValue: { sortDirection: undefined, sortField: undefined },
       },
     });
 
@@ -58,20 +53,12 @@ describe('[COMPONENTS]: SorterView', () => {
 
     fireEvent.click(applyBtn);
 
-    expect(onFilterChange).toBeCalledWith([
-      ['sortField', sortOption.fieldName],
-      ['sortDirection', nextSortDirection],
-    ]);
+    expect(onFilterChange).toBeCalledWith({ sortField: sortOption.fieldName, sortDirection: nextSortDirection });
   });
 
   test('should render selected option from search params', () => {
     const onFilterChange = jest.fn();
     const sortOption = SORT_ORDER_OPTIONS[0];
-
-    (useSearchParams as jest.Mock).mockReturnValue([
-      new URLSearchParams(`?sortField=${sortOption.fieldName}&sortDirection=DESC`),
-      jest.fn(),
-    ]);
 
     setupAndRenderComponent({
       component: SorterView,
@@ -79,6 +66,7 @@ describe('[COMPONENTS]: SorterView', () => {
       props: {
         onFilterChange,
         options: SORT_ORDER_OPTIONS,
+        initialValue: { sortDirection: 'DESC', sortField: sortOption.fieldName },
       },
     });
 
@@ -89,20 +77,15 @@ describe('[COMPONENTS]: SorterView', () => {
 
     fireEvent.click(screen.getByText('apply', { exact: false }));
 
-    expect(onFilterChange).toBeCalledWith([
-      ['sortField', sortOption.fieldName],
-      ['sortDirection', 'ASC'],
-    ]);
+    expect(onFilterChange).toBeCalledWith({
+      sortField: sortOption.fieldName,
+      sortDirection: 'ASC',
+    });
   });
 
   test('should remove selected option on cancel btn click', () => {
     const onFilterChange = jest.fn();
     const sortOption = SORT_ORDER_OPTIONS[0];
-
-    (useSearchParams as jest.Mock).mockReturnValue([
-      new URLSearchParams(`?sortField=${sortOption.fieldName}&sortDirection=DESC`),
-      jest.fn(),
-    ]);
 
     setupAndRenderComponent({
       component: SorterView,
@@ -110,6 +93,7 @@ describe('[COMPONENTS]: SorterView', () => {
       props: {
         onFilterChange,
         options: SORT_ORDER_OPTIONS,
+        initialValue: { sortDirection: 'DESC', sortField: sortOption.fieldName },
       },
     });
 

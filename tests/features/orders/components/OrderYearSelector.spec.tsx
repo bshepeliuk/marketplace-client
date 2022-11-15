@@ -75,7 +75,7 @@ describe('[COMPONENTS]: YearSelector', () => {
 
     expect(selected).toBeInTheDocument();
 
-    expect(onFilterChangeMock).toBeCalledWith([['year', String(yearOption.value)]]);
+    expect(onFilterChangeMock).toBeCalledWith({ year: yearOption.value });
 
     await selectEvent.clearAll(selected);
 

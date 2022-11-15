@@ -1,6 +1,6 @@
 import { BASE_API_URL } from '@src/common/constants';
 import { RequestHandler, rest } from 'msw';
-import { ordersGetResponse, ordersYearOptionsResponse, purchasesGetResponse } from './responses';
+import { ordersGetResponse, ordersYearOptionsResponse, purchasesGetResponse, statsGetResponse } from './responses';
 
 const mswHandlers: RequestHandler[] = [
   // orders
@@ -23,6 +23,10 @@ const mswHandlers: RequestHandler[] = [
   // devices
   rest.get(`${BASE_API_URL}/devices`, (req, res, ctx) => {
     return res(ctx.json({ devices: [], count: 0 }));
+  }),
+  // stats
+  rest.get(`${BASE_API_URL}/stats`, (req, res, ctx) => {
+    return res(ctx.json(statsGetResponse));
   }),
 ];
 

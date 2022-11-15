@@ -18,7 +18,7 @@ describe('[COMPONENTS]: OrderStatusSelector', () => {
     setupAndRenderComponent({
       component: OrderStatusSelector,
       state: rootStateMock,
-      props: { onFilterChange: jest.fn() },
+      props: { onFilterChange: jest.fn(), initialValues: [] },
     });
 
     expect(screen.getByText('Order status', { exact: false })).toBeInTheDocument();
@@ -28,7 +28,7 @@ describe('[COMPONENTS]: OrderStatusSelector', () => {
     setupAndRenderComponent({
       component: OrderStatusSelector,
       state: rootStateMock,
-      props: { onFilterChange: jest.fn() },
+      props: { onFilterChange: jest.fn(), initialValues: [] },
     });
 
     const select = screen.getByText('Order status', { exact: false });
@@ -44,7 +44,7 @@ describe('[COMPONENTS]: OrderStatusSelector', () => {
     setupAndRenderComponent({
       component: OrderStatusSelector,
       state: rootStateMock,
-      props: { onFilterChange: jest.fn() },
+      props: { onFilterChange: jest.fn(), initialValues: [] },
     });
 
     const select = screen.getByText('Order status', { exact: false });
@@ -64,7 +64,7 @@ describe('[COMPONENTS]: OrderStatusSelector', () => {
     setupAndRenderComponent({
       component: OrderStatusSelector,
       state: rootStateMock,
-      props: { onFilterChange: jest.fn() },
+      props: { onFilterChange: jest.fn(), initialValues: [] },
     });
 
     const select = screen.getByText('Order status', { exact: false });
@@ -89,7 +89,7 @@ describe('[COMPONENTS]: OrderStatusSelector', () => {
     setupAndRenderComponent({
       component: OrderStatusSelector,
       state: rootStateMock,
-      props: { onFilterChange: onFilterChangeMock },
+      props: { onFilterChange: onFilterChangeMock, initialValues: [] },
     });
 
     const select = screen.getByText('Order status', { exact: false });
@@ -102,7 +102,7 @@ describe('[COMPONENTS]: OrderStatusSelector', () => {
 
     await waitFor(
       () => {
-        expect(onFilterChangeMock).toBeCalledWith([['status', OrderStatus.paid]]);
+        expect(onFilterChangeMock).toBeCalledWith({ status: [OrderStatus.paid] });
       },
       { timeout: 1500 },
     );

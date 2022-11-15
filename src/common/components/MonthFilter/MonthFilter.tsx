@@ -1,44 +1,24 @@
 import React, { useState } from 'react';
-import { ParamKeyValuePair, useSearchParams } from 'react-router-dom';
+
+import { months } from '@src/common/constants';
 import { List, MonthButton } from './months.styled';
 
 interface IProps {
-  onFilterChange: (filters: ParamKeyValuePair[]) => void;
+  onFilterChange: (filters: { month?: number[] }) => void;
+  initialValues: number[];
 }
 
-export function MonthFilter({ onFilterChange }: IProps) {
-  const [searchParams, setSearchParams] = useSearchParams();
-
-  const initialValues = () => Array.from(searchParams.getAll('month').values()).map(Number);
+function MonthFilter({ onFilterChange, initialValues }: IProps) {
   const [selected, setSelected] = useState<number[]>(initialValues);
 
   const onMonthClick = (idx: number) => {
-    if (checkIsSelected(idx)) {
-      const filteredMonths = selected.filter((monthIdx) => monthIdx !== idx);
+    const nextState = checkIsSelected(idx) ? selected.filter((monthIdx) => monthIdx !== idx) : selected.concat(idx);
 
-      setSelected(filteredMonths);
+    setSelected(nextState);
 
-      searchParams.delete('month');
+    const nextValues = nextState.length === 0 ? undefined : nextState;
 
-      for (const month of filteredMonths) {
-        searchParams.append('month', String(month));
-      }
-    } else {
-      setSelected(selected.concat(idx));
-      searchParams.append('month', String(idx));
-    }
-
-    const filters = getOrderFilterParams();
-
-    onFilterChange(filters);
-    setSearchParams(searchParams);
-  };
-
-  const getOrderFilterParams = () => {
-    searchParams.delete('page');
-    setSearchParams(searchParams);
-
-    return Array.from(searchParams.entries());
+    onFilterChange({ month: nextValues });
   };
 
   const checkIsSelected = (idx: number) => selected.includes(idx);
@@ -60,7 +40,5 @@ export function MonthFilter({ onFilterChange }: IProps) {
     </List>
   );
 }
-
-export const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
 export default MonthFilter;

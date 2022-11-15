@@ -1,17 +1,12 @@
 import selectEvent from 'react-select-event';
 import { fireEvent, screen, waitFor } from '@testing-library/dom';
-import { useSearchParams } from 'react-router-dom';
 
 import OrderSearchView from '@src/features/orders/atoms/OrderSearchView';
 import { SEARCH_ORDER_OPTIONS } from '@src/features/orders/constants';
 import { rootStateMock } from '../../../mocks/stateMock';
 import setupAndRenderComponent from '../../../helpers/setupAndRenderComponent';
 
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
-  __esModule: true,
-  useSearchParams: jest.fn().mockImplementation(() => [new URLSearchParams(), jest.fn()]),
-}));
+const emptyFilters = SEARCH_ORDER_OPTIONS.reduce((prev, current) => ({ ...prev, [current.fieldName]: undefined }), {});
 
 describe('[COMPONENTS]: OrderStatusSelect', () => {
   afterEach(() => {
@@ -22,7 +17,7 @@ describe('[COMPONENTS]: OrderStatusSelect', () => {
     setupAndRenderComponent({
       component: OrderSearchView,
       state: rootStateMock,
-      props: { onFilterChange: jest.fn(), options: SEARCH_ORDER_OPTIONS },
+      props: { onFilterChange: jest.fn(), options: SEARCH_ORDER_OPTIONS, initialValue: [] },
     });
 
     expect(screen.getByText('Order id', { exact: false })).toBeInTheDocument();
@@ -40,7 +35,7 @@ describe('[COMPONENTS]: OrderStatusSelect', () => {
     setupAndRenderComponent({
       component: OrderSearchView,
       state: rootStateMock,
-      props: { onFilterChange: onFilterChangeMock, options: SEARCH_ORDER_OPTIONS },
+      props: { onFilterChange: onFilterChangeMock, options: SEARCH_ORDER_OPTIONS, initialValue: [] },
     });
 
     const searchFieldSelector = screen.getByText(defaultSearchField, { exact: false });
@@ -66,7 +61,7 @@ describe('[COMPONENTS]: OrderStatusSelect', () => {
 
       await waitFor(
         () => {
-          expect(onFilterChangeMock).toBeCalledWith([[searchOrderOption.fieldName, newInputValue]]);
+          expect(onFilterChangeMock).toBeCalledWith({ ...emptyFilters, [searchOrderOption.fieldName]: newInputValue });
         },
         { timeout: 2000 },
       );
@@ -75,22 +70,21 @@ describe('[COMPONENTS]: OrderStatusSelect', () => {
 
   test('should have fieldName and value from search params as initial values.', async () => {
     const onFilterChangeMock = jest.fn();
-    const defaultSearchField = 'Order id';
+    const defaultSearchField = 'Customer';
     const valueFromParams = 'Tony Stark';
 
     const searchOrderOption = SEARCH_ORDER_OPTIONS.find(
-      (item) => item.label.toLowerCase() !== defaultSearchField.toLowerCase(),
+      (item) => item.label.toLowerCase() === defaultSearchField.toLowerCase(),
     );
-
-    (useSearchParams as jest.Mock).mockReturnValue([
-      new URLSearchParams(`?${searchOrderOption!.fieldName}=${valueFromParams}`),
-      jest.fn(),
-    ]);
 
     setupAndRenderComponent({
       component: OrderSearchView,
       state: rootStateMock,
-      props: { onFilterChange: onFilterChangeMock, options: SEARCH_ORDER_OPTIONS },
+      props: {
+        onFilterChange: onFilterChangeMock,
+        options: SEARCH_ORDER_OPTIONS,
+        initialValue: [searchOrderOption!.fieldName, valueFromParams],
+      },
     });
 
     expect(screen.getByText(searchOrderOption!.label)).toBeInTheDocument();

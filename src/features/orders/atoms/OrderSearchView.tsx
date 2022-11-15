@@ -1,13 +1,12 @@
-import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
+import React, { ChangeEvent, useRef, useState } from 'react';
 import notifications from '@src/common/utils/notifications';
 import Select, { SingleValue, StylesConfig } from 'react-select';
-import { ParamKeyValuePair, useSearchParams } from 'react-router-dom';
 import { SearchContainer, SearchInput } from '../styles/orderSearchFilter';
-import useGetPrevSearchOrderOption from '../hooks/useGetPrevSearchOrderOption';
 import { ISearchOption } from '../types';
 
 interface IProps {
-  onFilterChange: (filters: ParamKeyValuePair[]) => void;
+  onFilterChange: (filters: Record<string, string>) => void;
+  initialValue: (string | undefined)[];
   options: ISearchOption[];
   validation?: {
     [key: string]: (value: string | number) => boolean;
@@ -19,41 +18,25 @@ interface IProps {
   };
 }
 
-function OrderSearchView({ onFilterChange, options, validation, errors }: IProps) {
+function OrderSearchView({ onFilterChange, options, validation, errors, initialValue }: IProps) {
+  const [keyName, keyValue] = initialValue;
+
   const timeoutId = useRef<ReturnType<typeof setTimeout>>();
   const inputRef = useRef<HTMLInputElement>(null);
-  const [searchOption, setSearchOption] = useState<ISearchOption>(options[0]);
-  const [searchParams, setSearchParams] = useSearchParams();
-  const [searchValue, setSearchValue] = useState('');
-  const { getPrevSearchOptionFromParams } = useGetPrevSearchOrderOption();
+  const [searchOption, setSearchOption] = useState<ISearchOption>(getInitialOptions());
+  const [searchValue, setSearchValue] = useState(getInitialSearchValue());
 
   const placeholder = `Search by ${searchOption.value.toLowerCase()}`;
 
-  useEffect(() => {
-    // sync search state with params;
-    const option = getPrevSearchOptionFromParams(options);
-
-    if (option) {
-      const prevSearchValue = searchParams.get(option.fieldName) ?? '';
-
-      setSearchValue(prevSearchValue);
-      setSearchOption(option);
-    }
-  }, []);
+  const emptyFilters = options.reduce((prev, current) => ({ ...prev, [current.fieldName]: undefined }), {});
 
   const handleOptionChange = (option: SingleValue<ISearchOption>) => {
-    const prevOption = getPrevSearchOptionFromParams(options);
-
-    if (prevOption !== undefined) {
-      searchParams.delete(prevOption.fieldName);
-    }
-
     if (option !== null) {
       setSearchOption(option);
       setSearchValue('');
+      onFilterChange(emptyFilters);
     }
 
-    setSearchParams(searchParams);
     onInputFocus();
   };
 
@@ -61,26 +44,16 @@ function OrderSearchView({ onFilterChange, options, validation, errors }: IProps
     const { value, name } = evt.target;
 
     clearTimeout(timeoutId.current as ReturnType<typeof setTimeout>);
-    searchParams.delete('page');
 
-    const isValueEmpty = value.trim() === '';
     const isValid = validateSearchInput({ fieldName: name, value });
+    const isNotValid = !isValid;
 
-    if (!isValid) return;
-
-    if (isValueEmpty) {
-      searchParams.delete(searchOption.fieldName);
-    } else {
-      searchParams.set(searchOption.fieldName, value);
-    }
+    if (isNotValid) return;
 
     setSearchValue(value);
-    setSearchParams(searchParams);
 
     timeoutId.current = setTimeout(() => {
-      const filters = getOrderFilterParams();
-
-      onFilterChange(filters);
+      onFilterChange({ ...emptyFilters, [searchOption.fieldName]: value });
     }, 1500);
   };
 
@@ -100,16 +73,17 @@ function OrderSearchView({ onFilterChange, options, validation, errors }: IProps
     return true;
   };
 
-  const getOrderFilterParams = () => {
-    searchParams.delete('page');
-    setSearchParams(searchParams);
-
-    return Array.from(searchParams.entries());
-  };
-
   const onInputFocus = () => {
     inputRef.current?.focus();
   };
+
+  function getInitialOptions() {
+    return options.find((item) => item.fieldName === keyName) ?? options[0];
+  }
+
+  function getInitialSearchValue() {
+    return keyValue ?? '';
+  }
 
   return (
     <SearchContainer>

@@ -2,10 +2,10 @@ import { fireEvent, screen } from '@testing-library/dom';
 import * as ReactRedux from 'react-redux';
 import { useSearchParams } from 'react-router-dom';
 
-import { months } from '@common/components/MonthFilter/MonthFilter';
 import { getPurchases } from '@src/features/purchases/purchasesSlice';
+import { months } from '@src/common/constants';
 import PurchasesFilter from '@src/features/purchases/components/PurchasesFilter';
-import { FIRST_ORDER_PAGINATION_PAGE, ORDERS_LIMIT } from '@src/features/orders/constants';
+import { ORDERS_LIMIT } from '@src/features/orders/constants';
 import { rootStateMock } from '../../../mocks/stateMock';
 import setupAndRenderComponent from '../../../helpers/setupAndRenderComponent';
 import server from '../../../mocks/api/server';

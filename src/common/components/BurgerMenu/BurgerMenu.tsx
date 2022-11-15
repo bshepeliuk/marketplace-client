@@ -3,10 +3,10 @@ import { useLocation } from 'react-router-dom';
 import { VscAccount } from 'react-icons/vsc';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { FaBalanceScale } from 'react-icons/fa';
+import { MdOutlineLibraryAdd, MdQueryStats } from 'react-icons/md';
 import useSetBodyScroll from '@src/common/hooks/useBodyScroll';
 import SearchBarView from '@features/search/components/SearchBar/SearchBar';
 import { routes } from '@src/app/Router';
-import { MdOutlineLibraryAdd } from 'react-icons/md';
 import { BsBox } from 'react-icons/bs';
 import useCheckUserRole from '@common/hooks/useCheckUserRole';
 import BurgerButton from './components/BurgerButton';
@@ -57,19 +57,27 @@ function BurgerMenu() {
         <MainLinksContainer>
           <MenuLink to={routes.account}>
             <VscAccount />
-            account
+            Account
           </MenuLink>
+
           {isBuyer && (
             <MenuLink to={routes.cart}>
               <AiOutlineShoppingCart />
-              my cart
+              My cart
+            </MenuLink>
+          )}
+
+          {isSeller && (
+            <MenuLink to={routes.stats}>
+              <MdQueryStats />
+              my statistics
             </MenuLink>
           )}
 
           {isSeller && (
             <MenuLink to={routes.newDevice}>
               <MdOutlineLibraryAdd />
-              create a new device
+              Create a new device
             </MenuLink>
           )}
 
@@ -88,7 +96,7 @@ function BurgerMenu() {
 
           <MenuLink to={routes.comparison}>
             <FaBalanceScale />
-            comparison
+            Comparison
           </MenuLink>
         </MainLinksContainer>
 

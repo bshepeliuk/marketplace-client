@@ -1,33 +1,21 @@
 import React, { useState } from 'react';
 import AsyncSelect from 'react-select/async';
 import { ActionMeta, SingleValue, StylesConfig } from 'react-select';
-import { ParamKeyValuePair, useSearchParams } from 'react-router-dom';
 
 import { Option } from '@src/common/types/selectTypes';
 
 interface IYearSelectorProps {
-  onFilterChange: (filters: ParamKeyValuePair[]) => void;
+  onFilterChange: (filters: { year?: string }) => void;
   onLoadYearOptions: () => Promise<Option[]>;
+  initialValue: string | null;
 }
 
-function YearSelector({ onFilterChange, onLoadYearOptions }: IYearSelectorProps) {
-  const [searchParams, setSearchParams] = useSearchParams();
+function YearSelector({ onFilterChange, onLoadYearOptions, initialValue }: IYearSelectorProps) {
   const [yearOption, setYearOption] = useState<Option | null>();
 
   const onChange = (option: SingleValue<Option>, meta: ActionMeta<Option>) => {
-    if (meta.action === 'clear') {
-      searchParams.delete('year');
-    }
-
-    if (meta.action === 'select-option' && option !== null) {
-      searchParams.set('year', option.value);
-    }
-
-    const filters = getOrderFilterParams();
-
-    onFilterChange(filters);
+    onFilterChange({ year: option?.value });
     setYearOption(option);
-    setSearchParams(searchParams);
   };
 
   const loadOptions = () => {
@@ -37,18 +25,9 @@ function YearSelector({ onFilterChange, onLoadYearOptions }: IYearSelectorProps)
     });
   };
 
-  const getOrderFilterParams = () => {
-    searchParams.delete('page');
-    setSearchParams(searchParams);
-
-    return Array.from(searchParams.entries());
-  };
-
   const setInitOptionRelyOnPossibleOptions = (options: Option[]) => {
-    if (searchParams.has('year')) {
-      const year = searchParams.get('year');
-      const option = options.find((item) => Number(item.value) === Number(year));
-
+    if (initialValue !== undefined) {
+      const option = options.find((item) => Number(item.value) === Number(initialValue));
       if (option !== undefined) setYearOption(option);
     }
   };
