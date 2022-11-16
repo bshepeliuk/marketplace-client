@@ -4,12 +4,32 @@ import { BiChevronLeft } from 'react-icons/bi';
 
 export const CommentListContainer = styled.div`
   position: relative;
+  width: 100%;
+  background-color: #fff;
+  padding: 20px 15px;
 `;
 
 export const StyledList = styled(VariableSizeList)`
-  border: 1px solid #f5f5f5;
-  box-shadow: rgb(99 99 99 / 20%) 0px 2px 8px 0px;
-  border-radius: 15px 0 0px 15px;
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: rgba(236, 240, 241, 0.01);
+  }
+
+  &::-webkit-scrollbar-track:hover {
+    background-color: rgba(236, 240, 241, 0.5);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    display: none;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    display: block;
+    background-color: rgba(52, 73, 94, 0.1);
+  }
 `;
 
 export const LoadMoreWrap = styled.div`
@@ -17,7 +37,8 @@ export const LoadMoreWrap = styled.div`
   display: flex;
   justify-content: center;
   position: absolute;
-  bottom: 20px;
+  bottom: 4px;
+  z-index: 2;
 
   @media (max-width: 500px) {
     width: 230px;
@@ -86,13 +107,15 @@ export const Comment = styled.li`
 
   grid-template-columns: 60px 1fr 1fr;
   height: 100%;
-  padding-bottom: 15px;
+  padding-bottom: 25px;
 `;
 
 export const BtnWrap = styled.div`
-  grid-area: BTN;
   justify-self: end;
   height: 20px;
+  align-self: end;
+  grid-row: 2;
+  grid-column: -1;
 `;
 
 export const FullName = styled.h1`
@@ -106,6 +129,9 @@ export const FullName = styled.h1`
   overflow: hidden;
   width: 100%;
   text-align: start;
+  padding-left: 15px;
+  font-family: 'Roboto';
+  font-weight: 500;
 `;
 
 export const Body = styled.p`
@@ -114,20 +140,23 @@ export const Body = styled.p`
   justify-self: start;
   white-space: pre-wrap;
   text-align: left;
-  padding: 10px 0;
+  padding-top: 5px;
   text-overflow: ellipsis;
   overflow: hidden;
   width: 100%;
+  padding-left: 15px;
+  font-family: 'Roboto';
+  font-weight: 300;
+  color: #393e46;
 `;
 
 export const CreatedAt = styled.div`
-  grid-area: CREATED-AT;
   justify-self: end;
   color: #7f8c8d;
-
-  @media (max-width: 550px) {
-    font-size: 12px;
-  }
+  grid-column: -1;
+  font-family: 'Roboto';
+  font-weight: 300;
+  font-size: 12px;
 `;
 
 const CommentBaseButton = styled.button`
@@ -137,6 +166,7 @@ const CommentBaseButton = styled.button`
   color: #2c3e50;
   padding: 0;
   padding-left: 15px;
+  cursor: pointer;
 
   &::after {
     content: '';
@@ -161,11 +191,13 @@ export const DeleteButton = styled(CommentBaseButton)``;
 
 export const ShowMoreButton = styled.button`
   cursor: pointer;
-  background-color: #95afc0;
+  background-color: #30475e;
   border: none;
   border-radius: 50px;
   color: #fff;
-  padding: 5px 10px;
+  padding: 5px 20px;
+  text-transform: uppercase;
+  font-family: 'Roboto';
 `;
 
 export const ScrollTopButton = styled.button`
@@ -176,8 +208,8 @@ export const ScrollTopButton = styled.button`
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  bottom: 16px;
-  right: -80px;
+  bottom: 8px;
+  right: 30px;
   width: 45px;
   height: 45px;
   border-radius: 50%;
@@ -192,4 +224,9 @@ export const ScrollTopButton = styled.button`
 export const GoToTopIcon = styled(BiChevronLeft)`
   font-size: 20px;
   transform: rotate(90deg);
+`;
+
+export const NoCommentsYet = styled.div`
+  background-color: #fff;
+  width: 100%;
 `;

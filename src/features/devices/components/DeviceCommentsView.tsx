@@ -9,7 +9,14 @@ import { CommentsProvider } from '@features/comments/context/CommentsContext';
 import calculateAvgRating from '../helpers/calculateAvgRating';
 import useEvaluateDevice from '../hooks/useEvaluateDevice';
 import { IDevice, IDeviceRating } from '../types';
-import { CommentFormContainer, CommentsWrap, RatingMessage } from '../styles/deviceDetails.styled';
+import {
+  CommentFormContainer,
+  CommentsWrap,
+  FormItem,
+  FormTitle,
+  RatingMessage,
+  RatingTitleWrapper,
+} from '../styles/deviceDetails.styled';
 
 interface IProps {
   device: IDevice;
@@ -42,17 +49,25 @@ function DeviceCommentsView({ device }: IProps) {
       </CommentsProvider>
 
       <CommentFormContainer>
-        <CommentForm handleSubmit={onAddComment} />
-        <StarRating
-          totalStars={5}
-          size={40}
-          precision={0.5}
-          initRating={avgRating}
-          onChange={onChangeRating}
-          isInteractive={hasRated && isLoggedIn && !isEvaluating}
-        />
+        <FormItem>
+          <RatingTitleWrapper>
+            <FormTitle>Rating</FormTitle>
+            {!hasRated && isLoggedIn && <RatingMessage>* You have already evaluated this device.</RatingMessage>}
+          </RatingTitleWrapper>
 
-        {!hasRated && isLoggedIn && <RatingMessage>* You have already evaluated this device.</RatingMessage>}
+          <StarRating
+            totalStars={5}
+            size={40}
+            precision={0.5}
+            initRating={avgRating}
+            onChange={onChangeRating}
+            isInteractive={hasRated && isLoggedIn && !isEvaluating}
+          />
+        </FormItem>
+        <FormItem>
+          <FormTitle>Comment</FormTitle>
+          <CommentForm handleSubmit={onAddComment} />
+        </FormItem>
       </CommentFormContainer>
     </CommentsWrap>
   );

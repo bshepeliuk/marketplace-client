@@ -19,12 +19,14 @@ import {
 } from '../styles/comments.styled';
 import { IComment } from '../types';
 import CommentFormView from './CommentForm';
+import RepliesVisibilityButton from '../atoms/RepliesVisibilityButton';
 
 interface ICommentProps {
   comment: IComment;
+  hasReplies?: boolean;
 }
 
-function CommentView({ comment }: ICommentProps) {
+function CommentView({ comment, hasReplies = false }: ICommentProps) {
   const { isLoggedIn, user } = useTypedSelector((state) => state.auth);
   // prettier-ignore
   const {
@@ -83,7 +85,6 @@ function CommentView({ comment }: ICommentProps) {
 
       <FullName>{comment.fullName}</FullName>
       <Body>{comment.body}</Body>
-
       <CreatedAt>{createdAt}</CreatedAt>
 
       <BtnWrap>
@@ -103,6 +104,8 @@ function CommentView({ comment }: ICommentProps) {
           </DeleteButton>
         )}
       </BtnWrap>
+
+      {hasReplies && comment && <RepliesVisibilityButton commentId={comment.id} />}
 
       {isReplying && isLoggedIn && (
         <FormWrapper>

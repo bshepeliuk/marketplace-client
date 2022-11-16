@@ -5,6 +5,7 @@ import useCommentsContext from '../hooks/useCommentsContext';
 import {
   CommentListContainer,
   GoToTopIcon,
+  NoCommentsYet,
   RowContainer,
   ScrollTopButton,
   StyledList,
@@ -32,7 +33,7 @@ function CommentsList({ size }: IProps) {
   if (isLoading) return <CommentsListLoader />;
 
   if (hasNoComments) {
-    return <div>No comments yet.</div>;
+    return <NoCommentsYet>No comments yet.</NoCommentsYet>;
   }
 
   return (
@@ -41,7 +42,7 @@ function CommentsList({ size }: IProps) {
         ref={listRef}
         height={HEIGHT}
         width={width}
-        className="custom-scrollbar scroll-smooth"
+        className="scroll-smooth"
         onScroll={onListScroll}
         itemCount={COMMENTS_COUNT}
         itemSize={getSize}

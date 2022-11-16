@@ -3,6 +3,7 @@ import styled from 'styled-components';
 export const Form = styled.form`
   display: flex;
   flex-flow: column wrap;
+  width: 100%;
 `;
 
 export const TextArea = styled.textarea`
@@ -11,7 +12,13 @@ export const TextArea = styled.textarea`
   padding-bottom: 0;
   padding: 10px;
   border-radius: 4px;
-  border: 1px solid #bdc3c7;
+  border: 1px solid #f5f5f5;
+
+  &::placeholder {
+    color: #bdc3c7;
+    font-family: 'Roboto';
+    font-weight: 400;
+  }
 
   &:focus {
     outline: 1px solid #1abc9c;

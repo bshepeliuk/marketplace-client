@@ -38,7 +38,7 @@ export const InnerWrap = styled.div`
 
   @media (max-width: 600px) {
     grid-template-columns: 60px 1fr 1fr 100px;
-    grid-template-rows: 50px 50px 1fr 50px 1fr;
+    grid-template-rows: 50px 50px 1fr 50px;
   }
 `;
 
@@ -66,16 +66,16 @@ export const NavWrap = styled.div`
 export const CommentsWrap = styled.div`
   grid-column: 1 / -1;
   height: max-content;
-  margin-top: 10px;
   display: grid;
   grid-template-columns: 1fr 1fr;
   justify-items: center;
-
+  background-color: #f5f5f5;
+  gap: 1px;
 }
 
   @media (max-width: 968px) {
     grid-template-columns: 1fr;
-    grid-template-rows: 220px 1fr;
+    grid-template-rows: auto 1fr;
   }
 `;
 
@@ -246,28 +246,47 @@ export const FeatureTitle = styled.h3`
 `;
 
 export const CommentFormContainer = styled.div`
-  width: 400px;
-
-  @media (max-width: 1060px) {
-    width: 350px;
-  }
+  width: 100%;
+  background-color: #fff;
+  padding: 20px 20px 15px 40px;
+  display: flex;
+  flex-flow: column;
+  gap: 20px;
 
   @media (max-width: 968px) {
     grid-row: 1;
-  }
-
-  @media (max-width: 380px) {
-    width: 320px;
   }
 `;
 
 export const RatingMessage = styled.p`
   margin: 0;
-  font-size: 14px;
+  font-size: 10px;
   color: #1abc9c;
+  font-family: 'Roboto';
 `;
 
 export const RatingAmount = styled.span`
   margin-left: 5px;
   color: #95afc0;
+`;
+
+export const FormItem = styled.div`
+  display: flex;
+  flex-flow: column;
+  align-items: start;
+  max-width: 400px;
+`;
+
+export const RatingTitleWrapper = styled.div`
+  display: flex;
+  gap: 10px;
+  align-items: center;
+`;
+
+export const FormTitle = styled.h1`
+  text-transform: uppercase;
+  font-size: 15px;
+  font-family: 'Roboto';
+  letter-spacing: 1px;
+  color: #4b6587;
 `;

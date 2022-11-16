@@ -21,9 +21,7 @@ function RepliesVisibilityButton({ commentId }: IProps) {
 }
 
 const Wrap = styled.div`
-  width: 310px;
-  margin-top: -35px;
-  padding-bottom: 20px;
+  margin-top: 8px;
 
   @media (max-width: 500px) {
     width: 230px;
@@ -31,6 +29,7 @@ const Wrap = styled.div`
 `;
 
 const Button = styled.button`
+  cursor: pointer;
   background-color: rgba(199, 236, 238, 0.5);
   border-radius: 50px;
   padding: 2px 30px;

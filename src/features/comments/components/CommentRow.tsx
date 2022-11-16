@@ -8,7 +8,6 @@ import { Row } from '../styles/comments.styled';
 import useDynamicCommentRowHeight from '../hooks/useDynamicCommentRowHeight';
 import { repliesSelector } from '../selectors/commentsSelector';
 import LoadMoreButton from '../atoms/LoadMoreButton';
-import RepliesVisibilityButton from '../atoms/RepliesVisibilityButton';
 
 interface IData {
   comments: IComment[];
@@ -41,9 +40,7 @@ function CommentRow({ data, index }: IRowProps) {
 
   return (
     <Row ref={rowRef}>
-      <CommentView key={comment.id} comment={comment} />
-
-      {hasReplies && comment && <RepliesVisibilityButton commentId={comment.id} />}
+      <CommentView key={comment.id} comment={comment} hasReplies={hasReplies} />
 
       <ReplyListView
         isRepliesVisible={isRepliesVisible}
