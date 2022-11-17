@@ -15,6 +15,8 @@ function ReplyListView({ repliesCount, rootCommentId, isRepliesVisible }: IRepli
   const hasRepliesCount = repliesCount > 0;
   const hasMoreReplies = repliesCount > replies.length;
   const hasReplies = hasRepliesCount && hasMoreReplies;
+  const hasVisibleReplies = replies.length > 0 && !isRepliesVisible;
+  const hasLoadMoreRepliesBtn = hasReplies && !isRepliesVisible;
 
   const count = repliesCount - replies.length;
 
@@ -22,7 +24,7 @@ function ReplyListView({ repliesCount, rootCommentId, isRepliesVisible }: IRepli
 
   return (
     <>
-      {replies.length > 0 && !isRepliesVisible && (
+      {hasVisibleReplies && (
         <ReplyList>
           {replies.map((item) => (
             <CommentView key={`reply-${item.id}`} comment={item} />
@@ -30,7 +32,7 @@ function ReplyListView({ repliesCount, rootCommentId, isRepliesVisible }: IRepli
         </ReplyList>
       )}
 
-      {hasReplies && !isRepliesVisible && (
+      {hasLoadMoreRepliesBtn && (
         <LoadMoreWrap>
           <ShowRepliesButton type="button" onClick={fetchReplies}>
             {replyBtnContent}

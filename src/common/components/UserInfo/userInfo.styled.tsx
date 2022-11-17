@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 import { TiArrowSortedDown } from 'react-icons/ti';
 import { MdExitToApp } from 'react-icons/md';
 
@@ -12,21 +12,6 @@ export const UserWrap = styled.div`
 
   @media (max-width: 1000px) {
     display: none;
-  }
-`;
-
-const show = keyframes`
-  0% {
-    width: 0;
-    padding: 0;
-    opacity: 0;
-    height: 0;
-  }
-
-  100% {
-    opacity: 1;
-    height: 106px;
-    width: 200px;
   }
 `;
 
@@ -47,7 +32,6 @@ export const InfoWrap = styled.div`
     5px 5px 9px -8px rgb(189 195 199 / 80%);
   border: 1px solid rgba(236, 240, 241, 1);
   overflow: hidden;
-  animation: 0.2s ${show} ease-in backwards;
 `;
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const ArrowIcon = styled(({ isOpen, ...props }) => <TiArrowSortedDown {...props} />)`

@@ -44,7 +44,14 @@
         "caughtErrorsIgnorePattern": "^_"
       }
     ],
-    "no-unused-vars": "off"
+    "no-unused-vars": [
+      1,
+      {
+        "argsIgnorePattern": "^_",
+        "varsIgnorePattern": "^_",
+        "caughtErrorsIgnorePattern": "^_"
+      }
+    ]
   },
   "settings": {
     "import/resolver": {

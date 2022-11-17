@@ -11,6 +11,7 @@ export const initialState: IEntitiesState = {
 };
 
 export const incrementCommentRepliesCount = createAction<{ commentId: number }>('entities/increment-replies-count');
+export const decrementCommentRepliesCount = createAction<{ commentId: number }>('entities/decrement-replies-count');
 
 const isActionWithEntities = (action: AnyAction) => {
   return action?.payload && Object.hasOwn(action.payload, 'entities');
@@ -19,6 +20,9 @@ const isActionWithEntities = (action: AnyAction) => {
 const entitiesReducer = createReducer(initialState, (builder) => {
   builder.addCase(incrementCommentRepliesCount, (state, { payload }) => {
     state.comments[payload.commentId].repliesCount += 1;
+  });
+  builder.addCase(decrementCommentRepliesCount, (state, { payload }) => {
+    state.comments[payload.commentId].repliesCount -= 1;
   });
 
   builder.addMatcher(isActionWithEntities, (state, action) => {

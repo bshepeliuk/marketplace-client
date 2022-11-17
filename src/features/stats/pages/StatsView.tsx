@@ -1,4 +1,4 @@
-import React, { RefObject, TouchEvent, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { Route, Routes, useSearchParams } from 'react-router-dom';
 

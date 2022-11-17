@@ -18,7 +18,6 @@ import DeviceNavigation from '../components/DeviceNavigation';
 function DeviceDetailsView() {
   const { deviceId } = useParams();
   const { goBack } = useGoTo();
-
   const { device, isLoading, hasNoDevice, hasNoFound } = useGetDeviceById(Number(deviceId));
   const isLoadingSlow = useSlowDownLoaderIndicator({ isLoading, duration: 1000 });
 
@@ -39,11 +38,8 @@ function DeviceDetailsView() {
     <Container>
       <InnerWrap>
         <BackBtn id="back-btn" onClick={goBack} />
-
         <Title>{device.name}</Title>
-
         <AvgRatingView avgRating={avgRating} amount={ratings.length} />
-
         <DeviceNavigation deviceId={device.id} />
 
         <Routes>

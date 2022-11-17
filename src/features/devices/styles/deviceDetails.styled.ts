@@ -23,7 +23,7 @@ export const ImageWrapper = styled.div`
 export const InnerWrap = styled.div`
   display: grid;
   grid-template-columns: 60px 440px 1fr 100px;
-  margin-top: 20px;
+  margin: 20px 0;
   grid-template-rows: 50px 50px 50px 1fr;
   row-gap: 15px;
 

@@ -6,10 +6,16 @@ import { ordersActions } from '@src/features/orders/ordersSlice';
 import { OrderStatus } from '@src/features/orders/constants';
 import { rootStateMock } from '../../../mocks/stateMock';
 import setupAndRenderComponent from '../../../helpers/setupAndRenderComponent';
+import server from '../../../mocks/api/server';
 
 const updateOrderStatusAction = jest.spyOn(ordersActions, 'updateOrderStatus');
 
 describe('[COMPONENTS]: OrderStatusSelect', () => {
+  beforeAll(() => server.listen());
+  afterAll(() => server.close());
+  beforeEach(() => {
+    server.resetHandlers();
+  });
   afterEach(() => {
     jest.clearAllMocks();
   });

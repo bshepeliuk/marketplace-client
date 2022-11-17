@@ -38,23 +38,20 @@ export const commentsSelector = createSelector(
   },
 );
 
-export const repliesSelector = createSelector(
-  [getEntitiesState, getCommentIdProp],
-  (entities, commentId) => {
-    if (commentId === undefined) return { replies: [] };
-    const comment = entities.comments[commentId];
+export const repliesSelector = createSelector([getEntitiesState, getCommentIdProp], (entities, commentId) => {
+  if (commentId === undefined) return { replies: [] };
+  const comment = entities.comments[commentId];
 
-    const device = entities.devices[comment.deviceId] as IDevice;
+  const device = entities.devices[comment.deviceId] as IDevice;
 
-    const replies = (device.comments as number[])
-      .map((id) => entities.comments[id])
-      .filter((item) => item.parentId === commentId);
+  const replies = (device.comments as number[])
+    .map((id) => entities.comments[id])
+    .filter((item) => item.parentId === commentId);
 
-    const sortedReplies = sortByDate({ data: replies, sortField: 'createdAt' });
+  const sortedReplies = sortByDate({ data: replies, sortField: 'createdAt' });
 
-    return {
-      replies: sortedReplies,
-      rootComment: comment,
-    };
-  },
-);
+  return {
+    replies: sortedReplies,
+    rootComment: comment,
+  };
+});

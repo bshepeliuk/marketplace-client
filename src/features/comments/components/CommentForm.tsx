@@ -9,7 +9,7 @@ interface IComment {
 
 interface IProps {
   defaultValue?: string;
-  handleSubmit: (text: string) => void;
+  handleSubmit: (_: string) => void;
   handleCancel?: () => void;
   hasCancel?: boolean;
 }

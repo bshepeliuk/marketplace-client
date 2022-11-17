@@ -101,11 +101,11 @@ export const LogoWrap = styled.div`
 export const Comment = styled.li`
   display: grid;
   grid-template-areas:
-    'LOGO FULL-NAME CREATED-AT'
-    'LOGO BODY BODY'
-    'LOGO BTN BTN';
+    'LOGO FULL-NAME FULL-NAME CREATED-AT'
+    'LOGO BODY BODY BTN'
+    'LOGO COLLAPSE-BTN COLLAPSE-BTN -';
 
-  grid-template-columns: 60px 1fr 1fr;
+  grid-template-columns: 60px 1fr 1fr 1fr;
   height: 100%;
   padding-bottom: 25px;
 `;
@@ -115,7 +115,9 @@ export const BtnWrap = styled.div`
   height: 20px;
   align-self: end;
   grid-row: 2;
-  grid-column: -1;
+  grid-column: BTN;
+  display: flex;
+  gap: 10px;
 `;
 
 export const FullName = styled.h1`
@@ -153,7 +155,7 @@ export const Body = styled.p`
 export const CreatedAt = styled.div`
   justify-self: end;
   color: #7f8c8d;
-  grid-column: -1;
+  grid-area: CREATED-AT;
   font-family: 'Roboto';
   font-weight: 300;
   font-size: 12px;
@@ -165,7 +167,6 @@ const CommentBaseButton = styled.button`
   background-color: transparent;
   color: #2c3e50;
   padding: 0;
-  padding-left: 15px;
   cursor: pointer;
 
   &::after {

@@ -22,6 +22,7 @@ function RepliesVisibilityButton({ commentId }: IProps) {
 
 const Wrap = styled.div`
   margin-top: 8px;
+  grid-area: COLLAPSE-BTN;
 
   @media (max-width: 500px) {
     width: 230px;

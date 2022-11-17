@@ -12,7 +12,7 @@ import { DeviceEntities, IDevice, IDeviceEntityData } from '../devices/types';
 import { commentsSelector, getCommentByIdSelector, repliesSelector } from './selectors/commentsSelector';
 import { getDeviceByIdSelector } from '../devices/selectors/deviceSelector';
 import { COMMENTS_LIMIT, REPLIES_LIMIT } from './constants';
-import { incrementCommentRepliesCount } from '../entities/entitiesReducer';
+import { decrementCommentRepliesCount, incrementCommentRepliesCount } from '../entities/entitiesReducer';
 import updateCommentIdsForDevice from './helpers/updateCommentIdsForDevice';
 
 export const commentsInitialState = {
@@ -222,7 +222,7 @@ export const updateComment = createAsyncThunk<IUpdateCommentEntity, IUpdateComme
 
 export const deleteComment = createAsyncThunk<IDeviceEntityData, Pick<IUpdateCommentParams, 'commentId'>, IThunkAPI>(
   'comments/delete-by-commentId',
-  async ({ commentId }, { rejectWithValue, getState }) => {
+  async ({ commentId }, { rejectWithValue, getState, dispatch }) => {
     const state = getState();
 
     const comment = getCommentByIdSelector(state, commentId);
@@ -231,14 +231,17 @@ export const deleteComment = createAsyncThunk<IDeviceEntityData, Pick<IUpdateCom
     try {
       await Api.Comments.deleteById(commentId);
 
-      const updatedComments = (device.comments as Array<number>).filter((id) => commentId !== id);
+      if (comment.parentId !== null) {
+        dispatch(decrementCommentRepliesCount({ commentId: comment.parentId }));
+      }
 
-      const updatedDevice = {
-        ...device,
-        comments: updatedComments,
-      };
-
-      const { result, entities } = normalize<IDevice, DeviceEntities, number>(updatedDevice, DeviceSchema);
+      const { result, entities } = normalize<IDevice, DeviceEntities, number>(
+        {
+          ...device,
+          comments: (device.comments as Array<number>).filter((id) => commentId !== id),
+        },
+        DeviceSchema,
+      );
 
       return {
         result,
