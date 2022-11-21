@@ -24,6 +24,9 @@ export const routes = {
   orders: '/orders',
   purchases: '/purchases',
   stats: '/stats',
+  moneyMovement: '/money-movement',
+  transfers: '/money-movement/transfers',
+  payouts: '/money-movement/payouts',
 };
 
 function Router() {

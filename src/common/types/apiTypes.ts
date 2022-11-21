@@ -79,3 +79,9 @@ export interface IGetStatsParams {
   limit?: number;
   filters?: ParamKeyValuePair[];
 }
+
+export interface IGetChargesParams {
+  endingBefore?: string;
+  startingAfter?: string;
+  limit?: number;
+}

@@ -2,6 +2,7 @@ import {
   IAddCommentParams,
   ICreateDeviceParams,
   IEvaluateDeviceParams,
+  IGetChargesParams,
   IGetCommentsParams,
   IGetDevicesProps,
   IGetOrdersParams,
@@ -154,6 +155,36 @@ export const Stats = {
   get({ filters }: IGetStatsParams) {
     const paramsUrl = new URLSearchParams(filters);
     return api.get(`/stats?${paramsUrl}`);
+  },
+};
+
+export const Balance = {
+  get() {
+    return api.get('/balance');
+  },
+};
+
+export const Charges = {
+  get({ endingBefore, startingAfter, limit = 10 }: IGetChargesParams = {}) {
+    return api.get('/charges', { params: { endingBefore, startingAfter, limit } });
+  },
+};
+
+export const Payouts = {
+  get() {
+    return api.get('/payouts');
+  },
+};
+
+export const Transfers = {
+  get() {
+    return api.get('/transfers');
+  },
+};
+
+export const Events = {
+  get() {
+    return api.get('/account-events');
   },
 };
 

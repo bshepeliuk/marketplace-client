@@ -43,6 +43,7 @@ function UserInfoView() {
             <InnerWrapper>
               {isSeller && <CustomLink to={routes.orders}>My orders</CustomLink>}
               {isSeller && <CustomLink to={routes.stats}>My stats</CustomLink>}
+              {isSeller && <CustomLink to={routes.moneyMovement}>Money movement</CustomLink>}
               {isBuyer && <CustomLink to={routes.purchases}>My purchases</CustomLink>}
             </InnerWrapper>
           </div>
