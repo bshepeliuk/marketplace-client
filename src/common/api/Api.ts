@@ -165,8 +165,8 @@ export const Balance = {
 };
 
 export const Charges = {
-  get({ endingBefore, startingAfter, limit = 10 }: IGetChargesParams = {}) {
-    return api.get('/charges', { params: { endingBefore, startingAfter, limit } });
+  get({ startChunkId, endChunkId, limit = 10 }: IGetChargesParams = {}) {
+    return api.get('/charges', { params: { startChunkId, endChunkId, limit } });
   },
 };
 

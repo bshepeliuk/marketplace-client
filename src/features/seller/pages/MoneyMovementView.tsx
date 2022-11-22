@@ -3,9 +3,9 @@ import { Route, Routes } from 'react-router-dom';
 import styled from 'styled-components';
 
 import BalanceView from '@features/balance/components/BalanceView';
-import ChargesTableView from '@src/features/charges/components/ChargesTableView';
-import PayoutsTableView from '@src/features/payouts/components/PayoutsTableView';
-import TransfersTableView from '@src/features/transfers/components/TransfersTableView';
+import ChargesTableView from '@src/features/charges/components/ChargesTable/ChargesTableView';
+import PayoutsTableView from '@src/features/payouts/components/PayoutsTable/PayoutsTableView';
+import TransfersTableView from '@src/features/transfers/components/TransfersTable/TransfersTableView';
 import MoneyMovementNavigation from '../components/MoneyMovementNavigation';
 
 function MoneyMoveMentView() {

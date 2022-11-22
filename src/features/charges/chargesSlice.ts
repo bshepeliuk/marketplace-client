@@ -20,9 +20,9 @@ export const initialState = {
   isError: false,
   error: null,
   hasMore: true,
-  firstItemId: null as null | string,
-  startingAfter: undefined as string | undefined,
-  endingBefore: undefined as string | undefined,
+  firstItemId: undefined as string | undefined,
+  endChunkId: undefined as string | undefined,
+  startChunkId: undefined as string | undefined,
   items: [] as ICharges,
 };
 
@@ -35,9 +35,9 @@ interface IChargesData {
 
 export const getCharges = createAsyncThunk<IChargesData, IGetChargesParams, IThunkAPI>(
   'charges/get',
-  async ({ endingBefore, startingAfter, limit }, { rejectWithValue }) => {
+  async ({ startChunkId, endChunkId, limit }, { rejectWithValue }) => {
     try {
-      const { data } = await Api.Charges.get({ endingBefore, startingAfter, limit });
+      const { data } = await Api.Charges.get({ startChunkId, endChunkId, limit });
 
       return {
         charges: data.charges.data,
@@ -71,8 +71,8 @@ const chargesSlice = createSlice({
       state.isLoading = false;
       state.items = payload.charges;
       state.hasMore = payload.hasMore;
-      state.endingBefore = payload.charges[0].id;
-      state.startingAfter = payload.charges[payload.charges.length - 1].id;
+      state.startChunkId = payload.charges[0].id;
+      state.endChunkId = payload.charges[payload.charges.length - 1].id;
     });
     builder.addCase(getCharges.rejected, (state: State) => {
       state.isLoading = false;

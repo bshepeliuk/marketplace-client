@@ -14,34 +14,42 @@ function BalanceView() {
 
   return (
     <Wrapper>
-      <BalanceItemView color="#59CE8F" title="Available" balanceList={calculateTotalBalance(balance.available)} />
       <BalanceItemView
-        color="#59C1BD"
+        background="linear-gradient(135deg, #42e595 0%,#3ab2b8 100%)"
+        title="Available"
+        balanceList={calculateTotalBalance(balance.available)}
+      />
+      <BalanceItemView
+        background="linear-gradient(135deg, #13f1fc 0%,#0470dc 100%)"
         title="Instant Available"
         balanceList={calculateTotalBalance(balance.instant_available)}
       />
-      <BalanceItemView color="#F49D1A" title="Pending" balanceList={calculateTotalBalance(balance.pending)} />
+      <BalanceItemView
+        background="linear-gradient(135deg, #fad961 0%,#f76b1b 100%)"
+        title="Pending"
+        balanceList={calculateTotalBalance(balance.pending)}
+      />
     </Wrapper>
   );
 }
 
 interface IProps {
   title: string;
-  color?: string;
+  background?: string;
   balanceList: IBalanceItem[];
 }
 
-function BalanceItemView({ title, balanceList, color = '' }: IProps) {
+function BalanceItemView({ title, balanceList, background = '' }: IProps) {
   return (
-    <BalanceContainer color={color}>
+    <BalanceContainer background={background}>
       <BalanceTitle>{title}</BalanceTitle>
 
       <ul>
         {balanceList.map((item) => {
           return (
-            <li key={item.currency}>
+            <ListItem key={item.currency}>
               {formatNumber(convertCentToDollar(item.amount))} {item.currency.toUpperCase()}
-            </li>
+            </ListItem>
           );
         })}
       </ul>
@@ -55,11 +63,26 @@ const Wrapper = styled.div`
   gap: 20px;
 `;
 
-const BalanceContainer = styled.div<{ color: string }>`
+const BalanceContainer = styled.div<{ background: string }>`
   padding: 20px;
-  background-color: ${(props) => props.color};
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;
+  background: ${(props) => props.background};
   border-radius: 4px;
+  min-width: 240px;
+  min-height: 100px;
 `;
-const BalanceTitle = styled.h1``;
+const BalanceTitle = styled.h1`
+  color: #fff;
+  font-family: 'Roboto';
+  text-transform: uppercase;
+  font-size: 20px;
+  margin-bottom: 10px;
+`;
+
+const ListItem = styled.li`
+  color: #2c3e50;
+  font-weight: bold;
+  font-family: 'Roboto';
+`;
 
 export default BalanceView;

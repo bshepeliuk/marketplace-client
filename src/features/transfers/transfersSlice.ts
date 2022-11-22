@@ -11,6 +11,8 @@ interface ITransferItem {
   currency: string;
   id: string;
   arrival_date: number;
+  automatic: boolean;
+  type: string;
 }
 
 type ITransfers = ITransferItem[];

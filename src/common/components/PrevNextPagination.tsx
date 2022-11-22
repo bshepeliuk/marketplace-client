@@ -8,7 +8,7 @@ interface IProps {
   isPrevDisabled: boolean;
 }
 
-function MoreItemsNavigation({ onNext, onPrev, isNextDisabled, isPrevDisabled }: IProps) {
+function PrevNextPagination({ onNext, onPrev, isNextDisabled, isPrevDisabled }: IProps) {
   return (
     <Wrapper>
       <Button type="button" onClick={onPrev} disabled={isPrevDisabled}>
@@ -24,6 +24,7 @@ function MoreItemsNavigation({ onNext, onPrev, isNextDisabled, isPrevDisabled }:
 const Wrapper = styled.div`
   display: flex;
   gap: 10px;
+  margin: 0 2px;
 `;
 
 const Button = styled.button`
@@ -45,4 +46,4 @@ const Button = styled.button`
   }
 `;
 
-export default MoreItemsNavigation;
+export default PrevNextPagination;

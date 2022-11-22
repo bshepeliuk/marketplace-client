@@ -25,6 +25,7 @@ const List = styled.ul`
   display: flex;
   gap: 35px;
   padding-top: 20px;
+  font-family: 'Roboto';
 `;
 
 const CustomLink = styled(NavLink)`
@@ -49,7 +50,7 @@ const CustomLink = styled(NavLink)`
     display: block;
     background-color: rgb(98, 90, 250);
     transform: scaleX(0);
-    transform-origin: bottom left;
+    transform-origin: top left;
     transition: transform 0.25s ease-out;
     margin-top: 10px;
   }

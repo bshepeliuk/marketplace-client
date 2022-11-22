@@ -1,22 +1,21 @@
-import { useAppDispatch } from '@src/common/hooks/useAppDispatch';
 import { useTypedSelector } from '@src/common/hooks/useTypedSelector';
-import { getCharges } from '../chargesSlice';
 import { CHARGES_LIMIT } from '../constants';
+import useFetchCharges from './useFetchCharges';
 
 const useChargesPagination = () => {
-  const dispatch = useAppDispatch();
-  const { endingBefore, startingAfter, firstItemId, items } = useTypedSelector((state) => state.charges);
+  const { startChunkId, endChunkId, firstItemId, items } = useTypedSelector((state) => state.charges);
+  const { fetchCharges } = useFetchCharges();
 
   const onNext = () => {
-    dispatch(getCharges({ startingAfter }));
+    fetchCharges({ endChunkId });
   };
   const onPrev = () => {
-    dispatch(getCharges({ endingBefore }));
+    fetchCharges({ startChunkId });
   };
 
   const isNextDisabled = items.length < CHARGES_LIMIT;
-  const isPrevDisabled = firstItemId === endingBefore;
-  const hasPagination = (endingBefore !== undefined && startingAfter !== undefined) || items.length >= CHARGES_LIMIT;
+  const isPrevDisabled = firstItemId === startChunkId;
+  const hasPagination = (startChunkId !== undefined && endChunkId !== undefined) || items.length >= CHARGES_LIMIT;
 
   return {
     onNext,

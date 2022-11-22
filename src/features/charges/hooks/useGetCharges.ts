@@ -1,15 +1,14 @@
-import { useAppDispatch } from '@src/common/hooks/useAppDispatch';
-import { useTypedSelector } from '@src/common/hooks/useTypedSelector';
 import { useEffect } from 'react';
-import { getCharges } from '../chargesSlice';
+import { useTypedSelector } from '@src/common/hooks/useTypedSelector';
 import { chargesSelector } from '../selectors/chargesSelector';
+import useFetchCharges from './useFetchCharges';
 
 const useGetCharges = () => {
   const { items, hasMore, isLoading, isError } = useTypedSelector(chargesSelector);
-  const dispatch = useAppDispatch();
+  const { fetchCharges } = useFetchCharges();
 
   useEffect(() => {
-    dispatch(getCharges({})); // FIXME: allow zero parameter;
+    fetchCharges();
   }, []);
 
   return {

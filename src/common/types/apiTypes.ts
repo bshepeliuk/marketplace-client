@@ -81,7 +81,7 @@ export interface IGetStatsParams {
 }
 
 export interface IGetChargesParams {
-  endingBefore?: string;
-  startingAfter?: string;
+  startChunkId?: string;
+  endChunkId?: string;
   limit?: number;
 }
