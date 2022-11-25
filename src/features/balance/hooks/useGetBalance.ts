@@ -6,13 +6,16 @@ import { balanceSelector } from '../selectors/balanceSelector';
 
 const useGetBalance = () => {
   const dispatch = useAppDispatch();
-  const balance = useTypedSelector(balanceSelector);
+  const { balance, isLoading } = useTypedSelector(balanceSelector);
 
   useEffect(() => {
     dispatch(getBalance());
   }, []);
 
-  return { balance };
+  return {
+    balance,
+    isLoading,
+  };
 };
 
 export default useGetBalance;

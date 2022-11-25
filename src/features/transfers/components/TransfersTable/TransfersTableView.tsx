@@ -3,11 +3,25 @@ import convertSecondsToMs from '@src/common/utils/convertSecondsToMs';
 import convertCentToDollar from '@src/common/utils/convertCentToDollar';
 import { formatNumber } from '@src/common/utils/formatNumber';
 import getCurrencySymbol from '@common/utils/getCurrencySymbol';
+import PrevNextPagination from '@src/common/components/PrevNextPagination';
 import useGetTransfers from '../../hooks/useGetTransfers';
-import { Cell, EmptyCell, HeaderRow, Table, Row, Amount, Status, Currency } from './transfersTable.styled';
+import {
+  Cell,
+  EmptyCell,
+  HeaderRow,
+  Table,
+  Row,
+  Amount,
+  Status,
+  Currency,
+  FooterRow,
+  FooterBody,
+} from './transfersTable.styled';
+import useTransfersPagination from '../../hooks/useTransfersPagination';
 
 function TransfersTableView() {
   const { items, isLoading } = useGetTransfers();
+  const { hasPagination, isNextDisabled, isPrevDisabled, onNext, onPrev } = useTransfersPagination();
 
   const hasLoader = isLoading && items.length === 0;
 
@@ -44,6 +58,19 @@ function TransfersTableView() {
           </Row>
         );
       })}
+
+      {hasPagination && (
+        <FooterRow>
+          <FooterBody>
+            <PrevNextPagination
+              onNext={onNext}
+              onPrev={onPrev}
+              isNextDisabled={isNextDisabled}
+              isPrevDisabled={isPrevDisabled}
+            />
+          </FooterBody>
+        </FooterRow>
+      )}
     </Table>
   );
 }

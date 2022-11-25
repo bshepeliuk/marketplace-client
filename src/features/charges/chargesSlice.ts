@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import * as Api from '@src/common/api/Api';
-import { IGetChargesParams } from '@src/common/types/apiTypes';
+import { IMoneyMovementParams } from '@src/common/types/apiTypes';
 import { IThunkAPI } from '@src/common/types/baseTypes';
 import getErrorMessage from '@src/common/utils/getErrorMessage';
 
@@ -33,7 +33,7 @@ interface IChargesData {
   hasMore: boolean;
 }
 
-export const getCharges = createAsyncThunk<IChargesData, IGetChargesParams, IThunkAPI>(
+export const getCharges = createAsyncThunk<IChargesData, IMoneyMovementParams, IThunkAPI>(
   'charges/get',
   async ({ startChunkId, endChunkId, limit }, { rejectWithValue }) => {
     try {
@@ -64,6 +64,9 @@ const chargesSlice = createSlice({
       state.isError = false;
     });
     builder.addCase(getCharges.fulfilled, (state: State, { payload }: PayloadAction<IChargesData>) => {
+      const FIRST_IDX = 0;
+      const LAST_IDX = payload.charges.length - 1;
+
       if (state.items.length === 0) {
         state.firstItemId = payload.charges[0].id;
       }
@@ -71,8 +74,8 @@ const chargesSlice = createSlice({
       state.isLoading = false;
       state.items = payload.charges;
       state.hasMore = payload.hasMore;
-      state.startChunkId = payload.charges[0].id;
-      state.endChunkId = payload.charges[payload.charges.length - 1].id;
+      state.startChunkId = payload.charges[FIRST_IDX].id;
+      state.endChunkId = payload.charges[LAST_IDX].id;
     });
     builder.addCase(getCharges.rejected, (state: State) => {
       state.isLoading = false;

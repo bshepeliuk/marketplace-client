@@ -1,15 +1,14 @@
-import { useAppDispatch } from '@src/common/hooks/useAppDispatch';
-import { useTypedSelector } from '@src/common/hooks/useTypedSelector';
 import { useEffect } from 'react';
+import { useTypedSelector } from '@src/common/hooks/useTypedSelector';
 import { transfersSelector } from '../selectors/transfersSelector';
-import { getTransfers } from '../transfersSlice';
+import useFetchTransfers from './useFetchTransfers';
 
 const useGetTransfers = () => {
   const { items, isLoading, isError, hasMore } = useTypedSelector(transfersSelector);
-  const dispatch = useAppDispatch();
+  const { fetchTransfers } = useFetchTransfers();
 
   useEffect(() => {
-    dispatch(getTransfers());
+    fetchTransfers();
   }, []);
 
   return {

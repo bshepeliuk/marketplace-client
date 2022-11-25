@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import * as Api from '@src/common/api/Api';
+import { IMoneyMovementParams } from '@src/common/types/apiTypes';
 import { IThunkAPI } from '@src/common/types/baseTypes';
 import getErrorMessage from '@src/common/utils/getErrorMessage';
 
@@ -20,6 +21,9 @@ export const initialState = {
   isError: false,
   error: null,
   hasMore: true,
+  firstItemId: undefined as string | undefined,
+  endChunkId: undefined as string | undefined,
+  startChunkId: undefined as string | undefined,
   items: [] as IPayouts,
 };
 
@@ -30,11 +34,11 @@ interface IPayoutsData {
   hasMore: boolean;
 }
 
-export const getPayouts = createAsyncThunk<IPayoutsData, undefined, IThunkAPI>(
+export const getPayouts = createAsyncThunk<IPayoutsData, IMoneyMovementParams, IThunkAPI>(
   'payouts/get',
-  async (_, { rejectWithValue }) => {
+  async ({ startChunkId, endChunkId, limit }, { rejectWithValue }) => {
     try {
-      const { data } = await Api.Payouts.get();
+      const { data } = await Api.Payouts.get({ startChunkId, endChunkId, limit });
 
       return {
         payouts: data.payouts.data,
@@ -61,9 +65,16 @@ const payoutsSlice = createSlice({
       state.isError = false;
     });
     builder.addCase(getPayouts.fulfilled, (state: State, { payload }: PayloadAction<IPayoutsData>) => {
+      const FIRST_IDX = 0;
+      const LAST_IDX = payload.payouts.length - 1;
+
+      if (state.items.length === 0) state.firstItemId = payload.payouts[0].id;
+
       state.isLoading = false;
       state.items = payload.payouts;
       state.hasMore = payload.hasMore;
+      state.startChunkId = payload.payouts[FIRST_IDX].id;
+      state.endChunkId = payload.payouts[LAST_IDX].id;
     });
     builder.addCase(getPayouts.rejected, (state: State) => {
       state.isLoading = false;

@@ -2,13 +2,13 @@ import {
   IAddCommentParams,
   ICreateDeviceParams,
   IEvaluateDeviceParams,
-  IGetChargesParams,
   IGetCommentsParams,
   IGetDevicesProps,
   IGetOrdersParams,
   IGetRepliesParams,
   IGetStatsParams,
   ILogin,
+  IMoneyMovementParams,
   IRegister,
   IUpdateCommentParams,
 } from '@src/common/types/apiTypes';
@@ -165,26 +165,20 @@ export const Balance = {
 };
 
 export const Charges = {
-  get({ startChunkId, endChunkId, limit = 10 }: IGetChargesParams = {}) {
+  get({ startChunkId, endChunkId, limit = 10 }: IMoneyMovementParams = {}) {
     return api.get('/charges', { params: { startChunkId, endChunkId, limit } });
   },
 };
 
 export const Payouts = {
-  get() {
-    return api.get('/payouts');
+  get({ startChunkId, endChunkId, limit = 10 }: IMoneyMovementParams = {}) {
+    return api.get('/payouts', { params: { startChunkId, endChunkId, limit } });
   },
 };
 
 export const Transfers = {
-  get() {
-    return api.get('/transfers');
-  },
-};
-
-export const Events = {
-  get() {
-    return api.get('/account-events');
+  get({ startChunkId, endChunkId, limit = 10 }: IMoneyMovementParams = {}) {
+    return api.get('/transfers', { params: { startChunkId, endChunkId, limit } });
   },
 };
 

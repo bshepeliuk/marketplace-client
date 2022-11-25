@@ -6,10 +6,12 @@ import { formatNumber } from '@src/common/utils/formatNumber';
 import calculateTotalBalance from '../helpers/calculateTotalBalance';
 import useGetBalance from '../hooks/useGetBalance';
 import { IBalanceItem } from '../types';
+import BalanceLoader from './BalanceLoader';
 
 function BalanceView() {
-  const { balance } = useGetBalance();
+  const { isLoading, balance } = useGetBalance();
 
+  if (isLoading) return <BalanceLoader />;
   if (balance === null) return null;
 
   return (
@@ -65,7 +67,7 @@ const Wrapper = styled.div`
 
 const BalanceContainer = styled.div<{ background: string }>`
   padding: 20px;
-  box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 50px;
   background: ${(props) => props.background};
   border-radius: 4px;
   min-width: 240px;

@@ -1,11 +1,11 @@
 import { useAppDispatch } from '@src/common/hooks/useAppDispatch';
-import { IGetChargesParams } from '@src/common/types/apiTypes';
+import { IMoneyMovementParams } from '@src/common/types/apiTypes';
 import { getCharges } from '../chargesSlice';
 
 const useFetchCharges = () => {
   const dispatch = useAppDispatch();
 
-  const fetchCharges = ({ startChunkId, endChunkId, limit }: IGetChargesParams = {}) => {
+  const fetchCharges = ({ startChunkId, endChunkId, limit }: IMoneyMovementParams = {}) => {
     dispatch(getCharges({ startChunkId, endChunkId, limit }));
   };
 

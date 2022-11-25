@@ -9,7 +9,7 @@ import useGetCharges from '../../hooks/useGetCharges';
 import useChargesPagination from '../../hooks/useChargesPagination';
 import {
   Amount,
-  BodyFooter,
+  FooterBody,
   Cell,
   ChargeId,
   Currency,
@@ -18,6 +18,7 @@ import {
   Row,
   Status,
   Table,
+  FooterRow,
 } from './chargesTable.styled';
 
 function ChargesTableView() {
@@ -64,14 +65,16 @@ function ChargesTableView() {
       })}
 
       {hasPagination && (
-        <BodyFooter>
-          <PrevNextPagination
-            onNext={onNext}
-            onPrev={onPrev}
-            isNextDisabled={isNextDisabled}
-            isPrevDisabled={isPrevDisabled}
-          />
-        </BodyFooter>
+        <FooterRow>
+          <FooterBody>
+            <PrevNextPagination
+              onNext={onNext}
+              onPrev={onPrev}
+              isNextDisabled={isNextDisabled}
+              isPrevDisabled={isPrevDisabled}
+            />
+          </FooterBody>
+        </FooterRow>
       )}
     </Table>
   );

@@ -42,10 +42,10 @@ export const Cell = styled.div`
 `;
 export const EmptyCell = styled.div``;
 
-export const BodyFooter = styled.div`
-  display: flex;
-  justify-content: end;
+export const FooterBody = styled.div`
   padding: 20px 0;
+  grid-column: -2 / -1;
+  justify-self: end;
 `;
 
 export const Row = styled.div`
@@ -56,6 +56,10 @@ export const Row = styled.div`
 
   &:hover {
     background-color: rgba(236, 240, 241, 0.5);
+  }
+
+  @media (max-width: 990px) {
+    width: fit-content;
   }
 `;
 
@@ -69,5 +73,13 @@ export const HeaderRow = styled(Row)`
 
   &:hover {
     background-color: #fff;
+  }
+`;
+
+export const FooterRow = styled(Row)`
+  border: none;
+
+  &:hover {
+    background-color: transparent;
   }
 `;

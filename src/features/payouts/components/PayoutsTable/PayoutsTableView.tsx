@@ -3,11 +3,25 @@ import convertCentToDollar from '@src/common/utils/convertCentToDollar';
 import convertSecondsToMs from '@src/common/utils/convertSecondsToMs';
 import { formatNumber } from '@src/common/utils/formatNumber';
 import getCurrencySymbol from '@common/utils/getCurrencySymbol';
+import PrevNextPagination from '@src/common/components/PrevNextPagination';
 import useGetPayouts from '../../hooks/useGetPayouts';
-import { Cell, EmptyCell, HeaderRow, Table, Row, Amount, Status, Currency } from './payoutsTable.styled';
+import {
+  Cell,
+  EmptyCell,
+  HeaderRow,
+  Table,
+  Row,
+  Amount,
+  Status,
+  Currency,
+  FooterRow,
+  FooterBody,
+} from './payoutsTable.styled';
+import usePayoutsPagination from '../../hooks/usePayoutsPagination';
 
 function PayoutsTableView() {
   const { items, isLoading } = useGetPayouts();
+  const { hasPagination, onNext, onPrev, isNextDisabled, isPrevDisabled } = usePayoutsPagination();
 
   const hasLoader = isLoading && items.length === 0;
 
@@ -42,6 +56,19 @@ function PayoutsTableView() {
           </Row>
         );
       })}
+
+      {hasPagination && (
+        <FooterRow>
+          <FooterBody>
+            <PrevNextPagination
+              onNext={onNext}
+              onPrev={onPrev}
+              isNextDisabled={isNextDisabled}
+              isPrevDisabled={isPrevDisabled}
+            />
+          </FooterBody>
+        </FooterRow>
+      )}
     </Table>
   );
 }

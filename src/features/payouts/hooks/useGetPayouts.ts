@@ -1,15 +1,15 @@
-import { useAppDispatch } from '@src/common/hooks/useAppDispatch';
-import { useTypedSelector } from '@src/common/hooks/useTypedSelector';
 import { useEffect } from 'react';
-import { getPayouts } from '../payoutsSlice';
+
+import { useTypedSelector } from '@src/common/hooks/useTypedSelector';
 import { payoutsSelector } from '../selectors/payoutsSelector';
+import useFetchPayouts from './useFetchPayouts';
 
 const useGetPayouts = () => {
   const { items, isLoading, isError, hasMore } = useTypedSelector(payoutsSelector);
-  const dispatch = useAppDispatch();
+  const { fetchPayouts } = useFetchPayouts();
 
   useEffect(() => {
-    dispatch(getPayouts());
+    fetchPayouts();
   }, []);
 
   return {

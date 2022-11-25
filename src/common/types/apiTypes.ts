@@ -80,7 +80,7 @@ export interface IGetStatsParams {
   filters?: ParamKeyValuePair[];
 }
 
-export interface IGetChargesParams {
+export interface IMoneyMovementParams {
   startChunkId?: string;
   endChunkId?: string;
   limit?: number;
