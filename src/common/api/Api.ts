@@ -11,6 +11,7 @@ import {
   IMoneyMovementParams,
   IRegister,
   IUpdateCommentParams,
+  MoneyMovementParams,
 } from '@src/common/types/apiTypes';
 import getApiInstance from '@src/common/utils/getApiInstance';
 import { OrderStatusValues } from '@src/features/orders/types';
@@ -165,8 +166,14 @@ export const Balance = {
 };
 
 export const Charges = {
-  get({ startChunkId, endChunkId, limit = 10 }: IMoneyMovementParams = {}) {
-    return api.get('/charges', { params: { startChunkId, endChunkId, limit } });
+  get({ startingAfter, endingBefore, limit = 10 }: MoneyMovementParams = {}) {
+    const params = {
+      limit,
+      ...(endingBefore && { endingBefore }),
+      ...(startingAfter && { startingAfter }),
+    };
+
+    return api.get('/charges', { params });
   },
 };
 

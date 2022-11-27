@@ -1,21 +1,23 @@
 import React from 'react';
 import styled from 'styled-components';
+import LoaderView from './Loader/Loader';
 
 interface IProps {
   onNext: () => void;
   onPrev: () => void;
   isNextDisabled: boolean;
   isPrevDisabled: boolean;
+  isLoading?: boolean;
 }
 
-function PrevNextPagination({ onNext, onPrev, isNextDisabled, isPrevDisabled }: IProps) {
+function PrevNextPagination({ onNext, onPrev, isNextDisabled, isPrevDisabled, isLoading = false }: IProps) {
   return (
     <Wrapper>
       <Button type="button" onClick={onPrev} disabled={isPrevDisabled}>
         Previous
       </Button>
       <Button type="button" onClick={onNext} disabled={isNextDisabled}>
-        Next
+        {isLoading ? <LoaderView size={12} color="#3498db" strokeWidth={2} /> : 'Next'}
       </Button>
     </Wrapper>
   );
@@ -28,6 +30,10 @@ const Wrapper = styled.div`
 `;
 
 const Button = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 40px;
   font-family: 'Roboto';
   font-weight: bold;
   border: none;

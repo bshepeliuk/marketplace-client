@@ -81,7 +81,13 @@ export interface IGetStatsParams {
 }
 
 export interface IMoneyMovementParams {
+  limit?: number;
   startChunkId?: string;
   endChunkId?: string;
+}
+
+export interface MoneyMovementParams {
+  endingBefore?: string | number | null;
+  startingAfter?: string | number | null;
   limit?: number;
 }

@@ -16,17 +16,8 @@ function LoaderView(props: IProps) {
   const perimeter = Math.round(2 * Math.PI * radius);
 
   return (
-    <LoaderSvg
-      size={size}
-      color={color}
-      perimeter={perimeter}
-      strokeWidth={strokeWidth}
-    >
-      <circle
-        cx={radiusWithOffset}
-        cy={radiusWithOffset}
-        r={radiusWithOffset}
-      />
+    <LoaderSvg size={size} color={color} perimeter={perimeter} strokeWidth={strokeWidth}>
+      <circle cx={radiusWithOffset} cy={radiusWithOffset} r={radiusWithOffset} />
     </LoaderSvg>
   );
 }

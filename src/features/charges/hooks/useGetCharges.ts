@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
 import { useTypedSelector } from '@src/common/hooks/useTypedSelector';
-import { chargesSelector } from '../selectors/chargesSelector';
 import useFetchCharges from './useFetchCharges';
+import { chargesChunkSelector } from '../selectors/chargesChunkSelector';
 
 const useGetCharges = () => {
-  const { items, hasMore, isLoading, isError } = useTypedSelector(chargesSelector);
+  const { items, hasMore, isLoading, isError } = useTypedSelector(chargesChunkSelector);
   const { fetchCharges } = useFetchCharges();
 
   useEffect(() => {

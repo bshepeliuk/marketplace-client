@@ -25,7 +25,8 @@ function ChargesTableView() {
   const { items, isLoading } = useGetCharges();
   const { onNext, onPrev, isNextDisabled, isPrevDisabled, hasPagination } = useChargesPagination();
 
-  const hasLoader = isLoading && items.length === 0;
+  const hasNoItems = items.length === 0;
+  const hasLoader = isLoading && hasNoItems;
 
   return (
     <Table>
@@ -38,6 +39,7 @@ function ChargesTableView() {
       </HeaderRow>
 
       {hasLoader && <div>Loading...</div>}
+      {!hasLoader && hasNoItems && <div>Empty.</div>}
 
       {items.map((charge) => {
         const amount = `${getCurrencySymbol(charge.currency)} ${formatNumber(convertCentToDollar(charge.amount))}`;
@@ -72,6 +74,7 @@ function ChargesTableView() {
               onPrev={onPrev}
               isNextDisabled={isNextDisabled}
               isPrevDisabled={isPrevDisabled}
+              isLoading={isLoading}
             />
           </FooterBody>
         </FooterRow>

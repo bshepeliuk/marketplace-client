@@ -1,28 +1,22 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import * as Api from '@src/common/api/Api';
-import { IMoneyMovementParams } from '@src/common/types/apiTypes';
+import { MoneyMovementParams } from '@src/common/types/apiTypes';
 import { IThunkAPI } from '@src/common/types/baseTypes';
 import getErrorMessage from '@src/common/utils/getErrorMessage';
+import { ICharges } from './types';
 
-interface IChargeItem {
-  amount: number;
-  status: string;
-  created: number;
-  currency: string;
-  id: string;
-}
-
-type ICharges = IChargeItem[];
+type IdType = string | number | null;
 
 export const initialState = {
   isLoading: false,
   isError: false,
   error: null,
   hasMore: true,
-  firstItemId: undefined as string | undefined,
-  endChunkId: undefined as string | undefined,
-  startChunkId: undefined as string | undefined,
+  startingAfter: null as IdType,
+  endingBefore: null as IdType,
+  firstItemId: null as IdType,
+  lastItemId: null as IdType,
   items: [] as ICharges,
 };
 
@@ -33,11 +27,11 @@ interface IChargesData {
   hasMore: boolean;
 }
 
-export const getCharges = createAsyncThunk<IChargesData, IMoneyMovementParams, IThunkAPI>(
+export const getCharges = createAsyncThunk<IChargesData, MoneyMovementParams, IThunkAPI>(
   'charges/get',
-  async ({ startChunkId, endChunkId, limit }, { rejectWithValue }) => {
+  async ({ endingBefore, startingAfter, limit }, { rejectWithValue }) => {
     try {
-      const { data } = await Api.Charges.get({ startChunkId, endChunkId, limit });
+      const { data } = await Api.Charges.get({ endingBefore, startingAfter, limit });
 
       return {
         charges: data.charges.data,
@@ -56,7 +50,12 @@ export const getCharges = createAsyncThunk<IChargesData, IMoneyMovementParams, I
 const chargesSlice = createSlice({
   initialState,
   name: 'charges',
-  reducers: {},
+  reducers: {
+    changeBoundIds(state: State, { payload }: PayloadAction<{ startingAfter: IdType; endingBefore: IdType }>) {
+      state.startingAfter = payload.startingAfter;
+      state.endingBefore = payload.endingBefore;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(getCharges.pending, (state: State) => {
       state.isLoading = true;
@@ -66,16 +65,20 @@ const chargesSlice = createSlice({
     builder.addCase(getCharges.fulfilled, (state: State, { payload }: PayloadAction<IChargesData>) => {
       const FIRST_IDX = 0;
       const LAST_IDX = payload.charges.length - 1;
+      const LAST_ITEM_ID = payload.charges[LAST_IDX].id;
+      const FIRST_ITEM_ID = payload.charges[FIRST_IDX].id;
 
-      if (state.items.length === 0) {
-        state.firstItemId = payload.charges[0].id;
-      }
+      const hasNoItems = state.items.length === 0;
+      const hasNoMore = !payload.hasMore;
 
+      if (hasNoItems) state.firstItemId = FIRST_ITEM_ID;
+      if (hasNoMore) state.lastItemId = LAST_ITEM_ID;
+
+      state.endingBefore = FIRST_ITEM_ID;
+      state.startingAfter = LAST_ITEM_ID;
       state.isLoading = false;
-      state.items = payload.charges;
       state.hasMore = payload.hasMore;
-      state.startChunkId = payload.charges[FIRST_IDX].id;
-      state.endChunkId = payload.charges[LAST_IDX].id;
+      state.items.push(...payload.charges);
     });
     builder.addCase(getCharges.rejected, (state: State) => {
       state.isLoading = false;
