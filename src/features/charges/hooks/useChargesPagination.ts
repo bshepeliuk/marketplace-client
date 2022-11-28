@@ -21,10 +21,13 @@ const useChargesPagination = () => {
     const START_IDX = startingAfterIdx + 1;
     const END_IDX = startingAfterIdx + CHARGES_LIMIT;
 
+    const endingBeforeId = items[START_IDX].id;
+    const startingAfterId = items[END_IDX]?.id ?? items[START_IDX].id;
+
     dispatch(
       chargesActions.changeBoundIds({
-        endingBefore: items[START_IDX].id,
-        startingAfter: items[END_IDX].id,
+        endingBefore: endingBeforeId,
+        startingAfter: startingAfterId,
       }),
     );
   };
