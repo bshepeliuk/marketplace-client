@@ -7,8 +7,12 @@ const useGetCharges = () => {
   const { items, hasMore, isLoading, isError } = useTypedSelector(chargesChunkSelector);
   const { fetchCharges } = useFetchCharges();
 
+  const hasNoItems = items.length === 0;
+
   useEffect(() => {
-    fetchCharges();
+    if (hasNoItems) {
+      fetchCharges();
+    }
   }, []);
 
   return {
