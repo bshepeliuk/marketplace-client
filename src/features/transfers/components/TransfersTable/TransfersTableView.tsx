@@ -23,7 +23,9 @@ function TransfersTableView() {
   const { items, isLoading } = useGetTransfers();
   const { hasPagination, isNextDisabled, isPrevDisabled, onNext, onPrev } = useTransfersPagination();
 
-  const hasLoader = isLoading && items.length === 0;
+  const hasNoItems = items.length === 0;
+  const hasLoader = isLoading && hasNoItems;
+  const hasNoLoader = !hasLoader;
 
   return (
     <Table>
@@ -37,6 +39,7 @@ function TransfersTableView() {
       </HeaderRow>
 
       {hasLoader && <div>Loading...</div>}
+      {hasNoLoader && hasNoItems && <div>Empty.</div>}
 
       {items.map((transfer) => {
         const amount = `${getCurrencySymbol(transfer.currency)} ${formatNumber(convertCentToDollar(transfer.amount))}`;
@@ -67,6 +70,7 @@ function TransfersTableView() {
               onPrev={onPrev}
               isNextDisabled={isNextDisabled}
               isPrevDisabled={isPrevDisabled}
+              isLoading={isLoading}
             />
           </FooterBody>
         </FooterRow>

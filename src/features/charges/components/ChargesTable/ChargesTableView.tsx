@@ -27,6 +27,7 @@ function ChargesTableView() {
 
   const hasNoItems = items.length === 0;
   const hasLoader = isLoading && hasNoItems;
+  const hasNoLoader = !hasLoader;
 
   return (
     <Table>
@@ -39,7 +40,7 @@ function ChargesTableView() {
       </HeaderRow>
 
       {hasLoader && <div>Loading...</div>}
-      {!hasLoader && hasNoItems && <div>Empty.</div>}
+      {hasNoLoader && hasNoItems && <div>Empty.</div>}
 
       {items.map((charge) => {
         const amount = `${getCurrencySymbol(charge.currency)} ${formatNumber(convertCentToDollar(charge.amount))}`;

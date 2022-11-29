@@ -1,14 +1,18 @@
 import { useEffect } from 'react';
 import { useTypedSelector } from '@src/common/hooks/useTypedSelector';
-import { transfersSelector } from '../selectors/transfersSelector';
 import useFetchTransfers from './useFetchTransfers';
+import { transfersChunkSelector } from '../selectors/transfersChunkSelector';
 
 const useGetTransfers = () => {
-  const { items, isLoading, isError, hasMore } = useTypedSelector(transfersSelector);
+  const { items, isLoading, isError, hasMore } = useTypedSelector(transfersChunkSelector);
   const { fetchTransfers } = useFetchTransfers();
 
+  const hasNoItems = items.length === 0;
+
   useEffect(() => {
-    fetchTransfers();
+    if (hasNoItems) {
+      fetchTransfers();
+    }
   }, []);
 
   return {

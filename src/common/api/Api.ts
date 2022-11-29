@@ -8,7 +8,6 @@ import {
   IGetRepliesParams,
   IGetStatsParams,
   ILogin,
-  IMoneyMovementParams,
   IRegister,
   IUpdateCommentParams,
   MoneyMovementParams,
@@ -178,14 +177,26 @@ export const Charges = {
 };
 
 export const Payouts = {
-  get({ startChunkId, endChunkId, limit = 10 }: IMoneyMovementParams = {}) {
-    return api.get('/payouts', { params: { startChunkId, endChunkId, limit } });
+  get({ startingAfter, endingBefore, limit = 10 }: MoneyMovementParams = {}) {
+    const params = {
+      limit,
+      ...(endingBefore && { endingBefore }),
+      ...(startingAfter && { startingAfter }),
+    };
+
+    return api.get('/payouts', { params });
   },
 };
 
 export const Transfers = {
-  get({ startChunkId, endChunkId, limit = 10 }: IMoneyMovementParams = {}) {
-    return api.get('/transfers', { params: { startChunkId, endChunkId, limit } });
+  get({ endingBefore, startingAfter, limit = 10 }: MoneyMovementParams = {}) {
+    const params = {
+      limit,
+      ...(endingBefore && { endingBefore }),
+      ...(startingAfter && { startingAfter }),
+    };
+
+    return api.get('/transfers', { params });
   },
 };
 

@@ -1,46 +1,37 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import * as Api from '@src/common/api/Api';
-import { IMoneyMovementParams } from '@src/common/types/apiTypes';
+import { MoneyMovementParams } from '@src/common/types/apiTypes';
 import { IThunkAPI } from '@src/common/types/baseTypes';
 import getErrorMessage from '@src/common/utils/getErrorMessage';
+import { ITransfers } from './types';
 
-interface ITransferItem {
-  amount: number;
-  status: string;
-  created: number;
-  currency: string;
-  id: string;
-  arrival_date: number;
-  automatic: boolean;
-  type: string;
-}
-
-type ITransfers = ITransferItem[];
-
-export const initialState = {
-  isLoading: false,
-  isError: false,
-  error: null,
-  hasMore: true,
-  firstItemId: undefined as string | undefined,
-  endChunkId: undefined as string | undefined,
-  startChunkId: undefined as string | undefined,
-  items: [] as ITransfers,
-};
-
-type State = typeof initialState;
+type IdType = string | number | null;
 
 interface ITransfersData {
   transfers: ITransfers;
   hasMore: boolean;
 }
 
-export const getTransfers = createAsyncThunk<ITransfersData, IMoneyMovementParams, IThunkAPI>(
+export const initialState = {
+  isLoading: false,
+  isError: false,
+  error: null,
+  hasMore: true,
+  startingAfter: null as IdType,
+  endingBefore: null as IdType,
+  firstItemId: null as IdType,
+  lastItemId: null as IdType,
+  items: [] as ITransfers,
+};
+
+type State = typeof initialState;
+
+export const getTransfers = createAsyncThunk<ITransfersData, MoneyMovementParams, IThunkAPI>(
   'transfers/get',
-  async ({ startChunkId, endChunkId, limit }, { rejectWithValue }) => {
+  async ({ startingAfter, endingBefore, limit }, { rejectWithValue }) => {
     try {
-      const { data } = await Api.Transfers.get({ startChunkId, endChunkId, limit });
+      const { data } = await Api.Transfers.get({ startingAfter, endingBefore, limit });
 
       return {
         transfers: data.transfers.data,
@@ -59,7 +50,12 @@ export const getTransfers = createAsyncThunk<ITransfersData, IMoneyMovementParam
 const transfersSlice = createSlice({
   initialState,
   name: 'transfers',
-  reducers: {},
+  reducers: {
+    changeBoundIds(state: State, { payload }: PayloadAction<{ startingAfter: IdType; endingBefore: IdType }>) {
+      state.startingAfter = payload.startingAfter;
+      state.endingBefore = payload.endingBefore;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(getTransfers.pending, (state: State) => {
       state.isLoading = true;
@@ -69,16 +65,20 @@ const transfersSlice = createSlice({
     builder.addCase(getTransfers.fulfilled, (state: State, { payload }: PayloadAction<ITransfersData>) => {
       const FIRST_IDX = 0;
       const LAST_IDX = payload.transfers.length - 1;
+      const LAST_ITEM_ID = payload.transfers[LAST_IDX].id;
+      const FIRST_ITEM_ID = payload.transfers[FIRST_IDX].id;
 
-      if (state.items.length === 0) {
-        state.firstItemId = payload.transfers[0].id;
-      }
+      const hasNoItems = state.items.length === 0;
+      const hasNoMore = !payload.hasMore;
 
+      if (hasNoItems) state.firstItemId = FIRST_ITEM_ID;
+      if (hasNoMore) state.lastItemId = LAST_ITEM_ID;
+
+      state.endingBefore = FIRST_ITEM_ID;
+      state.startingAfter = LAST_ITEM_ID;
       state.isLoading = false;
-      state.items = payload.transfers;
       state.hasMore = payload.hasMore;
-      state.startChunkId = payload.transfers[FIRST_IDX].id;
-      state.endChunkId = payload.transfers[LAST_IDX].id;
+      state.items.push(...payload.transfers);
     });
     builder.addCase(getTransfers.rejected, (state: State) => {
       state.isLoading = false;

@@ -23,7 +23,9 @@ function PayoutsTableView() {
   const { items, isLoading } = useGetPayouts();
   const { hasPagination, onNext, onPrev, isNextDisabled, isPrevDisabled } = usePayoutsPagination();
 
-  const hasLoader = isLoading && items.length === 0;
+  const hasNoItems = items.length === 0;
+  const hasLoader = isLoading && hasNoItems;
+  const hasNoLoader = !hasLoader;
 
   return (
     <Table>
@@ -36,6 +38,7 @@ function PayoutsTableView() {
       </HeaderRow>
 
       {hasLoader && <div>Loading...</div>}
+      {hasNoLoader && hasNoItems && <div>Empty.</div>}
 
       {items.map((payout) => {
         const amount = `${getCurrencySymbol(payout.currency)} ${formatNumber(convertCentToDollar(payout.amount))}`;
@@ -65,6 +68,7 @@ function PayoutsTableView() {
               onPrev={onPrev}
               isNextDisabled={isNextDisabled}
               isPrevDisabled={isPrevDisabled}
+              isLoading={isLoading}
             />
           </FooterBody>
         </FooterRow>

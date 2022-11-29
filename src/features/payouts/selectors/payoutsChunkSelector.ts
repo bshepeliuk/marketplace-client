@@ -1,22 +1,22 @@
 import { RootState } from '@src/app/store';
-import { CHARGES_LIMIT } from '../constants';
-import { ICharges } from '../types';
+import { PAYOUTS_LIMIT } from '../constants';
+import { IPayouts } from '../types';
 
-export const chargesChunkSelector = (state: RootState) => {
-  const { items, hasMore, isError, isLoading, endingBefore } = state.charges;
+export const payoutsChunkSelector = (state: RootState) => {
+  const { items, hasMore, isError, isLoading, endingBefore } = state.payouts;
 
   const hasNoStartChunkId = endingBefore === null;
   const hasStartChunkId = !hasNoStartChunkId;
 
-  let chunk: ICharges = [];
+  let chunk: IPayouts = [];
 
   if (hasNoStartChunkId) {
-    chunk = items.slice(0, CHARGES_LIMIT);
+    chunk = items.slice(0, PAYOUTS_LIMIT);
   }
 
   if (hasStartChunkId) {
     const startIdx = items.findIndex(({ id }) => id === endingBefore);
-    chunk = items.slice(startIdx, startIdx + CHARGES_LIMIT);
+    chunk = items.slice(startIdx, startIdx + PAYOUTS_LIMIT);
   }
 
   return {
