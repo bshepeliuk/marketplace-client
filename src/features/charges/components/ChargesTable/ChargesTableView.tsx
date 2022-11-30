@@ -3,6 +3,7 @@ import convertCentToDollar from '@src/common/utils/convertCentToDollar';
 import convertSecondsToMs from '@src/common/utils/convertSecondsToMs';
 import { formatNumber } from '@src/common/utils/formatNumber';
 import Copyable from '@common/components/Copyable/Copyable';
+import LoaderView from '@common/components/Loader/Loader';
 import PrevNextPagination from '@src/common/components/PrevNextPagination';
 import getCurrencySymbol from '@src/common/utils/getCurrencySymbol';
 import useGetCharges from '../../hooks/useGetCharges';
@@ -19,6 +20,7 @@ import {
   Status,
   Table,
   FooterRow,
+  LoaderWrapper,
 } from './chargesTable.styled';
 
 function ChargesTableView() {
@@ -39,8 +41,12 @@ function ChargesTableView() {
         <Cell>ID</Cell>
       </HeaderRow>
 
-      {hasLoader && <div>Loading...</div>}
-      {hasNoLoader && hasNoItems && <div>Empty.</div>}
+      {hasLoader && (
+        <LoaderWrapper>
+          <LoaderView size={20} color="#3498db" strokeWidth={2} />
+        </LoaderWrapper>
+      )}
+      {hasNoLoader && hasNoItems && <div>No items found.</div>}
 
       {items.map((charge) => {
         const amount = `${getCurrencySymbol(charge.currency)} ${formatNumber(convertCentToDollar(charge.amount))}`;

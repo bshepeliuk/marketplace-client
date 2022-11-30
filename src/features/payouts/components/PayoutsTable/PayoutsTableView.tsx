@@ -3,6 +3,7 @@ import convertCentToDollar from '@src/common/utils/convertCentToDollar';
 import convertSecondsToMs from '@src/common/utils/convertSecondsToMs';
 import { formatNumber } from '@src/common/utils/formatNumber';
 import getCurrencySymbol from '@common/utils/getCurrencySymbol';
+import LoaderView from '@common/components/Loader/Loader';
 import PrevNextPagination from '@src/common/components/PrevNextPagination';
 import useGetPayouts from '../../hooks/useGetPayouts';
 import {
@@ -16,6 +17,7 @@ import {
   Currency,
   FooterRow,
   FooterBody,
+  LoaderWrapper,
 } from './payoutsTable.styled';
 import usePayoutsPagination from '../../hooks/usePayoutsPagination';
 
@@ -37,8 +39,12 @@ function PayoutsTableView() {
         <Cell>Arrival Date</Cell>
       </HeaderRow>
 
-      {hasLoader && <div>Loading...</div>}
-      {hasNoLoader && hasNoItems && <div>Empty.</div>}
+      {hasLoader && (
+        <LoaderWrapper>
+          <LoaderView size={20} color="#3498db" strokeWidth={2} />
+        </LoaderWrapper>
+      )}
+      {hasNoLoader && hasNoItems && <div>No items found.</div>}
 
       {items.map((payout) => {
         const amount = `${getCurrencySymbol(payout.currency)} ${formatNumber(convertCentToDollar(payout.amount))}`;

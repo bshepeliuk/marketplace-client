@@ -83,3 +83,11 @@ export const FooterRow = styled(Row)`
     background-color: transparent;
   }
 `;
+
+export const LoaderWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  min-height: 200px;
+  align-items: center;
+`;
