@@ -1,8 +1,4 @@
-import categoriesReducer, {
-  addCategory,
-  getCategories,
-  initialState,
-} from '@src/features/categories/categoriesSlice';
+import categoriesReducer, { addCategory, getCategories, initialState } from '@src/features/categories/categoriesSlice';
 
 describe('[REDUCER]: categories', () => {
   test('should return initial state when action type does not match', () => {

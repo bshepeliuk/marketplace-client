@@ -7,7 +7,15 @@ import useFetchCharges from './useFetchCharges';
 
 const useChargesPagination = () => {
   const dispatch = useAppDispatch();
-  const { items, startingAfter, endingBefore, firstItemId, lastItemId, isLoading } = useTypedSelector(chargesSelector);
+  // prettier-ignore
+  const {
+    items,
+    startingAfter,
+    endingBefore,
+    firstItemId,
+    lastItemId,
+    isLoading
+   } = useTypedSelector(chargesSelector);
   const { fetchCharges } = useFetchCharges();
 
   const onNext = () => {
@@ -63,7 +71,7 @@ const useChargesPagination = () => {
   };
 
   const hasMoreThanLimit = items.length >= CHARGES_LIMIT;
-  const isNextDisabled = lastItemId === startingAfter || isLoading;
+  const isNextDisabled = startingAfter === null || lastItemId === startingAfter || isLoading;
   const isPrevDisabled = firstItemId === endingBefore || endingBefore === null || isLoading;
   const hasPagination = hasMoreThanLimit;
 

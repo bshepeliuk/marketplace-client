@@ -4,10 +4,7 @@ import { rest } from 'msw';
 import thunk from 'redux-thunk';
 import { AnyAction } from '@reduxjs/toolkit';
 import { BASE_API_URL } from '@src/common/constants';
-import {
-  addCategory,
-  getCategories,
-} from '@features/categories/categoriesSlice';
+import { addCategory, getCategories } from '@features/categories/categoriesSlice';
 import { normalize } from 'normalizr';
 import { CategoriesSchema, CategorySchema } from '@common/normalizeSchemas';
 import getActionTypesAndPayload from '../../helpers/getActionTypesAndPayload';

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import convertCentToDollar from '@src/common/utils/convertCentToDollar';
+import convertCentsToDollars from '@src/common/utils/convertCentsToDollars';
 import { formatNumber } from '@src/common/utils/formatNumber';
 import calculateTotalBalance from '../helpers/calculateTotalBalance';
 import useGetBalance from '../hooks/useGetBalance';
@@ -50,7 +50,7 @@ function BalanceItemView({ title, balanceList, background = '' }: IProps) {
         {balanceList.map((item) => {
           return (
             <ListItem key={item.currency}>
-              {formatNumber(convertCentToDollar(item.amount))} {item.currency.toUpperCase()}
+              {formatNumber(convertCentsToDollars(item.amount))} {item.currency.toUpperCase()}
             </ListItem>
           );
         })}

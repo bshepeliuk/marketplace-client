@@ -1,6 +1,15 @@
 import { BASE_API_URL } from '@src/common/constants';
 import { RequestHandler, rest } from 'msw';
-import { ordersGetResponse, ordersYearOptionsResponse, purchasesGetResponse, statsGetResponse } from './responses';
+import {
+  balanceGetResponse,
+  chargesGetResponse,
+  ordersGetResponse,
+  ordersYearOptionsResponse,
+  payoutsGetResponse,
+  purchasesGetResponse,
+  statsGetResponse,
+  transfersGetResponse,
+} from './responses';
 
 const mswHandlers: RequestHandler[] = [
   // orders
@@ -27,6 +36,22 @@ const mswHandlers: RequestHandler[] = [
   // stats
   rest.get(`${BASE_API_URL}/stats`, (req, res, ctx) => {
     return res(ctx.json(statsGetResponse));
+  }),
+  // charges
+  rest.get(`${BASE_API_URL}/charges`, (req, res, ctx) => {
+    return res(ctx.json(chargesGetResponse));
+  }),
+  // payouts
+  rest.get(`${BASE_API_URL}/payouts`, (req, res, ctx) => {
+    return res(ctx.json(payoutsGetResponse));
+  }),
+  // transfers
+  rest.get(`${BASE_API_URL}/transfers`, (req, res, ctx) => {
+    return res(ctx.json(transfersGetResponse));
+  }),
+  // balance
+  rest.get(`${BASE_API_URL}/balance`, (req, res, ctx) => {
+    return res(ctx.json(balanceGetResponse));
   }),
 ];
 

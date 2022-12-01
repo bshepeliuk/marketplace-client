@@ -776,3 +776,103 @@ export const ordersMock = [
     },
   },
 ];
+
+export const chargesMock = [
+  {
+    id: 'py_1LtcUARMZcLvIy3D8IyrwKZx',
+    object: 'charge',
+    amount: 1776200,
+    amount_captured: 1776200,
+    amount_refunded: 0,
+    application_fee: null,
+    application_fee_amount: null,
+    balance_transaction: 'txn_1LtcUBRMZcLvIy3DDFfUaswZ',
+    captured: true,
+    created: 1665948419,
+    currency: 'usd',
+    customer: null,
+    description: null,
+    destination: null,
+    dispute: null,
+    disputed: false,
+    paid: true,
+    source_transfer: 'tr_3LtcTRIV21AQVxO51sdDfWsdIWp',
+    status: 'succeeded',
+  },
+];
+export const payoutsMock = [
+  {
+    id: 'po_1LvsmORMZcLvIy3DOgVSjfTH',
+    object: 'payout',
+    amount: 57051500,
+    arrival_date: 1666569600,
+    automatic: true,
+    balance_transaction: 'txn_1LvsmPRMsHasdKsDw3DCAHuv3Bl',
+    created: 1666487708,
+    currency: 'usd',
+    description: 'STRIPE PAYOUT',
+    destination: 'ba_1L42QzRMZcLvIy3DDKJjsvjn',
+    failure_balance_transaction: null,
+    failure_code: null,
+    failure_message: null,
+    livemode: false,
+    metadata: {},
+    method: 'standard',
+    original_payout: null,
+    reversed_by: null,
+    source_type: 'card',
+    statement_descriptor: null,
+    status: 'paid',
+    type: 'bank_account',
+  },
+];
+export const transfersMock = [
+  {
+    id: 'po_1LvsmORMZFDJjsvIy2DOgVSjfTH',
+    object: 'payout',
+    amount: 57051500,
+    arrival_date: 1666569600,
+    automatic: true,
+    balance_transaction: 'txn_1LvsmPRMZcLSFJs3DCAHuv3Bl',
+    created: 1666487708,
+    currency: 'usd',
+    description: 'STRIPE PAYOUT',
+    destination: 'ba_1L42QzRMZcLvIyDFJKjSsOtvjn',
+    failure_balance_transaction: null,
+    failure_code: null,
+    failure_message: null,
+    livemode: false,
+    metadata: {},
+    method: 'standard',
+    original_payout: null,
+    reversed_by: null,
+    source_type: 'card',
+    statement_descriptor: null,
+    status: 'paid',
+    type: 'bank_account',
+  },
+];
+export const balanceMock = {
+  available: [
+    {
+      amount: 479834977,
+      currency: 'usd',
+    },
+    {
+      amount: 123498,
+      currency: 'eur',
+    },
+  ],
+  instant_available: [
+    {
+      amount: 0,
+      currency: 'usd',
+    },
+  ],
+  pending: [
+    {
+      amount: 0,
+      currency: 'usd',
+    },
+  ],
+};

@@ -1,11 +1,12 @@
 import React from 'react';
-import convertCentToDollar from '@src/common/utils/convertCentToDollar';
-import convertSecondsToMs from '@src/common/utils/convertSecondsToMs';
 import { formatNumber } from '@src/common/utils/formatNumber';
 import Copyable from '@common/components/Copyable/Copyable';
 import LoaderView from '@common/components/Loader/Loader';
 import PrevNextPagination from '@src/common/components/PrevNextPagination';
+import convertCentsToDollars from '@src/common/utils/convertCentsToDollars';
 import getCurrencySymbol from '@src/common/utils/getCurrencySymbol';
+import getFormattedDateBySeconds from '@common/utils/getFormattedDateBySeconds';
+import { useTypedSelector } from '@src/common/hooks/useTypedSelector';
 import useGetCharges from '../../hooks/useGetCharges';
 import useChargesPagination from '../../hooks/useChargesPagination';
 import {
@@ -22,25 +23,39 @@ import {
   FooterRow,
   LoaderWrapper,
 } from './chargesTable.styled';
+import { chargesSelector } from '../../selectors/chargesSelector';
 
 function ChargesTableView() {
+  return (
+    <Table>
+      <TableHeader />
+      <TableBody />
+      <TableFooter />
+    </Table>
+  );
+}
+
+function TableHeader() {
+  return (
+    <HeaderRow>
+      <Cell>Amount</Cell>
+      <EmptyCell />
+      <Cell>Status</Cell>
+      <Cell>Initiated</Cell>
+      <Cell>ID</Cell>
+    </HeaderRow>
+  );
+}
+
+function TableBody() {
   const { items, isLoading } = useGetCharges();
-  const { onNext, onPrev, isNextDisabled, isPrevDisabled, hasPagination } = useChargesPagination();
 
   const hasNoItems = items.length === 0;
   const hasLoader = isLoading && hasNoItems;
   const hasNoLoader = !hasLoader;
 
   return (
-    <Table>
-      <HeaderRow>
-        <Cell>Amount</Cell>
-        <EmptyCell />
-        <Cell>Status</Cell>
-        <Cell>Initiated</Cell>
-        <Cell>ID</Cell>
-      </HeaderRow>
-
+    <>
       {hasLoader && (
         <LoaderWrapper>
           <LoaderView size={20} color="#3498db" strokeWidth={2} />
@@ -49,8 +64,9 @@ function ChargesTableView() {
       {hasNoLoader && hasNoItems && <div>No items found.</div>}
 
       {items.map((charge) => {
-        const amount = `${getCurrencySymbol(charge.currency)} ${formatNumber(convertCentToDollar(charge.amount))}`;
-        const created = new Date(convertSecondsToMs(charge.created)).toDateString();
+        const amountInDollars = formatNumber(convertCentsToDollars(charge.amount));
+        const amount = `${getCurrencySymbol(charge.currency)} ${amountInDollars}`;
+        const created = getFormattedDateBySeconds(charge.created);
 
         return (
           <Row key={charge.id}>
@@ -72,21 +88,30 @@ function ChargesTableView() {
           </Row>
         );
       })}
+    </>
+  );
+}
 
-      {hasPagination && (
-        <FooterRow>
-          <FooterBody>
-            <PrevNextPagination
-              onNext={onNext}
-              onPrev={onPrev}
-              isNextDisabled={isNextDisabled}
-              isPrevDisabled={isPrevDisabled}
-              isLoading={isLoading}
-            />
-          </FooterBody>
-        </FooterRow>
-      )}
-    </Table>
+function TableFooter() {
+  const { isLoading } = useTypedSelector(chargesSelector);
+  const { onNext, onPrev, isNextDisabled, isPrevDisabled, hasPagination } = useChargesPagination();
+
+  const hasNoPagination = !hasPagination;
+
+  if (hasNoPagination) return null;
+
+  return (
+    <FooterRow>
+      <FooterBody>
+        <PrevNextPagination
+          onNext={onNext}
+          onPrev={onPrev}
+          isNextDisabled={isNextDisabled}
+          isPrevDisabled={isPrevDisabled}
+          isLoading={isLoading}
+        />
+      </FooterBody>
+    </FooterRow>
   );
 }
 

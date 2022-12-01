@@ -20,7 +20,7 @@ import StripeAccountCreatedView from '../stripe/page/AccountCreatedView';
 import OrdersView from '../orders/pages/OrdersView';
 import PurchasesView from '../purchases/pages/PurchasesView';
 import StatsView from '../stats/pages/StatsView';
-import MoneyMoveMentView from '../seller/pages/MoneyMovementView';
+import MoneyMoveMentView from '../moneyMovement/pages/MoneyMovementView';
 
 function MainView() {
   const { isSeller, isBuyer } = useCheckUserRole();
