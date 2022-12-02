@@ -3,6 +3,7 @@ import { OrderStatus } from '@src/features/orders/constants';
 import { MutableRefObject } from 'react';
 import { ParamKeyValuePair } from 'react-router-dom';
 import { VariableSizeList } from 'react-window';
+import createStatsMock from '../helpers/createStatsMock';
 
 export const mockOptions = [
   {
@@ -876,3 +877,18 @@ export const balanceMock = {
     },
   ],
 };
+
+export const statusMock = [
+  'PAID',
+  'PROCESSING',
+  'IN PROGRESS',
+  'UNPAID',
+  'DELIVERED',
+  'SHIPPED',
+  'UNSHIPPED',
+  'REJECTED',
+  'COMPLETED',
+  'REFUNDED',
+];
+
+export const statsMock = createStatsMock({ length: 20 });

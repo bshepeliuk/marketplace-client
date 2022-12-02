@@ -55,7 +55,7 @@ export interface IOrderStatusOptionWithColor extends IOrderStatusOption {
 }
 
 export interface ISelectorChangeActions {
-  [key: string]: (props: {
+  [key: string]: (_props: {
     options: MultiValue<IOrderStatusOptionWithColor>;
     meta: ActionMeta<IOrderStatusOptionWithColor>;
   }) => void;

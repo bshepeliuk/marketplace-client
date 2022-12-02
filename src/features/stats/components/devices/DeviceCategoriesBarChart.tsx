@@ -9,7 +9,7 @@ function DeviceCategoriesBarChart() {
   const items = useTypedSelector(categoryStatsSelector);
 
   return (
-    <Wrapper>
+    <Wrapper data-component="categories-bar-chart">
       <InnerWrapper>
         <ResponsiveContainer>
           <AreaChart data={items} syncId="deviceCategoriesId" margin={margin}>

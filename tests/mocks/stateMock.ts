@@ -5,6 +5,7 @@ import {
   comparisonTableMock,
   ordersMock,
   payoutsMock,
+  statsMock,
   transfersMock,
   userMock,
 } from './data';
@@ -136,5 +137,11 @@ export const rootStateMock = {
     isError: false,
     error: null,
     current: balanceMock,
+  },
+  stats: {
+    isLoading: false,
+    isError: false,
+    error: null,
+    items: statsMock,
   },
 };

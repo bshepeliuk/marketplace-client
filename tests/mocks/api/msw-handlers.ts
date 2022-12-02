@@ -53,6 +53,10 @@ const mswHandlers: RequestHandler[] = [
   rest.get(`${BASE_API_URL}/balance`, (req, res, ctx) => {
     return res(ctx.json(balanceGetResponse));
   }),
+  // stats
+  rest.get(`${BASE_API_URL}/stats`, (req, res, ctx) => {
+    return res(ctx.json({ stats: {} }));
+  }),
 ];
 
 export default mswHandlers;
