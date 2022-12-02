@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { VscAccount } from 'react-icons/vsc';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
-import { FaBalanceScale } from 'react-icons/fa';
+import { FaBalanceScale, FaRegMoneyBillAlt } from 'react-icons/fa';
 import { MdOutlineLibraryAdd, MdQueryStats } from 'react-icons/md';
 import useSetBodyScroll from '@src/common/hooks/useBodyScroll';
 import SearchBarView from '@features/search/components/SearchBar/SearchBar';
@@ -87,6 +87,14 @@ function BurgerMenu() {
               My orders
             </MenuLink>
           )}
+
+          {isSeller && (
+            <MenuLink to={routes.moneyMovement}>
+              <FaRegMoneyBillAlt />
+              Money movement
+            </MenuLink>
+          )}
+
           {isBuyer && (
             <MenuLink to={routes.purchases}>
               <BsBox />

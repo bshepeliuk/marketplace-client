@@ -14,6 +14,10 @@ import comparisonReducer from '@src/features/comparison/comparisonSlice';
 import purchasesReducer from '@src/features/purchases/purchasesSlice';
 import ordersReducer from '@src/features/orders/ordersSlice';
 import statsReducer from '@src/features/stats/statsSlice';
+import balanceReducer from '@src/features/balance/balanceSlice';
+import chargesReducer from '@src/features/charges/chargesSlice';
+import payoutsReducer from '@src/features/payouts/payoutsSlice';
+import transfersReducer from '@src/features/transfers/transfersSlice';
 
 const authPersistConfig = {
   storage,
@@ -39,6 +43,10 @@ const baseReducer = combineReducers({
   purchases: purchasesReducer,
   orders: ordersReducer,
   stats: statsReducer,
+  balance: balanceReducer,
+  charges: chargesReducer,
+  payouts: payoutsReducer,
+  transfers: transfersReducer,
   cart: persistReducer(cartPersistConfig, cartReducer),
   auth: persistReducer(authPersistConfig, authReducer),
 });

@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 import React, { useRef, useState, RefObject } from 'react';
 import { FixedSizeGrid as Grid, ListOnItemsRenderedProps } from 'react-window';
 import InfiniteLoader from 'react-window-infinite-loader';
@@ -48,7 +47,7 @@ function DeviceListView({
 
   const isItemLoaded = (index: number) => index !== items.length - 1;
 
-  const loadMoreDevices = (startIndex: number, stopIndex: number) => {
+  const loadMoreDevices = (_: number, stopIndex: number) => {
     if (stopIndex === items.length - 1 && !isLoading) fetchMore();
   };
 

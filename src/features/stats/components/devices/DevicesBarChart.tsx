@@ -24,7 +24,7 @@ function DevicesBarChart() {
   if (items === undefined) return null;
 
   return (
-    <Wrapper>
+    <Wrapper data-component="devices-bar-chart">
       <ResponsiveContainer>
         <BarChart data={items} margin={margin}>
           <CartesianGrid strokeDasharray="3 3" stroke="rgba(189, 195, 199,0.5)" />

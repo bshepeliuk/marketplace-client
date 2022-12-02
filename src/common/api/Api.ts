@@ -10,6 +10,7 @@ import {
   ILogin,
   IRegister,
   IUpdateCommentParams,
+  MoneyMovementParams,
 } from '@src/common/types/apiTypes';
 import getApiInstance from '@src/common/utils/getApiInstance';
 import { OrderStatusValues } from '@src/features/orders/types';
@@ -154,6 +155,48 @@ export const Stats = {
   get({ filters }: IGetStatsParams) {
     const paramsUrl = new URLSearchParams(filters);
     return api.get(`/stats?${paramsUrl}`);
+  },
+};
+
+export const Balance = {
+  get() {
+    return api.get('/balance');
+  },
+};
+
+export const Charges = {
+  get({ startingAfter, endingBefore, limit = 10 }: MoneyMovementParams = {}) {
+    const params = {
+      limit,
+      ...(endingBefore && { endingBefore }),
+      ...(startingAfter && { startingAfter }),
+    };
+
+    return api.get('/charges', { params });
+  },
+};
+
+export const Payouts = {
+  get({ startingAfter, endingBefore, limit = 10 }: MoneyMovementParams = {}) {
+    const params = {
+      limit,
+      ...(endingBefore && { endingBefore }),
+      ...(startingAfter && { startingAfter }),
+    };
+
+    return api.get('/payouts', { params });
+  },
+};
+
+export const Transfers = {
+  get({ endingBefore, startingAfter, limit = 10 }: MoneyMovementParams = {}) {
+    const params = {
+      limit,
+      ...(endingBefore && { endingBefore }),
+      ...(startingAfter && { startingAfter }),
+    };
+
+    return api.get('/transfers', { params });
   },
 };
 

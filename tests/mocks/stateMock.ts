@@ -1,4 +1,14 @@
-import { comparisonItemsMock, comparisonTableMock, ordersMock, userMock } from './data';
+import {
+  balanceMock,
+  chargesMock,
+  comparisonItemsMock,
+  comparisonTableMock,
+  ordersMock,
+  payoutsMock,
+  statsMock,
+  transfersMock,
+  userMock,
+} from './data';
 import { categoriesEntityMock, commentEntityMock, deviceEntityMock, replyEntityMock } from './entitiesMock';
 
 export const rootStateMock = {
@@ -88,5 +98,50 @@ export const rootStateMock = {
     isRepliesLoading: false,
     isRepliesError: false,
     hasMore: true,
+  },
+  charges: {
+    isLoading: false,
+    isError: false,
+    error: null,
+    hasMore: true,
+    startingAfter: null,
+    endingBefore: null,
+    firstItemId: null,
+    lastItemId: null,
+    items: chargesMock,
+  },
+  payouts: {
+    isLoading: false,
+    isError: false,
+    error: null,
+    hasMore: true,
+    startingAfter: null,
+    endingBefore: null,
+    firstItemId: null,
+    lastItemId: null,
+    items: payoutsMock,
+  },
+  transfers: {
+    isLoading: false,
+    isError: false,
+    error: null,
+    hasMore: true,
+    startingAfter: null,
+    endingBefore: null,
+    firstItemId: null,
+    lastItemId: null,
+    items: transfersMock,
+  },
+  balance: {
+    isLoading: false,
+    isError: false,
+    error: null,
+    current: balanceMock,
+  },
+  stats: {
+    isLoading: false,
+    isError: false,
+    error: null,
+    items: statsMock,
   },
 };

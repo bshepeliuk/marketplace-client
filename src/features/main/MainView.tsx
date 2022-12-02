@@ -20,6 +20,7 @@ import StripeAccountCreatedView from '../stripe/page/AccountCreatedView';
 import OrdersView from '../orders/pages/OrdersView';
 import PurchasesView from '../purchases/pages/PurchasesView';
 import StatsView from '../stats/pages/StatsView';
+import MoneyMoveMentView from '../moneyMovement/pages/MoneyMovementView';
 
 function MainView() {
   const { isSeller, isBuyer } = useCheckUserRole();
@@ -29,7 +30,7 @@ function MainView() {
       <HeaderView />
 
       <Routes>
-        <Route path={`${routes.home}*`} element={<HomeView />} />
+        <Route path={`${routes.home}/*`} element={<HomeView />} />
         <Route path={`${routes.device}/*`} element={<DeviceDetailsView />} />
         <Route path={routes.comparison} element={<ComparisonView />} />
         <Route path={routes.devices} element={<DevicesByCategoryView />} />
@@ -75,6 +76,15 @@ function MainView() {
           element={
             <PrivateRoute isAllowed={isSeller}>
               <NewDeviceView />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path={`${routes.moneyMovement}/*`}
+          element={
+            <PrivateRoute isAllowed={isSeller}>
+              <MoneyMoveMentView />
             </PrivateRoute>
           }
         />
