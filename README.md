@@ -1,5 +1,3 @@
-# MARKETPLACE CLIENT
-
 [![CircleCI](https://dl.circleci.com/status-badge/img/gh/bshepeliuk/marketplace-client/tree/main.svg?style=svg&circle-token=9afda076bece2040da00c19663b5d44049004489)](https://dl.circleci.com/status-badge/redirect/gh/bshepeliuk/marketplace-client/tree/main) &nbsp; [![codecov](https://codecov.io/gh/bshepeliuk/marketplace-client/branch/main/graph/badge.svg?token=HL2ALLQND0)](https://codecov.io/gh/bshepeliuk/marketplace-client)
 
 ## Cards for testing.
@@ -10,3 +8,13 @@
 | Visa (debit) | 4000056655665556 | Any 3 digits | Any future date |
 | Mastercard   | 5555555555554444 | Any 3 digits | Any future date |
 |              |                  |              |                 |
+
+## Users for testing.
+
+| EMAIL             | PASSWORD | ROLE   |
+| ----------------- | -------- | ------ |
+| john@wick.io      | 1234     | SELLER |
+| tony@stark.io     | 1234     | SELLER |
+| albus@dambldor.io | 1234     | BUYER  |
+| leam@neeson.io    | 1234     | BUYER  |
+|                   |          |        |
