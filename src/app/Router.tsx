@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import AuthView from '@features/auth/pages/AuthView';
-import MainView from '@features/main/MainView';
+
+const MainView = React.lazy(() => import('@features/main/MainView'));
+const AuthView = React.lazy(() => import('@features/auth/pages/AuthView'));
 
 export const routes = {
   home: '/',
@@ -31,12 +32,14 @@ export const routes = {
 
 function Router() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/*" element={<MainView />} />
-        <Route path={routes.auth} element={<AuthView />} />
-      </Routes>
-    </BrowserRouter>
+    <Suspense fallback={null}>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/*" element={<MainView />} />
+          <Route path={routes.auth} element={<AuthView />} />
+        </Routes>
+      </BrowserRouter>
+    </Suspense>
   );
 }
 

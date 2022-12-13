@@ -61,6 +61,10 @@ module.exports = {
 
     new Dotenv({ systemvars: true }),
 
+    new webpack.ProvidePlugin({
+      React: 'react',
+    }),
+
     new HtmlWebpackPlugin({
       template: './public/index.html',
       filename: './index.html',

@@ -3,6 +3,7 @@
     "lib": ["es6", "dom", "dom.iterable", "esnext"],
     "target": "es6",
     "allowJs": true,
+    "module": "esnext",
     "useUnknownInCatchVariables": true,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
@@ -14,7 +15,8 @@
     "noImplicitThis": true,
     "noEmit": true,
     "moduleResolution": "node",
-    "jsx": "react",
+    // "jsx": "react",
+    "jsx": "react-jsx",
     "baseUrl": "./",
     "paths": {
       "@src/*": ["src/*"],

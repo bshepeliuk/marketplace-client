@@ -62,7 +62,7 @@ export const CategoryLink = styled(NavLink)`
   }
 
   &.active-category {
-    font-weight: 600;
+    font-weight: 400;
   }
 `;
 

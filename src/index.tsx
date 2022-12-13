@@ -1,6 +1,6 @@
 import './index.scss';
 import 'react-toastify/ReactToastify.min.css';
-import React, { StrictMode } from 'react';
+import { StrictMode } from 'react';
 import { Provider } from 'react-redux';
 import ReactDOM from 'react-dom';
 import { Elements } from '@stripe/react-stripe-js';
