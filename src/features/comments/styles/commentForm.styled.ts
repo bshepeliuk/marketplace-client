@@ -59,4 +59,9 @@ export const CancelButton = styled.button`
   border: none;
   border-radius: 4px;
   margin-right: 5px;
+
+  &:disabled {
+    color: #3498db;
+    background-color: rgba(189, 195, 199, 0.5);
+  }
 `;

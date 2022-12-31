@@ -28,6 +28,7 @@ function DeviceCommentsView({ device }: IProps) {
   const { evaluate, isEvaluating } = useEvaluateDevice();
   const { onAdd } = useAddComment();
   const { user, isLoggedIn } = useTypedSelector((state) => state.auth);
+  const { isCreating } = useTypedSelector((state) => state.comments);
 
   const ratings = device.ratings as IDeviceRating[];
   const avgRating = calculateAvgRating(ratings);
@@ -39,7 +40,7 @@ function DeviceCommentsView({ device }: IProps) {
   };
 
   const onAddComment = (body: string) => {
-    onAdd({ body, parentId: null, deviceId: device.id });
+    return onAdd({ body, parentId: null, deviceId: device.id });
   };
 
   return (
@@ -66,7 +67,7 @@ function DeviceCommentsView({ device }: IProps) {
         </FormItem>
         <FormItem>
           <FormTitle>Comment</FormTitle>
-          <CommentForm handleSubmit={onAddComment} />
+          <CommentForm isLoading={isCreating} handleSubmit={onAddComment} />
         </FormItem>
       </CommentFormContainer>
     </CommentsWrap>

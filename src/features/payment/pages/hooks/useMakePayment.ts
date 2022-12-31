@@ -3,6 +3,8 @@ import { routes } from '@src/app/Router';
 import { IDeviceWithCount } from '@src/features/devices/types';
 import { useStripe } from '@stripe/react-stripe-js';
 import { useTypedSelector } from '@src/common/hooks/useTypedSelector';
+import useCheckUserRole from '@src/common/hooks/useCheckUserRole';
+import notifications from '@src/common/utils/notifications';
 import { useLocation, useNavigate } from 'react-router-dom';
 import * as Api from '@common/api/Api';
 import prepareAndGetGoodsForPayment from '../../helpers/prepareAndGetGoodsForPayment';
@@ -12,9 +14,15 @@ const useMakePayment = (goods: IDeviceWithCount[]) => {
   const location = useLocation();
   const navigate = useNavigate();
   const [isPending, setIsPending] = useState(false);
+  const { isSeller } = useCheckUserRole();
   const { isLoggedIn, user } = useTypedSelector((state) => state.auth);
 
   const pay = async () => {
+    if (isSeller) {
+      notifications.info('Kindly use an account with BUYER role.');
+      return;
+    }
+
     if (!isLoggedIn) {
       navigate(routes.login, { state: { from: location.pathname } });
       return;

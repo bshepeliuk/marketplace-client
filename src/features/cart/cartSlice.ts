@@ -16,10 +16,7 @@ const cartSlice = createSlice({
     addToCart(state: State, { payload }: PayloadAction<{ device: IDevice }>) {
       state.items.push(payload.device);
     },
-    removeFromCart(
-      state: State,
-      { payload }: PayloadAction<{ device: IDevice }>,
-    ) {
+    removeFromCart(state: State, { payload }: PayloadAction<{ device: IDevice }>) {
       state.items = state.items.filter((i) => i.id !== payload.device.id);
     },
   },

@@ -16,6 +16,7 @@ interface ICommentProps {
 
 function CommentView({ comment, hasReplies = false }: ICommentProps) {
   const { isLoggedIn } = useTypedSelector((state) => state.auth);
+  const { isCreating, isUpdating } = useTypedSelector((state) => state.comments);
   const { activeComment, clearActiveComment, onEditComment, onAddComment } = useCommentsContext();
 
   const createdAt = formatDistanceToNow(new Date(comment.createdAt).getTime(), {
@@ -31,11 +32,11 @@ function CommentView({ comment, hasReplies = false }: ICommentProps) {
   const parentId = comment.parentId ?? comment.id;
 
   const onEditSubmit = (body: string) => {
-    onEditComment({ body, commentId: comment.id });
+    return onEditComment({ body, commentId: comment.id });
   };
 
   const onReplySubmit = (body: string) => {
-    onAddComment({ body, parentId, deviceId: comment.deviceId });
+    return onAddComment({ body, parentId, deviceId: comment.deviceId });
   };
 
   return (
@@ -56,13 +57,19 @@ function CommentView({ comment, hasReplies = false }: ICommentProps) {
 
       {hasReplyingForm && (
         <FormWrapper>
-          <CommentFormView handleSubmit={onReplySubmit} handleCancel={clearActiveComment} hasCancel />
+          <CommentFormView
+            isLoading={isCreating}
+            handleSubmit={onReplySubmit}
+            handleCancel={clearActiveComment}
+            hasCancel
+          />
         </FormWrapper>
       )}
 
       {hasEditingForm && (
         <FormWrapper>
           <CommentFormView
+            isLoading={isUpdating}
             defaultValue={comment.body}
             handleSubmit={onEditSubmit}
             handleCancel={clearActiveComment}

@@ -10,9 +10,7 @@ interface IAddProps {
 
 const useAddComment = () => {
   const dispatch = useAppDispatch();
-  const { isCreating, isCreatingError } = useTypedSelector(
-    (state) => state.comments,
-  );
+  const { isCreating, isCreatingError } = useTypedSelector((state) => state.comments);
 
   const onAdd = ({ body, deviceId, parentId }: IAddProps) => {
     return dispatch(addComment({ body, deviceId, parentId }));

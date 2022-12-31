@@ -5,6 +5,7 @@ import { renderHook, act } from '@testing-library/react-hooks';
 import useCartBtnClick from '@src/features/cart/hooks/useCartBtnClick';
 import { cartActions } from '@src/features/cart/cartSlice';
 import { Wrapper } from '../../../wrapper';
+import { rootStateMock } from '../../../mocks/stateMock';
 
 const useDispatchMock = jest.spyOn(ReactRedux, 'useDispatch');
 
@@ -21,6 +22,8 @@ const device = {
   quantity: 1,
   images: [],
   info: [],
+  ratings: [],
+  comments: [],
   count: 1,
   createdAt: '2022-01-05T16:57:37.787Z',
   updatedAt: '2022-01-05T16:57:37.787Z',
@@ -49,7 +52,9 @@ describe('[HOOK] useCartBtnClick', () => {
 
   test('should call removeFromCart action when device was added to cart earlier.', async () => {
     const { result } = renderHook(() => useCartBtnClick(), {
-      wrapper: (props) => <Wrapper {...props} state={{ cart: { items: [device] } }} />,
+      wrapper: (props: { children: React.ReactNode }) => (
+        <Wrapper {...props} state={{ ...rootStateMock, cart: { items: [device] } }} />
+      ),
     });
 
     act(() => {

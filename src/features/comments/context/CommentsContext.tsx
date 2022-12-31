@@ -88,13 +88,13 @@ export function CommentsProvider({ children }: IProps) {
   };
 
   const onAddComment = (params: IAddCommentParams) => {
-    onAdd(params).then(() => {
+    return onAdd(params).then(() => {
       clearActiveComment();
     });
   };
 
   const onEditComment = ({ body, commentId }: IUpdateCommentParams) => {
-    onUpdate({ body, commentId }).then(() => {
+    return onUpdate({ body, commentId }).then(() => {
       clearActiveComment();
     });
   };

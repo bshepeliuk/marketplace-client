@@ -1,5 +1,4 @@
 import '../styles/draggable.css';
-import React from 'react';
 import useGetComparisonTable from '../hooks/useGetComparisonTable';
 import ComparisonHeaderView from '../components/Header/ComparisonHeaderView';
 import ComparisonBodyView from '../components/Body/ComparisonBodyView';

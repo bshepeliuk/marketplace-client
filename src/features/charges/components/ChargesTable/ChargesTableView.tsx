@@ -1,4 +1,3 @@
-import React from 'react';
 import { formatNumber } from '@src/common/utils/formatNumber';
 import Copyable from '@common/components/Copyable/Copyable';
 import LoaderView from '@common/components/Loader/Loader';
