@@ -11,6 +11,8 @@
 
 # Users for testing.
 
+_NOTE: Kindly use accounts with different roles for checking all functionality._
+
 | EMAIL             | PASSWORD | ROLE   |
 | ----------------- | -------- | ------ |
 | john@wick.io      | 1234     | SELLER |
