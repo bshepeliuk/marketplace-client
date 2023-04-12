@@ -30,9 +30,9 @@ function HeaderView() {
           <SearchBarView hasSuggestions />
         </SearchWrap>
 
-        {isBuyer && <CartLink />}
+        {(isBuyer || !isLoggedIn) && <CartLink />}
         {isSeller && <AddDeviceLink />}
-        {isBuyer && <ComparisonLink />}
+        {(isBuyer || !isLoggedIn) && <ComparisonLink />}
 
         <UserInfoView />
 
